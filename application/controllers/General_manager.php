@@ -5,4 +5,8 @@ class General_manager extends CI_Controller {
 	{
 		$this->load->view('general/index');
 	}
+
+	// public function generela(){
+
+	// }
 }
