@@ -163,7 +163,7 @@
                                             ?>
                                             <?php } ?>
                                     </td>
-                                    <td><?php echo number_format($loan_pends->total_pend); ?></td>
+                                    <td><?php echo number_format($loan_pends->return_total); ?></td>
                                    
                                   
                                     <td>

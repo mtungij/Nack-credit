@@ -31,6 +31,7 @@
                             <h2>Today Received</h2>
                             <div class="pull-right">
                              <!--    <a href="" data-toggle="modal" data-target="#addcontact2" class="btn btn-primary"><i class="icon-calendar">Today Receivable</i></a> -->
+                             <a href="" class="btn btn-primary btn-sm"><i class="icon-printer">Print</i></a>
                             </div>    
                          </div>
                           <div class="body">
@@ -74,7 +75,7 @@
                                             ?>
                                             <?php } ?>
                                     </td>
-                                    <td><?php echo number_format($loan_pending_new->restration); ?></td>
+                                    <td><?php echo number_format($loan_pending_new->depost); ?></td>
                                    
                                   
                                     <td>

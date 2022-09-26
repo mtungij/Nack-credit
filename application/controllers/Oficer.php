@@ -4077,7 +4077,60 @@ public function loan_repayment(){
     $blanch_data = $this->queries->get_blanchData($blanch_id);
     $empl_data = $this->queries->get_employee_data($empl_id);
 
-    $this->load->view('oficer/loan_repayment',['empl_data'=>$empl_data]);
+    $repayment = $this->queries->get_loan_repayment_blanch($blanch_id);
+    // echo "<pre>";
+    // print_r($repayment);
+    //        exit();
+
+    $this->load->view('oficer/loan_repayment',['empl_data'=>$empl_data,'repayment'=>$repayment]);
+}
+
+
+public function customer_account_statement(){
+    $this->load->model('queries');
+    $blanch_id = $this->session->userdata('blanch_id');
+    $empl_id = $this->session->userdata('empl_id');
+    $manager_data = $this->queries->get_manager_data($empl_id);
+    $comp_id = $manager_data->comp_id;
+    $company_data = $this->queries->get_companyData($comp_id);
+    $blanch_data = $this->queries->get_blanchData($blanch_id);
+    $empl_data = $this->queries->get_employee_data($empl_id);
+    $customer = $this->queries->get_allcutomerblanchData($blanch_id);
+    $customery = $this->queries->get_allcutomerblanchData($blanch_id);
+
+    $this->load->view('oficer/customer_account',['empl_data'=>$empl_data,'customer'=>$customer]);
+}
+
+public function customer_report(){
+    $this->load->model('queries');
+    $blanch_id = $this->session->userdata('blanch_id');
+    $empl_id = $this->session->userdata('empl_id');
+    $manager_data = $this->queries->get_manager_data($empl_id);
+    $comp_id = $manager_data->comp_id;
+    $company_data = $this->queries->get_companyData($comp_id);
+    $blanch_data = $this->queries->get_blanchData($blanch_id);
+    $empl_data = $this->queries->get_employee_data($empl_id);
+    $customer_id = $this->input->post('customer_id');
+
+    $customer = $this->queries->search_CustomerLoan($customer_id);
+    // print_r($customer_id);
+    // exit();
+    $customery = $this->queries->get_allcutomerblanchData($blanch_id);
+    $this->load->view('oficer/customer_account_report',['empl_data'=>$empl_data,'customery'=>$customery,'customer'=>$customer]);
+}
+
+
+public function filter_customer_statement(){
+    $this->load->model('queries');
+    $blanch_id = $this->session->userdata('blanch_id');
+    $empl_id = $this->session->userdata('empl_id');
+    $manager_data = $this->queries->get_manager_data($empl_id);
+    $comp_id = $manager_data->comp_id;
+    $company_data = $this->queries->get_companyData($comp_id);
+    $blanch_data = $this->queries->get_blanchData($blanch_id);
+    $empl_data = $this->queries->get_employee_data($empl_id);
+
+    $this->load->view('oficer/customer_account_filter');
 }
 
 

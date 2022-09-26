@@ -8,7 +8,7 @@
                 <div class="row">
                     <div class="col-lg-6 col-md-8 col-sm-12">
                         <ul class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="<?php echo base_url("admin/index"); ?>"><i class="icon-home"></i></a></li>                            
+                            <li class="breadcrumb-item"><a href="<?php echo base_url("oficer/index"); ?>"><i class="icon-home"></i></a></li>                            
                             <li class="breadcrumb-item active">Expenses</li>
                             <li class="breadcrumb-item active">Expenses Requisition Form</li>
                         </ul>

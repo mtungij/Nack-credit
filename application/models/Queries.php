@@ -592,7 +592,7 @@ public function get_allcutomer($comp_id){
     //  }
 
      public function search_CustomerLoan($customer_id){
-    	$data = $this->db->query("SELECT c.customer_id,c.comp_id,c.blanch_id,c.customer_code,c.f_name,c.m_name,c.l_name,c.gender,c.date_birth,c.phone_no FROM tbl_customer c LEFT JOIN tbl_sub_customer sc ON sc.customer_id = c.customer_id WHERE c.customer_id = '$customer_id'");
+    	$data = $this->db->query("SELECT c.customer_id,c.comp_id,c.blanch_id,c.customer_code,c.f_name,c.m_name,c.l_name,c.gender,c.date_birth,c.phone_no,c.district,c.ward,c.street FROM tbl_customer c LEFT JOIN tbl_sub_customer sc ON sc.customer_id = c.customer_id WHERE c.customer_id = '$customer_id'");
     	return $data->row();
      }
 
@@ -5764,6 +5764,21 @@ public function get_loan_withdrawal_today_blanch_general($blanch_id){
        	$data = $this->db->query("SELECT SUM(restration) AS total_restratio_today FROM tbl_loans WHERE blanch_id = '$blanch_id' AND date_show = '$date' AND dep_status = 'open'");
        	return $data->row();
        }
+
+
+       public function get_loan_repayment_blanch($blanch_id){
+       	$data = $this->db->query("SELECT * FROM tbl_loans l LEFT JOIN tbl_loan_category lc ON lc.category_id = l.category_id LEFT JOIN tbl_outstand ot ON ot.loan_id = l.loan_id LEFT JOIN tbl_customer c ON c.customer_id = l.customer_id WHERE l.blanch_id = '$blanch_id' AND l.loan_status = 'done'");
+       	return $data->result();
+       }
+
+
+       public function get_total_pay_description_customer($customer_id){
+     $data = $this->db->query("SELECT * FROM tbl_pay p LEFT JOIN tbl_loans l ON l.loan_id = p.loan_id LEFT JOIN tbl_account_transaction at ON at.trans_id = p.p_method WHERE p.customer_id = '$customer_id' ORDER BY p.pay_id DESC");
+     return $data->result();
+     }
+
+
+
 
 
       

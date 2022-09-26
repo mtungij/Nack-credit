@@ -32,7 +32,9 @@
                                 <i class="icon-bell"></i>
                                 <span class="notification-dot"></span>
                             </a>
-                            <ul class="dropdown-menu notifications">
+
+                            
+                         <!--    <ul class="dropdown-menu notifications">
                                 <li class="header"><strong>You have 4 new Notifications</strong></li>
                                 <li>
                                     <a href="javascript:void(0);">
@@ -87,9 +89,9 @@
                                     </a>
                                 </li>
                                 <li class="footer"><a href="javascript:void(0);" class="more">See all notifications</a></li>
-                            </ul>
+                            </ul> -->
                         </li>
-                        <li class="dropdown">
+                      <!--   <li class="dropdown">
                             <a href="javascript:void(0);" class="dropdown-toggle icon-menu" data-toggle="dropdown"><i class="icon-equalizer"></i></a>
                             <ul class="dropdown-menu user-menu menu-icon">
                                 <li class="menu-heading">ACCOUNT SETTINGS</li>
@@ -102,7 +104,7 @@
                                 <li><a href="javascript:void(0);"><i class="icon-printer"></i> <span>Invoices</span></a></li>                                
                                 <li><a href="javascript:void(0);"><i class="icon-refresh"></i> <span>Renewals</span></a></li>
                             </ul>
-                        </li>
+                        </li> -->
                         <li>
                             <a href="<?php echo base_url("welcome/empl_logout"); ?>" class="icon-menu"><i class="icon-logout"></i></a>
                         </li>

@@ -99,11 +99,11 @@
                         	<li><a href="<?php echo base_url("oficer/cash_transaction"); ?>"><i class="icon-wallet"></i>Cash Transaction</a></li>
                         	<li><a href="<?php //echo base_url("admin/blanchiwise_report"); ?>"><i class="icon-list"></i>Branch Wise Report</a></li>
                         	<li><a href="<?php echo base_url("oficer/loan_pending_time"); ?>"><i class="icon-list"></i>Loan Pending</a></li>
-                        	<li><a href=""><i class="icon-list"></i>Loan Repayment</a></li>
+                        	<li><a href="<?php echo base_url("oficer/loan_repayment"); ?>"><i class="icon-list"></i>Loan Repayment</a></li>
                         	<li><a href="<?php echo base_url("oficer/oustand_loan"); ?>"><i class="icon-list"></i>Default Loan</a></li>
                         	<li><a href="<?php echo base_url("oficer/loan_collection"); ?>"><i class="icon-list"></i>Loan Collection</a></li>
                         	<!-- <li><a href="javascript:;"><i class="icon-list"></i>Customer Loan Report</a></li> -->
-                        	<li><a href="javascript:;"><i class="icon-list"></i>Customer Account</a></li>
+                        	<li><a href="<?php echo base_url("oficer/customer_account_statement"); ?>"><i class="icon-list"></i>Customer Account</a></li>
                         	<li><a href="<?php echo base_url("oficer/get_today_receivable"); ?>"><i class="icon-list"></i>Today Receivable</a></li>
                         	<li><a href="<?php echo base_url("oficer/today_received"); ?>"><i class="icon-list"></i>Today Received</a></li>
                         	<!-- <li><a href="javascript:;"><i class="icon-list"></i>Teller Officer Transaction</a></li> -->
