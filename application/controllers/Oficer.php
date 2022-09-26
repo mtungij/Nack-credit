@@ -16,6 +16,8 @@ class Oficer extends CI_Controller {
 	$this->load->view('oficer/index',['manager_data'=>$manager_data]);
 	}
 
+  // public
+
 
 	 public function income_dashboard(){
         $this->load->model('queries');
