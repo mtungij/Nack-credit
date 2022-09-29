@@ -69,10 +69,13 @@
                 </style>  
                 <div class="col-lg-12">
                     <div class="card">
+                         <div class="text-center">
+                                        <img id="loaderIcon" style="visibility:hidden; display:none;width: 60px; height: 60px;"
+                                    src="https://c.tenor.com/I6kN-6X7nhAAAAAj/loading-buffering.gif" alt="Please wait" />
+                                </div>
                           <div class="body">
-                     <?php echo form_open("oficer/search_customerData"); ?>
+                     <?php echo form_open("oficer/search_customerData",['id'=>'login_form']); ?>
                             <div class="sam">
-                                
                                 <select type="number" class="form-control select2" name="customer_id" required>
                                     <option>Search Customer</option>
                                     <?php foreach ($customery as $customer_datas): ?>
@@ -329,7 +332,11 @@
                                              YY-MM-DD
                                              <?php } ?> <br> End Deposit Amount : <?php echo number_format(@$end_deposit->depost); ?> <br>Deposit Time : <?php echo @$end_deposit->deposit_day; ?></h7>
             </div>
-            <?php echo form_open("oficer/deposit_loan/{$customer->customer_id}"); ?>
+                                     <div class="text-center">
+                                        <img id="loaderIcon" style="visibility:hidden; display:none;width: 100px; height: 100px;"
+                                    src="https://c.tenor.com/I6kN-6X7nhAAAAAj/loading-buffering.gif" alt="Please wait" />
+                                </div>
+            <?php echo form_open("oficer/deposit_loan/{$customer->customer_id}",['id'=>'login_form']); ?>
             <div class="modal-body">
                 <div class="row clearfix">
                     <div class="col-md-4 col-6">
@@ -416,8 +423,14 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h6 class="title" id="defaultModalLabel"><?php echo $customer->f_name; ?> <?php echo $customer->m_name; ?> <?php echo $customer->l_name; ?></h6>
+
+
             </div>
-            <?php echo form_open("oficer/create_withdrow_balance/{$customer->customer_id}"); ?>
+                               <div class="text-center">
+                                        <img id="loaderIcon" style="visibility:hidden; display:none;width: 100px; height: 100px;"
+                                    src="https://c.tenor.com/I6kN-6X7nhAAAAAj/loading-buffering.gif" alt="Please wait" />
+                                </div>
+            <?php echo form_open("oficer/create_withdrow_balance/{$customer->customer_id}",['id'=>'login_form']); ?>
             <div class="modal-body">
                 <div class="row clearfix">
                     <div class="col-md-6 col-6">
@@ -460,6 +473,17 @@
         </div>
     </div>
 </div>
+
+
+
+<script>
+    $(document).ready(function(){
+        $('#login_form').submit(function() {
+            $('#loaderIcon').css('visibility', 'visible');
+            $('#loaderIcon').show();
+        });
+    })
+</script>
 
 
 

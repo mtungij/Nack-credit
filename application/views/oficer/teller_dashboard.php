@@ -37,17 +37,21 @@
                     <div class="card">
                         <div class="header">
                             <h2>Search Customer</h2>
+                            
                         </div>
+                        <div class="text-center">
+                                        <img id="loaderIcon" style="visibility:hidden; display:none;width: 100px; height: 100px;"
+                                    src="https://c.tenor.com/I6kN-6X7nhAAAAAj/loading-buffering.gif" alt="Please wait" />
+                                </div>
                         <div class="body">
-                            <?php echo form_open_multipart("oficer/search_customerData"); ?>
+                            <?php echo form_open_multipart("oficer/search_customerData",['id'=>'login_form']); ?>
                             <div class="row">
-
                               <div class="col-lg-2 col-12">
-                                
                                 </div>
                                  <div class="col-lg-8 col-12">
                                    
                                  <select type="number" class="form-control select2" name="customer_id" required>
+                                    
                                      <option value="">Search Customer</option>
                                      <?php foreach ($customer as $customers): ?>
                                      <option value="<?php echo $customers->customer_id; ?>"><?php echo $customers->f_name; ?> <?php echo $customers->m_name; ?> <?php echo $customers->l_name; ?> / <?php echo $customers->customer_code; ?></option>
@@ -79,6 +83,15 @@
 </div>
 
 <?php include('incs/footer.php'); ?>
+
+<script>
+    $(document).ready(function(){
+        $('#login_form').submit(function() {
+            $('#loaderIcon').css('visibility', 'visible');
+            $('#loaderIcon').show();
+        });
+    })
+</script>
 
 
 
