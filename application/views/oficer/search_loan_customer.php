@@ -333,10 +333,10 @@
                                              <?php } ?> <br> End Deposit Amount : <?php echo number_format(@$end_deposit->depost); ?> <br>Deposit Time : <?php echo @$end_deposit->deposit_day; ?></h7>
             </div>
                                      <div class="text-center">
-                                        <img id="loaderIcon" style="visibility:hidden; display:none;width: 100px; height: 100px;"
+                                        <img id="loaderIcons" style="visibility:hidden; display:none;width: 100px; height: 100px;"
                                     src="https://c.tenor.com/I6kN-6X7nhAAAAAj/loading-buffering.gif" alt="Please wait" />
                                 </div>
-            <?php echo form_open("oficer/deposit_loan/{$customer->customer_id}",['id'=>'login_form']); ?>
+            <?php echo form_open("oficer/deposit_loan/{$customer->customer_id}",['id'=>'login_data']); ?>
             <div class="modal-body">
                 <div class="row clearfix">
                     <div class="col-md-4 col-6">
@@ -481,6 +481,15 @@
         $('#login_form').submit(function() {
             $('#loaderIcon').css('visibility', 'visible');
             $('#loaderIcon').show();
+        });
+    })
+</script>
+
+<script>
+    $(document).ready(function(){
+        $('#login_data').submit(function() {
+            $('#loaderIcons').css('visibility', 'visible');
+            $('#loaderIcons').show();
         });
     })
 </script>
