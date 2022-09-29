@@ -497,8 +497,8 @@
 <script>
     $(document).ready(function(){
         $('#login_with').submit(function() {
-            $('#loaderIconswith').css('visibility', 'visible');
-            $('#loaderIconswith').show();
+            $('#loaderIconwith').css('visibility', 'visible');
+            $('#loaderIconwith').show();
         });
     })
 </script>
