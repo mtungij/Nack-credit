@@ -28,6 +28,19 @@ $lang['income_menu'] = "Mapato";
 $lang['income_non_menu'] = "Mapato yasiyokatwa";
 $lang['income_deducted_menu'] = "Mapato Yanayo katwa na Mfumo";
 $lang['total_income_menu'] = "usawa wa mapato";
+$lang['form_income_menu'] = "Fomu ya Mapato Isiyokatwa";
+$lang['customer_menu'] = "Mteja";
+$lang['selectcustomer_menu'] = "Chagua Mteja";
+$lang['activeLoan_menu'] = "Mkopo Hai";
+$lang['selectactiveLoan_menu'] = "Chagua Mkopo Hai";
+$lang['incometype_menu'] = "Aina ya Mapato";
+$lang['selectincometype_menu'] = "Chagua Aina ya Mapato";
+$lang['incomeAmount_menu'] = "kiasi cha mapato";
+$lang['save_menu'] = "Hifadhi";
+$lang['search_menu'] = "Tafuta";
+$lang['customername_menu'] = "Customer Name";
+$lang['loanAprove_menu'] = "Mkopo Uliopitishwa";
+
 
 
  ?>

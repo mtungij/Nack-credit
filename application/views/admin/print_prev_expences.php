@@ -105,7 +105,7 @@ background-color: ;
                                                 <th>Amount</th>
                                                 <th>Descrption </th>
                                                 <!-- <th>Comment</th> -->
-                                                <th>From Branch Account</th>
+                                                <th>From Deduction Type</th>
                                                 <th>Date</th>
                                                 <!-- <th>status</th> -->
                                                     
@@ -134,7 +134,7 @@ background-color: ;
                                      <td><?php echo number_format($data_recods->req_amount); ?></td>
                                      <td><?php echo $data_recods->req_description; ?></td>
                                     <!--  <td><?php //echo $datas->req_comment; ?></td> -->
-                                     <td><?php echo $data_recods->account_name; ?></td>
+                                     <td><?php echo $data_recods->deduct_type; ?></td>
                                      <td><?php echo $data_recods->req_date; ?></td>                                         
                                        </tr>
                             <?php endforeach; ?>

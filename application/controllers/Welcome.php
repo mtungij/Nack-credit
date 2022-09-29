@@ -393,9 +393,9 @@ $sqldata="UPDATE `tbl_loans` SET `dis_date`='$now',`return_date`= '$return_data'
 
                  if($loan_end_date == $today and $loan_status == 'withdrawal'){
                   $this->insert_outStandLoan($comp_id,$blanch_id,$loan_id,$group_id,$customer_id,$rem,$group_id);
-                  $this->update_recovery($loan_id);
                   	$this->update_loastatus_outstand($loan_id);
                   	$this->update_customer_status_out($customer_id);
+                  	$this->update_recovery($loan_id);
                     }elseif($depost_data >= $totalloan){
                     $this->update_loastatus($loan_id);
                     $this->insert_loan_kumaliza($comp_id,$blanch_id,$customer_id,$loan_id,$kumaliza,$group_id);
@@ -788,6 +788,14 @@ $sqldata="UPDATE `tbl_customer` SET `customer_status`= 'close' WHERE `customer_i
 		$this->session->set_flashdata('massage','');
 		return  redirect("welcome/Employee_signin");
 	}
+
+	// public function test_month()
+	// {
+	// $day_data = 168;
+	// $months = floor($day_data / 30);
+ //  $days = $day_data-($months*30);
+ //  echo  $months ."Months " . $days ."days";
+	// }
 
 
 

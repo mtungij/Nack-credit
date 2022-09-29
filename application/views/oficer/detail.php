@@ -39,7 +39,7 @@
                             <h2>Customer Photo & Gualantors Photo</h2>
                         </div>
                         <div class="body">
-                            <?php echo form_open_multipart("oficer/update_customerID/{$customer->customer_id}") ?>
+                            <?php echo form_open("oficer/update_customerID/{$customer->customer_id}") ?>
                             <div class="row">
 
                               <div class="col-lg-6 form-group-sub">

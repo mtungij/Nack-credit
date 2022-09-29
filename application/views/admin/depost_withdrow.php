@@ -412,7 +412,7 @@
 
 
  <div class="modal fade" id="addcontact2" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h6 class="title" id="defaultModalLabel"><?php echo $customer->f_name; ?> <?php echo $customer->m_name; ?> <?php echo $customer->l_name; ?></h6>
@@ -420,11 +420,11 @@
             <?php echo form_open("admin/create_withdrow_balance/{$customer->customer_id}"); ?>
             <div class="modal-body">
                 <div class="row clearfix">
-                    <div class="col-md-4 col-6">
+                    <div class="col-md-6 col-6">
                     <span>Total Withdrawal</span>
                     <input type="number" class="form-control" name="withdrow" value="<?php echo $remain_balance->balance; ?>" readonly>     
                     </div>
-                    <div class="col-md-4 col-6">
+                    <div class="col-md-6 col-6">
                     <span>Select Account:</span>
                     <select type="number" class="form-control" name="method" required>
                         <option value="">---Select Account---</option>
@@ -441,10 +441,10 @@
                     <input type="hidden" value="<?php echo $customer->customer_id; ?>" name="customer_id">
                     <input type="hidden" value="<?php echo $customer->comp_id; ?>" name="comp_id">
                     <input type="hidden" value="<?php echo $customer->blanch_id; ?>" name="blanch_id">
-                     <div class="col-md-4 col-6">
-                    <span>Code</span>
-                    <input type="number" class="form-control" name="code" placeholder="Enter Code" required>     
-                    </div>
+                     <!-- <div class="col-md-4 col-6"> -->
+                   <!--  <span>Code</span> -->
+                    <input type="hidden" class="form-control" value="1" name="code" placeholder="Enter Code" required>     
+                   <!--  </div> -->
                     <?php $date = date("Y-m-d"); ?>
                     <div class="col-md-12 col-6">
                     <span>withdrawal Date</span>
@@ -455,7 +455,7 @@
             </div>
             <div class="modal-footer">
                 <button type="submit" class="btn btn-primary">Withdrawal</button>
-               <a href="" class="btn btn-primary">Resend Code</a>
+              <!--  <a href="" class="btn btn-primary">Resend Code</a> -->
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">CLOSE</button>
             </div>
             <?php echo form_close(); ?>
@@ -465,33 +465,7 @@
 
 
 
- <div class="modal fade" id="addcontact3" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h6 class="title" id="defaultModalLabel"><?php echo $customer->f_name; ?> <?php echo $customer->m_name; ?> <?php echo $customer->l_name; ?><br> End Deposit Amount: 100,000</h6>
-            </div>
-            <?php echo form_open("admin/"); ?>
-            <div class="modal-body">
-                <div class="row clearfix">
-                    <div class="col-md-12 col-12">
-                    <span>Adjust Amount </span>
-                    <input type="number" class="form-control" name="" required>     
-                    </div>
-                    
-                    
-                    
-                   
-            </div>
-            </div>
-            <div class="modal-footer">
-                <button type="submit" class="btn btn-primary">Withdrawal</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">CLOSE</button>
-            </div>
-            <?php echo form_close(); ?>
-        </div>
-    </div>
-</div>
+
 
 
 

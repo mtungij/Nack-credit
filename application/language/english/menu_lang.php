@@ -28,6 +28,19 @@ $lang['income_menu'] = "Income";
 $lang['income_non_menu'] = "Non - Deducted income";
 $lang['income_deducted_menu'] = "Deducted income";
 $lang['total_income_menu'] = "Income Balance";
+$lang['form_income_menu'] = "Non Deducted Income Form";
+$lang['customer_menu'] = "Customer";
+$lang['selectcustomer_menu'] = "Select Customer";
+$lang['activeLoan_menu'] = "Active Loan";
+$lang['selectactiveLoan_menu'] = "Select Active Loan";
+$lang['incometype_menu'] = "Income Type";
+$lang['selectincometype_menu'] = "Select Income Type";
+$lang['incomeAmount_menu'] = "Income Amount";
+$lang['save_menu'] = "Save";
+$lang['search_menu'] = "Search";
+$lang['customername_menu'] = "Customer Name";
+$lang['loanAprove_menu'] = "Loan Aprove";
+
 
 
 

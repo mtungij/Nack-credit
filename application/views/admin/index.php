@@ -1,7 +1,7 @@
 <?php include('incs/header.php'); ?>
 <?php include('incs/nav.php'); ?>
 <?php include('incs/side.php'); ?>
-
+<?php $comp_id = $this->session->userdata('comp_id'); ?>
     <div id="main-content">
         <div class="container-fluid">
             <div class="block-header">
@@ -40,7 +40,7 @@
                     <?php endif; ?>
             <div class="row clearfix">
                 
-                <div class="col-lg-9 col-md-12">
+                <div class="col-lg-12 col-md-12">
                     <div class="card">
                         <div class="header">
                             <h2><?php echo $this->lang->line("revenue_menu"); ?></h2>
@@ -80,9 +80,12 @@
                                     </div>
                                 </div>
                                  <div class="col-md-3">
-                                    <div class="body bg-info text-light">
-                                        <h4><i class="icon-wallet"></i> <?php echo number_format($blanch_capital_circle->total_balanch_amount); ?></h4>
-                                        <span><?php echo $this->lang->line("branch_account_menu"); ?></span>
+
+                                <?php $loan_out = $this->queries->get_total_outStandcomp($comp_id); ?>
+                                <?php //print_r($loan_out); ?>
+                                    <div class="body bg-danger text-light">
+                                        <h4><i class="icon-wallet"></i> <?php echo number_format($loan_out->total_remain); ?></h4>
+                                        <span><?php echo $this->lang->line("outstand_menu"); ?></span>
                                     </div>
                                 </div>
                             </div>
@@ -91,32 +94,34 @@
                     </div>
                 </div>
 
-                <div class="col-lg-3 col-md-12">
+            
+
+                <!-- <div class="col-lg-12 col-md-12">
                     <div class="row clearfix">
-                          <div class="col-lg-12 col-md-12">
+                          <div class="col-lg-4 col-6">
                             <div class="card top_counter">
                                 <div class="body">
                                     <div class="icon"><i class="fa fa-thumbs-o-up"></i> </div>
                                     <div class="content">
                                         <div class="text">Total Income</div>
-                                        <h5 class="number"><?php echo number_format($total_non->total_nondeducted + $total_deducted_balance->total_deducted)?></h5>
+                                        <h5 class="number"><?php //echo number_format($total_non->total_nondeducted + $total_deducted_balance->total_deducted)?></h5>
                                     </div>
                                     <hr>
                                     <div class="icon"><i class="fa fa-smile-o"></i> </div>
                                     <div class="content">
                                         <div class="text">Total Expenses</div>
-                                        <h5 class="number"><?php echo number_format($request_expences->total_exp); ?></h5>
+                                        <h5 class="number"><?php //echo number_format($request_expences->total_exp); ?></h5>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-12 col-md-12">
+                        <div class="col-lg-4 col-6">
                             <div class="card top_counter">
                                 <div class="body">
                                     <div class="icon"><i class="fa fa-thumbs-o-up"></i> </div>
                                     <div class="content">
                                         <div class="text">Total Defaul Loan</div>
-                                        <h5 class="number"><?php echo number_format($total_remain->total_out); ?></h5>
+                                        <h5 class="number"><?php //echo number_format($total_remain->total_out); ?></h5>
                                     </div>
                                     <hr>
                             <?php 
@@ -131,13 +136,13 @@
                                     <div class="icon"><i class="fa fa-smile-o"></i> </div>
                                     <div class="content">
                                         <div class="text">Total Customer</div>
-                                        <h5 class="number"><?php echo $customer->num_rows(); ?></h5>
+                                        <h5 class="number"><?php //echo $customer->num_rows(); ?></h5>
                                     </div>
                                 </div>
                             </div>
                         </div>
                       
-                        <div class="col-lg-12 col-md-6">
+                        <div class="col-lg-4 col-12">
                             <div class="card top_counter">
                                 <div class="body">
                                     <div id="top_counter3" class="carousel vert slide" data-ride="carousel" data-interval="2300">
@@ -169,249 +174,214 @@
                                     <div class="icon"><i class="fa fa-university"></i> </div>
                                     <div class="content">
                                         <div class="text">Pending</div>
-                                        <h5 class="number"><?php echo $pendin->num_rows(); ?></h5>
+                                        <h5 class="number"><?php //echo $pendin->num_rows(); ?></h5>
                                     </div>
                                 </div>
                             </div>
                         </div>
                       
                     </div>
+                </div> -->
+            </div>
+
+             <div class="row clearfix w_social3">
+                <div class="col-lg-2 col-md-4 col-6">
+                    <a href="<?php //echo base_url("oficer/customer"); ?>"><div class="card facebook-widget">
+                        <div class="icon"><img src="<?php echo base_url() ?>assets/img/user.png" style="width: 44px; height: 44px;"></div>
+                        <div class="content">
+                            <div class="text" style="color: black;">Customer </div>
+                            <!-- <div class="number">123</div> -->
+                        </div>
+                    </div></a>
+                </div>
+                <div class="col-lg-2 col-md-4 col-6">
+                    <a href="<?php //echo base_url("oficer/loan_application"); ?>"><div class="card instagram-widget">
+                        <div class="icon"><img src="<?php echo base_url() ?>assets/img/request.jpg" style="width: 44px; height: 44px;"></div>
+                        <div class="content">
+                            <div class="text" style="color:black;">Loan Aplication</div>
+                            <!-- <div class="number">231</div> -->
+                        </div>
+                    </div></a>
+                </div>
+                <div class="col-lg-2 col-md-4 col-6">
+                    <a href="<?php //echo base_url("oficer/teller_dashboard") ?>"><div class="card twitter-widget">
+                        <div class="icon"><img src="<?php echo base_url() ?>assets/img/deposit.jpg" style="width: 44px; height: 44px;"></div>
+                        <div class="content">
+                            <div class="text"style="color:black;">Deposit</div>
+                            <!-- <div class="number">31</div> -->
+                        </div>
+                    </div></a>
+                </div>
+                <div class="col-lg-2 col-md-4 col-6">
+                    <a href="<?php //echo base_url("oficer/teller_dashboard") ?>"><div class="card google-widget">
+                        <div class="icon"><img src="<?php echo base_url() ?>assets/img/withdrawal.png" style="width: 44px; height: 44px;"></div>
+                        <div class="content">
+                            <div class="text" style="color:black;">Withdrawal</div>
+                            <!-- <div class="number">254</div> -->
+                        </div>
+                    </div></a>
+                </div>
+                <div class="col-lg-2 col-md-4 col-6">
+                    <a href="<?php //echo base_url("oficer/daily_report"); ?>"><div class="card linkedin-widget">
+                        <div class="icon"><img src="<?php echo base_url() ?>assets/img/daily.png" style="width: 44px; height: 44px;"></div>
+                        <div class="content">
+                            <div class="text" style="color:black">Daily Report</div>
+                            <!-- <div class="number">2510</div> -->
+                        </div>
+                    </div></a>
+                </div>
+                <div class="col-lg-2 col-md-4 col-6">
+                    <a href="<?php //echo base_url("oficer/expnses_requisition_form"); ?>"><div class="card behance-widget">
+                        <div class="icon"><img src="<?php echo base_url() ?>assets/img/expenses.png" style="width: 44px; height: 44px;"></div>
+                        <div class="content">
+                            <div class="text" style="color:black">Expenses</div>
+                            <!-- <div class="number">121</div> -->
+                        </div>
+                    </div></a>
                 </div>
             </div>
 
 
 
-
-
-
-
-            <div class="row clearfix">
-                <div class="col-lg-8 col-md-12">
-                    <div class="card">
-                        <div class="header">
-                            <h2>Today Statistics</h2>
-                            <!-- <ul class="header-dropdown">
-                                <li><a class="tab_btn" href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title="Weekly">W</a></li>
-                                <li><a class="tab_btn" href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title="Monthly">M</a></li>
-                                <li><a class="tab_btn active" href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title="Yearly">Y</a></li>
-                                <li class="dropdown">
-                                    <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"></a>
-                                    <ul class="dropdown-menu dropdown-menu-right">
-                                        <li><a href="javascript:void(0);">Action</a></li>
-                                        <li><a href="javascript:void(0);">Another Action</a></li>
-                                        <li><a href="javascript:void(0);">Something else</a></li>
-                                    </ul>
-                                </li>
-                            </ul> -->
-                        </div>
-                        <div class="body">
-                            <!-- <div id="Visitors_chart" class="flot-chart m-b-20"></div> -->
-                            <div class="row text-center">
-                                <div class="col-lg-4 col-md-4 col-6">
-                                    <div id="Visitors_chart1" class="carousel slide" data-ride="carousel" data-interval="2000">
-                                        <div class="carousel-inner">
-                                            <div class="carousel-item active">
-                                                <a href=""><div class="body xl-salmon">
-                                                    <?php $new_loan = $this->db->query("SELECT * FROM tbl_loans WHERE comp_id = '$comp_id' AND loan_status = 'open'"); ?>
-                                                    <h6><?php echo $new_loan->num_rows(); ?></h6>
-                                                    <span>Loan Request</span>
-                                                </div></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-4 col-md-4 col-6">
-                                    <div id="Visitors_chart2" class="carousel slide" data-ride="carousel" data-interval="2200">
-                                        <div class="carousel-inner">
-                                            <div class="carousel-item active">
-                                                <?php
-                                      $ap = $this->db->query("SELECT * FROM tbl_loans WHERE comp_id = '$comp_id' AND loan_status = 'aproved'");
-                                               ?>
-                                               <a href=""><div class="body xl-parpl">
-                                                    <h6><?php echo $ap->num_rows(); ?></h6>
-                                                    <span>Aproved Loan</span>
-                                                </div></a> 
-                                            </div>
-                                        </div>
-                                    </div>                                    
-                                </div>
-                                <div class="col-lg-4 col-md-4 col-6">
-                                    <a href=""><div class="body xl-salmon"> 
-                                    <?php $dis = $this->db->query("SELECT * FROM tbl_loans WHERE comp_id = '$comp_id' AND loan_status = 'disbarsed'") ?>                                       
-                                        <h6><?php echo $dis->num_rows(); ?></h6>
-                                        <span>Loan Disbursed</span>
-                                    </div></a>
-                                </div>
-                                <div class="col-lg-4 col-md-4 col-6">
-                                    <a href=""><div class="body xl-parpl">
-                                        <?php $date = date('Y-m-d'); ?>
-                                    <?php $today_wi = $this->db->query("SELECT * FROM tbl_loans WHERE comp_id = '$comp_id' AND loan_status = 'withdrawal' AND date(loan_day) = '$date'"); ?>                                        
-                                        <h6><?php echo $today_wi->num_rows(); ?></h6>
-                                        <span>Today Loan Withdrawal</span>
-                                    </div></a>
-                                </div> 
-                                 <div class="col-lg-4 col-md-4 col-6">
-                                    <a href=""><div class="body xl-salmon">                                        
-                                        <h6>8630000</h6>
-                                        <span>Today Loan Pending</span>
-                                    </div></a>
-                                </div> 
-                                 <div class="col-lg-4 col-md-4 col-6">
-                                    <a href=""><div class="body xl-parpl">                                        
-                                        <h6>8630000</h6>
-                                        <span>Today Receivable</span>
-                                    </div></a>
-                                </div>
-                                   <div class="col-lg-4 col-md-4 col-6">
-                                    <a href=""><div class="body xl-salmon">                                        
-                                        <h6>8630000</h6>
-                                        <span>Today Received</span>
-                                    </div></a>
-                                </div>
-                                   <div class="col-lg-4 col-md-4 col-6">
-                                    <a href=""><div class="body xl-parpl">                                        
-                                        <h6>10000000</h6>
-                                        <span>Today Penart</span>
-                                    </div></a>
-                                </div>
-                                   <div class="col-lg-4 col-md-4 col-6">
-                                    <a href=""><div class="body xl-salmon">                                        
-                                        <h6>8630000</h6>
-                                        <span>Today Deducted Income</span>
-                                    </div></a>
-                                </div>
-                                  <div class="col-lg-4 col-md-4 col-6">
-                                    <a href=""><div class="body xl-parpl">                                        
-                                        <h6>8630000</h6>
-                                        <span>Today Non-Deducted Income</span>
-                                    </div></a>
-                                </div> 
-
-                                  <div class="col-lg-4 col-md-4 col-6">
-                                    <a href=""><div class="body xl-salmon">                                        
-                                        <h6>8630000</h6>
-                                        <span>Today Expenses</span>
-                                    </div></a>
-                                </div> 
-
-                                 <div class="col-lg-4 col-md-4 col-6">
-                                    <a href=""><div class="body xl-parpl">                                        
-                                        <h6>8630000</h6>
-                                        <span>Daily Report</span>
-                                    </div></a>
-                                </div> 
-
-                            </div>
+              <div class="row clearfix w_social3">
+                <div class="col-lg-2 col-md-4 col-6">
+                    <a href="<?php //echo base_url("oficer/cash_transaction"); ?>">
+                        <div class="card facebook-widget">
+                        <div class="icon"><img src="<?php echo base_url() ?>assets/img/transaction.png" style="width: 44px; height: 44px;"></div>
+                        <div class="content">
+                            <div class="text" style="color:black;">Cash Transaction</div>
+                            <!-- <div class="number">123</div> -->
                         </div>
                     </div>
+                    </a>
                 </div>
-                <div class="col-lg-4 col-md-12">
-                    <div class="card">
-                        <div class="header">
-                            <h2>Branch List<h2>
+                <div class="col-lg-2 col-md-4 col-6">
+                    <a href="<?php //echo base_url("oficer/loan_pending_time"); ?>"><div class="card instagram-widget">
+                        <div class="icon"><img src="<?php echo base_url() ?>assets/img/default.jpeg" style="width: 44px; height: 44px;"></div>
+                        <div class="content">
+                            <div class="text" style="color:black;">Loan Pending(40)</div>
+                            <!-- <div class="number">231</div> -->
                         </div>
-                        
-                          <div class="body">
-                            <div class="table-responsive">
-                                <table class="table table-hover js-basic-example dataTable table-custom">
-                                    <thead class="thead-primary">
-                                        <tr>
-                                            <th>S/no.</th>
-                                            <th>Branch Name</th>
-                                            <th>Region</th>
-                                            <th>Phone Number</th>
-                                        </tr>
-                                    </thead>
-                                   
-                                    <tbody>
-                                        <?php $no = 1; ?>
-                                         <?php foreach ($blanch as $blanchs): ?>
-                                        <tr>
-                                            <td><?php echo $no++; ?>.</td>
-                                            <td><a href="javascript:;"><?php echo $blanchs->blanch_name; ?></a></td>
-                                            <td><?php echo $blanchs->region_name; ?></td>
-                                            <td><?php echo $blanchs->blanch_no; ?></td>
-                                        </tr>
-
-                                    <?php endforeach; ?>
-                                      
-                                        
-                                       
-                                    </tbody>
-                                </table>
-                            </div>
+                    </div></a>
+                </div>
+                <div class="col-lg-2 col-md-4 col-6">
+                    <a href="<?php //echo base_url("oficer/get_today_receivable"); ?>">
+                        <div class="card twitter-widget">
+                        <div class="icon"><img src="<?php echo base_url() ?>assets/img/receivable.png" style="width: 44px; height: 44px;"></div>
+                        <div class="content">
+                            <div class="text" style="color:black;">Receivable</div>
+                            <!-- <div class="number">31</div> -->
                         </div>
-
+                    </div></a>
+                </div>
+                <div class="col-lg-2 col-md-4 col-6">
+                    <a href="<?php //echo base_url("oficer/today_received"); ?>">
+                        <div class="card google-widget">
+                        <div class="icon"><img src="<?php echo base_url() ?>assets/img/received.png" style="width: 44px; height: 44px;"></div>
+                        <div class="content">
+                            <div class="text" style="color:black;">Received(10) &nbsp;&nbsp;&nbsp;</div>
+                            <!-- <div class="number" style="color:green;">1,000,000,000</div> -->
+                        </div>
                     </div>
+                    </a>
+                </div>
+                <div class="col-lg-2 col-md-4 col-6">
+                    <a href="<?php //echo base_url("oficer/get_loan_withdrawal_data"); ?>">
+                        <div class="card linkedin-widget">
+                        <div class="icon"><img src="<?php echo base_url() ?>assets/img/withdrawal.png" style="width: 44px; height: 44px;"></div>
+                        <div class="content">
+                            <div class="text" style="color:black;">Loan Withdrawal</div>
+                            <!-- <div class="number">2510</div> -->
+                        </div>
+                    </div>
+                    </a>
+                </div>
+                <div class="col-lg-2 col-md-4 col-6">
+                    <a href="<?php //echo base_url("oficer/oustand_loan"); ?>">
+                        <div class="card behance-widget">
+                        <div class="icon"><img src="<?php echo base_url() ?>assets/img/default.jpeg" style="width: 44px; height: 44px;"></div>
+                        <div class="content">
+                            <div class="text" style="color:black;">Outstand Loan(10)</div>
+                            <!-- <div class="number">121</div> -->
+                        </div>
+                    </div>
+                    </a>
                 </div>
             </div>
 
-            <div class="row clearfix">
-                <div class="col-lg-12 col-md-12">
-                    <div class="row clearfix">
-                        <div class="col-lg-12 col-md-12">
-                            <div class="card">
-                                <div class="header">
-                                    <h2>Customer history</h2>
-                                    <ul class="header-dropdown">
-                                        <li><a class="tab_btn" href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title="Weekly">W</a></li>
-                                        <li><a class="tab_btn" href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title="Monthly">M</a></li>
-                                        <li><a class="tab_btn active" href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title="Yearly">Y</a></li>
-                                        <li class="dropdown">
-                                            <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"></a>
-                                            <ul class="dropdown-menu dropdown-menu-right">
-                                                <li><a href="javascript:void(0);">Action</a></li>
-                                                <li><a href="javascript:void(0);">Another Action</a></li>
-                                                <li><a href="javascript:void(0);">Something else</a></li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="body">
-                                    <div id="patient_history" class="chartist"></div>
-                                </div>
-                            </div>
-                        </div> 
 
-                                              
-                    </div>
-                </div>
-             
-                <div class="col-lg-12">
-                    <div class="card">
-                         <div class="header">
-                            <h2>Group List </h2>    
-                             </div>
-                          <div class="body">
-                            <div class="table-responsive">
-                                <table class="table table-hover js-basic-example dataTable table-custom">
-                                    <thead class="thead-primary">
-                                        <tr>
-                                            <th>S/no.</th>
-                                            <th>Group Name</th>
-                                            <th>Branch</th>
-                                            <th>Loans</th>
-                                        </tr>
-                                    </thead>
-                                   
-                                    <tbody>
-                                        <tr>
-                                            <td>Tiger Nixon</td>
-                                            <td>System Architect</td>
-                                            <td>Edinburgh</td>
-                                            <td>61</td>
-                                        </tr>
-                                      
-                                        
-                                       
-                                    </tbody>
-                                </table>
-                            </div>
+             <div class="row clearfix w_social3">
+                <div class="col-lg-2 col-md-4 col-6">
+                    <a href="<?php //echo base_url("oficer/loan_pending"); ?>">
+                        <div class="card facebook-widget">
+                        <div class="icon"><img src="<?php echo base_url() ?>assets/img/aplication.png" style="width: 44px; height: 44px;"></div>
+                        <div class="content">
+                            <div class="text" style="color:black;">Loan Requested(1)</div>
+                            <!-- <div class="number">123</div> -->
                         </div>
-
                     </div>
-                </div>                
-            </div>
+                    </a>
+                </div>
+                <div class="col-lg-2 col-md-4 col-6">
+                    <a href="<?php //echo base_url("oficer/disburse_loan"); ?>">
+                        <div class="card instagram-widget">
+                        <div class="icon"><img src="<?php echo base_url() ?>assets/img/aproveds.jpg" style="width: 44px; height: 44px;"></div>
+                        <div class="content">
+                            <div class="text" style="color:black">Loan Aproved(1)</div>
+                            <!-- <div class="number">231</div> -->
+                        </div>
+                    </div>
+                </a>
+                </div>
+               
+               
+
+                <div class="col-lg-2 col-md-4 col-6">
+                    <a href="<?php //echo base_url("oficer/deposit_stoo"); ?>"><div class="card twitter-widget">
+                        <div class="icon"><img src="<?php echo base_url() ?>assets/img/stoo.png" style="width: 44px; height: 44px;"></div>
+                        <div class="content">
+                            <div class="text" style="color:black">Store</div>
+                            <!-- <div class="number">1</div> -->
+                        </div>
+                    </div></a>
+                </div>
+
+                  <div class="col-lg-2 col-md-4 col-6">
+                    <a href="<?php //echo base_url("oficer/income_dashboard"); ?>">
+                        <div class="card twitter-widget">
+                        <div class="icon"><img src="<?php echo base_url() ?>assets/img/income.png" style="width: 44px; height: 44px;"></div>
+                        <div class="content">
+                            <div class="text" style="color:black;">Income</div>
+                            <!-- <div class="number">31</div> -->
+                        </div>
+                    </div>
+                    </a>
+                </div>
+                
+
+                 <div class="col-lg-2 col-md-4 col-6">
+                    <a href="<?php //echo base_url("oficer/loan_rejected"); ?>">
+                        <div class="card twitter-widget">
+                        <div class="icon"><img src="<?php echo base_url() ?>assets/img/rejected.jpg" style="width: 44px; height: 44px;"></div>
+                        <div class="content">
+                            <div class="text" style="color:black;">Rejected Loan</div>
+                            <!-- <div class="number">31</div> -->
+                        </div>
+                    </div>
+                    </a>
+                </div>
+                 <div class="col-lg-2 col-md-4 col-6">
+                    <a href="<?php //echo base_url("oficer/saving_deposit"); ?>">
+                        <div class="card twitter-widget">
+                        <div class="icon"><img src="<?php echo base_url() ?>assets/img/saving.png" style="width: 44px; height: 44px;"></div>
+                        <div class="content">
+                            <div class="text" style="color:black;">Saving Dposit</div>
+                            <!-- <div class="number">31</div> -->
+                        </div>
+                    </div>
+                    </a>
+                </div>
+
         </div>
     </div>
     

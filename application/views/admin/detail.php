@@ -38,7 +38,7 @@
                             <h2>Customer Photo & Gualantors Photo</h2>
                         </div>
                         <div class="body">
-                            <?php echo form_open_multipart("admin/update_customerID/{$customer->customer_id}") ?>
+                            <?php echo form_open("admin/update_customerID/{$customer->customer_id}") ?>
                             <div class="row">
 
                               <div class="col-lg-6 form-group-sub">
@@ -55,8 +55,8 @@
                                 <input type="hidden" name="customer_id" value="<?php echo $customer->customer_id; ?>">
                             </div>
                                 <div class="text-center">
-                                <button type="submit" class="btn btn-primary"><i class="icon-pencil">Save</i></button>
-                                <a href="<?php echo base_url("admin/customer_profile/{$customer->customer_id}") ?>" class="btn btn-info btn-elevate btn-pill">Finish</a>
+                                <button type="submit" class="btn btn-primary"><i class="icon-pencil">Finish</i></button>
+                                <!-- <a href="<?php echo base_url("admin/customer_profile/{$customer->customer_id}") ?>" class="btn btn-info btn-elevate btn-pill">Finish</a> -->
                                 </div>
                             
                             <?php echo form_close();  ?>

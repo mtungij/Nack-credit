@@ -42,7 +42,7 @@
                             <div class="col-lg-6 col-6">
                                 <div class="body">
                                     <i class="fa fa-thumbs-up"></i>
-                                     <div class="profile-image"> <img src="<?php echo base_url().'assets/img/'.$customer_profile->passport; ?>" class="rounded-circle" alt="customer image" style="width: 135px;height: 135px;">
+                                     <div class="profile-image"> <img src="<?php echo base_url().'assets/img/male.jpeg'; ?>" class="rounded-circle" alt="customer image" style="width: 135px;height: 135px;">
                                       </div>
                                     <small>Customer Picture</small>
                                 </div>
@@ -50,7 +50,7 @@
                             <div class="col-lg-6 col-6">
                                 <div class="body">
                                     <i class="fa fa-star"></i>
-                                   <div class="profile-image"> <img src="<?php echo base_url().'assets/img/'.$customer_profile->signature; ?>" class="rounded-circle" alt="Gualantors image" style="width: 135px;height: 135px;">
+                                   <div class="profile-image"> <img src="<?php echo base_url().'assets/img/sig.jpg'; ?>" class="rounded-circle" alt="Gualantors image" style="width: 135px;height: 135px;">
                                       </div>
                                     <small>Gualantors Picture</small>
                                 </div>
@@ -68,7 +68,7 @@
                                 <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#Basic">Basic</a></li>
                                 <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#Account">Guarantors </a></li>
                                 <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#General">All Loans</a></li>
-                                <li class="nav-item"><a class="nav-link"href="<?php echo base_url("admin/customer"); ?>">Back</a></li>
+                                <li class="nav-item"><a class="nav-link"href="<?php echo base_url("admin/all_customer"); ?>">Back</a></li>
                             </ul>
                         </div>
                     </div>

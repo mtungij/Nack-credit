@@ -41,7 +41,7 @@
                                                <th>Branch</th>
                                                 <th>Expenses</th>
                                                 <th>Amount</th>
-                                                <th>From Account</th>
+                                                <th>From Deduction Type</th>
                                                 <th>Descrption </th>
                                                 <!-- <th>Comment</th> -->
                                                 <th>Date</th>
@@ -57,12 +57,12 @@
                                     <td><?php echo $datas->blanch_name; ?></td>
                                     <td><?php echo $datas->ex_name; ?></td>
                                     <td><?php echo number_format($datas->req_amount); ?></td>
-                                    <td><?php echo $datas->account_name; ?></td>
+                                    <td><?php echo $datas->deduct_type; ?></td>
                                     <td><?php echo $datas->req_description; ?></td>
                                     <!--  <td><?php //echo $datas->req_comment; ?></td> -->
                                      <td><?php echo $datas->req_date; ?></td>
                                 <td>
-                                    <a href="<?php echo base_url("admin/delete_expences/{$datas->req_id}") ?>" class="btn btn-sm btn-icon btn-pure btn-danger on-default m-r-5 button-edit" data-original-title="Delete" onclick="return confirm('Are You Sure?')"><i class="icon-trash"></i>
+                                    <a href="<?php echo base_url("admin/get_remove_expenses/{$datas->req_id}") ?>" class="btn btn-sm btn-icon btn-pure btn-danger on-default m-r-5 button-edit" data-original-title="Delete" onclick="return confirm('Are You Sure?')"><i class="icon-trash"></i>
                                         </a>
                                 </td>                                                                                   
                              </tr>

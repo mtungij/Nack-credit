@@ -984,6 +984,7 @@ $sqldata="UPDATE `tbl_ac_company` SET `comp_balance`= '$total_remain' WHERE  `tr
 		$this->form_validation->set_rules('district','district','required');
 		$this->form_validation->set_rules('ward','ward','required');
 		$this->form_validation->set_rules('street','street','required');
+		$this->form_validation->set_rules('empl_id','empl','required');
 		$this->form_validation->set_rules('age','age','required');
 		$this->form_validation->set_error_delimiters('<div class="text-danger">','</div>');
 		if ($this->form_validation->run()) {
@@ -1008,7 +1009,7 @@ $sqldata="UPDATE `tbl_ac_company` SET `comp_balance`= '$total_remain' WHERE  `tr
 			$this->load->model('queries');
 			$customer = $this->queries->get_customer_data($customer_id);
 			$account = $this->queries->get_accountTYpe();
-			  // print_r($account);
+			  // print_r($customer);
 			  //    exit();
 			$this->load->view('admin/detail',['customer'=>$customer,'account'=>$account]);
 		}
@@ -2879,10 +2880,11 @@ public function create_withdrow_balance($customer_id){
 	       $blanch_deducted = @$check_deducted->blanch_id;
            
            $new_deducted = $deducted + $sum_total_loanFee;
+    //         if($new_code != $code){
+		 	// $this->session->set_flashdata('error','Loan Code is Invalid Please Try Again');	
+		  //     }else
 
-             if($new_code != $code){
-		 	$this->session->set_flashdata('error','Loan Code is Invalid Please Try Again');	
-		      }elseif ($blanch_capital < $withdrow_newbalance) {
+            if($blanch_capital < $withdrow_newbalance) {
 		      	$this->session->set_flashdata('error','Branch Account balance Is Not Enough to withdraw');
 		      	}elseif($input_balance <= $balance){
 		      //$day_loandata = $this->queries->get_loan_day($loan_id);
@@ -5700,44 +5702,112 @@ public function expnses_requisition_form(){
     $this->load->view('admin/expenses_requisition',['expns'=>$expns,'blanch'=>$blanch]);
 }
 
+public function get_remove_expenses($req_id){
+    $this->load->model('queries');
+    $data_req = $this->queries->get_request_expenses($req_id);
+    $type = $data_req->deduct_type;
+    $blanch_id = $data_req->blanch_id;
+    $req_amount = $data_req->req_amount;
+    // print_r($req_amount);
+    //         exit();
+
+        $deducted_income = $this->queries->get_deducted_income_blanch($blanch_id);
+        $deducted = $deducted_income->total_deducted;
+    
+        $expenses_deducted = $deducted + $req_amount;
+
+        $non_deductedIncome = $this->queries->get_non_deducted_income_blanch($blanch_id);
+        $non_income = $non_deductedIncome->total_nonbalance;
+
+        $expenses_non = $non_income + $req_amount;
+
+    
+    if ($type == 'deducted') {
+      $this->update_expenses_income_deducted($blanch_id,$expenses_deducted);
+      $this->delete_request_data($req_id);
+      $this->session->set_flashdata("massage",'Expenses Deleted Successfully');
+    }elseif ($type == 'non deducted') {
+    $this->update_income_nonbalance($blanch_id,$expenses_non);
+    $this->delete_request_data($req_id);
+    $this->session->set_flashdata("massage",'Expenses Deleted Successfully');
+    }
+    
+    return redirect("admin/get_recomended_request");
+}
+
+public function delete_request_data($req_id){
+ return $this->db->delete('tbl_request_exp',['req_id'=>$req_id]);
+}
+
 
 
 public function create_requstion_form(){
-	$this->load->model('queries');
-	$this->form_validation->set_rules('blanch_id','Blanch','required');
-	$this->form_validation->set_rules('ex_id','Expenses','required');
-	$this->form_validation->set_rules('req_amount','Request Amount','required');
-	$this->form_validation->set_rules('trans_id','Account','required');
-	$this->form_validation->set_rules('req_description','description','required');
-	$this->form_validation->set_rules('comp_id','Company','required');
-	$this->form_validation->set_error_delimiters('<div class="text-danger">','</div>');
+    $this->load->model('queries');
+    $this->form_validation->set_rules('comp_id','company','required');
+    $this->form_validation->set_rules('blanch_id','blanch','required');
+    $this->form_validation->set_rules('req_description','description','required');
+    $this->form_validation->set_rules('req_amount','Amount','required');
+    //$this->form_validation->set_rules('empl_id','Employee','required');
+    $this->form_validation->set_rules('req_date','req_date','required');
+    $this->form_validation->set_rules('deduct_type','type','required');
+    $this->form_validation->set_error_delimiters('<div class="text-danger">','</div>');
 
-	if ($this->form_validation->run()) {
-		$data = $this->input->post();
+    if ($this->form_validation->run()) {
+        $data = $this->input->post();
+        //    echo "<pre>";
+        // print_r($data);
+        //     exit();
+        $comp_id = $data['comp_id'];
+        $blanch_id = $data['blanch_id'];
+        $deduct_type = $data['deduct_type'];
+        $req_amount = $data['req_amount'];
+        
+        $deducted_income = $this->queries->get_deducted_income_blanch($blanch_id);
+        $deducted = $deducted_income->total_deducted;
+    
+        $expenses_deducted = $deducted - $req_amount;
 
-		$blanch_id = $data['blanch_id'];
-		$ex_id = $data['ex_id'];
-		$req_amount = $data['req_amount'];
-		$trans_id = $data['trans_id'];
-		$req_description = $data['req_description'];
-		$comp_id = $data['comp_id'];
+        $non_deductedIncome = $this->queries->get_non_deducted_income_blanch($blanch_id);
+        $non_income = $non_deductedIncome->total_nonbalance;
 
-		$blanch_account = $this->queries->get_blanch_balance_expenses($blanch_id,$trans_id);
-		$balance_blanch = $blanch_account->blanch_capital;
-		$remain_blanch_remain = $balance_blanch - $req_amount; 
-		if ($req_amount > $balance_blanch) {
-       $this->session->set_flashdata("error",'Blanch Account Blance is Not Enough');
-       return redirect("admin/expnses_requisition_form");
-		}else{
-		$this->insert_expenses_request($comp_id,$blanch_id,$ex_id,$req_description,$req_amount,$trans_id);
-		$this->update_blanch_account_balance($comp_id,$blanch_id,$trans_id,$remain_blanch_remain);
-       $this->session->set_flashdata("massage",'Successfully');
-       
-			}
-		return redirect("admin/expnses_requisition_form");
-	}
-	$this->expnses_requisition_form();
-  }
+        $expenses_non = $non_income - $req_amount;
+
+        if ($deduct_type == 'deducted') {
+           if ($deducted < $req_amount) {
+            $this->session->set_flashdata("error",'You don`t Have Enough Balance');
+            return redirect('admin/expnses_requisition_form');
+           }else{
+            $this->update_expenses_income_deducted($blanch_id,$expenses_deducted);
+            $this->queries->insert_reques_expenses($data);
+            $this->session->set_flashdata("massage",'Expenses Request Successfully');
+           }
+
+        }elseif ($deduct_type == 'non deducted') {
+            if ($non_income < $req_amount) {
+             $this->session->set_flashdata("error",'You don`t Have Enough Balance');
+            return redirect('admin/expnses_requisition_form'); 
+            }else{
+                $this->update_income_nonbalance($blanch_id,$expenses_non);
+                $this->queries->insert_reques_expenses($data);
+                $this->session->set_flashdata("massage",'Expenses Request Successfully');
+            }
+        }
+        return redirect("admin/expnses_requisition_form");
+    }
+    $this->expnses_requisition_form();
+}
+
+public function update_expenses_income_deducted($blanch_id,$expenses_deducted){
+    $sqldata="UPDATE `tbl_receive_deducted` SET `deducted`= '$expenses_deducted' WHERE `blanch_id`= '$blanch_id'";
+      $query = $this->db->query($sqldata);
+      return true;
+}
+
+public function update_income_nonbalance($blanch_id,$expenses_non){
+   $sqldata="UPDATE `tbl_receive_non_deducted` SET `non_balance`= '$expenses_non' WHERE `blanch_id`= '$blanch_id'";
+      $query = $this->db->query($sqldata);
+      return true; 
+}
 
 
   function fetch_account_blanch()

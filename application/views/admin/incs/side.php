@@ -12,8 +12,8 @@
                         <li><a href="javascript:void(0);"><i class="icon-power"></i>Logout</a></li>
                     </ul>
                 </div>
-                <hr>
-                <ul class="row list-unstyled">
+                <!-- <hr> -->
+               <!--  <ul class="row list-unstyled">
                     <li class="col-4">
                         <small>Employee</small>
                         <h6>14</h6>
@@ -26,7 +26,7 @@
                         <small>Admin</small>
                         <h6>213</h6>
                     </li>
-                </ul>
+                </ul> -->
             </div>
             <!-- Nav tabs -->
             <ul class="nav nav-tabs">

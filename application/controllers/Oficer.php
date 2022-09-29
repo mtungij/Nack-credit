@@ -16,8 +16,6 @@ class Oficer extends CI_Controller {
 	$this->load->view('oficer/index',['manager_data'=>$manager_data]);
 	}
 
-  // public
-
 
 	 public function income_dashboard(){
         $this->load->model('queries');
@@ -3286,7 +3284,7 @@ public function delete_request_data($req_id){
 
 
 public function create_requstion_form(){
-     $this->load->model('queries');
+    $this->load->model('queries');
     $this->form_validation->set_rules('comp_id','company','required');
     $this->form_validation->set_rules('blanch_id','blanch','required');
     $this->form_validation->set_rules('req_description','description','required');

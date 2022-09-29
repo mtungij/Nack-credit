@@ -23,6 +23,15 @@
                             </div> 
                         </div> 
                     <?php endif; ?>
+
+                    <?php if ($das = $this->session->flashdata('error')): ?> 
+                    <div class="row"> 
+                        <div class="col-md-12"> 
+                            <div class="alert alert-dismisible alert-danger"> <a href="" class="close">&times;</a> 
+                                    <?php echo $das;?> </div> 
+                            </div> 
+                        </div> 
+                    <?php endif; ?>
             <div class="row clearfix">
                 <div class="col-md-12">
                     <div class="card">
@@ -63,9 +72,11 @@
     </div>
         <div class="col-lg-3">
     <div class="form-group">
-      <label class="control-label">Select Account:</label>
-        <select type="number" name="trans_id" id="account"  class="form-control" required>
-         <option type="">Select Account</option>
+      <label>Income Type:</label>
+        <select type="text" name="deduct_type"  class="form-control" required>
+         <option type="">Select Income Type</option>
+          <option value="deducted">Deducted Income</option>
+          <option value="non deducted">Non-Deducted Income</option>
         </select>
     </div>
     </div>

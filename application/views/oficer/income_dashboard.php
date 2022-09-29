@@ -9,7 +9,7 @@
                     <div class="col-lg-6 col-md-8 col-sm-12">
                         <ul class="breadcrumb">
                             <li class="breadcrumb-item"><a href="<?php echo base_url("oficer/index"); ?>"><i class="icon-home"></i></a></li>                            
-                            <li class="breadcrumb-item active">Non Deducted Income</li>
+                            <li class="breadcrumb-item active"><?php echo $this->lang->line("income_non_menu"); ?></li>
                         </ul>
                     </div>            
                  
@@ -27,7 +27,7 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="header">
-                            <h2>Non Deducted Income Form</h2>
+                            <h2><?php echo $this->lang->line("form_income_menu"); ?></h2>
                         </div>
                         <div class="body">
                             <?php echo form_open("oficer/create_income_detail"); ?>
@@ -36,9 +36,9 @@
                                 
                 
                 <div class="col-lg-6 col-6">
-                    <label class="form-control-label">*Customer:</label>
+                    <label class="form-control-label">*<?php echo $this->lang->line("customer_menu"); ?>:</label>
                 <select class="form-control select2" name="customer_id" id="customer">
-                        <option value="">Select customer</option>
+                        <option value=""><?php echo $this->lang->line("selectcustomer_menu"); ?></option>
                         <?php foreach ($customer as $customers): ?>
                         <option value="<?php echo $customers->customer_id; ?>"><?php echo $customers->f_name; ?> <?php echo $customers->m_name; ?> <?php echo $customers->l_name; ?></option>
                         <?php endforeach; ?>
@@ -46,16 +46,16 @@
                 </div>
 
                 <div class="col-lg-6 col-6">
-                    <label class="form-control-label">*Active Loan:</label>
+                    <label class="form-control-label">*<?php echo $this->lang->line("activeLoan_menu"); ?>:</label>
                 <select class="form-control select2" name="loan_id" id="loan" required>
-                <option value="">Select Active Loan </option>
+                <option value=""><?php echo $this->lang->line("selectactiveLoan_menu"); ?> </option>
                     </select>
                  </div>
 
                  <div class="col-lg-6 col-6">
-                    <label class="form-control-label">*Income Type:</label>
+                    <label class="form-control-label">*<?php echo $this->lang->line("incometype_menu"); ?>:</label>
                 <select class="form-control kt-selectpicker" name="inc_id" required data-live-search="true">
-                <option value="">Select Income type</option>
+                <option value=""><?php echo $this->lang->line("selectincometype_menu"); ?></option>
                     <?php foreach ($income as $incomes): ?>
                    <option value="<?php echo $incomes->inc_id; ?>"><?php echo $incomes->inc_name; ?></option>
                     <?php endforeach; ?>
@@ -66,7 +66,7 @@
 
 
                 <div class="col-lg-6 col-6">
-                <label class="form-control-label">*Income Amount</label>
+                <label class="form-control-label">*<?php echo $this->lang->line("incomeAmount_menu"); ?></label>
             <input type="number" name="receve_amount" autocomplete="off" class="form-control">
                                 </div>
                 <input type="hidden" name="comp_id" value="<?php echo $empl_data->comp_id; ?>">
@@ -79,7 +79,7 @@
                                 </div>
                                  <br>
                                 <div class="text-center">
-                                <button type="submit" class="btn btn-primary"><i class="icon-drawer">Save</i></button>
+                                <button type="submit" class="btn btn-primary"><i class="icon-drawer"><?php echo $this->lang->line("save_menu"); ?></i></button>
                                 </div>
                             
                             <?php echo form_close();  ?>
@@ -91,10 +91,10 @@
                 <div class="col-lg-12">
                     <div class="card">
                          <div class="header">
-                            <h2>Today Non-Deducted Income </h2> 
+                            <h2><?php echo $this->lang->line("income_non_menu"); ?> </h2> 
                             <div class="pull-right">
                               <a href="" class="btn btn-sm btn-icon btn-pure btn-primary on-default m-r-5 button-edit"
-                                            data-toggle="modal" data-target="#addcontact1" data-original-title="Edit"><i class="icon-calendar"></i>Filter</a> 
+                                            data-toggle="modal" data-target="#addcontact1" data-original-title="Edit"><i class="icon-calendar"></i><?php echo $this->lang->line("search_menu"); ?></a> 
                             </div>   
                              </div>
                           <div class="body">
@@ -102,9 +102,9 @@
                                 <table class="table table-hover js-basic-example dataTable table-custom">
                                     <thead class="thead-primary">
                                         <tr>
-                                                <th>Customer Name</th>
-                                                <th>Loan Aproved</th>
-                                                <th>Incomes Type</th>
+                                                <th><?php echo $this->lang->line("customername_menu"); ?></th>
+                                                <th><?php echo $this->lang->line("loanAprove_menu"); ?></th>
+                                                <th><?php echo $this->lang->line("incometype_menu"); ?></th>
                                                 <th>Income Amount</th>
                                                 <th>User Employee</th>
                                                 <th>Date</th>
