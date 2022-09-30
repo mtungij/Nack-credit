@@ -135,7 +135,7 @@
                                             <?php if ($loan_fee_category->fee_category == 'GENERAL') {
                                              ?>
                                             <option value="YES">YES</option>
-                                            <option value="NO">NO</option>
+                                            <!-- <option value="NO">NO</option> -->
                                         <?php }elseif ($loan_fee_category->fee_category == 'LOAN PRODUCT') {
                                          ?>
                                          <option value="NO">YES</option>
@@ -258,7 +258,7 @@
                                             <?php if ($loan_fee_category->fee_category == 'GENERAL') {
                                              ?>
                                             <option value="YES">YES</option>
-                                            <option value="NO">NO</option>
+                                            <!-- <option value="NO">NO</option> -->
                                         <?php }elseif ($loan_fee_category->fee_category == 'LOAN PRODUCT') {
                                          ?>
                                          <option value="NO">YES</option>
@@ -405,7 +405,7 @@
                                             <?php if ($loan_fee_category->fee_category == 'GENERAL') {
                                              ?>
                                             <option value="YES">YES</option>
-                                            <option value="NO">NO</option>
+                                            <!-- <option value="NO">NO</option> -->
                                         <?php }elseif ($loan_fee_category->fee_category == 'LOAN PRODUCT') {
                                          ?>
                                          <option value="NO">YES</option>
@@ -554,7 +554,7 @@
                                             <?php if ($loan_fee_category->fee_category == 'GENERAL') {
                                              ?>
                                             <option value="YES">YES</option>
-                                            <option value="NO">NO</option>
+                                           <!--  <option value="NO">NO</option> -->
                                         <?php }elseif ($loan_fee_category->fee_category == 'LOAN PRODUCT') {
                                          ?>
                                          <option value="NO">YES</option>

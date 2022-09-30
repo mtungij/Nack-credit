@@ -3239,8 +3239,8 @@ public function get_totalLoanDoneGroup($group_id){
  	$loan_data = $this->db->query("SELECT pn.penart_paid,SUM(d.depost) AS total_depost,c.f_name,c.m_name,c.l_name,b.blanch_name,l.loan_id,l.loan_int,l.restration,l.loan_status,ot.loan_end_date,ot.loan_stat_date,e.username,l.day  FROM tbl_loans l 
 	 LEFT JOIN tbl_pay_penart pn ON pn.loan_id = l.loan_id  
 	 LEFT JOIN tbl_depost d ON d.loan_id = l.loan_id 
-	 JOIN tbl_customer c ON c.customer_id = l.customer_id 
-	 JOIN tbl_blanch b ON b.blanch_id = l.blanch_id 
+	 LEFT JOIN tbl_customer c ON c.customer_id = l.customer_id 
+	 LEFT JOIN tbl_blanch b ON b.blanch_id = l.blanch_id 
 	 LEFT JOIN tbl_employee e ON e.empl_id = l.empl_id 
 	 LEFT JOIN tbl_outstand ot ON ot.loan_id = l.loan_id  
 	 WHERE  l.blanch_id = '$blanch_id'  GROUP BY l.loan_id ORDER BY l.loan_id DESC");

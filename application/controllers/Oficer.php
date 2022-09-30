@@ -1294,26 +1294,28 @@ public function modify_sponser($sp_id,$customer_id){
       $interest = $interest_loan;
       $end_date = $day * $session;
       if($loan_data_interst->rate == 'FLAT RATE') {
-      $now = date("Y-m-d");
-      $someDate = DateTime::createFromFormat("Y-m-d",$now);
-      $someDate->add(new DateInterval('P'.$end_date.'D'));
-      $return_data = $someDate->format("Y-m-d");
+      // $now = date("Y-m-d");
+      // $someDate = DateTime::createFromFormat("Y-m-d",$now);
+      // $someDate->add(new DateInterval('P'.$end_date.'D'));
+      // $return_data = $someDate->format("Y-m-d");
 
-      $date1 = $now;
-      $date2 = $return_data;
+      // $date1 = $now;
+      // $date2 = $return_data;
 
-      $ts1 = strtotime($date1);
-      $ts2 = strtotime($date2);
+      // $ts1 = strtotime($date1);
+      // $ts2 = strtotime($date2);
 
-      $year1 = date('Y', $ts1);
-      $year2 = date('Y', $ts2);
+      // $year1 = date('Y', $ts1);
+      // $year2 = date('Y', $ts2);
 
-      $month1 = date('m', $ts1);
-      $month2 = date('m', $ts2);
+      // $month1 = date('m', $ts1);
+      // $month2 = date('m', $ts2);
 
-      $diff = (($year2 - $year1) * 12) + ($month2 - $month1);
+      // $diff = (($year2 - $year1) * 12) + ($month2 - $month1);
+        $day_data = $end_date;
+        $months = floor($day_data / 30);
        
-      $loan_interest = $interest /100 * $balance * $diff;
+      $loan_interest = $interest /100 * $balance * $months;
       $total_loan = $balance + $loan_interest;
 
       }elseif($loan_data_interst->rate == 'SIMPLE'){
@@ -1461,28 +1463,31 @@ public function modify_sponser($sp_id,$customer_id){
         $day = $loan_data->day;
         $end_date = $day * $session_loan;
       if ($loan_data->rate == 'FLAT RATE') {
-      $now = date("Y-m-d");
-      $someDate = DateTime::createFromFormat("Y-m-d",$now);
-      $someDate->add(new DateInterval('P'.$end_date.'D'));
-      $return_data = $someDate->format("Y-m-d");
+      // $now = date("Y-m-d");
+      // $someDate = DateTime::createFromFormat("Y-m-d",$now);
+      // $someDate->add(new DateInterval('P'.$end_date.'D'));
+      // $return_data = $someDate->format("Y-m-d");
 
 
-      $date1 = $now;
-      $date2 = $return_data;
+      // $date1 = $now;
+      // $date2 = $return_data;
 
-      $ts1 = strtotime($date1);
-      $ts2 = strtotime($date2);
+      // $ts1 = strtotime($date1);
+      // $ts2 = strtotime($date2);
 
-      $year1 = date('Y', $ts1);
-      $year2 = date('Y', $ts2);
+      // $year1 = date('Y', $ts1);
+      // $year2 = date('Y', $ts2);
 
-      $month1 = date('m', $ts1);
-      $month2 = date('m', $ts2);
+      // $month1 = date('m', $ts1);
+      // $month2 = date('m', $ts2);
 
-      $diff = (($year2 - $year1) * 12) + ($month2 - $month1);
+      // $diff = (($year2 - $year1) * 12) + ($month2 - $month1);
+
+      $day_data = $end_date;
+      $months = floor($day_data / 30);
            
       $interest = $interest_loan;
-      $loan_interest = $interest /100 * $loan_aproved * $diff;
+      $loan_interest = $interest /100 * $loan_aproved * $months;
 
       $total_loan = $loan_aproved + $loan_interest; 
 
@@ -1560,7 +1565,7 @@ public function modify_sponser($sp_id,$customer_id){
              $sms_number = 1;
              $this->insert_count_sms($comp_id,$sms_number);
              }
-                $this->sendsms($phone,$massage);
+                //$this->sendsms($phone,$massage);
                 $this->session->set_flashdata('massage','Loan disbarsed successfully');
             }else{
                 $this->session->set_flashdata('error','Data failed!!');
@@ -1833,7 +1838,7 @@ public function create_withdrow_balance($customer_id){
              $sms_number = 1;
              $this->insert_count_sms($comp_id,$sms_number);
              }
-                 $this->sendsms($phone,$massage);
+                 //$this->sendsms($phone,$massage);
               }elseif ($company_data->sms_status == 'NO'){
                  //echo "hakuna kitu";
               }
