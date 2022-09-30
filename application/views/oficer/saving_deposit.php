@@ -2,23 +2,21 @@
 <?php include('incs/nav.php'); ?>
 <?php include('incs/side.php'); ?>
 
-    <div id="main-content" class="profilepage_2 blog-page">
+    <div id="main-content">
         <div class="container-fluid">
             <div class="block-header">
                 <div class="row">
                     <div class="col-lg-6 col-md-8 col-sm-12">
                         <ul class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="<?php echo base_url("oficer/index"); ?>"><i class="icon-home"></i></a></li>
-                            
-                            <li class="breadcrumb-item active">Teller</li>
-                            <li class="breadcrumb-item active">Customer Loan Information</li>
+                            <li class="breadcrumb-item"><a href="<?php echo base_url("admin/index"); ?>"><i class="icon-home"></i></a></li>                            
+                            <li class="breadcrumb-item active">Report</li>
+                            <li class="breadcrumb-item active">Saving Deposit</li>
                         </ul>
                     </div>            
                  
                 </div>
             </div>
-
-            <?php if ($das = $this->session->flashdata('massage')): ?> 
+                  <?php if ($das = $this->session->flashdata('massage')): ?> 
                     <div class="row"> 
                         <div class="col-md-12"> 
                             <div class="alert alert-dismisible alert-success"> <a href="" class="close">&times;</a> 
@@ -26,7 +24,7 @@
                             </div> 
                         </div> 
                     <?php endif; ?>
-                     <?php if ($das = $this->session->flashdata('error')): ?> 
+                    <?php if ($das = $this->session->flashdata('error')): ?> 
                     <div class="row"> 
                         <div class="col-md-12"> 
                             <div class="alert alert-dismisible alert-danger"> <a href="" class="close">&times;</a> 
@@ -34,482 +32,262 @@
                             </div> 
                         </div> 
                     <?php endif; ?>
-
             <div class="row clearfix">
-                <div class="col-lg-12 col-md-12">
-
+                <div class="col-md-12">
                     <div class="card">
-                        <div class="row profile_state">
-                            <div class="col-lg-6 col-6">
-                                <div class="body">
-                                   <!--  <i class="fa fa-thumbs-up"></i> -->
-                                     <div class="profile-image"> <img src="<?php echo base_url().'assets/img/male.jpeg'; ?>" class="rounded-circle" alt="customer image" style="width: 135px;height: 135px;">
-                                      </div>
-                                    <small><?php echo @$customer->f_name; ?> <?php echo @$customer->m_name; ?> <?php echo @$customer->l_name; ?></small>
+                        <div class="header">
+                            <h2>Saving Deposit Form</h2>
+                        </div>
+                        <div class="body">
+                            <?php echo form_open("oficer/create_saving_deposit"); ?>
+                        <div class="row">
+
+                <div class="col-lg-4 col-6">
+                    <span>*Provider:</span>
+                <select class="form-control" name="provider"  required>
+                <option value="">Select Provider </option>
+                <?php foreach ($acount as $accounts): ?>
+                <option value="<?php echo $accounts->receive_trans_id; ?>"><?php echo $accounts->account_name; ?> </option>
+                <?php endforeach; ?>
+                    </select>
+                 </div>
+
+                 <div class="col-lg-4 col-6">
+                    <span>*Agent Name:</span>
+                <input type="text" name="agent" autocomplete="off" class="form-control" placeholder="Enter Agent Name" required>
+                 </div>
+
+
+                <div class="col-lg-4 col-6">
+                <span>*Amount</span>
+            <input type="number" name="amount" autocomplete="off" class="form-control" placeholder="Enter Amount" required>
+                </div>
+                <div class="col-lg-6 col-6">
+                <span>*Reference Number</span>
+            <input type="text" name="ref_no" autocomplete="off" placeholder="Enter Reference Number" class="form-control" required>
+                </div>
+                    <div class="col-lg-6 col-6">
+                <span>*Time</span>
+            <input type="time" name="time" autocomplete="off" placeholder="Enter Reference Number" class="form-control" required>
+                </div>
+                <div class="col-lg-12 col-12">
+                <span>*Description</span>
+            <textarea type="text" name="description" rows="3" autocomplete="off" placeholder="Enter Description" class="form-control" required></textarea>
+                </div>
+                <input type="hidden" name="comp_id" value="<?php echo $empl_data->comp_id; ?>">
+                <!-- <input type="hidden" name="" value="<?php //echo $empl_data->empl_id; ?>"> -->
+                <input type="hidden" name="blanch_id" value="<?php echo $empl_data->blanch_id; ?>">
+            <!-- <input type="hidden" name="empl" value=""> -->
+                <?php $day = date("Y-m-d"); ?>
+            <input type="hidden" name="date" value="<?php echo $day;?>">
+                                
                                 </div>
-                            </div>
-                            <div class="col-lg-6 col-6">
-                                <div class="body">
-                                    <!-- <i class="fa fa-star"></i> -->
-                                   <div class="profile-image"> <img src="<?php echo base_url().'assets/img/sig.jpg'; ?>" class="rounded-circle" alt="Gualantors image" style="width: 135px;height: 135px;">
-                                      </div>
-                                    <small>Signature</small>
+                                 <br>
+                                <div class="text-center">
+                                <button type="submit" class="btn btn-primary"><i class="icon-drawer">Save</i></button>
                                 </div>
-                            </div>
-                           
                             
+                            <?php echo form_close();  ?>
                         </div>
                     </div>
                 </div>
+            
 
-                <style>
-                    .sam{
-                        display: flex;
-                    }
-                </style>  
+
+                 
+
+
                 <div class="col-lg-12">
                     <div class="card">
-                         <div class="text-center">
-                                        <img id="loaderIcon" style="visibility:hidden; display:none;width: 60px; height: 60px;"
-                                    src="https://c.tenor.com/I6kN-6X7nhAAAAAj/loading-buffering.gif" alt="Please wait" />
-                                </div>
-                          <div class="body">
-                     <?php echo form_open("oficer/search_customerData",['id'=>'login_form']); ?>
-                            <div class="sam">
-                                <select type="number" class="form-control select2" name="customer_id" required>
-                                    <option>Search Customer</option>
-                                    <?php foreach ($customery as $customer_datas): ?>
-                                    <option value="<?php echo $customer_datas->customer_id; ?>"><?php echo $customer_datas->f_name; ?> <?php echo $customer_datas->m_name; ?> <?php echo $customer_datas->l_name; ?> / <?php echo $customer_datas->customer_code; ?> </option>
-                                    <?php endforeach; ?>
-                                </select>
-                                <button type="submit" class="btn btn-primary"><i class="icon-magnifier-add">Search</i></button>
-                                
-                            </div>
-                            <?php echo form_close(); ?>
-                            
-                            <div class="table-responsive">
-                                <table class="table table-hover j-basic-example dataTable table-custom">
-                                    <thead class="thead-primary">
-                                        <tr>
-                                        <th>Phone Number</th>
-                                        <th>Withdrawal Date</th>
-                                        <th>End Date</th>
-                                        <th>Loan Amount</th>
-                                        <th>Restoration</th>
-                                        <th>Amount Paid</th>
-                                        <th>Remaining debt</th>
-                                        </tr>
-                                    </thead>
-                                   
-                                    <tbody>
-                                
-                                      <?php @$customer_loan = $this->queries->get_loan_active_customer($customer->customer_id);
-                                         @$total_deposit = $this->queries->get_total_amount_paid_loan($customer_loan->loan_id);
-
-                                         @$out_stand = $this->queries->get_outstand_loan_customer($customer_loan->loan_id);
-                                       ?>
-
-
-
-                                   <?php //print_r($out_stand); ?>
-                                        <tr>
-                                            <td><?php echo @$customer->phone_no; ?></td>
-                                            <td>
-                                            <?php if (@$customer_loan->loan_stat_date == TRUE) {
-                                                 ?>
-                                                <?php echo @$customer_loan->loan_stat_date; ?>
-                                            <?php }elseif (@$customer_loan->loan_stat_date == FALSE) {
-                                             ?>
-                                             YY-MM-DD
-                                             <?php } ?>
-                                                    
-                                                </td>
-                                            <td>
-                                            <?php if (@$customer_loan->loan_end_date == TRUE) {
-                                                 ?>
-                                                 <?php echo substr(@$customer_loan->loan_end_date, 0,10); ?>
-                                            <?php }elseif (@$customer_loan->loan_end_date == FALSE) {
-                                             ?>
-                                             YY-MM-DD
-                                             <?php } ?>
-                                                </td>
-                                            <td><?php echo number_format(@$customer_loan->loan_int); ?></td>
-                                            <td><?php echo number_format(@$customer_loan->restration); ?></td>
-                                            <td>
-                                        <?php if (@$total_deposit->total_Deposit > @$customer_loan->loan_int) {
-                                                 ?>
-                                        <?php echo number_format(@$customer_loan->loan_int); ?>
-                                         <span style="color: red">(<?php echo number_format(@$total_deposit->total_Deposit - @$customer_loan->loan_int); ?>)<span>
-                                             <?php }else{ ?>
-                                                <?php echo number_format(@$total_deposit->total_Deposit); ?>
-                                                <?php } ?>   
-                                                </td>
-                                            <td>
-                                                <?php if (@$total_deposit->total_Deposit > @$customer_loan->loan_int) {
-                                                 ?>
-                                                 0.00
-                                                 <?php }else{ ?>
-                                                <?php echo number_format(@$customer_loan->loan_int - @$total_deposit->total_Deposit ); ?>
-                                                <?php } ?>
-                                                    
-                                                </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-
-
-                <div class="col-lg-6">
-                    <div class="card">
-                          <div class="body">
-                            <div class="table-responsive">
-                                <table class="table table-hover j-basic-example dataTable table-custom">
-                                    <thead class="thead-primary">
-                                        <tr>
-                                       <th>Opening</th>
-                                        <th>Deposit</th>
-                                        <th>Withdrawal</th>
-                                        <th>Closing</th>
-                                        </tr>
-                                    </thead>
-                                   
-                                    <tbody>
-                                
-                                      
-                                        <tr>
-                                            <td><?php //echo $customer->phone_no; ?></td>
-                                            <td><?php //echo $customer->phone_no; ?></td>
-                                            <td><?php //echo $customer->empl_name; ?></td>
-                                            <td><?php //echo $customer->blanch_name; ?></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-
-
-
-                  <div class="col-lg-12">
-                    <div class="card">
-                          <div class="body">
-                             <div class="pull-right">
-                                <?php if (@$customer_loan->loan_status == 'withdrawal' || @$customer_loan->loan_status == 'out') {
-                                 ?>
-                             <a href="" class="btn btn-primary" data-toggle="modal" data-target="#addcontact1"><i class="icon-pencil">Deposit</i></a>
-                         <?php }elseif (@$customer_loan->loan_status == 'disbarsed') {
-                          ?>
-                             <a href="" class="btn btn-success" data-toggle="modal" data-target="#addcontact2"><i class="icon-pencil">Withdrawal</i></a> 
-                             <?php }else{ ?>
-                             <?php } ?>   
-                            <!--  <a href="" class="btn btn-info" data-toggle="modal" data-target="#addcontact3"><i class="icon-pencil">Adjust</i></a> -->    
+                         <div class="header">
+                            <h2>Saving Deposit List</h2> 
+                            <div class="pull-right">
+                             <!--  <a href="" class="btn btn-sm btn-icon btn-pure btn-primary on-default m-r-5 button-edit"
+                                            data-toggle="modal" data-target="#addcontact1" data-original-title="Edit"><i class="icon-calendar"></i>Filter</a>  -->
+                            </div>   
                              </div>
+                          <div class="body">
                             <div class="table-responsive">
-                                <table class="table table-hover j-basic-example dataTable table-custom">
+                                <table class="table table-hover js-basic-example dataTable table-custom">
                                     <thead class="thead-primary">
                                         <tr>
-                                        <th>Date</th>
-                                        <th>Description</th>
-                                        <th>Deposit</th>
-                                        <th>Withdrawal</th>
-                                        <th>Balance</th> 
+                                                <th>Provider</th>
+                                                <th>Agent</th>
+                                                <th>Amount </th>
+                                                <th>Reference Number</th>
+                                                <th>Time</th>
+                                                <th>Status</th>
+                                                <th>Date</th>
+                                                <th>Action</th>
                                         </tr>
                                     </thead>
-                                   
                                     <tbody>
-                                
-                                      <?php @$loan_desc = $this->queries->get_total_pay_description($customer_loan->loan_id);
-                                      @$remain_balance = $this->queries->get_total_remain_with($customer_loan->loan_id);
-                                      @$total_recovery = $this->queries->get_total_loan_pend($customer_loan->loan_id);
-                                      @$total_penart =   $this->queries->get_total_penart_loan($customer_loan->loan_id);
-                                      @$total_deposit_penart =  $this->queries->get_total_paypenart($customer_loan->loan_id);
-                                      @$end_deposit = $this->queries->get_end_deposit_time($customer_loan->loan_id);
-                                       ?>
-
-                                    <?php //print_r($end_deposit); ?>
-
-                                           <?php foreach ($loan_desc as $payisnulls): ?>
-                                            <tr>
-                                              <td class="c"><?php echo $payisnulls->date_data; ?></td>
-                                              <td class="c">  <?php echo $payisnulls->emply; ?>
-                                              <?php if ($payisnulls->emply == TRUE) {   
-                                               ?>
-                                               /
-                                           <?php }else{ ?>
-                                            <?php } ?>
-                                               <?php echo $payisnulls->description; ?>
-                                               <?php if($payisnulls->p_method == TRUE){ ?>
-                                                /<?php echo $payisnulls->account_name; ?>
-                                                <?php }else{ ?> 
-                                                     
-                                                    <?php } ?>
-                                               <?php if ($payisnulls->fee_id == TRUE || $payisnulls->fee_id == '0' ) {
-                                              ?>
-                                              / <?php echo $payisnulls->fee_desc; ?> <?php echo $payisnulls->fee_percentage; ?> <?php echo $payisnulls->symbol; ?>
-                                          <?php }else{ ?>
-                                            <?php } ?>
-                                            <?php if($payisnulls->p_method == FALSE){ ?>
-                                            <?php }else{ ?>
-                                               / 
-                                               <?php } ?>
-                                               <?php //echo @$payisnulls->description; ?>  <?php echo @$payisnulls->loan_name ; ?>
-                                         <?php if(@$payisnulls->day == 1){
-                                           echo "Daily";
-                                    }elseif(@$payisnulls->day == 7){
-                                         echo "Weekly";
-                                    }elseif (@$payisnulls->day == 30 || @$payisnulls->day == 31 || @$payisnulls->day == 28 || @$payisnulls->day == 29) {
-                                        echo "Monthly";
-                                     ?> 
-                                    <?php } ?><?php echo $payisnulls->session; ?>  / AC/No. <?php echo @$payisnulls->loan_code; ?></td>
-                                              <td>
-                                                <?php if($payisnulls->depost == TRUE){ ?>
-                                                <?php echo round(@$payisnulls->depost,2); ?>
-                                            <?php }elseif($payisnulls->depost == FALSE){ ?>
-                                            0.00
-                                                <?php } ?>
+                                        <?php foreach ($saving_deposit as $saving_deposits): ?>
+                                        <tr>
+                                            <td><?php echo $saving_deposits->account_name; ?></td>
+                                            <td><?php echo $saving_deposits->agent; ?></td>
+                                            <td><?php echo number_format($saving_deposits->amount); ?></td>
+                                            <td><?php echo $saving_deposits->ref_no; ?></td>
+                                            <td><?php echo $saving_deposits->time; ?></td>
+                                            <td>
+                                               <?php if ($saving_deposits->status == 'open') {
+                                         ?>
+                                         <a href="javascript:;" class="badge badge-danger">Not Checked</a>
+                                        <?php }elseif ($saving_deposits->status == 'close') {
+                                         ?>
+                                     <a href="javascript:;" class="badge badge-success">Checked</a>
+                                         <?php } ?>
+                                        <?php //echo $miamalas->status; ?>
+                                                    
+                                                </td>
+                                            <td><?php echo $saving_deposits->date; ?></td>
+                                            <td>
+                                         <?php if ($saving_deposits->status == 'open') {
+                                         ?>
+                                    <a href="<?php echo base_url("oficer/check_miamala/{$saving_deposits->id}"); ?>" class="btn btn-primary btn-sm" onclick="return confirm('Are You sure?')"><i class="icon-pencil"></i></a>
+                                    <?php }elseif ($saving_deposits->status == 'close') {
+                                     ?>
+                                    <a href="<?php echo base_url("oficer/uncheck_miamala/{$saving_deposits->id}"); ?>" class="btn btn-success btn-sm" onclick="return confirm('Are You Sure?')"><i class="icon-pencil"></i></a>
+                                    <?php } ?>
                                             </td>
-                                              <td>
-                                                <?php if (@$payisnulls->withdrow == TRUE) {
-                                                 ?>
-                                                <?php echo round(@$payisnulls->withdrow,2); ?>
-                                                <?php }elseif (@$payisnulls->withdrow == FALSE) {
-                                                 ?>
-                                                 0.00
-                                            <?php } ?>
-                                            </td>
-                                              <td>
-                                                <?php if (@$payisnulls->balance == TRUE) {
-                                                 ?>
-                                                <?php echo round(@$payisnulls->balance,2); ?>
-                                                <?php }elseif (@$payisnulls->balance == FALSE) {
-                                                 ?>
-                                                 0.00
-                                                 <?php } ?>
-                                            </td>
-                                              </tr>
+                                        </tr>
                                         <?php endforeach; ?>
-
                                     </tbody>
+                                    <tr>
+                                        <td><b>TOTAL:</b></td>
+                                        <td></td>
+                                        <td><b><?php echo number_format($total_saving->total_amount_saving); ?></b></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
                                 </table>
                             </div>
                         </div>
 
                     </div>
-                </div>
-
-                
-
                 </div> 
-              </div>
+
+
+             
             </div>
-   
-
-
+        </div>
+    </div>
+</div>
 
 <?php include('incs/footer.php'); ?>
 
+
+
+<script>
+$(document).ready(function(){
+$('#blanch').change(function(){
+var blanch_id = $('#blanch').val();
+//alert(blanch_id)
+if(blanch_id != ''){
+
+$.ajax({
+url:"<?php echo base_url(); ?>admin/fetch_ward_data",
+method:"POST",
+data:{blanch_id:blanch_id},
+success:function(data)
+{
+$('#customer').html(data);
+//$('#district').html('<option value="">All</option>');
+}
+});
+}
+else
+{
+$('#customer').html('<option value="">Select customer</option>');
+//$('#district').html('<option value="">All</option>');
+}
+});
+
+
+
+$('#customer').change(function(){
+var customer_id = $('#customer').val();
+ //alert(customer_id)
+if(customer_id != '')
+{
+$.ajax({
+url:"<?php echo base_url(); ?>oficer/fetch_data_vipimioData",
+method:"POST",
+data:{customer_id:customer_id},
+success:function(data)
+{
+$('#loan').html(data);
+//$('#malipo_name').html('<option value="">select center</option>');
+}
+});
+}
+else
+{
+$('#loan').html('<option value="">Select Active loan</option>');
+//$('#malipo_name').html('<option value="">chagua vipimio</option>');
+}
+});
+
+// $('#social').change(function(){
+//  var district_id = $('#social').val();
+//  if(district_id != '')
+//  {
+//   $.ajax({
+//    url:"<?php echo base_url(); ?>user/fetch_data_malipo",
+//    method:"POST",
+//    data:{district_id:district_id},
+//    success:function(data)
+//    {
+//     $('#malipo_name').html(data);
+//     //$('#malipo').html('<option value="">chagua malipo</option>');
+//    }
+//   });
+//  }
+//  else
+//  {
+//   //$('#vipimio').html('<option value="">chagua vipimio</option>');
+//   $('#malipo_name').html('<option value="">chagua vipimio</option>');
+//  }
+// });
+
+
+});
+</script>
+
+
+
  <div class="modal fade" id="addcontact1" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h7 class="title" id="defaultModalLabel"><?php echo $customer->f_name; ?> <?php echo $customer->m_name; ?> <?php echo $customer->l_name; ?><br>With Date:<?php if (@$customer_loan->loan_stat_date == TRUE) {
-                                                 ?>
-                                                <?php echo @$customer_loan->loan_stat_date; ?>
-                                            <?php }elseif (@$customer_loan->loan_stat_date == FALSE) {
-                                             ?>
-                                             YY-MM-DD
-                                             <?php } ?> - End Date:  <?php if (@$customer_loan->loan_end_date == TRUE) {
-                                                 ?>
-                                                 <?php echo substr(@$customer_loan->loan_end_date, 0,10); ?>
-                                            <?php }elseif (@$customer_loan->loan_end_date == FALSE) {
-                                             ?>
-                                             YY-MM-DD
-                                             <?php } ?> <br> End Deposit Amount : <?php echo number_format(@$end_deposit->depost); ?> <br>Deposit Time : <?php echo @$end_deposit->deposit_day; ?></h7>
-            </div>
-                                     <div class="text-center">
-                                        <img id="loaderIcons" style="visibility:hidden; display:none;width: 100px; height: 100px;"
-                                    src="https://c.tenor.com/I6kN-6X7nhAAAAAj/loading-buffering.gif" alt="Please wait" />
-                                </div>
-            <?php echo form_open("oficer/deposit_loan/{$customer->customer_id}",['id'=>'login_data']); ?>
-            <div class="modal-body">
-                <div class="row clearfix">
-                    <div class="col-md-4 col-6">
-                    <span>Total Loan</span>
-                    <input type="text" class="form-control" value="<?php echo number_format(@$customer_loan->loan_int); ?>" readonly>     
-                    </div>
-                     <div class="col-md-4 col-6">
-                    <span>Amount Paid</span>
-                    <input type="text" class="form-control" value="<?php if (@$total_deposit->total_Deposit > @$customer_loan->loan_int) {
-                                                 ?>
-                                        <?php echo number_format(@$customer_loan->loan_int); ?>
-                                         (<?php echo number_format(@$total_deposit->total_Deposit - @$customer_loan->loan_int); ?>)
-                                             <?php }else{ ?><?php echo number_format(@$total_deposit->total_Deposit); ?>
-                                                 <?php } ?>" readonly>     
-                    </div>
-                     <div class="col-md-4 col-12">
-                    <span>Remain Debit</span>
-                    <input type="text" class="form-control" value="<?php if (@$total_deposit->total_Deposit > @$customer_loan->loan_int) {
-                                                 ?>
-                                                 0.00
-                                                 <?php }else{ ?><?php echo number_format(@$customer_loan->loan_int - @$total_deposit->total_Deposit ); ?>
-                                                <?php } ?>" readonly>     
-                    </div>
-                     <div class="col-md-6 col-6">
-                   
-                     <?php if ($customer_loan->loan_status == 'withdrawal') {
-                      ?>
-                <span>Recovery Amount</span>
-                    <input type="text" class="form-control" value="<?php echo number_format($total_recovery->total_pending); ?>.00" readonly style="color:red"> 
-                <?php }elseif ($customer_loan->loan_status == 'out') {
-                 ?>
-                  <span style="color:red;">Default Amount</span>
-                <input type="text" class="form-control" value="<?php echo number_format($out_stand->total_out); ?>.00" readonly style="color:red"> 
-                 <?php }else{ ?>
-                    <span>Recovery Amount</span>
-                    <input type="text" class="form-control" value="0.00" readonly style="color:red"> 
-                    <?php } ?>
-
-                    </div>
-
-                    <div class="col-md-6 col-6">
-                    <span>Penart</span>
-                    <input type="text" class="form-control" value="<?php echo number_format($total_penart->total_penart - $total_deposit_penart->total_penart_paid); ?>.00" readonly style="color:red">     
-                    </div>
-                    <div class="col-md-6 col-6">
-                    <span>Deposit </span>
-                    <input type="number" class="form-control" name="depost" placeholder="Enter Deposit Amount" required>     
-                    </div>
-                    <div class="col-md-6 col-6">
-                    <span>Select Account:</span>
-                    <select type="number" class="form-control" name="p_method" required>
-                        <option value="">---Select Account---</option>
-                        <?php foreach ($acount as $acounts): ?>
-                        <option value="<?php echo $acounts->trans_id; ?>"><?php echo $acounts->account_name; ?></option>
-                        <?php endforeach; ?>
-                    </select>           
-                    </div>
-                    <input type="hidden" value="<?php echo $customer->customer_id; ?>" name="customer_id">
-                    <input type="hidden" value="<?php echo $customer->comp_id; ?>" name="comp_id">
-                    <input type="hidden" value="<?php echo $customer->blanch_id; ?>" name="blanch_id">
-                    <input type="hidden" value="<?php echo $customer_loan->loan_id; ?>" name="loan_id">
-                     <input type="hidden" value="LOAN RETURN" name="description">
-                    <?php $date = date("Y-m-d"); ?>
-                    <div class="col-md-12 col-12">
-                    <span>Deposit Date</span>
-                    <input type="date" class="form-control" value="<?php echo $date; ?>" name="deposit_date" required>       
-                    </div>
-                   
-            </div>
-            </div>
-            <div class="modal-footer">
-                <button type="submit" class="btn btn-primary">Deposit</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">CLOSE</button>
-            </div>
-            <?php echo form_close(); ?>
-        </div>
-    </div>
-</div>
-
-
-
- <div class="modal fade" id="addcontact2" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h6 class="title" id="defaultModalLabel"><?php echo $customer->f_name; ?> <?php echo $customer->m_name; ?> <?php echo $customer->l_name; ?></h6>
-
-
+                <h6 class="title" id="defaultModalLabel">Filter Transaction Income</h6>
             </div>
-                               <div class="text-center">
-                                        <img id="loaderIconwith" style="visibility:hidden; display:none;width: 100px; height: 100px;"
-                                    src="https://c.tenor.com/I6kN-6X7nhAAAAAj/loading-buffering.gif" alt="Please wait" />
-                                </div>
-            <?php echo form_open("oficer/create_withdrow_balance/{$customer->customer_id}",['id'=>'login_with']); ?>
+            <?php echo form_open(""); ?>
             <div class="modal-body">
                 <div class="row clearfix">
-                    <div class="col-md-6 col-6">
-                    <span>Total Withdrawal</span>
-                    <input type="number" class="form-control" name="withdrow" value="<?php echo $remain_balance->balance; ?>" readonly>     
-                    </div>
-                    <div class="col-md-6 col-6">
-                    <span>Select Account:</span>
-                    <select type="number" class="form-control" name="method" required>
-                        <option value="">---Select Account---</option>
-                        <?php foreach ($acount as $acounts): ?>
-                        <option value="<?php echo $acounts->trans_id; ?>"><?php echo $acounts->account_name; ?></option>
-                        <?php endforeach; ?>
-                    </select>            
-                    </div>
-
-                     <input type="hidden" value="CASH WITHDRAWALS" name="description">
-                    <input type="hidden" value="withdrawal" name="loan_status">
-                    <input type="hidden" value="<?php echo $customer_loan->loan_id; ?>" name="loan_id">
-
-                    <input type="hidden" value="<?php echo $customer->customer_id; ?>" name="customer_id">
-                    <input type="hidden" value="<?php echo $customer->comp_id; ?>" name="comp_id">
-                    <input type="hidden" value="<?php echo $customer->blanch_id; ?>" name="blanch_id">
-                    <input type="hidden" class="form-control" name="code" value="1" required>     
-                    
                     <?php $date = date("Y-m-d"); ?>
-                    <div class="col-md-12 col-12">
-                    <span>withdrawal Date</span>
-                    <input type="date" class="form-control" value="<?php echo $date; ?>" name="with_date" required>       
+                    <div class="col-md-6">
+                    <span>From:</span>
+                    <input type="date" class="form-control" value="<?php echo $date; ?>" name="from" required>    
                     </div>
-                   
+                    <div class="col-md-6">
+                    <span>To:</span>
+                    <input type="date" class="form-control" name="to" value="<?php echo $date; ?>" required>           
+                    </div>
+                    <input type="hidden" name="blanch_id" value="<?php echo $_SESSION['blanch_id']; ?>">
+                    <input type="hidden" name="comp_id" value="<?php echo $empl_data->comp_id; ?>">
             </div>
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-primary">Withdrawal</button>
-               <!-- <a href="" class="btn btn-primary">Resend Code</a> -->
+                <button type="submit" class="btn btn-primary">Filter</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">CLOSE</button>
             </div>
             <?php echo form_close(); ?>
         </div>
     </div>
 </div>
-
-
-
-<script>
-    $(document).ready(function(){
-        $('#login_form').submit(function() {
-            $('#loaderIcon').css('visibility', 'visible');
-            $('#loaderIcon').show();
-        });
-    })
-</script>
-
-<script>
-    $(document).ready(function(){
-        $('#login_data').submit(function() {
-            $('#loaderIcons').css('visibility', 'visible');
-            $('#loaderIcons').show();
-        });
-    })
-</script>
-
-<script>
-    $(document).ready(function(){
-        $('#login_with').submit(function() {
-            $('#loaderIconwith').css('visibility', 'visible');
-            $('#loaderIconwith').show();
-        });
-    })
-</script>
-
-
-
- 
-
-
-
-
-
 
 
