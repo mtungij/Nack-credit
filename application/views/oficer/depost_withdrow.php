@@ -230,9 +230,10 @@
                                       @$total_penart =   $this->queries->get_total_penart_loan($customer_loan->loan_id);
                                       @$total_deposit_penart =  $this->queries->get_total_paypenart($customer_loan->loan_id);
                                       @$end_deposit = $this->queries->get_end_deposit_time($customer_loan->loan_id);
+                                      @$today_dep = $this->queries->get_end_deposit_time_date($customer_loan->loan_id);
                                        ?>
 
-                                    <?php //print_r($end_deposit); ?>
+                                    <?php //print_r($today_dep); ?>
 
                                            <?php foreach ($loan_desc as $payisnulls): ?>
                                             <tr>
@@ -408,7 +409,12 @@
             </div>
             </div>
             <div class="modal-footer">
+                 <?php if (@$today_dep->deposit_day == TRUE) {
+                  ?>
+            <button type="submit" class="btn btn-primary" onclick="return confirm('Are you Sure To Deposit Again?')">Deposit</button>
+              <?php }elseif(@$today_dep->deposit_day == FALSE){ ?>
                 <button type="submit" class="btn btn-primary">Deposit</button>
+                <?php } ?>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">CLOSE</button>
             </div>
             <?php echo form_close(); ?>

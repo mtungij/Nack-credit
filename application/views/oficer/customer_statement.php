@@ -135,7 +135,7 @@
                              <a href="" class="btn btn-success" data-toggle="modal" data-target="#addcontact1"><i class="icon-pencil">Filter</i></a> 
                              </div>
                             <div class="table-responsive">
-                                <table class="table table-hover js-basic-example dataTable table-custom">
+                                <table class="table table-hover j-basic-example dataTable table-custom">
                                     <thead class="thead-primary">
                                         <tr>
                                         <th>Date</th>
@@ -148,7 +148,7 @@
                                    
                                     <tbody>
                                 
-                                      <?php @$loan_desc = $this->queries->get_total_pay_description_customer($customer->customer_id);
+                                      <?php //@$loan_desc = $this->queries->get_total_pay_description_customer($customer->customer_id);
                                       //@$remain_balance = $this->queries->get_total_remain_with($customer_loan->loan_id);
                                       //@$total_recovery = $this->queries->get_total_loan_pend($customer_loan->loan_id);
                                       //@$total_penart =   $this->queries->get_total_penart_loan($customer_loan->loan_id);
@@ -158,7 +158,7 @@
 
                                     <?php //print_r($loan_desc); ?>
 
-                                           <?php foreach ($loan_desc as $payisnulls): ?>
+                                           <?php foreach ($data_account as $payisnulls): ?>
                                             <tr>
                                               <td class="c"><?php echo $payisnulls->date_data; ?></td>
                                               <td class="c">  <?php echo $payisnulls->emply; ?>
@@ -254,8 +254,8 @@
                     </div>
                       <div class="col-md-6 col-6">
                     <span>To:</span>
-                    <input type="date" class="form-control" value="<?php echo $date; ?>" name="to" required> 
-                    <input type="hidden" name="customer_id" value="<?php echo $customer->customer_id; ?>">      
+                    <input type="date" class="form-control" value="<?php echo $date; ?>" name="to" required>       
+                    <input type="hidden" class="form-control" value="<?php echo $customer->customer_id; ?>" name="customer_id" required>       
                     </div>
                    
             </div>

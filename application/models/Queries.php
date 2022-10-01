@@ -1104,8 +1104,13 @@ public function get_totalLoanout($customer_id){
 
 
 	public function get_sumblanch_wise($comp_id){
-		
 		$data = $this->db->query("SELECT SUM(loan_aprove) AS total_loan_with,SUM(loan_int) AS total_loan_int,SUM(depost) AS total_depost,b.blanch_name FROM tbl_loans l LEFT JOIN tbl_blanch b ON b.blanch_id = l.blanch_id LEFT JOIN tbl_depost d ON d.loan_id = l.loan_id WHERE l.comp_id = '$comp_id' GROUP BY l.blanch_id");
+		return $data->result();
+	}
+
+
+	public function get_sumblanch_wise_blanch($blanch_id){
+		$data = $this->db->query("SELECT SUM(loan_aprove) AS total_loan_with,SUM(loan_int) AS total_loan_int,SUM(depost) AS total_depost,b.blanch_name FROM tbl_loans l LEFT JOIN tbl_blanch b ON b.blanch_id = l.blanch_id LEFT JOIN tbl_depost d ON d.loan_id = l.loan_id WHERE l.blanch_id = '$blanch_id' GROUP BY l.blanch_id");
 		return $data->result();
 	}
 
@@ -5218,6 +5223,12 @@ public function check_empl_privillage($position_id,$empl_id,$comp_id){
  	return $data->row();
  }
 
+  public function get_end_deposit_time_date($loan_id){
+  $today = date("Y-m-d");
+ 	$data = $this->db->query("SELECT * FROM tbl_depost WHERE loan_id = '$loan_id' AND date(deposit_day) = '$today' ORDER BY dep_id DESC");
+ 	return $data->row();
+ }
+
 
  public function get_outstand_loan_depost($loan_id){
  	$data = $this->db->query("SELECT * FROM tbl_outstand_loan WHERE loan_id = '$loan_id'");
@@ -5780,6 +5791,12 @@ public function get_loan_withdrawal_today_blanch_general($blanch_id){
        public function get_total_pay_description_customer($customer_id){
      $data = $this->db->query("SELECT * FROM tbl_pay p LEFT JOIN tbl_loans l ON l.loan_id = p.loan_id LEFT JOIN tbl_account_transaction at ON at.trans_id = p.p_method WHERE p.customer_id = '$customer_id' ORDER BY p.pay_id DESC");
      return $data->result();
+     }
+
+
+     public function get_account_statement($customer_id,$from,$to){
+     	$data = $this->db->query("SELECT * FROM tbl_pay p LEFT JOIN tbl_account_transaction at ON at.trans_id = p.p_method LEFT JOIN tbl_loans l ON l.loan_id = p.loan_id WHERE p.date_data between '$from' and '$to' AND p.customer_id = '$customer_id' ORDER BY p.pay_id DESC");
+     	return $data->result();
      }
 
 

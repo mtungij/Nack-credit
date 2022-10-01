@@ -17,6 +17,82 @@ class Oficer extends CI_Controller {
 	}
 
 
+    public function setting(){
+    $this->load->model('queries');
+    $empl_id = $this->session->userdata('empl_id');
+    $empl_data = $this->queries->get_employee_data($empl_id);
+    $this->load->view('oficer/setting',['empl_data'=>$empl_data]);
+    }
+
+    //change password
+  public function change_password(){
+        $this->load->model('queries');
+        $blanch_id = $this->session->userdata('blanch_id');
+        $empl_id = $this->session->userdata('empl_id');
+        $manager_data = $this->queries->get_manager_data($empl_id);
+        $comp_id = $manager_data->comp_id;
+        $company_data = $this->queries->get_companyData($comp_id);
+        $blanch_data = $this->queries->get_blanchData($blanch_id);
+        $empl_data = $this->queries->get_employee_data($empl_id);
+        $old = $empl_data->password;
+        $this->form_validation->set_rules('oldpass', 'old password', 'required');
+        $this->form_validation->set_rules('newpass', 'new password', 'required');
+        $this->form_validation->set_rules('passconf', 'confirm password', 'required|matches[newpass]');
+        $this->form_validation->set_error_delimiters('<strong><div class="text-danger">', '</div></strong>');
+
+        if($this->form_validation->run()) {
+          $data = $this->input->post();
+          $oldpass = $data['oldpass'];
+          $newpass = $data['newpass'];
+          $passconf = $data['passconf'];
+             // print_r(sha1($newpass));
+                 // echo "<br>";
+                 // print_r($oldpass);
+                 //  echo "<br>";
+                 // print_r($old);
+                 //    exit();
+           if($old !== sha1($oldpass)){
+           $this->session->set_flashdata('error','Old Password not Match') ; 
+             return redirect('oficer/setting');
+         }elseif($old == sha1($oldpass)){
+         $this->queries->update_password_dataEmployee($empl_id, array('password' => sha1($newpass)));
+         $this->session->set_flashdata('massage','Password changed successfully'); 
+        $empl_data = $this->queries->get_employee_data($empl_id);
+        $privillage = $this->queries->get_position_empl($empl_id);
+        $manager = $this->queries->get_position_manager($empl_id);
+        $this->load->view("oficer/setting",['empl_data'=>$empl_data,'privillage'=>$privillage,'manager'=>$manager]);
+        
+          }else{
+           $empl_data = $this->queries->get_employee_data($empl_id);
+           $privillage = $this->queries->get_position_empl($empl_id);
+           $manager = $this->queries->get_position_manager($empl_id);
+        $this->load->view("oficer/setting",['empl_data'=>$empl_data,'privillage'=>$privillage,'manager'=>$manager]);
+          }
+        }
+        }
+// check old password is match
+        public function password_check($oldpass)
+    {
+        $this->load->model('queries');
+        $blanch_id = $this->session->userdata('blanch_id');
+        $empl_id = $this->session->userdata('empl_id');
+        $manager_data = $this->queries->get_manager_data($empl_id);
+        $comp_id = $manager_data->comp_id;
+        $company_data = $this->queries->get_companyData($comp_id);
+        $blanch_data = $this->queries->get_blanchData($blanch_id);
+        $empl_data = $this->queries->get_employee_data($empl_id);
+        $user = $this->queries->get_employee_data($empl_id);
+          
+        if($user->password !== sha1($oldpass)) {
+            $this->form_validation->set_message('error', 'Old Password not Match');
+            //return false;
+        }
+
+        return redirect("oficer/setting");
+    }
+
+
+
 	 public function income_dashboard(){
         $this->load->model('queries');
          $blanch_id = $this->session->userdata('blanch_id');
@@ -1299,24 +1375,7 @@ public function modify_sponser($sp_id,$customer_id){
       $interest = $interest_loan;
       $end_date = $day * $session;
       if($loan_data_interst->rate == 'FLAT RATE') {
-      // $now = date("Y-m-d");
-      // $someDate = DateTime::createFromFormat("Y-m-d",$now);
-      // $someDate->add(new DateInterval('P'.$end_date.'D'));
-      // $return_data = $someDate->format("Y-m-d");
 
-      // $date1 = $now;
-      // $date2 = $return_data;
-
-      // $ts1 = strtotime($date1);
-      // $ts2 = strtotime($date2);
-
-      // $year1 = date('Y', $ts1);
-      // $year2 = date('Y', $ts2);
-
-      // $month1 = date('m', $ts1);
-      // $month2 = date('m', $ts2);
-
-      // $diff = (($year2 - $year1) * 12) + ($month2 - $month1);
         $day_data = $end_date;
         $months = floor($day_data / 30);
        
@@ -1327,9 +1386,9 @@ public function modify_sponser($sp_id,$customer_id){
       $loan_interest = $interest /100 * $balance;
       $total_loan = $balance + $loan_interest;
       }elseif($loan_data_interst->rate == 'REDUCING'){
-        $month = date("m");
-        $year = date("Y");
-        $d=cal_days_in_month(CAL_GREGORIAN,$month,$year);
+       $month = date("m");
+       $year = date("Y");
+       $d=cal_days_in_month(CAL_GREGORIAN,$month,$year);
        $months = $end_date / $d;
        $interest = $interest_loan / 1200;
        $loan = $balance;
@@ -1365,7 +1424,6 @@ public function modify_sponser($sp_id,$customer_id){
         $fee_number = $loan_fee[$i]->fee_interest;
         $withdraw_balance = $unchangable_balance * ($interest / 100);
 
-        
         $new_balance = $balance - $withdraw_balance;
         $pay_id = $this->insert_loanfee($loan_fee[$i]->fee_id,$loan_fee[$i]->fee_interest,$loan_fee[$i]->description,$loan_fee[$i]->fee_interest,$loan_id,$blanch_id,$comp_id,$customer_id,$new_balance, $withdraw_balance,$group_id);
      //Update Balance in this Loop
@@ -1378,7 +1436,6 @@ public function modify_sponser($sp_id,$customer_id){
         $fee_number = $loan_fee[$i]->fee_interest;
         $withdraw_balance = $interest;
 
-        
         $new_balance = $balance - $withdraw_balance;
         $pay_id = $this->insert_loanfee_money($loan_fee[$i]->fee_id,$loan_fee[$i]->fee_interest,$loan_fee[$i]->description,$loan_fee[$i]->fee_interest,$loan_id,$blanch_id,$comp_id,$customer_id,$new_balance, $withdraw_balance,$group_id);
 
@@ -1386,7 +1443,6 @@ public function modify_sponser($sp_id,$customer_id){
         $balance = $new_balance;   
     }
    }
-
 
            $this->insert_loan_lecord($comp_id,$customer_id,$loan_id,$blanch_id,$total_loan,$loan_interest,$group_id);
            $this->update_loaninterest($pay_id,$total_loan);
@@ -4140,7 +4196,39 @@ public function filter_customer_statement(){
     $blanch_data = $this->queries->get_blanchData($blanch_id);
     $empl_data = $this->queries->get_employee_data($empl_id);
 
-    $this->load->view('oficer/customer_account_filter');
+    $from = $this->input->post('from');
+    $to = $this->input->post('to');
+    $customer_id = $this->input->post('customer_id');
+
+    $data_account = $this->queries->get_account_statement($customer_id,$from,$to);
+    $customer = $this->queries->search_CustomerLoan($customer_id);
+    $customery = $this->queries->get_allcutomerblanchData($blanch_id);
+    
+    // print_r($data_account);
+    //     exit();
+
+    $this->load->view('oficer/customer_statement',['empl_data'=>$empl_data,'customer'=>$customer,'data_account'=>$data_account,'customery'=>$customery]);
+}
+
+
+
+
+public function blanchwise_loan(){
+    $this->load->model('queries');
+    $blanch_id = $this->session->userdata('blanch_id');
+    $empl_id = $this->session->userdata('empl_id');
+    $manager_data = $this->queries->get_manager_data($empl_id);
+    $comp_id = $manager_data->comp_id;
+    $company_data = $this->queries->get_companyData($comp_id);
+    $blanch_data = $this->queries->get_blanchData($blanch_id);
+    $empl_data = $this->queries->get_employee_data($empl_id);
+
+    $blanch_wise = $this->queries->get_sumblanch_wise_blanch($blanch_id);
+
+    // print_r($blanc_wise);
+    //       exit();
+
+    $this->load->view('oficer/blanch_wise',['empl_data'=>$empl_data,'blanch_wise'=>$blanch_wise]);
 }
 
 

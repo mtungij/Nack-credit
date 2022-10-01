@@ -7,7 +7,7 @@
                     <a href="javascript:void(0);" class="dropdown-toggle user-name" data-toggle="dropdown"><strong><?php echo $_SESSION['empl_name']; ?></strong></a>
                     <ul class="dropdown-menu dropdown-menu-right account">
                         <li><a href="javascript:;"><i class="icon-user"></i><?php echo $this->lang->line("myprofile_menu"); ?></a></li>
-                        <li><a href="javascript:void(0);"><i class="icon-settings"></i><?php echo $this->lang->line("setting_menu") ?></a></li>
+                        <li><a href="<?php echo base_url("oficer/setting"); ?>"><i class="icon-settings"></i><?php echo $this->lang->line("setting_menu") ?></a></li>
                         <li class="divider"></li>
                         <li><a href="javascript:void(0);"><i class="icon-power"></i><?php echo $this->lang->line("logout_data_menu"); ?></a></li>
                     </ul>
@@ -97,7 +97,7 @@
                     <nav class="sidebar-nav">
                         <ul class="main-menu metismenu">
                         	<li><a href="<?php echo base_url("oficer/cash_transaction"); ?>"><i class="icon-wallet"></i>Cash Transaction</a></li>
-                        	<li><a href="<?php //echo base_url("admin/blanchiwise_report"); ?>"><i class="icon-list"></i>Branch Wise Report</a></li>
+                        	<li><a href="<?php echo base_url("oficer/blanchwise_loan"); ?>"><i class="icon-list"></i>Branch Wise Report</a></li>
                         	<li><a href="<?php echo base_url("oficer/loan_pending_time"); ?>"><i class="icon-list"></i>Loan Pending</a></li>
                         	<li><a href="<?php echo base_url("oficer/loan_repayment"); ?>"><i class="icon-list"></i>Loan Repayment</a></li>
                         	<li><a href="<?php echo base_url("oficer/oustand_loan"); ?>"><i class="icon-list"></i>Default Loan</a></li>
