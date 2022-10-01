@@ -66,7 +66,7 @@
                 <span>*Reference Number</span>
             <input type="text" name="ref_no" autocomplete="off" placeholder="Enter Reference Number" class="form-control" required>
                 </div>
-                    <div class="col-lg-12 col-12">
+                    <div class="col-lg-6 col-6">
                 <span>*Time</span>
             <input type="time" name="time" autocomplete="off" placeholder="Enter Reference Number" class="form-control" required>
                 </div>

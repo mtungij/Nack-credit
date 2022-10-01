@@ -153,16 +153,16 @@
                                     </tr>
                                     <tr>
                                         <td>LEO FAINI</td>
-                                        <td><?php echo number_format(@$today_non_data->total_nonDeducted_today); ?></td>
+                                        <td><?php echo number_format(@$non_today); ?></td>
                                     </tr>
                                     <tr>
                                     <td>JUMLA LEO FOMU & FAINI</td>
-                                    <td><?php echo number_format(@$today_deduct_income->total_deductedtoday + @$today_non_data->total_nonDeducted_today); ?></td>                                                       
+                                    <td><?php echo number_format(@$today_deduct_income->total_deductedtoday + @$non_today); ?></td>                                                       
                                     </tr>
 
                                     <tr>
                                     <td><b>JUMLA FOMU & FAINI</b></td>
-                                    <td><b><?php echo number_format(@$yesterday_income->amount + @$today_total_income) ?></b></td>                                                       
+                                    <td><b><?php echo number_format(@$yesterday_income->amount + @$today_total_income); ?></b></td>                                                       
                                     </tr>
 
                                      <tr>

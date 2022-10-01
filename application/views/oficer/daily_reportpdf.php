@@ -186,11 +186,11 @@ tr:nth-child(even) {
                                     </tr>
                                     <tr>
                                         <td>LEO FAINI</td>
-                                        <td><?php echo number_format(@$today_non_data->total_nonDeducted_today); ?></td>
+                                        <td><?php echo number_format(@$non_today); ?></td>
                                     </tr>
                                     <tr>
                                     <td>JUMLA LEO FOMU & FAINI</td>
-                                    <td><?php echo number_format(@$today_deduct_income->total_deductedtoday + @$today_non_data->total_nonDeducted_today); ?></td>                                                       
+                                    <td><?php echo number_format(@$today_deduct_income->total_deductedtoday + @$non_today); ?></td>                                                       
                                     </tr>
 
                                     <tr>

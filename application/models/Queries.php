@@ -5396,7 +5396,7 @@ public function check_empl_privillage($position_id,$empl_id,$comp_id){
 
  public function get_today_non_deducted($blanch_id){
  	$date = date("Y-m-d");
- 	$data = $this->db->query("SELECT SUM(receve_amount) AS total_nondata FROM tbl_receve WHERE blanch_id = '$blanch_id' AND receve_date = '$date'");
+ 	$data = $this->db->query("SELECT SUM(receve_amount) AS total_nondata FROM tbl_receve WHERE blanch_id = '$blanch_id' AND receve_day = '$date'");
  	return $data->row();
  }
 

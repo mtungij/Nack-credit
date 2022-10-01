@@ -136,6 +136,11 @@ public function create_income_detail(){
         $this->income_dashboard();
     }
 
+
+    public function insert_penartPaid($loan_id,$inc_id,$blanch_id,$comp_id,$penart_paid,$username,$customer_id,$penart_date,$group_id){
+   $this->db->query("INSERT INTO tbl_pay_penart (`loan_id`,`inc_id`,`blanch_id`,`comp_id`,`penart_paid`,`username`,`customer_id`,`penart_date`,`group_id`) VALUES ('$loan_id','$inc_id','$blanch_id','$comp_id','$penart_paid','$username','$customer_id','$penart_date','$group_id')");
+  }
+
     
 
 //insert non-deducted
@@ -2797,7 +2802,7 @@ public function insert_blanch_principal($comp_id,$blanch_id,$trans_id,$princ_sta
       $non_today = $today_non->total_nondata;
 
       $today_total_income = $deducted_today + $non_today;
-      // print_r($today_total_income);
+      // print_r($non_today);
       //       exit();
 
 
@@ -2894,7 +2899,7 @@ public function insert_blanch_principal($comp_id,$blanch_id,$trans_id,$princ_sta
       //          exit();
 
       
-     $this->load->view('oficer/daily_report',['empl_data'=>$empl_data,'cash_transaction'=>$cash_transaction,'income'=>$income,'yester_day_balance'=>$yester_day_balance,'today_deposit'=>$today_deposit,'total_today_cash'=>$total_today_cash,'loan_with'=>$loan_with,'prepaid'=>$prepaid,'stoo'=>$stoo,'acount'=>$acount,'yesterday_income'=>$yesterday_income,'today_total_income'=>$today_total_income,'more_expenses'=>$more_expenses,'today_transactionInc'=>$today_transactionInc,'today_expenses'=>$today_expenses,'inc_lala'=>$inc_lala,'today_recevable'=>$today_recevable,'deposit_out'=>$deposit_out,'yesterDay'=>$yesterDay,'today_stoo_out'=>$today_stoo_out,'remain_out'=>$remain_out,'account_out_balance'=>$account_out_balance,'prev_deduct'=>$prev_deduct,'today_deduct_income'=>$today_deduct_income,'prev_non'=>$prev_non,'today_non_data'=>$today_non_data,'yester_dayNje'=>$yester_dayNje,'total_nje'=>$total_nje,'nje_deni'=>$nje_deni,'sum_out'=>$sum_out,'nje_account'=>$nje_account,'total_out_system'=>$total_out_system,'total_kopesha_in'=>$total_kopesha_in,'total_kopesha_out'=>$total_kopesha_out,'today_remain_deposit'=>$today_remain_deposit,'saving_deposit_remain'=>$saving_deposit_remain]);
+     $this->load->view('oficer/daily_report',['empl_data'=>$empl_data,'cash_transaction'=>$cash_transaction,'income'=>$income,'yester_day_balance'=>$yester_day_balance,'today_deposit'=>$today_deposit,'total_today_cash'=>$total_today_cash,'loan_with'=>$loan_with,'prepaid'=>$prepaid,'stoo'=>$stoo,'acount'=>$acount,'yesterday_income'=>$yesterday_income,'today_total_income'=>$today_total_income,'more_expenses'=>$more_expenses,'today_transactionInc'=>$today_transactionInc,'today_expenses'=>$today_expenses,'inc_lala'=>$inc_lala,'today_recevable'=>$today_recevable,'deposit_out'=>$deposit_out,'yesterDay'=>$yesterDay,'today_stoo_out'=>$today_stoo_out,'remain_out'=>$remain_out,'account_out_balance'=>$account_out_balance,'prev_deduct'=>$prev_deduct,'today_deduct_income'=>$today_deduct_income,'prev_non'=>$prev_non,'today_non_data'=>$today_non_data,'yester_dayNje'=>$yester_dayNje,'total_nje'=>$total_nje,'nje_deni'=>$nje_deni,'sum_out'=>$sum_out,'nje_account'=>$nje_account,'total_out_system'=>$total_out_system,'total_kopesha_in'=>$total_kopesha_in,'total_kopesha_out'=>$total_kopesha_out,'today_remain_deposit'=>$today_remain_deposit,'saving_deposit_remain'=>$saving_deposit_remain,'non_today'=>$non_today]);
       }
 
 
@@ -3054,7 +3059,7 @@ public function insert_blanch_principal($comp_id,$blanch_id,$trans_id,$princ_sta
 
 
     $mpdf = new \Mpdf\Mpdf(['mode' => 'utf-8','format' => 'A4-L','orientation' => 'L']);
-    $html = $this->load->view('oficer/daily_reportpdf',['empl_data'=>$empl_data,'cash_transaction'=>$cash_transaction,'income'=>$income,'yester_day_balance'=>$yester_day_balance,'today_deposit'=>$today_deposit,'total_today_cash'=>$total_today_cash,'loan_with'=>$loan_with,'prepaid'=>$prepaid,'stoo'=>$stoo,'acount'=>$acount,'yesterday_income'=>$yesterday_income,'today_total_income'=>$today_total_income,'more_expenses'=>$more_expenses,'today_transactionInc'=>$today_transactionInc,'today_expenses'=>$today_expenses,'inc_lala'=>$inc_lala,'today_recevable'=>$today_recevable,'deposit_out'=>$deposit_out,'yesterDay'=>$yesterDay,'today_stoo_out'=>$today_stoo_out,'remain_out'=>$remain_out,'account_out_balance'=>$account_out_balance,'prev_deduct'=>$prev_deduct,'today_deduct_income'=>$today_deduct_income,'prev_non'=>$prev_non,'today_non_data'=>$today_non_data,'yester_dayNje'=>$yester_dayNje,'total_nje'=>$total_nje,'nje_deni'=>$nje_deni,'sum_out'=>$sum_out,'nje_account'=>$nje_account,'total_out_system'=>$total_out_system,'total_kopesha_in'=>$total_kopesha_in,'total_kopesha_out'=>$total_kopesha_out,'blanch_data'=>$blanch_data,'compdata'=>$compdata,'today_remain_deposit'=>$today_remain_deposit,'saving_deposit_remain'=>$saving_deposit_remain],true);
+    $html = $this->load->view('oficer/daily_reportpdf',['empl_data'=>$empl_data,'cash_transaction'=>$cash_transaction,'income'=>$income,'yester_day_balance'=>$yester_day_balance,'today_deposit'=>$today_deposit,'total_today_cash'=>$total_today_cash,'loan_with'=>$loan_with,'prepaid'=>$prepaid,'stoo'=>$stoo,'acount'=>$acount,'yesterday_income'=>$yesterday_income,'today_total_income'=>$today_total_income,'more_expenses'=>$more_expenses,'today_transactionInc'=>$today_transactionInc,'today_expenses'=>$today_expenses,'inc_lala'=>$inc_lala,'today_recevable'=>$today_recevable,'deposit_out'=>$deposit_out,'yesterDay'=>$yesterDay,'today_stoo_out'=>$today_stoo_out,'remain_out'=>$remain_out,'account_out_balance'=>$account_out_balance,'prev_deduct'=>$prev_deduct,'today_deduct_income'=>$today_deduct_income,'prev_non'=>$prev_non,'today_non_data'=>$today_non_data,'yester_dayNje'=>$yester_dayNje,'total_nje'=>$total_nje,'nje_deni'=>$nje_deni,'sum_out'=>$sum_out,'nje_account'=>$nje_account,'total_out_system'=>$total_out_system,'total_kopesha_in'=>$total_kopesha_in,'total_kopesha_out'=>$total_kopesha_out,'blanch_data'=>$blanch_data,'compdata'=>$compdata,'today_remain_deposit'=>$today_remain_deposit,'saving_deposit_remain'=>$saving_deposit_remain,'non_today'=>$non_today],true);
     $mpdf->SetFooter('Generated By Brainsoft Technology');
         $mpdf->WriteHTML($html);
        $output = 'Daily report ' . $date.'.pdf';
@@ -3510,8 +3515,8 @@ public function loan_rejected(){
         $blanch_id = $data['blanch_id'];
         $account = $data['provider'];
         $amount = $data['amount'];
-
-        // print_r($data);
+        //   echo "<pre>";
+        // print_r($amount);
         //    exit();
 
         $blanch_balance = $this->queries->get_blanch_account_balance($blanch_id,$account);
