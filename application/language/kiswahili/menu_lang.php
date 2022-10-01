@@ -40,6 +40,24 @@ $lang['save_menu'] = "Hifadhi";
 $lang['search_menu'] = "Tafuta";
 $lang['customername_menu'] = "Customer Name";
 $lang['loanAprove_menu'] = "Mkopo Uliopitishwa";
+$lang['registercustomer_menu'] = "Sajiri Mteja";
+$lang['applyloan_menu'] = "Omba Mkopo";
+$lang['deposit_menu'] = "Lipisha";
+$lang['withdrawal_menu'] = "Gawa";
+$lang['Daily_report_menu'] = "Ripoti Ya Siku";
+$lang['expenses_menu'] = "Matumizi";
+$lang['transaction_menu'] = "Miamala";
+$lang['pending_menu'] = "Marejesho Lala";
+$lang['receivable_menu'] = "Tarajiwa kupokea";
+$lang['received_menu'] = "Tulicho Kipokea";
+$lang['loanwithin_contract_menu'] = "Mikopo Ndani ya Mkataba";
+$lang['loanDefault_menu'] = "Mikopo Nje ya Mkataba";
+$lang['loanRequest_menu'] = "Mikopo Iliyo Ombwa";
+$lang['loanAproved_menu'] = "Mikopo Iliyo Kubalika";
+$lang['store_menu'] = "Stoo";
+$lang['income_menu'] = "Mapato";
+$lang['rejectedloan_menu'] = "Mikopo Iliyo Kataliwa";
+$lang['savingdEPOSIT_menu'] = "Akiba Amana";
 
 
 

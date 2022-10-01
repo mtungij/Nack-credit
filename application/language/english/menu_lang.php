@@ -40,6 +40,25 @@ $lang['save_menu'] = "Save";
 $lang['search_menu'] = "Search";
 $lang['customername_menu'] = "Customer Name";
 $lang['loanAprove_menu'] = "Loan Aprove";
+$lang['registercustomer_menu'] = "Register Customer";
+$lang['applyloan_menu'] = "Apply a loan";
+$lang['deposit_menu'] = "Deposit";
+$lang['withdrawal_menu'] = "withdrawal";
+$lang['Daily_report_menu'] = "Daily Report";
+$lang['expenses_menu'] = "Expenses";
+$lang['transaction_menu'] = "Transaction";
+$lang['pending_menu'] = "Laon Pending";
+$lang['receivable_menu'] = "Receivable";
+$lang['received_menu'] = "Received";
+$lang['loanwithin_contract_menu'] = "loans within the contract";
+$lang['loanDefault_menu'] = "Default Loan";
+$lang['loanRequest_menu'] = "Loan Request";
+$lang['loanAproved_menu'] = "Loan Aproved";
+$lang['store_menu'] = "Store";
+$lang['income_menu'] = "Income";
+$lang['rejectedloan_menu'] = "Loan Rejected";
+$lang['savingdEPOSIT_menu'] = "Saving Deposit";
+
 
 
 

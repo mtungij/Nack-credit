@@ -116,7 +116,7 @@
                     <a href="<?php echo base_url("oficer/customer"); ?>"><div class="card facebook-widget">
                         <div class="icon"><img src="<?php echo base_url() ?>assets/img/user.png" style="width: 44px; height: 44px;"></div>
                         <div class="content">
-                            <div class="text" style="color: black;">Sajiri Mteja </div>
+                            <div class="text" style="color: black;"><?php echo $this->lang->line("registercustomer_menu") ?></div>
                             <!-- <div class="number">123</div> -->
                         </div>
                     </div></a>
@@ -125,7 +125,7 @@
                     <a href="<?php echo base_url("oficer/loan_application"); ?>"><div class="card instagram-widget">
                         <div class="icon"><img src="<?php echo base_url() ?>assets/img/request.jpg" style="width: 44px; height: 44px;"></div>
                         <div class="content">
-                            <div class="text" style="color:black;">Omba Mkopo</div>
+                            <div class="text" style="color:black;"><?php echo $this->lang->line("applyloan_menu") ?></div>
                             <!-- <div class="number">231</div> -->
                         </div>
                     </div></a>
@@ -134,7 +134,7 @@
                     <a href="<?php echo base_url("oficer/teller_dashboard") ?>"><div class="card twitter-widget">
                         <div class="icon"><img src="<?php echo base_url() ?>assets/img/deposit.jpg" style="width: 44px; height: 44px;"></div>
                         <div class="content">
-                            <div class="text"style="color:black;">Lipisha</div>
+                            <div class="text"style="color:black;"><?php echo $this->lang->line("deposit_menu"); ?></div>
                             <!-- <div class="number">31</div> -->
                         </div>
                     </div></a>
@@ -143,7 +143,7 @@
                     <a href="<?php echo base_url("oficer/teller_dashboard") ?>"><div class="card google-widget">
                         <div class="icon"><img src="<?php echo base_url() ?>assets/img/withdrawal.png" style="width: 44px; height: 44px;"></div>
                         <div class="content">
-                            <div class="text" style="color:black;">Gawa</div>
+                            <div class="text" style="color:black;"><?php echo $this->lang->line("withdrawal_menu"); ?></div>
                             <!-- <div class="number">254</div> -->
                         </div>
                     </div></a>
@@ -152,7 +152,7 @@
                     <a href="<?php echo base_url("oficer/daily_report"); ?>"><div class="card linkedin-widget">
                         <div class="icon"><img src="<?php echo base_url() ?>assets/img/daily.png" style="width: 44px; height: 44px;"></div>
                         <div class="content">
-                            <div class="text" style="color:black">Ripoti ya Siku</div>
+                            <div class="text" style="color:black"><?php echo $this->lang->line("Daily_report_menu"); ?></div>
                             <!-- <div class="number">2510</div> -->
                         </div>
                     </div></a>
@@ -161,7 +161,7 @@
                     <a href="<?php echo base_url("oficer/expnses_requisition_form"); ?>"><div class="card behance-widget">
                         <div class="icon"><img src="<?php echo base_url() ?>assets/img/expenses.png" style="width: 44px; height: 44px;"></div>
                         <div class="content">
-                            <div class="text" style="color:black">Matumizi</div>
+                            <div class="text" style="color:black"><?php echo $this->lang->line("expenses_menu"); ?></div>
                             <!-- <div class="number">121</div> -->
                         </div>
                     </div></a>
@@ -176,7 +176,7 @@
                         <div class="card facebook-widget">
                         <div class="icon"><img src="<?php echo base_url() ?>assets/img/transaction.png" style="width: 44px; height: 44px;"></div>
                         <div class="content">
-                            <div class="text" style="color:black;">Miamala</div>
+                            <div class="text" style="color:black;"><?php echo $this->lang->line("transaction_menu"); ?></div>
                             <!-- <div class="number">123</div> -->
                         </div>
                     </div>
@@ -186,7 +186,7 @@
                     <a href="<?php echo base_url("oficer/loan_pending_time"); ?>"><div class="card instagram-widget">
                         <div class="icon"><img src="<?php echo base_url() ?>assets/img/default.jpeg" style="width: 44px; height: 44px;"></div>
                         <div class="content">
-                            <div class="text" style="color:black;">Marejesho Lala</div>
+                            <div class="text" style="color:black;"><?php echo $this->lang->line("pending_menu") ?></div>
                             <!-- <div class="number">231</div> -->
                         </div>
                     </div></a>
@@ -196,7 +196,7 @@
                         <div class="card twitter-widget">
                         <div class="icon"><img src="<?php echo base_url() ?>assets/img/receivable.png" style="width: 44px; height: 44px;"></div>
                         <div class="content">
-                            <div class="text" style="color:black;">Tarajiwa kupokea</div>
+                            <div class="text" style="color:black;"><?php echo $this->lang->line("receivable_menu") ?></div>
                             <!-- <div class="number">31</div> -->
                         </div>
                     </div></a>
@@ -206,7 +206,7 @@
                         <div class="card google-widget">
                         <div class="icon"><img src="<?php echo base_url() ?>assets/img/received.png" style="width: 44px; height: 44px;"></div>
                         <div class="content">
-                            <div class="text" style="color:black;">Tulicho Kipokea &nbsp;&nbsp;&nbsp;</div>
+                            <div class="text" style="color:black;"><?php echo $this->lang->line("received_menu"); ?> &nbsp;&nbsp;&nbsp;</div>
                             <!-- <div class="number" style="color:green;">1,000,000,000</div> -->
                         </div>
                     </div>
@@ -217,7 +217,7 @@
                         <div class="card linkedin-widget">
                         <div class="icon"><img src="<?php echo base_url() ?>assets/img/withdrawal.png" style="width: 44px; height: 44px;"></div>
                         <div class="content">
-                            <div class="text" style="color:black;">Mikopo  Ndani Ya Mkataba</div>
+                            <div class="text" style="color:black;"><?php echo $this->lang->line("loanwithin_contract_menu"); ?></div>
                             <!-- <div class="number">2510</div> -->
                         </div>
                     </div>
@@ -228,7 +228,7 @@
                         <div class="card behance-widget">
                         <div class="icon"><img src="<?php echo base_url() ?>assets/img/default.jpeg" style="width: 44px; height: 44px;"></div>
                         <div class="content">
-                            <div class="text" style="color:black;">Mikopo  Nje Ya mkataba</div>
+                            <div class="text" style="color:black;"><?php echo $this->lang->line("loanDefault_menu"); ?></div>
                             <!-- <div class="number">121</div> -->
                         </div>
                     </div>
@@ -242,7 +242,7 @@
                         <div class="card facebook-widget">
                         <div class="icon"><img src="<?php echo base_url() ?>assets/img/aplication.png" style="width: 44px; height: 44px;"></div>
                         <div class="content">
-                            <div class="text" style="color:black;">Mikopo iliyo Ombwa</div>
+                            <div class="text" style="color:black;"><?php echo $this->lang->line("loanRequest_menu"); ?></div>
                             <!-- <div class="number">123</div> -->
                         </div>
                     </div>
@@ -253,7 +253,7 @@
                         <div class="card instagram-widget">
                         <div class="icon"><img src="<?php echo base_url() ?>assets/img/aproveds.jpg" style="width: 44px; height: 44px;"></div>
                         <div class="content">
-                            <div class="text" style="color:black">Mikopo iliyo Kubalika</div>
+                            <div class="text" style="color:black"><?php echo $this->lang->line("loanAproved_menu"); ?></div>
                             <!-- <div class="number">231</div> -->
                         </div>
                     </div>
@@ -266,7 +266,7 @@
                     <a href="<?php echo base_url("oficer/deposit_stoo"); ?>"><div class="card twitter-widget">
                         <div class="icon"><img src="<?php echo base_url() ?>assets/img/stoo.png" style="width: 44px; height: 44px;"></div>
                         <div class="content">
-                            <div class="text" style="color:black">Stoo</div>
+                            <div class="text" style="color:black"><?php echo $this->lang->line("store_menu"); ?></div>
                             <!-- <div class="number">1</div> -->
                         </div>
                     </div></a>
@@ -277,7 +277,7 @@
                         <div class="card twitter-widget">
                         <div class="icon"><img src="<?php echo base_url() ?>assets/img/income.png" style="width: 44px; height: 44px;"></div>
                         <div class="content">
-                            <div class="text" style="color:black;">Mapato</div>
+                            <div class="text" style="color:black;"><?php echo $this->lang->line("income_menu") ?></div>
                             <!-- <div class="number">31</div> -->
                         </div>
                     </div>
@@ -290,7 +290,7 @@
                         <div class="card twitter-widget">
                         <div class="icon"><img src="<?php echo base_url() ?>assets/img/rejected.jpg" style="width: 44px; height: 44px;"></div>
                         <div class="content">
-                            <div class="text" style="color:black;">Mikopo iliyo Kataliwa</div>
+                            <div class="text" style="color:black;"><?php echo $this->lang->line("rejectedloan_menu") ?></div>
                             <!-- <div class="number">31</div> -->
                         </div>
                     </div>
@@ -301,7 +301,7 @@
                         <div class="card twitter-widget">
                         <div class="icon"><img src="<?php echo base_url() ?>assets/img/saving.png" style="width: 44px; height: 44px;"></div>
                         <div class="content">
-                            <div class="text" style="color:black;">Akiba ya Amana</div>
+                            <div class="text" style="color:black;"><?php echo $this->lang->line("savingdEPOSIT_menu"); ?></div>
                             <!-- <div class="number">31</div> -->
                         </div>
                     </div>
