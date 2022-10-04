@@ -3313,6 +3313,30 @@ public function insert_blanch_principal($comp_id,$blanch_id,$trans_id,$princ_sta
     $this->load->view('oficer/expenses_requisition',['empl_data'=>$empl_data,'expenses'=>$expenses,'request_exp'=>$request_exp,'expenses_total'=>$expenses_total]);
 }
 
+
+public function filter_expenses_request(){
+    $this->load->model('queries');
+    $blanch_id = $this->session->userdata('blanch_id');
+    $empl_id = $this->session->userdata('empl_id');
+    $manager_data = $this->queries->get_manager_data($empl_id);
+    $comp_id = $manager_data->comp_id;
+    $company_data = $this->queries->get_companyData($comp_id);
+    $blanch_data = $this->queries->get_blanchData($blanch_id);
+    $empl_data = $this->queries->get_employee_data($empl_id);
+
+    $from = $this->input->post('from');
+    $to = $this->input->post('to');
+    $blanch_id = $this->input->post('blanch_id');
+
+    $data_expenses = $this->queries->get_prev_expenses_data($from,$to,$blanch_id);
+    $total_expenses = $this->queries->get_sum_expenses($from,$to,$blanch_id);
+    //        echo "<pre>";
+    // print_r($data_expenses);
+    //      exit();
+
+    $this->load->view('oficer/prev_expenses',['empl_data'=>$empl_data,'data_expenses'=>$data_expenses,'from'=>$from,'to'=>$to,'total_expenses'=>$total_expenses]);
+}
+
 public function get_remove_expenses($req_id){
     $this->load->model('queries');
     $data_req = $this->queries->get_request_expenses($req_id);
@@ -4230,17 +4254,6 @@ public function blanchwise_loan(){
 
     $this->load->view('oficer/blanch_wise',['empl_data'=>$empl_data,'blanch_wise'=>$blanch_wise]);
 }
-
-
-
-
-
-
-
-
-
-
-
 
 
 function sendsms($phone,$massage){

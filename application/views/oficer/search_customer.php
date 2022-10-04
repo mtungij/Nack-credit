@@ -42,7 +42,7 @@
                         <div class="row profile_state">
                             <div class="col-lg-6 col-6">
                                 <div class="body">
-                                    <i class="fa fa-thumbs-up"></i>
+                                    <!-- <i class="fa fa-thumbs-up"></i> -->
                                      <div class="profile-image"> <img src="<?php echo base_url().'assets/img/male.jpeg'; ?>" class="rounded-circle" alt="customer image" style="width: 135px;height: 135px;">
                                       </div>
                                     <small><?php echo $customer->f_name; ?> <?php echo $customer->m_name; ?> <?php echo $customer->l_name; ?></small>
@@ -50,7 +50,7 @@
                             </div>
                             <div class="col-lg-6 col-6">
                                 <div class="body">
-                                    <i class="fa fa-star"></i>
+                                    <!-- <i class="fa fa-star"></i> -->
                                    <div class="profile-image"> <img src="<?php echo base_url().'assets/img/sig.jpg'; ?>" class="rounded-circle" alt="Gualantors image" style="width: 135px;height: 135px;">
                                       </div>
                                     <small>Customer Signature</small>

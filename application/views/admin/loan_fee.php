@@ -371,7 +371,7 @@
                             <h2>Add Loan Fee </h2>
                         </div>
                         <div class="body">
-                            <?php echo form_open("admin/create_loanfee_type") ?>
+                            <?php echo form_open("admin/create_loan_fee") ?>
                             <div class="row">
                                <div class="col-lg-6 form-group-sub">
                                     <label class="form-control-label">*Description:</label>
@@ -505,7 +505,7 @@
 
  <?php }else{ ?>
 
-hapana
+
     <?php } ?>
 
 

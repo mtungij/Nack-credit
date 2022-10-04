@@ -31,8 +31,14 @@
                             <?php $date = date("Y-m-d"); ?>
                             <h2>Ripoti ya Siku / <?php echo $date; ?></h2> 
                             <div class="pull-right">
-                              <a href="<?php echo base_url("oficer/print_daily_report_data"); ?>" class="btn btn-sm btn-icon btn-pure btn-primary on-default m-r-5 button-edit"
-                                           data-original-title="print" target="_blank"><i class="icon-printer"></i>Chapisha</a> 
+                            <a href="" data-toggle="modal" data-target="#addcontact1" class="btn btn-primary"><i class="icon-calendar">Filter</i></a>
+                              <a href="<?php echo base_url("admin/print_daily_report"); ?>" class="btn btn-sm btn-icon btn-pure btn-primary on-default m-r-5 button-edit"
+                                           data-original-title="print" target="_blank"><i class="icon-printer"></i>Chapisha
+                                       </a>
+                    
+
+
+
                             </div>   
                              </div>
                           <div class="body">
@@ -51,29 +57,29 @@
                                    
                                     <td>ONGEZEKO KUTOKA AKAUNTI KUU</td>
                                     
-                                    <td><?php echo number_format(@$cash_transaction->total_float); ?></td>                                                       
+                                    <td><?php echo number_format(@$cash_transfor->total_float); ?></td>                                                       
                                     </tr>
                                      <tr>
                                     <td>ONGEZEKO KUTOKA FOMU & FAINI</td>
                                     
-                                    <td><?php echo number_format($income->total_transaction); ?></td>                                                     
+                                    <td><?php echo number_format(@$income_blanch_blanch->total_transaction); ?></td>                                                     
                                     </tr>
                                     <tr>
                                     <td>ONGEZEKO KUTOKA MADENI SUGU NDANI YA MFUMO</td>
                                     <td>
-                                        <?php echo number_format(@$total_kopesha_in->total_trans_in); ?>/ Makato(<?php echo number_format(@$total_kopesha_in->total_fee_in); ?>)
+                                        <?php echo number_format(@$default_insystem->total_trans_in); ?> / Makato(<?php echo number_format(@$default_insystem->total_fee_in); ?>)
                                     </td>
                                      </tr> 
                                      <tr>
                                     <td>ONGEZEKO KUTOKA MADENI SUGU NJE YA MFUMO</td>
-                                    <td><?php echo number_format(@$total_kopesha_out->total_trans_out) ?> / Makato(<?php echo number_format(@$total_kopesha_out->total_fee_out); ?>)</td>
+                                    <td><?php echo number_format(@$default_outsystem->total_trans_out) ?> / Makato(<?php echo number_format(@$default_outsystem->total_fee_out); ?>)</td>
                                      </tr>                                                    
                                     
 
                                     <tr>
                                     <td>JANA</td>
                                     
-                                    <td><?php echo number_format(@$yester_day_balance->cash_amount); ?></td>                                                       
+                                    <td><?php echo number_format(@$yesterday_balance->total_yesterday_Balance); ?></td>                                                       
                                     </tr>
 
                                      <tr>
@@ -84,24 +90,24 @@
                                       <tr>
                                     <td>BAKI</td>
                                     
-                                    <td><?php echo number_format(@$today_remain_deposit->total_restratio_today); ?></td>                                                       
+                                    <td><?php echo number_format(@$remain_depost->total_restratio_today); ?></td>                                                       
                                     </tr>
 
                                      <tr>
                                     <td>JUMLA</td>
                                     
-                                    <td><?php echo number_format(@$cash_transaction->total_float + $income->total_transaction + @$yester_day_balance->cash_amount + $today_deposit->total_deposit + @$total_kopesha_in->total_trans_in + $total_kopesha_out->total_trans_out) ?></td> 
+                                    <td><?php echo number_format(@$cash_transfor->total_float + @$income_blanch_blanch->total_transaction + @$default_insystem->total_trans_in + @$default_outsystem->total_trans_out + @$yesterday_balance->total_yesterday_Balance + @$today_deposit->total_deposit) ?></td> 
                                     <!-- <p>@$total_today_cash->today_cash</p>                                                       -->
                                     </tr>
                                         <tr>
                                     <td>GAWA</td>
                                     
-                                    <td><?php echo number_format(@$loan_with->total_loan_with); ?></td>                                                       
+                                    <td><?php echo number_format(@$loanwith->total_loan_with); ?></td>                                                       
                                     </tr>
                                        <tr>
                                     <td>CODY NO</td>
                                     
-                                    <td><?php echo number_format(@$loan_with->total_loan_int - @$loan_with->total_loan_with); ?></td>                                                       
+                                    <td><?php echo number_format(@$loanwith->total_loan_int - @$loanwith->total_loan_with); ?></td>                                                       
                                     </tr>
                                         <tr>
                                     <td>DOUBLE</td>
@@ -113,20 +119,20 @@
                                     
                                     <td><?php echo number_format(@$stoo->total_stoo); ?></td>                                                      
                                     </tr>
-                                    <?php foreach ($acount as $acounts): ?>
+                                    <?php foreach ($blanch_acount as $acounts): ?>
                                     <tr>
                                     <td>LALA <?php echo $acounts->account_name; ?></td>
-                                    <td><?php echo number_format($acounts->blanch_capital); ?></td>                                                       
+                                    <td><?php echo number_format($acounts->total_blanch_comp); ?></td>                                                       
                                     </tr>
                                     <?php endforeach; ?>
                                     <tr>
                                     <td>AKIBA AMANA</td>
                                     
-                                    <td><?php echo number_format(@$saving_deposit_remain->total_amount_saving); ?></td>                                                      
+                                    <td><?php echo number_format(@$saving_deposit->total_amount_saving); ?></td>                                                      
                                     </tr>
                                     <tr>
                                         <td><b>LALA JUMLA</b></td>
-                                        <td><b><?php echo number_format(@$total_today_cash->today_cash); ?></b></td>
+                                        <td><b><?php echo number_format(@$balance_blanch->today_cash); ?></b></td>
                                     </tr>
                                      
                                      <tr>
@@ -135,42 +141,42 @@
                                      </tr>
                                       <tr>
                                           <td>JANA FOMU</td>
-                                          <td><?php echo number_format(@$prev_deduct->deduct_balance); ?></td>
+                                          <td><?php echo number_format(@$deduct_day_balance->total_balance_deduct); ?></td>
                                       </tr>
                                       <tr>
                                           <td>JANA FAINI</td>
-                                          <td><?php echo number_format(@$prev_non->non_deduct_balance); ?></td>
+                                          <td><?php echo number_format(@$non_balance_comp->total_non); ?></td>
                                       </tr>
 
                                      <tr>
                                     <td>JUMLA JANA FOMU & FAINI</td>
-                                    <td><?php echo number_format(@$yesterday_income->amount); ?></td>                                                       
+                                    <td><?php echo number_format(@$income_balance->total_deduction); ?></td>                                                       
                                     </tr>
                                     
                                     <tr>
                                         <td>LEO FOMU</td>
-                                        <td><?php echo number_format(@$today_deduct_income->total_deductedtoday); ?></td>
+                                        <td><?php echo number_format(@$today_deducted->total_deductedtoday); ?></td>
                                     </tr>
                                     <tr>
                                         <td>LEO FAINI</td>
-                                        <td><?php echo number_format(@$non_today); ?></td>
+                                        <td><?php echo number_format(@$non_deducted_comp->total_nondata); ?></td>
                                     </tr>
                                     <tr>
                                     <td>JUMLA LEO FOMU & FAINI</td>
-                                    <td><?php echo number_format(@$today_deduct_income->total_deductedtoday + @$non_today); ?></td>                                                       
+                                    <td><?php echo number_format(@$today_deducted->total_deductedtoday + @$non_deducted_comp->total_nondata); ?></td>                                                       
                                     </tr>
 
                                     <tr>
                                     <td><b>JUMLA FOMU & FAINI</b></td>
-                                    <td><b><?php echo number_format(@$yesterday_income->amount + @$today_total_income); ?></b></td>                                                       
+                                    <td><b><?php echo number_format(@$income_balance->total_deduction + @$today_deducted->total_deductedtoday + @$non_deducted_comp->total_nondata); ?></b></td>                                                       
                                     </tr>
 
                                      <tr>
                                       <td><div class="text-center"><b>MATUMIZI</b></div></td> 
                                       <td></td>      
                                      </tr>
-                                     <?php if ($more_expenses): ?>
-                                    <?php foreach ($more_expenses as $more_expensess): ?>
+                                     <?php if ($expenses_comp): ?>
+                                    <?php foreach ($expenses_comp as $more_expensess): ?>
                                     <tr>
                                     <td><?php echo $more_expensess->ex_name; ?></td>
                                     <td><?php echo number_format($more_expensess->total_expenses); ?></td>                                                   
@@ -185,17 +191,17 @@
 
                                     <tr>
                                     <td>KOPESHA</td>
-                                    <td><?php echo number_format($today_transactionInc->total_incTrans) ?></td>                                                     
+                                    <td><?php echo number_format($today_transaction_income->total_incTrans) ?></td>                                                     
                                     </tr>
 
                                     <tr>
                                     <td><b>JUMLA YA MATUMZI</b></td>
-                                    <td><b><?php echo number_format($today_expenses->tota_expes + $today_transactionInc->total_incTrans); ?></b></td>                                                       
+                                    <td><b><?php echo number_format($total_expenses_comp->tota_expes + $today_transaction_income->total_incTrans); ?></b></td>                                                       
                                     </tr>
 
                                     <tr>
                                     <td><b>LALA FAINI & FOMU</b></td>
-                                    <td><b><?php echo number_format($inc_lala->total_incLala); ?></b></td>                                                       
+                                    <td><b><?php echo number_format($total_lala_income->total_incLala); ?></b></td>                                                       
                                     </tr>
 
                                      <tr>
@@ -205,40 +211,40 @@
 
                                     <tr>
                                     <td>JUMALA YA WATEJA</td>
-                                    <?php $blanch_id = $this->session->userdata('blanch_id'); ?>
-                                    <?php $customer = $this->db->query("SELECT * FROM tbl_customer WHERE blanch_id = '$blanch_id'"); ?>
+                                    <?php $comp_id = $this->session->userdata('comp_id'); ?>
+                                    <?php $customer = $this->db->query("SELECT * FROM tbl_customer WHERE comp_id = '$comp_id'"); ?>
                                     <td><?php echo $customer->num_rows(); ?></td>                                                       
                                     </tr>
 
                                     <tr>
                                     <td>WATEJA HAI</td>
-                                    <?php $customer_active = $this->db->query("SELECT * FROM tbl_customer WHERE blanch_id = '$blanch_id' AND customer_status = 'open'"); ?>
+                                    <?php $customer_active = $this->db->query("SELECT * FROM tbl_customer WHERE comp_id = '$comp_id' AND customer_status = 'open'"); ?>
                                     <td><?php echo $customer_active->num_rows(); ?></td>                                                       
                                     </tr>
                                     <tr>
                                     <td>NJE YA MAKATABA</td>
-                                    <?php $customer_out = $this->db->query("SELECT * FROM tbl_customer WHERE blanch_id = '$blanch_id' AND customer_status = 'out'"); ?>
+                                    <?php $customer_out = $this->db->query("SELECT * FROM tbl_customer WHERE comp_id = '$comp_id' AND customer_status = 'out'"); ?>
                                     <td><?php echo $customer_out->num_rows(); ?></td>                                                       
                                     </tr>
                                      </tr>
                                     <tr>
                                     <td>WALIOLETA</td>
                                    <?php $date = date("Y-m-d"); ?>
-                                    <?php $customer_deposit = $this->db->query("SELECT * FROM tbl_loans WHERE blanch_id = '$blanch_id'AND date_show = '$date' AND dep_status = 'close'"); ?>
+                                    <?php $customer_deposit = $this->db->query("SELECT * FROM tbl_loans WHERE comp_id = '$comp_id'AND date_show = '$date' AND dep_status = 'close'"); ?>
                                    
                                     <td><?php echo $customer_deposit->num_rows(); ?></td>                                                       
                                     </tr>
 
                                      <tr>
                                     <td>WALIOLAZA</td>
-                                    <?php $date = date("Y-m-d"); ?>
-                                    <?php $loan_not_dep = $this->db->query("SELECT * FROM tbl_loans WHERE blanch_id = '$blanch_id'AND date_show = '$date' AND dep_status = 'open'"); ?>
+                                    <?php //$date = date("Y-m-d"); ?>
+                                    <?php $loan_not_dep = $this->db->query("SELECT * FROM tbl_loans WHERE comp_id = '$comp_id'AND date_show = '$date' AND dep_status = 'open'"); ?>
                                     <td><?php echo  $loan_not_dep->num_rows()?></td>                                                       
                                     </tr>
                                     <tr>
                                     <td>WATEJA WAPYA</td>
 
-                                    <?php $customer_new = $this->db->query("SELECT * FROM tbl_customer WHERE blanch_id = '$blanch_id' AND reg_date = '$date'"); ?>
+                                    <?php $customer_new = $this->db->query("SELECT * FROM tbl_customer WHERE comp_id = '$comp_id' AND reg_date = '$date'"); ?>
                                     <td><?php echo $customer_new->num_rows(); ?></td>                                                       
                                     </tr>
 
@@ -254,34 +260,34 @@
 
                                      <tr>
                                     <td>JANA</td>
-                                    <td><?php echo number_format(@$yesterDay->total_balance); ?></td>                                                       
+                                    <td><?php echo number_format(@$yester_day_out->total_outbalance); ?></td>                                                       
                                     </tr>
                                     <tr>
                                     <td>LEO</td>
-                                    <td><?php echo number_format($deposit_out->total_out_dep); ?></td>                                                       
+                                    <td><?php echo number_format(@$today_out_deposit->total_out_dep); ?></td>                                                       
                                     </tr>
                                      <tr>
                                     <td>BAKI</td>
-                                    <td><?php echo number_format($remain_out->total_out_rem); ?></td>                                                       
+                                    <td><?php echo number_format($remain_deposit->total_out_rem); ?></td>                                                       
                                     </tr>
                                     <tr>
                                     <td><b>JUMLA</b></td>
-                                    <td><b><?php echo number_format(@$yesterDay->total_balance + $deposit_out->total_out_dep); ?></b></td>                                                       
+                                    <td><b><?php echo number_format(@$yester_day_out->total_outbalance + @$today_out_deposit->total_out_dep); ?></b></td>                                                       
                                     </tr>
                                     <tr>
                                     <td>KOPESHA</td>
-                                    <td><?php echo number_format(@$total_kopesha_in->total_trans_in + @$total_kopesha_in->total_fee_in); ?></td>                                                       
+                                    <td><?php echo number_format(@$kopesha_out->total_trans_in + @$kopesha_out->total_fee_in); ?></td>                                                       
                                     </tr>
                                     <?php foreach ($account_out_balance as $account_out_balances): ?>
                                     <tr>
                                     <td>LALA <?php echo $account_out_balances->account_name; ?></td>
-                                    <td><?php echo number_format($account_out_balances->out_balance); ?></td>                                                       
+                                    <td><?php echo number_format($account_out_balances->total_outbalanceIn); ?></td>                                                       
                                     </tr>
                                     <?php endforeach; ?>
 
                                     <tr>
                                     <td><b>LALA JUMLA</b></td>
-                                    <td><b><?php echo number_format($today_stoo_out->total_balance); ?></b></td>                                                       
+                                    <td><b><?php echo number_format($out_lalain->total_out_lala); ?></b></td>                                                       
                                     </tr>
 
 
@@ -293,19 +299,19 @@
 
                                      <tr>
                                     <td>JANA</td>
-                                    <td><?php echo number_format(@$yester_dayNje->amount); ?></td>                                                       
+                                    <td><?php echo number_format(@$outsystem_yesterday->total_outsystem); ?></td>                                                       
                                     </tr>
                                     <tr>
                                     <td>LEO</td>
-                                    <td><?php echo number_format(@$total_nje->total_out_today); ?></td>                                                       
+                                    <td><?php echo number_format(@$total_njeleo->total_out_today); ?></td>                                                       
                                     </tr>
                                      <tr>
                                     <td>BAKI</td>
-                                    <td><?php echo number_format(@$nje_deni->out_amount - @$sum_out->total_out); ?></td>                                                       
+                                    <td><?php echo number_format(@$out_system_total->total_amount_njeyamfumo - @$total_deposit_out->total_out); ?></td>                                                       
                                     </tr>
                                     <tr>
                                     <td><b>JUMLA</b></td>
-                                    <td><b><?php echo number_format(@$yester_dayNje->amount + @$total_nje->total_out_today); ?></b></td>                                                       
+                                    <td><b><?php echo number_format(@$outsystem_yesterday->total_outsystem + @$total_njeleo->total_out_today); ?></b></td>                                                       
                                     </tr>
                                     <tr>
                                     <td>KOPESHA</td>
@@ -429,17 +435,25 @@ $('#loan').html('<option value="">Select Active loan</option>');
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h6 class="title" id="defaultModalLabel">Filter Deducted Income</h6>
+                <h6 class="title" id="defaultModalLabel">Filter Branch</h6>
             </div>
-            <?php echo form_open("oficer/filter_deducted_income"); ?>
+            <?php echo form_open(""); ?>
             <div class="modal-body">
                 <div class="row clearfix">
-                    
+                    <div class="col-md-12 col-12">
+                    <span>Select Branch</span>
+                    <select type="number" class="form-control" name="blanch_id" required>
+                        <option value="">Select Branch</option>
+                        <?php foreach ($blanch as $blanchs): ?>
+                        <option value="<?php echo $blanchs->blanch_id; ?>"><?php echo $blanchs->blanch_name; ?></option>
+                        <?php endforeach; ?>
+                    </select>      
+                    </div>
                     <?php $date = date("Y-m-d"); ?>
                     <div class="col-md-6 col-6">
                     <span>From:</span>
                     <input type="date" class="form-control" value="<?php echo $date; ?>" name="from" required>        
-                    <input type="hidden" name="blanch_id" value="<?php echo $empl_data->blanch_id; ?>">       
+                      
                     </div>
                     <div class="col-md-6 col-6">
                     <span>To:</span>

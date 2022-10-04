@@ -1155,11 +1155,12 @@ $sqldata="UPDATE `tbl_ac_company` SET `comp_balance`= '$total_remain' WHERE  `tr
 
 				$blanch = $this->queries->get_blanch($comp_id);
 				$sponser = $this->queries->get_guarantors_data($customer_id);
+				$loan_customer = $this->queries->get_loan_customer($customer_id);
 				   //   echo "<pre>";
 				   // print_r($sponser);
 				   // echo "</pre>";
 				   //             exit();
-	           $this->load->view('admin/customer_profile',['customer_profile'=>$customer_profile,'blanch'=>$blanch,'sponser'=>$sponser]);
+	           $this->load->view('admin/customer_profile',['customer_profile'=>$customer_profile,'blanch'=>$blanch,'sponser'=>$sponser,'loan_customer'=>$loan_customer]);
 }
 
 
@@ -1189,14 +1190,23 @@ public function filter_customer_status(){
 	$this->load->model('queries');
 	$comp_id = $this->session->userdata('comp_id');
 	$blanch = $this->queries->get_blanch($comp_id);
+
 	$blanch_id = $this->input->post('blanch_id');
 	$comp_id = $this->input->post('comp_id');
 	$customer_status = $this->input->post('customer_status');
+
+   
+     if ($blanch_id == 'all') {
+    $customer_statusData = $this->queries->get_customer_statusData_comp($comp_id,$customer_status);
+       }else{
 	$customer_statusData = $this->queries->get_customer_statusData($blanch_id,$comp_id,$customer_status);
-	$blanch_customer = $this->queries->get_blanch_data($blanch_id);
-	 //    echo "<pre>";
+	}
+	 //  echo "<pre>";
 	 // print_r($customer_statusData);
 	 //           exit();
+
+	$blanch_customer = $this->queries->get_blanch_data($blanch_id);
+	
 	$this->load->view('admin/customer_status',['blanch'=>$blanch,'customer_statusData'=>$customer_statusData,'blanch_customer'=>$blanch_customer,'blanch_id'=>$blanch_id,'comp_id'=>$comp_id,'customer_status'=>$customer_status]);
 }
 
@@ -3285,6 +3295,11 @@ $this->db->query("INSERT INTO tbl_outstand (`comp_id`,`loan_id`,`blanch_id`,`loa
 	      $prev_deposit = $check_prev->depost;
 	      $dep_id = $check_prev->pay_id;
 	      $again_prev = $prev_deposit + $depost;
+
+	      @$out_deposit = $this->queries->get_outstand_deposit($blanch_id,$trans_id);
+          $out_balance = @$out_deposit->out_balance;
+
+          $new_out_balance = $out_balance + $depost;
 	       
             
          $pay_id = $dep_id;
@@ -3314,7 +3329,12 @@ $this->db->query("INSERT INTO tbl_outstand (`comp_id`,`loan_id`,`blanch_id`,`loa
              }
            
 
-          $this->insert_blanch_amount_deposit($blanch_id,$deposit_new,$trans_id);
+           if (@$out_deposit->out_balance == TRUE || @$out_deposit->out_balance == '0' ) {
+           $this->update_blanch_amount_outstand($comp_id,$blanch_id,$new_out_balance,$trans_id);   
+           }else{
+          $this->insert_blanch_amount_outstand_deposit($comp_id,$blanch_id,$new_out_balance,$trans_id);
+           }
+           $this->update_loan_dep_status($loan_id);
 
           $new_balance = $new_depost;
 
@@ -3403,7 +3423,12 @@ $this->db->query("INSERT INTO tbl_outstand (`comp_id`,`loan_id`,`blanch_id`,`loa
              $dep_id = $this->insert_loan_lecorDeposit($comp_id,$customer_id,$loan_id,$blanch_id,$new_depost,$p_method,$role,$day_int,$day_princ,$loan_status,$group_id,$deposit_date,$empl_id);
              }
           
-         $this->insert_blanch_amount_deposit($blanch_id,$deposit_new,$trans_id);
+          if (@$out_deposit->out_balance == TRUE || @$out_deposit->out_balance == '0' ) {
+           $this->update_blanch_amount_outstand($comp_id,$blanch_id,$new_out_balance,$trans_id);   
+           }else{
+          $this->insert_blanch_amount_outstand_deposit($comp_id,$blanch_id,$new_out_balance,$trans_id);
+           }
+           $this->update_loan_dep_status($loan_id);
           $new_balance = $new_depost;
 	      if ($dep_id > 0) {
 	      	 $this->session->set_flashdata('massage','Deposit has made Sucessfully');
@@ -3480,12 +3505,6 @@ $this->db->query("INSERT INTO tbl_outstand (`comp_id`,`loan_id`,`blanch_id`,`loa
           }
           }
 
-
-
-
-
-
-
         //ndani ya mkataba
 	       }elseif($out_data == FALSE){
 	       	if ($kumaliza_depost > $loan_int) {
@@ -3501,6 +3520,7 @@ $this->db->query("INSERT INTO tbl_outstand (`comp_id`,`loan_id`,`blanch_id`,`loa
            
 
           $this->insert_blanch_amount_deposit($blanch_id,$deposit_new,$trans_id);
+          $this->update_loan_dep_status($loan_id);
              //exit();
           
           $new_balance = $new_depost;
@@ -3615,6 +3635,15 @@ $this->db->query("INSERT INTO tbl_outstand (`comp_id`,`loan_id`,`blanch_id`,`loa
 	   $this->data_with_depost();
 
       }
+
+
+    public function update_loan_dep_status($loan_id){
+     $sqldata="UPDATE `tbl_loans` SET `dep_status`= 'close' WHERE `loan_id`= '$loan_id'";
+    // print_r($sqldata);
+    //    exit();
+     $query = $this->db->query($sqldata);
+     return true;    
+    }  
 
 
       public function insert_blanch_amount_deposit($blanch_id,$deposit_new,$trans_id){
@@ -4502,6 +4531,7 @@ public function previous_transfor(){
           $this->delete_from_outstand_loan($customer_id);
           $this->delete_from_loanPending($customer_id);
           $this->delete_from_customer_report($customer_id);
+
  	     $this->session->set_flashdata('massage','Customer Deleted successfully');
  	     return redirect('admin/all_customer');
  }
@@ -5204,10 +5234,10 @@ public function previous_transfor(){
             'value' =>$this->input->post('value'),
             'file_name' => $file_name,
             );
-              echo "<pre>";
-            print_r($data);
-             echo "</pre>";
-              exit();
+            //   echo "<pre>";
+            // print_r($data);
+            //  echo "</pre>";
+            //   exit();
            $this->load->model('queries'); 
             //Storing insertion status message.
             if($data){
@@ -5328,6 +5358,7 @@ public function previous_transfor(){
       $loan_attach = $this->queries->get_loanAttach($loan_id);
       $region = $this->queries->get_region();
       $local_gov = $this->queries->get_localgovernmentDetail($loan_id);
+
         // print_r($local_gov);
         //           exit();
     	$this->load->view('admin/local_government',['loan_attach'=>$loan_attach,'region'=>$region,'local_gov'=>$local_gov]);
@@ -8375,35 +8406,93 @@ public function check_miamala($id){
 	public function daily_report(){
 		$this->load->model('queries');
 		$comp_id = $this->session->userdata('comp_id');
-		$blanch = $this->queries->get_blanch($comp_id);
-		$total_today_with = $this->queries->get_today_loan_withdrawalComp($comp_id);
-		$total_depost_comp = $this->queries->get_total_depost_comp($comp_id);
-		$total_deducted_comp = $this->queries->get_total_deducted_fee_todaycomp($comp_id);
-
-		$total_non_deducted = $this->queries->get_total_receive_nonDeducted_comp($comp_id);
-		$total_comp_expenses = $this->queries->get_expenses_total_compblanch($comp_id);
-		$restration_comp = $this->queries->get_today_receivable_comp($comp_id);
+		$cash_transfor = $this->queries->get_account_transfor_company($comp_id);
+		$income_blanch_blanch = $this->queries->get_income_transaction_datacomp($comp_id);
+		$default_insystem = $this->queries->get_total_transaction_default_insystemCompany($comp_id);
+		$default_outsystem = $this->queries->get_total_transaction_default_outsystem_company($comp_id);
+		$yesterday_balance = $this->queries->get_yesterday_balance_comp($comp_id);
+		$today_deposit = $this->queries->get_total_today_deposit_comp($comp_id);
+		$remain_depost = $this->queries->get_total_today_deposit_loanCompany($comp_id);
+		$loanwith = $this->queries->get_loan_withdrawal_today_company($comp_id);
+		$prepaid = $this->queries->get_today_prepaid_today_company($comp_id);
+		$stoo = $this->queries->get_total_stoo_trans_company($comp_id);
+		$blanch_acount = $this->queries->get_customer_account_verfiedCompany($comp_id);
+		$saving_deposit = $this->queries->get_total_saving_deposit_comp($comp_id);
+		$balance_blanch = $this->queries->get_today_cash_balancecompany($comp_id);
+		$deduct_day_balance = $this->queries->get_prev_deducted_income_company($comp_id);
+		$non_balance_comp = $this->queries->get_prev_nonDeducted_incomeCompany($comp_id);
+		$income_balance = $this->queries->get_yesterday_income_company($comp_id);
+		$today_deducted = $this->queries->get_today_deducted_income_company($comp_id);
+		$non_deducted_comp = $this->queries->get_today_non_deducted_company($comp_id);
+		$expenses_comp = $this->queries->get_more_expenses_todaycompany($comp_id);
+		$today_transaction_income = $this->queries->get_transaction_from_incToblanch_account_company($comp_id);
+		$total_expenses_comp = $this->queries->get_total_expenses_reqcompany($comp_id);
+		$total_lala_income = $this->queries->get_deduction_lala_comp($comp_id);
+		$yester_day_out = $this->queries->get_prev_outstand_date_company($comp_id);
+		$today_out_deposit = $this->queries->get_total_deposit_out_comp($comp_id);
+		$remain_deposit = $this->queries->get_outstand_loan_data_company($comp_id);
+		$kopesha_out = $this->queries->get_total_transaction_default_insystem_company($comp_id);
+		$account_out_balance = $this->queries->get_outstand_account_balance_company($comp_id);
+		$out_lalain = $this->queries->get_today_outstand_stoo_company($comp_id);
+		$outsystem_yesterday = $this->queries->get_deposit_out_system_yesterday_company($comp_id);
+		$total_njeleo = $this->queries->get_today_deposit_out_company($comp_id);
+		$out_system_total = $this->queries->get_total_out_deni_comp($comp_id);
+		$total_deposit_out = $this->queries->get_total_deposit_outSystem_comp($comp_id);
+		$total_kopesha_out = $this->queries->get_total_transaction_default_outsystemCompany($comp_id);
+		$nje_account = $this->queries->get_njeya_mfumo_data_account_company($comp_id);
+		$out_system = $this->queries->get_total_receive_out_systemCompany($comp_id);
+        $total_out_system = $out_system->total_out_system;
+        $blanch = $this->queries->get_blanch($comp_id);
 		// echo "<pre>";
-		// print_r($total_comp_expenses);
-		//       exit();
-		$this->load->view('admin/daily_report',['blanch'=>$blanch,'total_today_with'=>$total_today_with,'total_depost_comp'=>$total_depost_comp,'total_deducted_comp'=>$total_deducted_comp,'total_non_deducted'=>$total_non_deducted,'total_comp_expenses'=>$total_comp_expenses,'restration_comp'=>$restration_comp]);
+		// print_r($blanch);
+		//        exit();
+       
+		$this->load->view('admin/daily_report',['cash_transfor'=>$cash_transfor,'income_blanch_blanch'=>$income_blanch_blanch,'default_insystem'=>$default_insystem,'default_outsystem'=>$default_outsystem,'yesterday_balance'=>$yesterday_balance,'today_deposit'=>$today_deposit,'remain_depost'=>$remain_depost,'loanwith'=>$loanwith,'prepaid'=>$prepaid,'stoo'=>$stoo,'blanch_acount'=>$blanch_acount,'saving_deposit'=>$saving_deposit,'balance_blanch'=>$balance_blanch,'deduct_day_balance'=>$deduct_day_balance,'non_balance_comp'=>$non_balance_comp,'income_balance'=>$income_balance,'today_deducted'=>$today_deducted,'non_deducted_comp'=>$non_deducted_comp,'expenses_comp'=>$expenses_comp,'today_transaction_income'=>$today_transaction_income,'total_expenses_comp'=>$total_expenses_comp,'total_lala_income'=>$total_lala_income,'yester_day_out'=>$yester_day_out,'today_out_deposit'=>$today_out_deposit,'remain_deposit'=>$remain_deposit,'kopesha_out'=>$kopesha_out,'account_out_balance'=>$account_out_balance,'out_lalain'=>$out_lalain,'outsystem_yesterday'=>$outsystem_yesterday,'total_njeleo'=>$total_njeleo,'out_system_total'=>$out_system_total,'total_deposit_out'=>$total_deposit_out,'total_kopesha_out'=>$total_kopesha_out,'nje_account'=>$nje_account,'total_out_system'=>$total_out_system,'blanch'=>$blanch]);
 	}
 
 	public function print_daily_report(){
 	$this->load->model('queries');
 	$comp_id = $this->session->userdata('comp_id');
-	$blanch = $this->queries->get_blanch($comp_id);
-	$total_today_with = $this->queries->get_today_loan_withdrawalComp($comp_id);
-	$total_depost_comp = $this->queries->get_total_depost_comp($comp_id);
-	$total_deducted_comp = $this->queries->get_total_deducted_fee_todaycomp($comp_id);
-
-	$total_non_deducted = $this->queries->get_total_receive_nonDeducted_comp($comp_id);
-	$total_comp_expenses = $this->queries->get_expenses_total_compblanch($comp_id);
-	$restration_comp = $this->queries->get_today_receivable_comp($comp_id);
 	$compdata = $this->queries->get_companyData($comp_id);
+	$cash_transfor = $this->queries->get_account_transfor_company($comp_id);
+		$income_blanch_blanch = $this->queries->get_income_transaction_datacomp($comp_id);
+		$default_insystem = $this->queries->get_total_transaction_default_insystemCompany($comp_id);
+		$default_outsystem = $this->queries->get_total_transaction_default_outsystem_company($comp_id);
+		$yesterday_balance = $this->queries->get_yesterday_balance_comp($comp_id);
+		$today_deposit = $this->queries->get_total_today_deposit_comp($comp_id);
+		$remain_depost = $this->queries->get_total_today_deposit_loanCompany($comp_id);
+		$loanwith = $this->queries->get_loan_withdrawal_today_company($comp_id);
+		$prepaid = $this->queries->get_today_prepaid_today_company($comp_id);
+		$stoo = $this->queries->get_total_stoo_trans_company($comp_id);
+		$blanch_acount = $this->queries->get_customer_account_verfiedCompany($comp_id);
+		$saving_deposit = $this->queries->get_total_saving_deposit_comp($comp_id);
+		$balance_blanch = $this->queries->get_today_cash_balancecompany($comp_id);
+		$deduct_day_balance = $this->queries->get_prev_deducted_income_company($comp_id);
+		$non_balance_comp = $this->queries->get_prev_nonDeducted_incomeCompany($comp_id);
+		$income_balance = $this->queries->get_yesterday_income_company($comp_id);
+		$today_deducted = $this->queries->get_today_deducted_income_company($comp_id);
+		$non_deducted_comp = $this->queries->get_today_non_deducted_company($comp_id);
+		$expenses_comp = $this->queries->get_more_expenses_todaycompany($comp_id);
+		$today_transaction_income = $this->queries->get_transaction_from_incToblanch_account_company($comp_id);
+		$total_expenses_comp = $this->queries->get_total_expenses_reqcompany($comp_id);
+		$total_lala_income = $this->queries->get_deduction_lala_comp($comp_id);
+		$yester_day_out = $this->queries->get_prev_outstand_date_company($comp_id);
+		$today_out_deposit = $this->queries->get_total_deposit_out_comp($comp_id);
+		$remain_deposit = $this->queries->get_outstand_loan_data_company($comp_id);
+		$kopesha_out = $this->queries->get_total_transaction_default_insystem_company($comp_id);
+		$account_out_balance = $this->queries->get_outstand_account_balance_company($comp_id);
+		$out_lalain = $this->queries->get_today_outstand_stoo_company($comp_id);
+		$outsystem_yesterday = $this->queries->get_deposit_out_system_yesterday_company($comp_id);
+		$total_njeleo = $this->queries->get_today_deposit_out_company($comp_id);
+		$out_system_total = $this->queries->get_total_out_deni_comp($comp_id);
+		$total_deposit_out = $this->queries->get_total_deposit_outSystem_comp($comp_id);
+		$total_kopesha_out = $this->queries->get_total_transaction_default_outsystemCompany($comp_id);
+		$nje_account = $this->queries->get_njeya_mfumo_data_account_company($comp_id);
+		$out_system = $this->queries->get_total_receive_out_systemCompany($comp_id);
+        $total_out_system = $out_system->total_out_system;
 
 	$mpdf = new \Mpdf\Mpdf(['mode' => 'utf-8','format' => 'A4-L','orientation' => 'L']);
-    $html = $this->load->view('admin/daily_report_data',['compdata'=>$compdata,'total_today_with'=>$total_today_with,'total_depost_comp'=>$total_depost_comp,'total_deducted_comp'=>$total_deducted_comp,'total_non_deducted'=>$total_non_deducted,'total_comp_expenses'=>$total_comp_expenses,'restration_comp'=>$restration_comp,'blanch'=>$blanch],true);
+    $html = $this->load->view('admin/daily_report_data',['compdata'=>$compdata,'cash_transfor'=>$cash_transfor,'income_blanch_blanch'=>$income_blanch_blanch,'default_insystem'=>$default_insystem,'default_outsystem'=>$default_outsystem,'yesterday_balance'=>$yesterday_balance,'today_deposit'=>$today_deposit,'remain_depost'=>$remain_depost,'loanwith'=>$loanwith,'prepaid'=>$prepaid,'stoo'=>$stoo,'blanch_acount'=>$blanch_acount,'saving_deposit'=>$saving_deposit,'balance_blanch'=>$balance_blanch,'deduct_day_balance'=>$deduct_day_balance,'non_balance_comp'=>$non_balance_comp,'income_balance'=>$income_balance,'today_deducted'=>$today_deducted,'non_deducted_comp'=>$non_deducted_comp,'expenses_comp'=>$expenses_comp,'today_transaction_income'=>$today_transaction_income,'total_expenses_comp'=>$total_expenses_comp,'total_lala_income'=>$total_lala_income,'yester_day_out'=>$yester_day_out,'today_out_deposit'=>$today_out_deposit,'remain_deposit'=>$remain_deposit,'kopesha_out'=>$kopesha_out,'account_out_balance'=>$account_out_balance,'out_lalain'=>$out_lalain,'outsystem_yesterday'=>$outsystem_yesterday,'total_njeleo'=>$total_njeleo,'out_system_total'=>$out_system_total,'total_deposit_out'=>$total_deposit_out,'total_kopesha_out'=>$total_kopesha_out,'nje_account'=>$nje_account,'total_out_system'=>$total_out_system],true);
     $mpdf->SetFooter('Generated By Brainsoft Technology');
     $mpdf->WriteHTML($html);
     $mpdf->Output();	

@@ -225,31 +225,73 @@
                                 <table class="table table-hover js-basic-example dataTable table-custom">
                                     <thead class="thead-primary">
                                         <tr>
-                                            <th>S/No.</th>
-                                            <th>Loan Category/Product</th>
-                                            <th>Loan Level</th>
-                                            <th>Loan Interest</th>
-                                            <th>Action</th>
+                                        <th>S/no.</th>
+                                        <th>Loan Ac</th>
+                                        <th>Loan Product</th>
+                                        <th>Loan Interest</th>
+                                        <th>Loan Withdrawal</th>
+                                        <th>Principal + interest</th>
+                                        <th>Duration Type</th>
+                                        <th>Number of Repayment</th>
+                                        <th>Restoration</th>
+                                        <th>Status</th>
+                                        <th>Withdrawal Date</th>
+                                        <th>End Date</th>
                                         </tr>
                                     </thead>
                                    
                                     <tbody>
-                                        <?php $no = 1; ?>
-                                        <?php //foreach ($loan_category as $loan_categorys): ?>
+                                                <?php $no = 1 ?>        
+                                <?php foreach($loan_customer as $loan_aproveds): ?>
                                         <tr>
-                                            <td><?php //echo $no++; ?>.</td>
-                                            <td><?php //echo $loan_categorys->loan_name; ?></td>
-                                            <td><?php //echo number_format($loan_categorys->loan_price); ?> - <?php //echo  number_format($loan_categorys->loan_perday);  ?></td>
-                                            <td><?php //echo $loan_categorys->interest_formular; ?>%</td>
-                                            <td>
-                                            <a href="" class="btn btn-sm btn-icon btn-pure btn-primary on-default m-r-5 button-edit"
-                                            data-toggle="modal" data-target="#addcontact1<?php //echo $loan_categorys->category_id; ?>" data-original-title="Edit"><i class="icon-pencil"></i></a>
-                                            <a href="<?php //echo base_url("admin/delete_loancategory/{$loan_categorys->category_id}") ?>" class="btn btn-sm btn-icon btn-pure btn-danger on-default button-remove"
-                                            data-toggle="tooltip" data-original-title="Remove" onclick="return confirm('Are You Sure?')"><i class="icon-trash" aria-hidden="true"></i></a>
-                                        </td>
-                                        </tr>
-   
-                                         <?php //endforeach; ?>
+                                    <td><?php echo $no++; ?>.</td>
+                                    <td><?php echo $loan_aproveds->loan_code; ?></td>
+                                    
+                                    <td><?php echo $loan_aproveds->loan_name ?></td>
+                                    <td><?php echo $loan_aproveds->interest_formular; ?>%</td>
+                                    <td><?php echo number_format($loan_aproveds->loan_aprove); ?></td>
+                                    <td><?php echo number_format($loan_aproveds->loan_int); ?></td>
+                                    
+                                    <td>
+                               <?php if ($loan_aproveds->day == 1) {
+                                                 echo "Daily";
+                                             ?>
+                                            <?php }elseif($loan_aproveds->day == 7){
+                                                  echo "Weekly";
+                                             ?>
+                                            
+                                        <?php }elseif($loan_aproveds->day == 30 || $loan_aproveds->day == 31 || $loan_aproveds->day == 29 || $loan_aproveds->day == 28){
+                                                echo "Monthly"; 
+                                            ?>
+                                            <?php } ?>
+                                    </td>
+                    
+                                        
+                                <td><?php echo $loan_aproveds->session; ?> </td> 
+                                <td><?php echo number_format($loan_aproveds->restration); ?> </td>
+                                <td>
+                                    <?php if ($loan_aproveds->loan_status == 'open') {
+                                         ?>
+                                        <a href="javascript:;" class="badge badge-warning">Pending</a>
+                                        <?php }elseif($loan_aproveds->loan_status == 'aproved'){ ?>
+                                          <a href="javascript:;" class="badge badge-info">Aproved</a>
+                                            <?php }elseif($loan_aproveds->loan_status == 'withdrawal'){ ?>
+                                             <a href="javascript:;" class="badge badge-primary">Active</a>
+                                                <?php }elseif($loan_aproveds->loan_status == 'done'){ ?>
+                                                <a href="javascript:;" class="badge badge-success">Done</a>
+                                                    <?php }elseif ($loan_aproveds->loan_status == 'out') { ?>
+                                            <a href="javascript:;" class="badge badge-danger">Default</a>
+                                                        
+                                                    <?php }elseif($loan_aproveds->loan_status == 'disbarsed'){ ?> 
+                                                <a href="javascript:;" class="badge badge-secondary">Disbursed</a>
+                                                <?php } ?>
+                                </td> 
+                                <td><?php echo $loan_aproveds->loan_stat_date; ?> </td>
+                                <td><?php echo substr($loan_aproveds->loan_end_date, 0,10); ?></td> 
+                                 </tr>
+
+                            <?php endforeach; ?>
+                               
                                     </tbody>
                                 </table>
                             </div>

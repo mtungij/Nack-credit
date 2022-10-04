@@ -69,23 +69,9 @@
                 </style>  
                 <div class="col-lg-12">
                     <div class="card">
-                         <div class="text-center">
-                                        <img id="loaderIcon" style="visibility:hidden; display:none;width: 60px; height: 60px;"
-                                    src="https://c.tenor.com/I6kN-6X7nhAAAAAj/loading-buffering.gif" alt="Please wait" />
-                                </div>
+                         
                           <div class="body">
-                     <?php echo form_open("oficer/search_customerData",['id'=>'login_form']); ?>
-                            <div class="sam">
-                                <select type="number" class="form-control select2" name="customer_id" required>
-                                    <option>Search Customer</option>
-                                    <?php foreach ($customery as $customer_datas): ?>
-                                    <option value="<?php echo $customer_datas->customer_id; ?>"><?php echo $customer_datas->f_name; ?> <?php echo $customer_datas->m_name; ?> <?php echo $customer_datas->l_name; ?> / <?php echo $customer_datas->customer_code; ?> </option>
-                                    <?php endforeach; ?>
-                                </select>
-                                <button type="submit" class="btn btn-primary"><i class="icon-magnifier-add">Search</i></button>
-                                
-                            </div>
-                            <?php echo form_close(); ?>
+                     
                             
                             <div class="table-responsive">
                                 <table class="table table-hover j-basic-example dataTable table-custom">
@@ -197,8 +183,26 @@
 
 
                   <div class="col-lg-12">
+                    <div class="text-center">
+                                        <img id="loaderIcon" style="visibility:hidden; display:none;width: 60px; height: 60px;"
+                                    src="https://c.tenor.com/I6kN-6X7nhAAAAAj/loading-buffering.gif" alt="Please wait" />
+                                </div>
+                    <?php echo form_open("oficer/search_customerData",['id'=>'login_form']); ?>
+                            <div class="sam">
+                                <select type="number" class="form-control select2" name="customer_id" required>
+                                    <option>Search Customer</option>
+                                    <?php foreach ($customery as $customer_datas): ?>
+                                    <option value="<?php echo $customer_datas->customer_id; ?>"><?php echo $customer_datas->f_name; ?> <?php echo $customer_datas->m_name; ?> <?php echo $customer_datas->l_name; ?> / <?php echo $customer_datas->customer_code; ?> </option>
+                                    <?php endforeach; ?>
+                                </select>
+                                <button type="submit" class="btn btn-primary"><i class="icon-magnifier-add">Search</i></button>
+                                
+                            </div>
+                            <?php echo form_close(); ?>
                     <div class="card">
+
                           <div class="body">
+
                              <div class="pull-right">
                                 <?php if (@$customer_loan->loan_status == 'withdrawal' || @$customer_loan->loan_status == 'out') {
                                  ?>

@@ -77,7 +77,7 @@
                                             <th>Branch Name</th>
                                             <th>Branch Phone Number</th>
                                             <th>Branch region</th>
-                                            <!-- <th>Blanch Amount</th> -->
+                                            <th>Customer Status</th>
                                             <th>status</th>
                                             <th>Action</th>
                                         </tr>
@@ -86,19 +86,27 @@
                                     <tbody>
                                               <?php $no = 1; ?>
                                     <?php foreach ($blanch as $blanchs): ?>
+                                        <?php
+                                         $active_customer = $this->queries->get_customer_active($blanchs->blanch_id);
+                                         $pending_customer = $this->queries->get_customer_pending($blanchs->blanch_id);
+                                         $out_customer = $this->queries->get_customer_out($blanchs->blanch_id);
+                                         $close_customer = $this->queries->get_customer_closed($blanchs->blanch_id);
+                                         $all_customer = $this->queries->get_customer_All_blanch($blanchs->blanch_id);
+                                          ?>
+                                        <?php //print_r($active_customer); ?>
                                               <tr>
                                     <td><?php echo $no++; ?>.</td>
                                     <td><?php echo $blanchs->blanch_name; ?></td>
                                     <td><?php echo $blanchs->blanch_no; ?></td>
                                     <td><?php echo $blanchs->region_name; ?></td>
-                                    <!-- <td>Tsh.<?php //echo number_format($blanchs->blanch_amount); ?>/=</td> -->
+                                     <td>Active:<a href="javascript:;" class="badge badge-success"><?php echo count($active_customer); ?></a> Pending: <a href="javascript:;" class="badge badge-warning"><?php echo count($pending_customer); ?></a> Default: <a href="javascript:;" class="badge badge-danger"><?php echo count($out_customer); ?></a> Done:<a href="javascript:;" class="badge badge-info"><?php echo count($close_customer); ?></a> All::<a href="javascript:;" class="badge badge-secondary"><?php echo count($all_customer); ?></a> </td>
                                     <td><a href="#" class="badge badge-success ">Active</a></td>
                                 <td>
                                       <a href="" class="btn btn-sm btn-icon btn-pure btn-primary on-default m-r-5 button-edit"
                                             data-toggle="modal" data-target="#addcontact1<?php echo $blanchs->blanch_id; ?>" data-original-title="Edit"><i class="icon-pencil"></i>
                                         </a>
-                                        <a href="<?php echo base_url("admin/view_blanch_customer/{$blanchs->blanch_id}") ?>" class="btn btn-sm btn-icon btn-pure btn-primary on-default m-r-5 button-edit" data-original-title="Edit"><i class="icon-eye"></i>
-                                        </a>
+                                       <!--  <a href="<?php //echo base_url("admin/view_blanch_customer/{$blanchs->blanch_id}") ?>" class="btn btn-sm btn-icon btn-pure btn-primary on-default m-r-5 button-edit" data-original-title="Edit"><i class="icon-eye"></i>
+                                        </a> -->
                                             <a href="<?php echo base_url("admin/delete_blanch/{$blanchs->blanch_id}") ?>" class="btn btn-sm btn-icon btn-pure btn-danger on-default m-r-5 button-edit" data-original-title="Delete" onclick="return confirm('Are You Sure?')"><i class="icon-trash"></i>
                                         </a>
                                 </td>                                                                                   

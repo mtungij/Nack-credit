@@ -31,7 +31,7 @@
                             <h2>Add Collateral</h2>
                         </div>
                         <div class="body">
-                            <?php echo form_open_multipart("admin/create_colateral/{$loan_attach->loan_id}") ?>
+                            <?php echo form_open("admin/create_colateral/{$loan_attach->loan_id}") ?>
                             <div class="row">
                                 <div class="col-lg-6">
                             <div class="form-group">

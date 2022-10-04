@@ -34,17 +34,16 @@
                              </div>
                           <div class="body">
                             <div class="table-responsive">
-                                <table class="table table-hover js-basic-example dataTable table-custom">
+                                <table class="table table-hover j-basic-example dataTable table-custom">
                                     <thead class="thead-primary">
                                         <tr>
-                                           <th>S/No.</th>
+                                            <th>Branch</th>
                                             <th>Customer ID</th>
                                             <th>customer name</th>
                                             <th>Date of Birth</th>
                                             <th>Age</th>
                                             <th>Gender</th>
                                             <th>Phone number</th>
-                                            <th>Branch</th>
                                             <th>District</th>
                                             <th>Ward</th>
                                             <th>Street</th>
@@ -55,47 +54,78 @@
                                    
                                     <tbody>
                                         <?php $no = 1; ?>
-                                        <?php foreach($customer  as $customers): ?>
+                                        <?php foreach($customer_statusData  as $customers): ?>
                                         <tr>
-                                            <td><?php echo $no++; ?>.</td>
-                                            <td><?php echo $customers->customer_code; ?></td>
-                                            <td><?php echo $customers->f_name; ?> <?php echo $customers->m_name; ?> <?php echo $customers->l_name; ?></td>
-                                            <td><?php echo $customers->date_birth; ?></td>
-                                            <td><?php if ($customers->age == TRUE) {
+                                            <td><b><?php echo $customers->blanch_name; ?></b></td>
+                                            <td><?php //echo $customers->f_name; ?> <?php //echo $customers->m_name; ?> <?php //echo $customers->l_name; ?></td>
+                                            <td><?php //echo $customers->date_birth; ?></td>
+                                            <td><?php //if ($customers->age == TRUE) {
                                              ?>
-                                             <?php echo $customers->age; ?>
+                                             <?php //echo $customers->age; ?>
+                                            <?php //}else{ ?>
+                                                
+                                              <?php //} ?>
+                                            </td>
+                                            <td><?php //echo $customers->gender; ?></td>
+                                            <td><?php //echo $customers->phone_no; ?></td>
+                                            <td><?php //echo $customers->blanch_name; ?></td>
+                                            <td><?php //echo $customers->district; ?></td>
+                                            <td><?php //echo $customers->ward; ?></td>
+                                            <td><?php //echo $customers->street; ?></td>
+                                            <td>
+                                            
+                                            </td>
+                                            <td>
+                                            
+                                        </td>
+                                        </tr>
+                                <?php $blanch_customer = $this->queries->get_customer_blanch_data($customers->blanch_id,$customers->customer_status); ?>
+
+                                <?php //print_r($blanch_customer); ?>
+                                      <?php foreach ($blanch_customer as $blanch_customers): ?>
+                                        <tr>
+                                            <td><?php //echo $customers->blanch_name; ?></td>
+                                            <td><?php echo $blanch_customers->customer_code; ?></td>
+                                            <td><?php echo $blanch_customers->f_name; ?> <?php echo $blanch_customers->m_name; ?> <?php echo $blanch_customers->l_name; ?></td>
+                                            <td><?php echo $blanch_customers->date_birth; ?></td>
+
+                                            <td>
+                                            <?php if ($blanch_customers->age == TRUE) {
+                                             ?>
+                                             <?php echo $blanch_customers->age; ?>
                                             <?php }else{ ?>
                                                 -
                                               <?php } ?>
                                             </td>
-                                            <td><?php echo $customers->gender; ?></td>
-                                            <td><?php echo $customers->phone_no; ?></td>
-                                            <td><?php echo $customers->blanch_name; ?></td>
-                                            <td><?php echo $customers->district; ?></td>
-                                            <td><?php echo $customers->ward; ?></td>
-                                            <td><?php echo $customers->street; ?></td>
+                                            <td><?php echo $blanch_customers->gender; ?></td>
+                                            <td><?php echo $blanch_customers->phone_no; ?></td>
+                                            <td><?php echo $blanch_customers->district; ?></td>
+                                            <td><?php echo $blanch_customers->ward; ?></td>
+                                            <td><?php echo $blanch_customers->street; ?></td>
+                                            
                                             <td>
-                                                <?php if ($customers->customer_status == 'open') {
+                                                <?php if ($blanch_customers->customer_status == 'open') {
                                              ?>
                                              <a href="#" class="badge badge-success">Active</a>
-                                            <?php }elseif ($customers->customer_status == 'close') {
+                                            <?php }elseif ($blanch_customers->customer_status == 'close') {
                                              ?>
                                              <a href="#" class="badge badge-primary">Done</a>
-                                             <?php }elseif($customers->customer_status == 'pending'){
+                                             <?php }elseif($blanch_customers->customer_status == 'pending'){
                                               ?>
                                               <a href="#" class="badge badge-warning">Pending</a>
-                                              <?php }elseif ($customers->customer_status == 'out') {
+                                              <?php }elseif ($blanch_customers->customer_status == 'out') {
                                                ?>
                                                <a href="#" class="badge badge-danger">Default</a>
                                                <?php } ?>
                                             </td>
                                             <td>
-                                            <a href="<?php echo base_url("admin/customer_profile/{$customers->customer_id}"); ?>" class="btn btn-sm btn-icon btn-pure btn-primary on-default m-r-5 button-edit"data-original-title="Edit"><i class="icon-eye"></i></a>
-                                            <a href="<?php echo base_url("admin/delete_customerData/{$customers->customer_id}") ?>" class="btn btn-sm btn-icon btn-pure btn-danger on-default button-remove"
+                                            <a href="<?php echo base_url("admin/customer_profile/{$blanch_customers->customer_id}"); ?>" class="btn btn-sm btn-icon btn-pure btn-primary on-default m-r-5 button-edit"data-original-title="Edit"><i class="icon-eye"></i></a>
+                                            <a href="<?php echo base_url("admin/delete_customerData/{$blanch_customers->customer_id}") ?>" class="btn btn-sm btn-icon btn-pure btn-danger on-default button-remove"
                                             data-toggle="tooltip" data-original-title="Remove" onclick="return confirm('Are You Sure?')"><i class="icon-trash" aria-hidden="true"></i></a>
                                         </td>
                                         </tr>
- 
+                                         <?php endforeach; ?>
+
                                          <?php endforeach; ?>
                                     </tbody>
                                 </table>

@@ -109,7 +109,7 @@
                                     
                                     <li><a href="<?php echo base_url("admin/disburse_loan"); ?>">Loan Disbursed</a></li>
                                     <li><a href="<?php echo base_url("admin/loan_withdrawal"); ?>">Loan Withdrawal</a></li>
-                                    <li><a href="javascript:;">Loan Rejected</a></li>
+                                    <li><a href="<?php echo base_url("admin/all_loan_lejected"); ?>">Loan Rejected</a></li>
                                     <!-- <li><a href="javascript:;">Individual Loan</a></li>
                                     <li><a href="javascript:;">Group Loan</a></li> -->
                                 </ul>
@@ -152,7 +152,7 @@
                                     <li><a href="ui-buttons.html">Saving Deposit</a></li>
                                 </ul>
                             </li>
-                            <li><a href="javascript:;"><i class="icon-wallet"></i>Cashbook</a></li>                            
+                            <li><a href="<?php echo base_url("admin/daily_report"); ?>"><i class="icon-wallet"></i>Daily Report</a></li>                            
                         </ul>
                     </nav>
                     <br><br><br>
