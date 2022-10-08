@@ -1371,7 +1371,7 @@ $sponser = $this->queries->get_sponser($customer_id);
 $sponsers_data = $this->queries->get_sponserCustomer($customer_id);
 $region = $this->queries->get_region();
 //   echo "<pre>";
-// print_r($sponsers_data);
+// print_r($customer);
 //  echo "</pre>";
 //    exit();
 $this->load->view('admin/search_customer',['customer'=>$customer,'sponser'=>$sponser,'sponsers_data'=>$sponsers_data,'region'=>$region]);
@@ -2731,7 +2731,7 @@ public function disburse($loan_id){
 		$float = $this->queries->get_today_float($comp_id);
 		$depost = $this->queries->get_sumTodayDepost($comp_id);
 		$withdraw = $this->queries->get_sumTodayWithdrawal($comp_id);
-		$customer = $this->queries->get_allcustomerDatagroup($comp_id);
+		$customer = $this->queries->get_allcustomerData($comp_id);
 		  // echo "<pre>";
 		  // print_r($customer);
 		  //   exit();
@@ -2746,9 +2746,11 @@ public function disburse($loan_id){
     $customer_id = $this->input->post('customer_id');
     $comp_id = $this->input->post('comp_id');
     $customer = $this->queries->search_CustomerLoan($customer_id);
-    @$customer_id = $customer->customer_id;
     @$blanch_id = $customer->blanch_id;
     $acount = $this->queries->get_customer_account_verfied($blanch_id);
+
+    // print_r($customer);
+    //        exit();
 
     $this->load->view('admin/search_loan_customer',['customer'=>$customer,'customery'=>$customery,'acount'=>$acount]);
 }
@@ -4914,13 +4916,17 @@ public function previous_transfor(){
     $blanch = $this->queries->get_blanch($comp_id);
 
     $new_pending = $this->queries->get_total_loan_pendingComp($comp_id);
-    
     $total_pending_new = $this->queries->get_total_pend_loan_company($comp_id);
+
+    $old_newpend = $this->queries->get_pending_reportLoancompany($comp_id);
+    $pend = $this->queries->get_sun_loanPendingcompany($comp_id);
+
+
       //  echo "<pre>";
       // print_r($new_pending);
       //     exit();
     
-    $this->load->view('admin/loan_pending_time',['blanch'=>$blanch,'new_pending'=>$new_pending,'total_pending_new'=>$total_pending_new]);
+    $this->load->view('admin/loan_pending_time',['blanch'=>$blanch,'new_pending'=>$new_pending,'total_pending_new'=>$total_pending_new,'old_newpend'=>$old_newpend,'pend'=>$pend]);
     }
 
 
@@ -4979,7 +4985,7 @@ public function previous_transfor(){
     	$total_loanAprove = $this->queries->get_total_loanDone($comp_id);
     	$total_loan_int = $this->queries->get_sum_totalloanInterst($comp_id);
     	  //     echo "<pre>";
-    	  // print_r($total_loan_int);
+    	  // print_r($repayment);
     	  //      exit();
     	$this->load->view('admin/loan_repayment',['repayment'=>$repayment,'total_loanAprove'=>$total_loanAprove,'total_loan_int'=>$total_loan_int]);
     }
@@ -5040,21 +5046,33 @@ public function previous_transfor(){
     public function search_acount_statement(){
     $this->load->model('queries');
     $comp_id = $this->session->userdata('comp_id');
+    $customery = $this->queries->get_allcustomerData($comp_id);
     $customer_id = $this->input->post('customer_id');
-    $comp_id = $this->input->post('comp_id');
-    $customerData = $this->queries->get_allcustomerData($comp_id);
-    $customer = $this->queries->search_CustomerLoan($customer_id,$comp_id);
-    @$customer_id = $customer->customer_id;
-    @$statement = $this->queries->get_customer_datareport($customer_id);
-    @$pay_customer = $this->queries->get_paycustomer($customer_id);
-    @$payisnull = $this->queries->get_paycustomerNotfee_Statement($customer_id);
-    @$sum_depost = $this->queries->get_sumDepost_loan($customer_id);
+    $customer = $this->queries->search_CustomerLoan($customer_id);
 
       //   echo "<pre>";
       // print_r($customers);
       //       exit();
-    $this->load->view('admin/search_account',['pay_customer'=>$pay_customer,'payisnull'=>$payisnull,'customer'=>$customer,'statement'=>$statement,'customerData'=>$customerData]);
+    $this->load->view('admin/search_account',['customer'=>$customer,'customery'=>$customery]);
     }
+
+
+    public function filter_customer_statement(){
+    $this->load->model('queries');
+    $comp_id = $this->session->userdata('comp_id');
+    $from = $this->input->post('from');
+    $to = $this->input->post('to');
+    $customer_id = $this->input->post('customer_id');
+
+    $data_account = $this->queries->get_account_statement($customer_id,$from,$to);
+    $customer = $this->queries->search_CustomerLoan($customer_id);
+    $customery = $this->queries->get_allcustomerData($comp_id);
+    
+    // print_r($data_account);
+    //     exit();
+
+    $this->load->view('admin/customer_statement',['customer'=>$customer,'data_account'=>$data_account,'customery'=>$customery]);
+}
 
     public function search_customer_loan_report(){
     	$this->load->model('queries');
@@ -6661,10 +6679,27 @@ return true;
 		$rejesho = $this->queries->get_total_recevable($comp_id);
 
 		$employee = $this->queries->get_today_recevable_employee($comp_id);
+		$blanch = $this->queries->get_blanch($comp_id);
 		  //     echo "<pre>";
 		  // print_r($employee);
 		  //           exit();
-		$this->load->view('admin/today_recevable',['today_recevable'=>$today_recevable,'rejesho'=>$rejesho,'employee'=>$employee]);
+		$this->load->view('admin/today_recevable',['today_recevable'=>$today_recevable,'rejesho'=>$rejesho,'employee'=>$employee,'blanch'=>$blanch]);
+	}
+
+
+	public function filter_loan_receivable(){
+		$this->load->model('queries');
+		$comp_id = $this->session->userdata('comp_id');
+		$blanch_id = $this->input->post('blanch_id');
+		$today_receivable = $this->queries->get_today_recevable_loanBlanch($blanch_id);
+		$blanch = $this->queries->get_blanch($comp_id);
+		$rejesho = $this->queries->get_total_recevableBlanch($blanch_id);
+
+		$blanch_data = $this->queries->get_blanch_data($blanch_id);
+		// echo "<pre>";
+		// print_r($today_receivable);
+		//          exit();
+		$this->load->view('admin/filter_loan_receivable',['blanch'=>$blanch,'today_receivable'=>$today_receivable,'rejesho'=>$rejesho,'blanch_data'=>$blanch_data]);
 	}
 
 
@@ -6748,10 +6783,11 @@ return true;
 		$blanch_data = $this->queries->get_blanchRecevedData($blanch_id);
 		$blanch_principal = $this->queries->get_sum_principal_depostBranch($blanch_id);
 		$blanch_interest = $this->queries->get_sum_interest_depostBlanch($blanch_id);
+		$blanch_data = $this->queries->get_blanch_data($blanch_id);
 		   // echo "<pre>";
 		   // print_r($blanch_interest);
 		   // exit();
-		$this->load->view('admin/blanch_receved',['data_blanch'=>$data_blanch,'blanch'=>$blanch,'total_receve_blanch'=>$total_receve_blanch,'blanch_data'=>$blanch_data,'blanch_principal'=>$blanch_principal,'blanch_interest'=>$blanch_interest]);
+		$this->load->view('admin/blanch_receved',['data_blanch'=>$data_blanch,'blanch'=>$blanch,'total_receve_blanch'=>$total_receve_blanch,'blanch_data'=>$blanch_data,'blanch_principal'=>$blanch_principal,'blanch_interest'=>$blanch_interest,'blanch_data'=>$blanch_data]);
 	}
 
 	
@@ -7258,10 +7294,12 @@ public function send_email(){
       $loan_paid = $this->queries->get_totalPaid_loanFilter($blanch_id,$loan_status,$comp_id);
       $penart_amounts = $this->queries->get_total_penartFilter($blanch_id,$loan_status,$comp_id);
       $paid_penart = $this->queries->get_paid_penartFilter($blanch_id,$loan_status,$comp_id);
+
+      $blanch_data = $this->queries->get_blanch_data($blanch_id);
          //    echo "<pre>";
          // print_r($data_collection);
          //       exit();
-      $this->load->view('admin/loan_collection_blanch',['data_collection'=>$data_collection,'blanch'=>$blanch,'data_blanch'=>$data_blanch,'total_loans'=>$total_loans,'loan_paid'=>$loan_paid,'penart_amounts'=>$penart_amounts,'paid_penart'=>$paid_penart,'blanch_id'=>$blanch_id,'loan_status'=>$loan_status,'comp_id'=>$comp_id]);
+      $this->load->view('admin/loan_collection_blanch',['data_collection'=>$data_collection,'blanch'=>$blanch,'data_blanch'=>$data_blanch,'total_loans'=>$total_loans,'loan_paid'=>$loan_paid,'penart_amounts'=>$penart_amounts,'paid_penart'=>$paid_penart,'blanch_id'=>$blanch_id,'loan_status'=>$loan_status,'comp_id'=>$comp_id,'blanch_data'=>$blanch_data]);
 
       }
 
@@ -8590,6 +8628,214 @@ echo $this->queries->fetch_employee($this->input->post('blanch_id'));
 }
 
 }
+
+
+public function Default_loan(){
+	$this->load->model('queries');
+	$comp_id = $this->session->userdata('comp_id');
+	$default = $this->queries->get_outstand_loan_company($comp_id);
+	$total_default = $this->queries->get_total_outStand_comp($comp_id);
+	$blanch = $this->queries->get_blanch($comp_id);
+	// print_r($blanch);
+	//     exit();
+	$this->load->view('admin/default_loan',['default'=>$default,'total_default'=>$total_default,'blanch'=>$blanch]);
+}
+
+
+public function filter_default_loan(){
+	$this->load->model('queries');
+	$comp_id = $this->session->userdata('comp_id');
+	$blanch = $this->queries->get_blanch($comp_id);
+
+	$blanch_id = $this->input->post('blanch_id');
+	$default_blanch = $this->queries->filter_loan_default($blanch_id);
+	$total_blanch = $this->queries->get_total_outStand_blanch($blanch_id);
+
+	$blanch_data = $this->queries->get_blanch_data($blanch_id);
+	// echo "<pre>";
+	// print_r($total_blanch);
+	//       exit();
+
+	$this->load->view('admin/filter_defaultloan',['blanch'=>$blanch,'default_blanch'=>$default_blanch,'total_blanch'=>$total_blanch,'blanch_data'=>$blanch_data]);
+}
+
+
+public function default_outsystem(){
+	$this->load->model('queries');
+	$comp_id = $this->session->userdata('comp_id');
+    $blanch = $this->queries->get_blanch($comp_id);
+    $data_blanch_out = $this->queries->get_outloan_data($comp_id);
+
+    $total_out_balance = $this->queries->get_total_out($comp_id);
+    $blanch = $this->queries->get_blanch($comp_id);
+
+
+    $out_deposit = $this->queries->get_otstand_systemDeposit_comp($comp_id);
+    $sum_depost = $this->queries->get_otstand_systemDeposit_compsum_deposit($comp_id);
+    //         echo "<pre>";
+    // print_r($data_blanch_out);
+    //           exit();
+	$this->load->view('admin/default_outsystem',['blanch'=>$blanch,'data_blanch_out'=>$data_blanch_out,'total_out_balance'=>$total_out_balance,'blanch'=>$blanch,'out_deposit'=>$out_deposit,'sum_depost'=>$sum_depost]);
+}
+
+
+public function create_default_loan_out(){
+	     $this->load->model('queries');
+        $this->form_validation->set_rules('comp_id','company','required');
+        $this->form_validation->set_rules('blanch_id','blanch','required');
+        $this->form_validation->set_rules('out_amount','Amount','required');
+        $this->form_validation->set_error_delimiters('<div class="text-danger">','</div>');
+
+        if ($this->form_validation->run()) {
+            $data = $this->input->post();
+            $comp_id = $data['comp_id'];
+            $blanch_id = $data['blanch_id'];
+            $out_amount = $data['out_amount'];
+            
+            $old_out = $this->queries->get_total_outsytem_loan($blanch_id,$comp_id);
+            $old_balance = $old_out->out_amount;
+            $out_data = $old_balance + $out_amount;
+
+            if ($old_out == TRUE) {
+            $this->update_outsystem_loan($comp_id,$blanch_id,$out_data);	
+            }else{
+            $this->insert_out_standloan_out($data);	
+            }
+
+            // print_r($out_data);
+            //       exit();
+            
+            
+            $this->session->set_flashdata("massage",'Saved successfully');
+            return redirect("admin/default_outsystem");
+        }
+        $this->default_outsystem();
+    }
+
+
+      public function insert_out_standloan_out($data){
+       	return $this->db->insert('tbl_out_system',$data);
+     }
+
+     public function update_outsystem_loan($comp_id,$blanch_id,$out_data){
+     $sqldata="UPDATE `tbl_out_system` SET `out_amount`= '$out_data' WHERE `blanch_id`= '$blanch_id' AND `comp_id`='$comp_id'";
+     $query = $this->db->query($sqldata);
+     return true; 
+     }
+
+
+     public function update_out_prepaid($id){
+     $this->form_validation->set_rules('out_amount','Amount','required');
+     $this->form_validation->set_error_delimiters('<div class="text-danger">','</div>');
+     if ($this->form_validation->run()) {
+     	 $data = $this->input->post();
+     	 //  echo "<pre>";
+     	 // print_r($data);
+     	 //       exit();
+     	 $this->load->model('queries');
+     	 if ($this->queries->update_loan_outstand($data,$id)) {
+     	 	$this->session->set_flashdata("massage",'Successfully');
+     	 }else{
+     	 	$this->session->set_flashdata("error",'Failed');
+     	 }
+     	 return redirect('admin/default_outsystem');
+       }
+       $this->default_outsystem();
+     }
+
+
+     public function create_deposit_out(){
+        $this->load->model('queries');
+        $this->form_validation->set_rules('comp_id','company','required');
+        $this->form_validation->set_rules('blanch_id','blanch','required');
+        //$this->form_validation->set_rules('empl_id','Employee','required');
+        $this->form_validation->set_rules('trans_id','Account','required');
+        $this->form_validation->set_rules('customer_name','Customer','required');
+        $this->form_validation->set_rules('amount','Amount','required');
+        $this->form_validation->set_rules('date','date','required');
+        $this->form_validation->set_error_delimiters('<div class="text-danger">','</div>');
+
+        if ($this->form_validation->run()) {
+            $data = $this->input->post();
+             //  echo "<pre>";
+             // print_r($data);
+             //      exit();
+            $blanch_id = $data['blanch_id'];
+            $empl_id = $data['empl_id'];
+            $trans_id = $data['trans_id'];
+            $amount = $data['amount'];
+            $comp_id = $data['comp_id'];
+
+            @$blanch_out = $this->queries->get_receive_outsystem($blanch_id,$trans_id);
+            $amount_receive = @$blanch_out->amount_receive;
+
+            $new_receve = $amount_receive + $amount;
+
+            if (@$blanch_out->amount_receive == TRUE || @$blanch_out->amount_receive == '0') {
+
+                $this->update_outstand_deposit_system($blanch_id,$trans_id,$new_receve);
+                //echo "UPDATE";
+            }else{
+
+            $this->insert_outstand_deposit_system($comp_id,$blanch_id,$trans_id,$new_receve);
+                //echo "insert";
+            }
+
+            // echo "<pre>";
+            // print_r($new_receve);
+            //     exit();
+            
+            if ($this->queries->insert_deposit_out($data)) {
+                $this->session->set_flashdata("massage",'Deposit Successfully');
+            }else{
+              $this->session->set_flashdata("error",'Failed');  
+            }
+            return redirect("admin/default_outsystem");
+        }
+        $this->default_outsystem();
+    }
+
+    public function update_outstand_deposit_system($blanch_id,$trans_id,$new_receve){
+    $sqldata="UPDATE `tbl_receive_outsystem` SET `amount_receive`= '$new_receve' WHERE `blanch_id`= '$blanch_id' AND `trans_id`='$trans_id'";
+   $query = $this->db->query($sqldata);
+   return true;   
+    }
+
+     public function insert_outstand_deposit_system($comp_id,$blanch_id,$trans_id,$new_receve){
+     $this->db->query("INSERT INTO  tbl_receive_outsystem (`comp_id`,`blanch_id`,`trans_id`,`amount_receive`) VALUES ('$comp_id', '$blanch_id','$trans_id','$new_receve')");  
+    }
+
+     public function delete_outstand_system($id){
+        $this->load->model('queries');
+        $data_out = $this->queries->get_out_system($id);
+        $amount = $data_out->amount;
+        $trans_id = $data_out->trans_id;
+        $blanch_id = $data_out->blanch_id;
+
+        $out_system_data = $this->queries->get_receive_outsystem($blanch_id,$trans_id);
+        $amount_receive = $out_system_data->amount_receive;
+
+        $new_receve = $amount_receive - $amount;
+
+        $this->update_outstand_deposit_system($blanch_id,$trans_id,$new_receve);
+        // print_r($amount_receive);
+        //         exit();
+        if($this->remove_out_system($id));
+        $this->session->set_flashdata("massage",'Data Deleted successfully');
+        return redirect("admin/default_outsystem");
+    }
+
+    public function remove_out_system($id){
+        return $this->db->delete('tbl_depost_out',['id'=>$id]);
+    }
+
+
+
+
+
+
+
+
 
 
 

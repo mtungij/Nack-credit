@@ -3491,6 +3491,8 @@ public function oustand_loan(){
     $company_data = $this->queries->get_companyData($comp_id);
     $blanch_data = $this->queries->get_blanchData($blanch_id);
     $empl_data = $this->queries->get_employee_data($empl_id);
+
+    
     $default_loan = $this->queries->get_outstand_loan_blanch($blanch_id);
     $total_default = $this->queries->get_total_outStand($blanch_id);
     //  echo "<pre>";
