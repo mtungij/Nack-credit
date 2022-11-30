@@ -10,15 +10,6 @@
                     <div class="col-lg-6 col-md-8 col-sm-12">
                         <h2><a href="javascript:void(0);" class="btn btn-xs btn-link btn-toggle-fullwidth"><i class="fa fa-arrow-left"></i></a><?php echo $_SESSION['comp_name']; ?></h2>
 
-                        <?php
-                         $number = '255753871034';
-
-                         $summary = '0'.substr($number, 3,10);
-                         ?>
-
-                         <?php echo $summary; ?>
-
-
                         <ul class="breadcrumb">
                             <li class="breadcrumb-item"><a href="<?php echo base_url("admin/index"); ?>"><i class="icon-home"></i></a></li>                            
                             <li class="breadcrumb-item active"><?php echo $this->lang->line("dashboard_menu"); ?></li>  
