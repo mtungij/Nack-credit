@@ -2336,7 +2336,7 @@ $this->db->query("INSERT INTO tbl_outstand (`comp_id`,`loan_id`,`blanch_id`,`loa
             //sms send
           $sms = 'Umeingiza Tsh.' .$new_balance. ' kwenye Acc Yako ' . $loan_codeID . $comp_name.' Mpokeaji '.$role . ' Kiasi kilicho baki Kulipwa ni Tsh.'.$remain_loan.' Kwa malalamiko piga '.$comp_phone;
           $massage = $sms;
-          $phone = $phones;
+          $phone = '0'.substr($phones, 3,10);
 
           $loan_ID = $loan_id;
           @$out_check = $this->queries->get_outstand_total($loan_id);
@@ -4258,32 +4258,48 @@ public function blanchwise_loan(){
 }
 
 
-function sendsms($phone,$massage){
-    //$phone = "255753871034";
-    //$massage = "haloo there pokea salaam";
-    $address = array("from"=>"NEXTSMS","to"=>$phone,"text"=>$massage);
-    $curl = curl_init();
-    curl_setopt_array($curl, array(
-    CURLOPT_URL => 'https://messaging-service.co.tz/api/sms/v1/text/single',
-    CURLOPT_RETURNTRANSFER => true,
-    CURLOPT_ENCODING => '',
-    CURLOPT_MAXREDIRS => 10,
-    CURLOPT_TIMEOUT => 0,
-    CURLOPT_FOLLOWLOCATION => true,
-    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-    CURLOPT_CUSTOMREQUEST => 'POST',
-    CURLOPT_POSTFIELDS => json_encode($address),
-    CURLOPT_HTTPHEADER => array(
-        'Authorization: Basic bWlrb3Bvc29mdDpwYXNzd29yZA==',
-        'Content-Type: application/json',
-        'Accept: application/json'
-    ),
-    ));
+// function sendsms($phone,$massage){
+//     //$phone = "255753871034";
+//     //$massage = "haloo there pokea salaam";
+//     $address = array("from"=>"NEXTSMS","to"=>$phone,"text"=>$massage);
+//     $curl = curl_init();
+//     curl_setopt_array($curl, array(
+//     CURLOPT_URL => 'https://messaging-service.co.tz/api/sms/v1/text/single',
+//     CURLOPT_RETURNTRANSFER => true,
+//     CURLOPT_ENCODING => '',
+//     CURLOPT_MAXREDIRS => 10,
+//     CURLOPT_TIMEOUT => 0,
+//     CURLOPT_FOLLOWLOCATION => true,
+//     CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+//     CURLOPT_CUSTOMREQUEST => 'POST',
+//     CURLOPT_POSTFIELDS => json_encode($address),
+//     CURLOPT_HTTPHEADER => array(
+//         'Authorization: Basic bWlrb3Bvc29mdDpwYXNzd29yZA==',
+//         'Content-Type: application/json',
+//         'Accept: application/json'
+//     ),
+//     ));
 
-$response = curl_exec($curl);
-curl_close($curl);
-//echo $response;
-return true;
+// $response = curl_exec($curl);
+// curl_close($curl);
+// //echo $response;
+// return true;
+// }
+
+public function sendsms($phone,$massage){
+    //$phone = '0753871034';
+    //$sms = 'mapenzi yanauwa';
+    $api_key = 'Ny.ieZRLozwocjNH3Du9x424Ec';
+    //$curl = curl_init();
+  $ch = curl_init();
+  curl_setopt($ch, CURLOPT_URL,"https://dovesms.aifrruislabs.com/api/v1/receive/action/send/sms");
+curl_setopt($ch, CURLOPT_POST, 1);
+curl_setopt($ch, CURLOPT_POSTFIELDS,
+            'apiKey='.$api_key.'&phoneNumber='.$phone.'&messageContent='.$massage);
+
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+$server_output = curl_exec($ch);
+curl_close ($ch);
 }
 
 

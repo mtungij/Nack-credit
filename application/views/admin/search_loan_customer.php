@@ -178,10 +178,10 @@
                                 
                                       
                                         <tr>
-                                            <td><?php //echo $customer->phone_no; ?></td>
-                                            <td><?php //echo $customer->phone_no; ?></td>
-                                            <td><?php //echo $customer->empl_name; ?></td>
-                                            <td><?php //echo $customer->blanch_name; ?></td>
+                                            <td><?php echo number_format($yesterday_balance->total_yesterday_Balance); ?></td>
+                                            <td><?php echo number_format($today_deposit->total_deposit); ?></td>
+                                            <td><?php echo number_format($loanwith->total_loan_with); ?></td>
+                                            <td><?php echo number_format($balance_blanch->today_cash); ?></td>
                                         </tr>
                                     </tbody>
                                 </table>

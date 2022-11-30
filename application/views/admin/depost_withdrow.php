@@ -51,7 +51,7 @@
                             <div class="col-lg-6 col-6">
                                 <div class="body">
                                     <i class="fa fa-star"></i>
-                                   <div class="profile-image"> <img src="<?php echo base_url().'assets/img/sig.jpg'; ?>" class="rounded-circle" alt="Gualantors image" style="width: 135px;height: 135px;">
+                                   <div class="profile-image"> <img src="<?php echo base_url().'assets/img/sig.jpg'; ?>" class="rounded-circle" alt="Gualantors image" style="width: 130px;height: 135px;">
                                       </div>
                                     <small>Gualantors Picture</small>
                                 </div>
@@ -178,10 +178,10 @@
                                 
                                       
                                         <tr>
-                                            <td><?php //echo $customer->phone_no; ?></td>
-                                            <td><?php //echo $customer->phone_no; ?></td>
-                                            <td><?php //echo $customer->empl_name; ?></td>
-                                            <td><?php //echo $customer->blanch_name; ?></td>
+                                            <td><?php echo number_format($yesterday_balance->total_yesterday_Balance); ?></td>
+                                            <td><?php echo number_format($today_deposit->total_deposit); ?></td>
+                                            <td><?php echo number_format($loanwith->total_loan_with); ?></td>
+                                            <td><?php echo number_format($balance_blanch->today_cash); ?></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -442,8 +442,8 @@
                     <input type="hidden" value="<?php echo $customer->comp_id; ?>" name="comp_id">
                     <input type="hidden" value="<?php echo $customer->blanch_id; ?>" name="blanch_id">
                      <!-- <div class="col-md-4 col-6"> -->
-                   <!--  <span>Code</span> -->
-                    <input type="hidden" class="form-control" value="1" name="code" placeholder="Enter Code" required>     
+                    <!-- <span>Code</span> -->
+                    <input type="hidden" class="form-control" name="code" value="1" placeholder="Enter Code" required>     
                    <!--  </div> -->
                     <?php $date = date("Y-m-d"); ?>
                     <div class="col-md-12 col-6">
@@ -455,7 +455,7 @@
             </div>
             <div class="modal-footer">
                 <button type="submit" class="btn btn-primary">Withdrawal</button>
-              <!--  <a href="" class="btn btn-primary">Resend Code</a> -->
+               <!-- <a href="" class="btn btn-primary">Resend Code</a> -->
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">CLOSE</button>
             </div>
             <?php echo form_close(); ?>
@@ -465,7 +465,33 @@
 
 
 
-
+ <div class="modal fade" id="addcontact3" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="title" id="defaultModalLabel"><?php echo $customer->f_name; ?> <?php echo $customer->m_name; ?> <?php echo $customer->l_name; ?><br> End Deposit Amount: 100,000</h6>
+            </div>
+            <?php echo form_open("admin/"); ?>
+            <div class="modal-body">
+                <div class="row clearfix">
+                    <div class="col-md-12 col-12">
+                    <span>Adjust Amount </span>
+                    <input type="number" class="form-control" name="" required>     
+                    </div>
+                    
+                    
+                    
+                   
+            </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">Withdrawal</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">CLOSE</button>
+            </div>
+            <?php echo form_close(); ?>
+        </div>
+    </div>
+</div>
 
 
 

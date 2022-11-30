@@ -4317,7 +4317,7 @@ public function update_miamala($data,$id){
 }
 
 public function get_comp_miamala_dada($comp_id){
-	$data = $this->db->query("SELECT * FROM tbl_miamala m JOIN tbl_blanch b ON b.blanch_id = m.blanch_id WHERE m.comp_id = '$comp_id'");
+	$data = $this->db->query("SELECT * FROM tbl_miamala m JOIN tbl_blanch b ON b.blanch_id = m.blanch_id LEFT JOIN tbl_account_transaction at ON at.trans_id = m.provider WHERE m.comp_id = '$comp_id'");
 	return $data->result();
 }
 
@@ -6160,6 +6160,9 @@ public function get_deposit_out_systemloan($blanch_id){
 		}
 		return 0; 
 }
+
+
+ 
 
 
 

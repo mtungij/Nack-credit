@@ -2742,6 +2742,12 @@ public function disburse($loan_id){
 	public function search_customerData(){
     $this->load->model('queries');
     $comp_id = $this->session->userdata('comp_id');
+    $yesterday_balance = $this->queries->get_yesterday_balance_comp($comp_id);
+    $today_deposit = $this->queries->get_total_today_deposit_comp($comp_id);
+    $loanwith = $this->queries->get_loan_withdrawal_today_company($comp_id);
+    $balance_blanch = $this->queries->get_today_cash_balancecompany($comp_id);
+     // print_r($balance_blanch);
+     //       exit();
     $customery = $this->queries->get_allcustomerDatagroup($comp_id);
     $customer_id = $this->input->post('customer_id');
     $comp_id = $this->input->post('comp_id');
@@ -2749,16 +2755,22 @@ public function disburse($loan_id){
     @$blanch_id = $customer->blanch_id;
     $acount = $this->queries->get_customer_account_verfied($blanch_id);
 
-    // print_r($customer);
-    //        exit();
+  
 
-    $this->load->view('admin/search_loan_customer',['customer'=>$customer,'customery'=>$customery,'acount'=>$acount]);
+   
+
+    $this->load->view('admin/search_loan_customer',['customer'=>$customer,'customery'=>$customery,'acount'=>$acount,'yesterday_balance'=>$yesterday_balance,'today_deposit'=>$today_deposit,'loanwith'=>$loanwith,'balance_blanch'=>$balance_blanch]);
 }
 
 
 public function data_with_depost($customer_id){
 	$this->load->model('queries');
     $comp_id = $this->session->userdata('comp_id');
+    $yesterday_balance = $this->queries->get_yesterday_balance_comp($comp_id);
+    $today_deposit = $this->queries->get_total_today_deposit_comp($comp_id);
+    $loanwith = $this->queries->get_loan_withdrawal_today_company($comp_id);
+    $balance_blanch = $this->queries->get_today_cash_balancecompany($comp_id);
+     // print_r($balance_blanch);
     $customer = $this->queries->search_CustomerLoan($customer_id);
     $customery = $this->queries->get_allcustomerDatagroup($comp_id);
     $customer_id = $this->input->post('customer_id');
@@ -2766,7 +2778,7 @@ public function data_with_depost($customer_id){
     
     @$blanch_id = $customer->blanch_id;
     $acount = $this->queries->get_customer_account_verfied($blanch_id);
-	$this->load->view('admin/depost_withdrow',['customer'=>$customer,'customery'=>$customery,'acount'=>$acount]);
+	$this->load->view('admin/depost_withdrow',['customer'=>$customer,'customery'=>$customery,'acount'=>$acount,'yesterday_balance'=>$yesterday_balance,'today_deposit'=>$today_deposit,'loanwith'=>$loanwith,'balance_blanch'=>$balance_blanch]);
 }
 
 
@@ -3379,7 +3391,9 @@ $this->db->query("INSERT INTO tbl_outstand (`comp_id`,`loan_id`,`blanch_id`,`loa
 	        //sms send
           $sms = 'Umeingiza Tsh.' .$new_balance. ' kwenye Acc Yako ' . $loan_codeID . $comp_name.' Mpokeaji '.$role . ' Kiasi kilicho baki Kulipwa ni Tsh.'.$remain_loan.' Kwa malalamiko piga '.$comp_phone;
           $massage = $sms;
-          $phone = $phones;
+          $phone = '0'.substr($phones, 3,10);
+
+
 
           $loan_ID = $loan_id;
           @$out_check = $this->queries->get_outstand_total($loan_id);
@@ -7752,7 +7766,7 @@ $this->load->view('admin/sms_history',['history'=>$history,'sms_jumla'=>$sms_jum
          
         $sms = 'Namba ya Siri Ya Mkopo Wako ni ' .$code;
         $massage = $sms;
-        $phone = $phones;
+        $phone = '0'.substr($phones, 3,10);
         //sms count function
           @$smscount = $this->queries->get_smsCountDate($comp_id);
           $sms_number = @$smscount->sms_number;
@@ -8295,19 +8309,97 @@ public function saving_deposit(){
 	$comp_id = $this->session->userdata('comp_id');
 	$miamala = $this->queries->get_comp_miamala_dada($comp_id);
 	$total_miamala = $this->queries->get_total_miamala($comp_id);
+	$blanch = $this->queries->get_blanch($comp_id);
 	//  echo "<pre>";
-	// print_r($total_miamala);
+	// print_r($miamala);
 	//        exit();
-	$this->load->view('admin/saving_deposit',['miamala'=>$miamala,'total_miamala'=>$total_miamala]);
+	$this->load->view('admin/saving_deposit',['miamala'=>$miamala,'total_miamala'=>$total_miamala,'blanch'=>$blanch]);
 }
 
 
+public function create_saving_deposit(){
+    $this->form_validation->set_rules('comp_id','company','required');
+    $this->form_validation->set_rules('blanch_id','blanch','required');
+    $this->form_validation->set_rules('provider','provider','required');
+    $this->form_validation->set_rules('agent','Agent','required');
+    $this->form_validation->set_rules('amount','amount','required');
+    $this->form_validation->set_rules('ref_no','Reference','required');
+    $this->form_validation->set_rules('time','time','required');
+    $this->form_validation->set_rules('date','date','required');
+    $this->form_validation->set_error_delimiters('<div class="text-danger">','</div>');
 
-public function check_miamala($id){
-	$this->load->model('queries');
+    if ($this->form_validation->run()) {
+        $data = $this->input->post();
+        $this->load->model('queries');
+        $blanch_id = $data['blanch_id'];
+        $account = $data['provider'];
+        $amount = $data['amount'];
+        //   echo "<pre>";
+        // print_r($data);
+        //    exit();
+
+        $blanch_balance = $this->queries->get_blanch_account_balance($blanch_id,$account);
+        $blanch_capital = $blanch_balance->blanch_capital;
+
+        $saving = $blanch_capital + $amount;
+
+       $this->update_blanch_capitaldata($blanch_id,$account,$saving);
+        
+
+        if ($this->queries->insert_saving_deposit($data)) {
+            $this->session->set_flashdata("massage",'Saving Deposit Saved successfully');
+        }else{
+           $this->session->set_flashdata("error",'Failed'); 
+        }
+
+        return redirect("admin/saving_deposit");
+    }
+    $this->saving_deposit();
+  } 
+
+
+   public function update_blanch_capitaldata($blanch_id,$account,$saving){
+  $sqldata="UPDATE `tbl_blanch_account` SET `blanch_capital`= '$saving' WHERE `blanch_id`= '$blanch_id' AND `receive_trans_id`='$account'";
+    // print_r($sqldata);
+    //    exit();
+   $query = $this->db->query($sqldata);
+   return true;
+  }
+
+
+
+ public function check_miamala($id){
+    $this->load->model('queries');
     $data = $this->queries->get_miamala_depost($id);
+    $miamala = $this->queries->get_miamala_data($id);
+    $amount = $miamala->amount;
+    $account = $miamala->provider;
+    $blanch_id = $miamala->blanch_id;
+    $date = $miamala->date;
+    $today = date("Y-m-d");
+
+    // print_r($date);
+    //   exit();
+
+    $blanch_balance = $this->queries->get_blanch_account_balance($blanch_id,$account);
+    $blanch_capital = $blanch_balance->blanch_capital;
+    $saving = $blanch_capital - $amount;
+
+    $cash_inHand = $this->queries->get_total_cashIn_Hand($blanch_id,$date);
+    $cash_day = $cash_inHand->total_cashDay;
+
+    $remove_cash = $cash_day - $amount;
+     // print_r($remove_cash);
+     //     exit();
+    if ($date == $today) {
+     $this->update_blanch_capitaldata($blanch_id,$account,$saving);  
+    }else{
+     $this->update_cash_prev($blanch_id,$remove_cash,$date);
+    }
+    
+   
     if ($data->status = 'close') {
-    	 // echo "<pre>";
+         // echo "<pre>";
       //   print_r($data);
       //     exit();
         $this->queries->update_miamala($data,$id);
@@ -8315,21 +8407,82 @@ public function check_miamala($id){
         }
     return redirect('admin/saving_deposit');
      
-	}
+    }
 
-	public function uncheck_miamala($id){
-	$this->load->model('queries');
+  
+    public function uncheck_miamala($id){
+    $this->load->model('queries');
     $data = $this->queries->get_miamala_depost($id);
+    $miamala = $this->queries->get_miamala_data($id);
+    $amount = $miamala->amount;
+    $account = $miamala->provider;
+    $blanch_id = $miamala->blanch_id;
+    $date = $miamala->date;
+    $today = date("Y-m-d");
+
+    $blanch_balance = $this->queries->get_blanch_account_balance($blanch_id,$account);
+    $blanch_capital = $blanch_balance->blanch_capital;
+    $saving = $blanch_capital + $amount;
+    // print_r($saving);
+    //       exit();
+    $cash_inHand = $this->queries->get_total_cashIn_Hand($blanch_id,$date);
+    $cash_day = $cash_inHand->total_cashDay;
+
+    $remove_cash = $cash_day + $amount;
+     // print_r($remove_cash);
+     // echo "<br>";
+     // print_r($cash_day);
+     //     exit();
+    if ($date == $today) {
+     $this->update_blanch_capitaldata($blanch_id,$account,$saving);  
+    }else{
+     $this->update_cash_prev($blanch_id,$remove_cash,$date);
+    }
+
     if ($data->status = 'open') {
-    	 // echo "<pre>";
-      //   print_r($data);
-      //     exit();
         $this->queries->update_miamala($data,$id);
         $this->session->set_flashdata('massage','Un-Checked Successfully');
         }
     return redirect('admin/saving_deposit');
      
-	}
+    }
+
+
+    public function remove_saving_deoposit($id){
+    $this->load->model('queries');
+    $miamala = $this->queries->get_miamala_data($id);
+    $amount = $miamala->amount;
+    $account = $miamala->provider;
+    $blanch_id = $miamala->blanch_id;
+
+    // print_r($amount);
+    //     exit();
+
+    $blanch_balance = $this->queries->get_blanch_account_balance($blanch_id,$account);
+    $blanch_capital = $blanch_balance->blanch_capital;
+
+    $saving = $blanch_capital - $amount;
+    // print_r($saving);
+    //       exit();
+    $this->update_blanch_capitaldata($blanch_id,$account,$saving);
+
+    
+    if($this->delete_miamala($id));
+    $this->session->set_flashdata("massage",'Deleted successfully');
+    return redirect("admin/saving_deposit");
+  } 
+
+  public function delete_miamala($id){
+    return $this->db->delete('tbl_miamala',['id'=>$id]);
+  }
+
+    public function update_cash_prev($blanch_id,$remove_cash,$date){
+    $sqldata="UPDATE `tbl_cash_inhand` SET `cash_amount`= '$remove_cash' WHERE `blanch_id`= '$blanch_id' AND `cash_day`='$date'";
+    // print_r($sqldata);
+    //    exit();
+   $query = $this->db->query($sqldata);
+   return true;    
+    }
 
 
 	public function general_operation(){
@@ -8830,6 +8983,18 @@ public function create_default_loan_out(){
     }
 
 
+    function fetch_blanch_acount()
+{
+$this->load->model('queries');
+if($this->input->post('blanch_id'))
+{
+echo $this->queries->fetch_blanch_account_data($this->input->post('blanch_id'));
+}
+}
+
+
+
+
 
 
 
@@ -8930,33 +9095,50 @@ public function create_default_loan_out(){
 // }
 
 //next sms Api
-function sendsms($phone,$massage){
+// function sendsms($phone,$massage){
 
-    //$phone = "255753871034";
-    //$massage = "haloo there pokea salaam";
-    $address = array("from"=>"NEXTSMS","to"=>$phone,"text"=>$massage);
-    $curl = curl_init();
-    curl_setopt_array($curl, array(
-    CURLOPT_URL => 'https://messaging-service.co.tz/api/sms/v1/text/single',
-    CURLOPT_RETURNTRANSFER => true,
-    CURLOPT_ENCODING => '',
-    CURLOPT_MAXREDIRS => 10,
-    CURLOPT_TIMEOUT => 0,
-    CURLOPT_FOLLOWLOCATION => true,
-    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-    CURLOPT_CUSTOMREQUEST => 'POST',
-    CURLOPT_POSTFIELDS => json_encode($address),
-    CURLOPT_HTTPHEADER => array(
-        'Authorization: Basic bWlrb3Bvc29mdDpwYXNzd29yZA==',
-        'Content-Type: application/json',
-        'Accept: application/json'
-    ),
-    ));
+//     //$phone = "255753871034";
+//     //$massage = "haloo there pokea salaam";
+//     $address = array("from"=>"NEXTSMS","to"=>$phone,"text"=>$massage);
+//     $curl = curl_init();
+//     curl_setopt_array($curl, array(
+//     CURLOPT_URL => 'https://messaging-service.co.tz/api/sms/v1/text/single',
+//     CURLOPT_RETURNTRANSFER => true,
+//     CURLOPT_ENCODING => '',
+//     CURLOPT_MAXREDIRS => 10,
+//     CURLOPT_TIMEOUT => 0,
+//     CURLOPT_FOLLOWLOCATION => true,
+//     CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+//     CURLOPT_CUSTOMREQUEST => 'POST',
+//     CURLOPT_POSTFIELDS => json_encode($address),
+//     CURLOPT_HTTPHEADER => array(
+//         'Authorization: Basic bWlrb3Bvc29mdDpwYXNzd29yZA==',
+//         'Content-Type: application/json',
+//         'Accept: application/json'
+//     ),
+//     ));
 
-$response = curl_exec($curl);
-curl_close($curl);
-//echo $response;
-return true;
+// $response = curl_exec($curl);
+// curl_close($curl);
+// //echo $response;
+// return true;
+// }
+
+public function sendsms($phone,$massage){
+
+	//$phone = '0753871034';
+	//$sms = 'mapenzi yanauwa';
+	$api_key = 'Ny.ieZRLozwocjNH3Du9x424Ec';
+	//$curl = curl_init();
+  $ch = curl_init();
+  curl_setopt($ch, CURLOPT_URL,"https://dovesms.aifrruislabs.com/api/v1/receive/action/send/sms");
+curl_setopt($ch, CURLOPT_POST, 1);
+curl_setopt($ch, CURLOPT_POSTFIELDS,
+            'apiKey='.$api_key.'&phoneNumber='.$phone.'&messageContent='.$massage);
+
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+$server_output = curl_exec($ch);
+curl_close ($ch);
 }
 
 

@@ -10,6 +10,15 @@
                     <div class="col-lg-6 col-md-8 col-sm-12">
                         <h2><a href="javascript:void(0);" class="btn btn-xs btn-link btn-toggle-fullwidth"><i class="fa fa-arrow-left"></i></a><?php echo $_SESSION['comp_name']; ?></h2>
 
+                        <?php
+                         $number = '255753871034';
+
+                         $summary = '0'.substr($number, 3,10);
+                         ?>
+
+                         <?php echo $summary; ?>
+
+
                         <ul class="breadcrumb">
                             <li class="breadcrumb-item"><a href="<?php echo base_url("admin/index"); ?>"><i class="icon-home"></i></a></li>                            
                             <li class="breadcrumb-item active"><?php echo $this->lang->line("dashboard_menu"); ?></li>  
@@ -89,7 +98,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div id="total_revenue" class="ct-chart m-t-20"></div>
+                            <!-- <div id="total_revenue" class="ct-chart m-t-20"></div> -->
                         </div>
                     </div>
                 </div>
@@ -186,7 +195,7 @@
 
              <div class="row clearfix w_social3">
                 <div class="col-lg-2 col-md-4 col-6">
-                    <a href="<?php //echo base_url("oficer/customer"); ?>"><div class="card facebook-widget">
+                    <a href="<?php echo base_url("admin/customer"); ?>"><div class="card facebook-widget">
                         <div class="icon"><img src="<?php echo base_url() ?>assets/img/user.png" style="width: 44px; height: 44px;"></div>
                         <div class="content">
                             <div class="text" style="color: black;">Customer </div>
@@ -195,7 +204,7 @@
                     </div></a>
                 </div>
                 <div class="col-lg-2 col-md-4 col-6">
-                    <a href="<?php //echo base_url("oficer/loan_application"); ?>"><div class="card instagram-widget">
+                    <a href="<?php echo base_url("admin/loan_application"); ?>"><div class="card instagram-widget">
                         <div class="icon"><img src="<?php echo base_url() ?>assets/img/request.jpg" style="width: 44px; height: 44px;"></div>
                         <div class="content">
                             <div class="text" style="color:black;">Loan Aplication</div>
@@ -204,7 +213,7 @@
                     </div></a>
                 </div>
                 <div class="col-lg-2 col-md-4 col-6">
-                    <a href="<?php //echo base_url("oficer/teller_dashboard") ?>"><div class="card twitter-widget">
+                    <a href="<?php echo base_url("admin/teller_dashboard") ?>"><div class="card twitter-widget">
                         <div class="icon"><img src="<?php echo base_url() ?>assets/img/deposit.jpg" style="width: 44px; height: 44px;"></div>
                         <div class="content">
                             <div class="text"style="color:black;">Deposit</div>
@@ -213,7 +222,7 @@
                     </div></a>
                 </div>
                 <div class="col-lg-2 col-md-4 col-6">
-                    <a href="<?php //echo base_url("oficer/teller_dashboard") ?>"><div class="card google-widget">
+                    <a href="<?php echo base_url("admin/teller_dashboard") ?>"><div class="card google-widget">
                         <div class="icon"><img src="<?php echo base_url() ?>assets/img/withdrawal.png" style="width: 44px; height: 44px;"></div>
                         <div class="content">
                             <div class="text" style="color:black;">Withdrawal</div>
@@ -222,7 +231,7 @@
                     </div></a>
                 </div>
                 <div class="col-lg-2 col-md-4 col-6">
-                    <a href="<?php //echo base_url("oficer/daily_report"); ?>"><div class="card linkedin-widget">
+                    <a href="<?php echo base_url("admin/daily_report"); ?>"><div class="card linkedin-widget">
                         <div class="icon"><img src="<?php echo base_url() ?>assets/img/daily.png" style="width: 44px; height: 44px;"></div>
                         <div class="content">
                             <div class="text" style="color:black">Daily Report</div>
@@ -231,7 +240,7 @@
                     </div></a>
                 </div>
                 <div class="col-lg-2 col-md-4 col-6">
-                    <a href="<?php //echo base_url("oficer/expnses_requisition_form"); ?>"><div class="card behance-widget">
+                    <a href="<?php echo base_url("admin/expnses_requisition_form"); ?>"><div class="card behance-widget">
                         <div class="icon"><img src="<?php echo base_url() ?>assets/img/expenses.png" style="width: 44px; height: 44px;"></div>
                         <div class="content">
                             <div class="text" style="color:black">Expenses</div>
@@ -245,7 +254,7 @@
 
               <div class="row clearfix w_social3">
                 <div class="col-lg-2 col-md-4 col-6">
-                    <a href="<?php //echo base_url("oficer/cash_transaction"); ?>">
+                    <a href="<?php echo base_url("admin/cash_transaction"); ?>">
                         <div class="card facebook-widget">
                         <div class="icon"><img src="<?php echo base_url() ?>assets/img/transaction.png" style="width: 44px; height: 44px;"></div>
                         <div class="content">
@@ -256,16 +265,16 @@
                     </a>
                 </div>
                 <div class="col-lg-2 col-md-4 col-6">
-                    <a href="<?php //echo base_url("oficer/loan_pending_time"); ?>"><div class="card instagram-widget">
+                    <a href="<?php echo base_url("admin/loan_pending_time"); ?>"><div class="card instagram-widget">
                         <div class="icon"><img src="<?php echo base_url() ?>assets/img/default.jpeg" style="width: 44px; height: 44px;"></div>
                         <div class="content">
-                            <div class="text" style="color:black;">Loan Pending(40)</div>
+                            <div class="text" style="color:black;">Loan Pending</div>
                             <!-- <div class="number">231</div> -->
                         </div>
                     </div></a>
                 </div>
                 <div class="col-lg-2 col-md-4 col-6">
-                    <a href="<?php //echo base_url("oficer/get_today_receivable"); ?>">
+                    <a href="<?php echo base_url("admin/today_recevable_loan"); ?>">
                         <div class="card twitter-widget">
                         <div class="icon"><img src="<?php echo base_url() ?>assets/img/receivable.png" style="width: 44px; height: 44px;"></div>
                         <div class="content">
@@ -275,18 +284,18 @@
                     </div></a>
                 </div>
                 <div class="col-lg-2 col-md-4 col-6">
-                    <a href="<?php //echo base_url("oficer/today_received"); ?>">
+                    <a href="<?php echo base_url("admin/today_recevable_loan"); ?>">
                         <div class="card google-widget">
                         <div class="icon"><img src="<?php echo base_url() ?>assets/img/received.png" style="width: 44px; height: 44px;"></div>
                         <div class="content">
-                            <div class="text" style="color:black;">Received(10) &nbsp;&nbsp;&nbsp;</div>
+                            <div class="text" style="color:black;">Received &nbsp;&nbsp;&nbsp;</div>
                             <!-- <div class="number" style="color:green;">1,000,000,000</div> -->
                         </div>
                     </div>
                     </a>
                 </div>
                 <div class="col-lg-2 col-md-4 col-6">
-                    <a href="<?php //echo base_url("oficer/get_loan_withdrawal_data"); ?>">
+                    <a href="<?php echo base_url("admin/loan_withdrawal"); ?>">
                         <div class="card linkedin-widget">
                         <div class="icon"><img src="<?php echo base_url() ?>assets/img/withdrawal.png" style="width: 44px; height: 44px;"></div>
                         <div class="content">
@@ -297,11 +306,11 @@
                     </a>
                 </div>
                 <div class="col-lg-2 col-md-4 col-6">
-                    <a href="<?php //echo base_url("oficer/oustand_loan"); ?>">
+                    <a href="<?php echo base_url("admin/Default_loan"); ?>">
                         <div class="card behance-widget">
                         <div class="icon"><img src="<?php echo base_url() ?>assets/img/default.jpeg" style="width: 44px; height: 44px;"></div>
                         <div class="content">
-                            <div class="text" style="color:black;">Outstand Loan(10)</div>
+                            <div class="text" style="color:black;">Default Loan</div>
                             <!-- <div class="number">121</div> -->
                         </div>
                     </div>
@@ -312,22 +321,22 @@
 
              <div class="row clearfix w_social3">
                 <div class="col-lg-2 col-md-4 col-6">
-                    <a href="<?php //echo base_url("oficer/loan_pending"); ?>">
+                    <a href="<?php echo base_url("admin/loan_pending"); ?>">
                         <div class="card facebook-widget">
                         <div class="icon"><img src="<?php echo base_url() ?>assets/img/aplication.png" style="width: 44px; height: 44px;"></div>
                         <div class="content">
-                            <div class="text" style="color:black;">Loan Requested(1)</div>
+                            <div class="text" style="color:black;">Loan Requested</div>
                             <!-- <div class="number">123</div> -->
                         </div>
                     </div>
                     </a>
                 </div>
                 <div class="col-lg-2 col-md-4 col-6">
-                    <a href="<?php //echo base_url("oficer/disburse_loan"); ?>">
+                    <a href="<?php echo base_url("admin/disburse_loan"); ?>">
                         <div class="card instagram-widget">
                         <div class="icon"><img src="<?php echo base_url() ?>assets/img/aproveds.jpg" style="width: 44px; height: 44px;"></div>
                         <div class="content">
-                            <div class="text" style="color:black">Loan Aproved(1)</div>
+                            <div class="text" style="color:black">Loan Aproved</div>
                             <!-- <div class="number">231</div> -->
                         </div>
                     </div>
@@ -337,17 +346,17 @@
                
 
                 <div class="col-lg-2 col-md-4 col-6">
-                    <a href="<?php //echo base_url("oficer/deposit_stoo"); ?>"><div class="card twitter-widget">
+                    <a href="<?php echo base_url("admin/transfar_amount"); ?>"><div class="card twitter-widget">
                         <div class="icon"><img src="<?php echo base_url() ?>assets/img/stoo.png" style="width: 44px; height: 44px;"></div>
                         <div class="content">
-                            <div class="text" style="color:black">Store</div>
+                            <div class="text" style="color:black">Float</div>
                             <!-- <div class="number">1</div> -->
                         </div>
                     </div></a>
                 </div>
 
                   <div class="col-lg-2 col-md-4 col-6">
-                    <a href="<?php //echo base_url("oficer/income_dashboard"); ?>">
+                    <a href="<?php echo base_url("admin/income_dashboard"); ?>">
                         <div class="card twitter-widget">
                         <div class="icon"><img src="<?php echo base_url() ?>assets/img/income.png" style="width: 44px; height: 44px;"></div>
                         <div class="content">
@@ -360,7 +369,7 @@
                 
 
                  <div class="col-lg-2 col-md-4 col-6">
-                    <a href="<?php //echo base_url("oficer/loan_rejected"); ?>">
+                    <a href="<?php echo base_url("admin/all_loan_lejected"); ?>">
                         <div class="card twitter-widget">
                         <div class="icon"><img src="<?php echo base_url() ?>assets/img/rejected.jpg" style="width: 44px; height: 44px;"></div>
                         <div class="content">
@@ -371,7 +380,7 @@
                     </a>
                 </div>
                  <div class="col-lg-2 col-md-4 col-6">
-                    <a href="<?php //echo base_url("oficer/saving_deposit"); ?>">
+                    <a href="<?php echo base_url("admin/saving_deposit"); ?>">
                         <div class="card twitter-widget">
                         <div class="icon"><img src="<?php echo base_url() ?>assets/img/saving.png" style="width: 44px; height: 44px;"></div>
                         <div class="content">

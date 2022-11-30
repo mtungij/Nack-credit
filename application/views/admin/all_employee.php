@@ -105,22 +105,22 @@
             <div class="modal-body">
                 <div class="row clearfix">
 
-                                <div class="col-lg-4 form-group-sub">
-                                    <label class="form-control-label">*Full name:</label>
+                                <div class="col-lg-4 col-6">
+                                    <span>*Full name:</span>
                                     <input type="text" name="empl_name" placeholder="" autocomplete="off" value="<?php echo $employees->empl_name; ?>" class="form-control input-sm" required>
                                 </div>
-                                <div class="col-lg-4 form-group-sub">
-                                    <label class="form-control-label">*Mobile No:</label>
+                                <div class="col-lg-4 col-6">
+                                    <span>*Mobile No:</span>
                                     <input type="number" name="empl_no" placeholder="Amount" autocomplete="off" value="<?php echo $employees->empl_no; ?>" class="form-control input-sm" required>
                                 </div>
 
-                                <div class="col-lg-4 form-group-sub">
-                                    <label class="form-control-label">*Email:</label>
+                                <div class="col-lg-4 col-6">
+                                    <span>*Email:</span>
                                     <input type="email" name="empl_email" placeholder="Email" autocomplete="off" value="<?php echo $employees->empl_email; ?>" class="form-control input-sm" required>
                                 </div>
                                 
-                                <div class="col-lg-6 form-group-sub">
-                                    <label  class="form-control-label">*Branch:</label>
+                                <div class="col-lg-4 col-6">
+                                    <span>*Branch:</span>
                             <select type="number" name="blanch_id" class="form-control input-sm" required>
                                 <option value="<?php echo $employees->blanch_id; ?>"><?php echo $employees->blanch_name; ?></option>
                                 <?php foreach ($blanch as $blanchs): ?>
@@ -128,15 +128,26 @@
                                 <?php endforeach; ?>
                             </select>
                                 </div>
-                                <input type="hidden" name="position_id" value="1">
 
-                                <div class="col-lg-6 form-group-sub">
-                                    <label  class="form-control-label">*Username:</label>
+                                <div class="col-lg-4 col-6">
+                                    <span>*Select Position:</span>
+                            <select type="number" name="position_id" class="form-control input-sm" required>
+                                <option value="<?php echo $employees->position_id; ?>"><?php echo $employees->position; ?></option>
+                                <?php foreach ($position as $positions): ?>
+                                <option value="<?php echo $positions->position_id ?>"><?php echo $positions->position; ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                                </div>
+
+                                
+
+                                <div class="col-lg-4 col-6">
+                                    <span>*Username:</span>
                                 <input type="text" name="username" placeholder="Cheque number" autocomplete="off" value="<?php echo $employees->username; ?>" class="form-control input-sm" >
                                 </div>
 
-                                <div class="col-lg-4 form-group-sub">
-                                    <label  class="form-control-label">*Sex:</label>
+                                <div class="col-lg-4 col-6">
+                                    <span>*Sex:</span>
                                 <select type="text" name="empl_sex" class="form-control">
                                     <option value="<?php echo $employees->empl_sex; ?>"><?php echo $employees->empl_sex; ?></option>
                                     <option value="Male">Male</option>
@@ -144,20 +155,20 @@
                                 </select>   
                                 </div>
 
-                                <div class="col-lg-4 form-group-sub">
-                                    <label  class="form-control-label">*Salary Amount:</label>
+                                <div class="col-lg-4 col-6">
+                                    <span>*Salary Amount:</span>
                                 <input type="number" name="salary" placeholder="Cheque number" autocomplete="off" value="<?php echo $employees->salary; ?>" class="form-control input-sm" >
                                 </div>
-                                <div class="col-lg-4 form-group-sub">
-                                    <label  class="form-control-label">*Payee:</label>
+                                <div class="col-lg-4 col-6">
+                                    <span>*Payee:</span>
                                 <select type="text" name="pays" class="form-control">
                                     <option value="<?php echo $employees->pays; ?>"><?php echo $employees->pays; ?></option>
                                     <option value="yes">Yes</option>
                                     <option value="no">No</option>
                                 </select>
                                 </div>
-                                <div class="col-lg-4 form-group-sub">
-                                    <label  class="form-control-label">*Pay NSSF:</label>
+                                <div class="col-lg-4 col-6">
+                                    <span>*Pay NSSF:</span>
                                 <select type="text" name="pay_nssf" class="form-control">
                                     <option value="<?php echo $employees->pay_nssf; ?>"><?php echo $employees->pay_nssf; ?></option>
                                     <option value="yes">Yes</option>
@@ -165,8 +176,8 @@
                                 </select>
                                 </div>
 
-                                <div class="col-lg-4 form-group-sub">
-                                    <label  class="form-control-label">*Bank Account:</label>
+                                <div class="col-lg-4 col-6">
+                                    <span>*Bank Account:</span>
                                 <select type="text" name="bank_account" class="form-control input-sm" required>
                                 <option value="<?php echo $employees->bank_account; ?>"><?php echo $employees->bank_account; ?></option>
                                 <option value="NMB">NMB</option>
@@ -177,8 +188,8 @@
                             </select>
                                 </div>
 
-                                <div class="col-lg-4 form-group-sub">
-                            <label  class="form-control-label">*Account Number:</label>
+                                <div class="col-lg-4 col-6">
+                            <span>*Account Number:</span>
                             <input type="text" name="account_no" value="<?php echo $employees->account_no;  ?>" placeholder="Account Number" autocomplete="off" class="form-control input-sm" required>
                                 </div>
                     

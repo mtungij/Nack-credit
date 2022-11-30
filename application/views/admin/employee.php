@@ -56,22 +56,22 @@
                             </select>
                                 </div>
 
-                                <!-- <div class="col-lg-3 form-group-sub">
+                                <div class="col-lg-3 form-group-sub">
                                     <label  class="form-control-label">*Position:</label>
                                 <select type="text" name="position_id" class="form-control select2" required>
                                 <option value="">Select Position</option>
-                                <?php //foreach ($position as $positions): ?>
-                                <option value="<?php //echo $positions->position_id; ?>"><?php //echo $positions->position; ?></option>
-                                <?php //endforeach; ?>
+                                <?php foreach ($position as $positions): ?>
+                                <option value="<?php echo $positions->position_id; ?>"><?php echo $positions->position; ?></option>
+                                <?php endforeach; ?>
                             </select>
-                                </div> -->
-                                <input type="hidden" name="position_id" value="1">
-                                <div class="col-lg-4 form-group-sub">
+                                </div>
+                                <!-- <input type="hidden" name="position_id" value="1">
+ -->                                <div class="col-lg-3 form-group-sub">
                                     <label  class="form-control-label">*Username:</label>
                                 <input type="text" name="username" placeholder="Username" autocomplete="off" class="form-control" required>
                                 </div>
 
-                                <div class="col-lg-4 form-group-sub">
+                                <div class="col-lg-3 form-group-sub">
                                     <label  class="form-control-label">*Sex:</label>
                                 <select type="text" name="empl_sex" class="form-control" data-required="true">
                                 <option value="">Select Sex</option>
@@ -79,7 +79,7 @@
                                 <option value="female">Female</option>
                              </select>
                                 </div>
-                                <div class="col-lg-4 form-group-sub">
+                                <div class="col-lg-3 form-group-sub">
                                     <label  class="form-control-label">*Salary Amount:</label>
                                 <input type="number" name="salary" placeholder="Salary Amount" autocomplete="off" class="form-control input-sm" required>
                                 </div>

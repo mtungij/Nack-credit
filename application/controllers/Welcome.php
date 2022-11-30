@@ -207,6 +207,7 @@ class Welcome extends CI_Controller {
 				}elseif($userexit->position_id == '21') {
 					$sessionData = [
 					'empl_id' => $userexit->empl_id,
+					//'comp_id' => $userexit->comp_id,
 					'blanch_id' => $userexit->blanch_id,
 					'username' => $userexit->username,
 					'empl_name' => $userexit->empl_name,
@@ -222,6 +223,30 @@ class Welcome extends CI_Controller {
                    //$txt = "samwel";
                   // $encrypttext = urlencode($this->encrypt->encode($txt));
                     return redirect('oficer/index');
+                  }elseif ($userexit->empl_status == 'close') {
+                    $this->session->set_userdata($sessionData);
+                    $this->session->set_flashdata('mass',$this->lang->line("blocked_menu"));
+				  return redirect("welcome/employee_login");
+                      }
+             }elseif($userexit->position_id == '22') {
+					$sessionData = [
+					'empl_id' => $userexit->empl_id,
+					'comp_id' => $userexit->comp_id,
+					'blanch_id' => $userexit->blanch_id,
+					'username' => $userexit->username,
+					'empl_name' => $userexit->empl_name,
+					];
+
+						   	 // echo "<pre>";
+			        // print_r($userexit);
+			        //        exit();
+
+					if ($userexit->empl_status == 'open'){
+                   $this->session->set_userdata($sessionData);
+                   $this->session->set_flashdata('massage',$this->lang->line("login_menu"));
+                   //$txt = "samwel";
+                  // $encrypttext = urlencode($this->encrypt->encode($txt));
+                    return redirect('admin/index');
                   }elseif ($userexit->empl_status == 'close') {
                     $this->session->set_userdata($sessionData);
                     $this->session->set_flashdata('mass',$this->lang->line("blocked_menu"));
