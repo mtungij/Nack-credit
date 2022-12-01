@@ -64,8 +64,8 @@
                                         <td></td>
                                         <td><b><?php echo number_format($total_allblanch->total_with_loan); ?></b></td>
                                         <td><b><?php echo number_format($total_allblanch->total_loan_int); ?></b></td>
-                                        <td><b><?php echo number_format($total_allblanch->total_depost); ?></b></td>
-                                        <td><b><?php echo number_format($total_allblanch->total_loan_int - $total_allblanch->total_depost); ?></b></td>
+                                        <td><b><?php echo number_format($total_depost_comp->total_depost); ?></b></td>
+                                        <td><b><?php echo number_format($total_allblanch->total_loan_int - $total_depost_comp->total_depost); ?></b></td>
                                     </tr>
                                     </tbody>
                                 </table>

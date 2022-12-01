@@ -1104,13 +1104,29 @@ public function get_totalLoanout($customer_id){
 
 
 	public function get_sumblanch_wise($comp_id){
-		$data = $this->db->query("SELECT SUM(loan_aprove) AS total_loan_with,SUM(loan_int) AS total_loan_int,SUM(depost) AS total_depost,b.blanch_name FROM tbl_loans l LEFT JOIN tbl_blanch b ON b.blanch_id = l.blanch_id LEFT JOIN tbl_depost d ON d.loan_id = l.loan_id WHERE l.comp_id = '$comp_id' GROUP BY l.blanch_id");
+		$data = $this->db->query("SELECT SUM(l.loan_aprove) AS total_loan_with,SUM(l.loan_int) AS total_loan_int,b.blanch_name,l.blanch_id FROM tbl_loans l LEFT JOIN tbl_blanch b ON b.blanch_id = l.blanch_id  WHERE l.comp_id = '$comp_id' GROUP BY l.blanch_id");
+
+		foreach ($data->result() as $r) {
+	    $r->total_depost = $this->get_total_deposit_blanch_wise($r->blanch_id);
+		}
 		return $data->result();
+	}
+
+	public function get_total_deposit_blanch_wise($blanch_id){
+		$deposit = $this->db->query("SELECT SUM(d.depost) AS total_depost FROM tbl_depost d WHERE d.blanch_id = '$blanch_id' GROUP BY d.blanch_id");
+		if ($deposit->row()) {
+			return $deposit->row()->total_depost; 
+		}
+		return 0; 
+
 	}
 
 
 	public function get_sumblanch_wise_blanch($blanch_id){
-		$data = $this->db->query("SELECT SUM(loan_aprove) AS total_loan_with,SUM(loan_int) AS total_loan_int,SUM(depost) AS total_depost,b.blanch_name FROM tbl_loans l LEFT JOIN tbl_blanch b ON b.blanch_id = l.blanch_id LEFT JOIN tbl_depost d ON d.loan_id = l.loan_id WHERE l.blanch_id = '$blanch_id' GROUP BY l.blanch_id");
+		$data = $this->db->query("SELECT SUM(l.loan_aprove) AS total_loan_with,SUM(l.loan_int) AS total_loan_int,b.blanch_name,l.blanch_id FROM tbl_loans l LEFT JOIN tbl_blanch b ON b.blanch_id = l.blanch_id  WHERE l.blanch_id = '$blanch_id' GROUP BY l.blanch_id");
+		foreach ($data->result() as $r) {
+			$r->total_depost = $this->get_total_deposit_blanch_wise($r->blanch_id);
+		}
 		return $data->result();
 	}
 
@@ -1121,9 +1137,18 @@ public function get_totalLoanout($customer_id){
 
 
 	public function get_sum_Depost($comp_id){
-		$data = $this->db->query("SELECT SUM(l.loan_aprove) AS total_with_loan,SUM(l.loan_int) AS total_loan_int,SUM(d.depost) AS total_depost  FROM tbl_loans l LEFT JOIN tbl_depost d ON d.loan_id = l.loan_id WHERE l.comp_id = '$comp_id'");
+		$data = $this->db->query("SELECT SUM(l.loan_aprove) AS total_with_loan,SUM(l.loan_int) AS total_loan_int  FROM tbl_loans l  WHERE l.comp_id = '$comp_id'");
+
 		   return $data->row();
 	}
+
+	public function get_total_comp_deposit($comp_id){
+		$data = $this->db->query("SELECT SUM(depost) AS total_depost FROM tbl_depost WHERE comp_id = '$comp_id'");
+		return $data->row();
+	}
+
+   
+
 
 	public function get_sum_DepostBlanch($blanch_id){
 		$data = $this->db->query("SELECT SUM(depost) AS total_depost FROM tbl_prev_lecod WHERE blanch_id = '$blanch_id' ");
