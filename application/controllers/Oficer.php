@@ -2336,7 +2336,7 @@ $this->db->query("INSERT INTO tbl_outstand (`comp_id`,`loan_id`,`blanch_id`,`loa
             //sms send
           $sms = 'Umeingiza Tsh.' .$new_balance. ' kwenye Acc Yako ' . $loan_codeID . $comp_name.' Mpokeaji '.$role . ' Kiasi kilicho baki Kulipwa ni Tsh.'.$remain_loan.' Kwa malalamiko piga '.$comp_phone;
           $massage = $sms;
-          $phone = '0'.substr($phones, 3,10);
+          $phone = $phones;
 
           $loan_ID = $loan_id;
           @$out_check = $this->queries->get_outstand_total($loan_id);

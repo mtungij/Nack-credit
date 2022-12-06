@@ -3391,7 +3391,7 @@ $this->db->query("INSERT INTO tbl_outstand (`comp_id`,`loan_id`,`blanch_id`,`loa
 	        //sms send
           $sms = 'Umeingiza Tsh.' .$new_balance. ' kwenye Acc Yako ' . $loan_codeID . $comp_name.' Mpokeaji '.$role . ' Kiasi kilicho baki Kulipwa ni Tsh.'.$remain_loan.' Kwa malalamiko piga '.$comp_phone;
           $massage = $sms;
-          $phone = '0'.substr($phones, 3,10);
+          $phone = $phones;
 
 
 
@@ -9126,10 +9126,12 @@ echo $this->queries->fetch_blanch_account_data($this->input->post('blanch_id'));
 // return true;
 // }
 
-public function sendsms($phone,$massage){
+//public function sendsms($phone,$massage){
+	public function sendsms($phone,$massage){
 
-	//$phone = '0753871034';
-	//$sms = 'mapenzi yanauwa';
+
+	//$phone = '255628323760';
+	//$massage = 'mapenzi yanauwa';
 	$api_key = 'Ny.ieZRLozwocjNH3Du9x424Ec';
 	//$curl = curl_init();
   $ch = curl_init();
