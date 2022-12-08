@@ -598,19 +598,19 @@ public function get_allcutomer($comp_id){
 
 
      public function get_loan_active_customer($customer_id){
-     	$data = $this->db->query("SELECT l.loan_id,l.loan_int,l.restration,l.customer_id,ot.loan_stat_date,ot.loan_end_date,l.loan_status FROM tbl_loans l LEFT JOIN tbl_outstand ot ON ot.loan_id = l.loan_id  WHERE l.customer_id = '$customer_id' ORDER BY l.loan_id DESC");
+     	$data = $this->db->query("SELECT l.loan_id,l.loan_int,l.restration,l.customer_id,ot.loan_stat_date,ot.loan_end_date,l.loan_status FROM tbl_loans l LEFT JOIN tbl_outstand ot ON ot.loan_id = l.loan_id  WHERE l.customer_id = '$customer_id' ORDER BY l.loan_id DESC LIMIT 1");
      	return $data->row();
      }
 
 
      public function get_total_pay_description($loan_id){
-     $data = $this->db->query("SELECT * FROM tbl_pay p LEFT JOIN tbl_loans l ON l.loan_id = p.loan_id LEFT JOIN tbl_account_transaction at ON at.trans_id = p.p_method WHERE p.loan_id = '$loan_id' ORDER BY p.pay_id DESC LIMIT 10");
+     $data = $this->db->query("SELECT * FROM tbl_pay p LEFT JOIN tbl_loans l ON l.loan_id = p.loan_id LEFT JOIN tbl_account_transaction at ON at.trans_id = p.p_method WHERE p.loan_id = '$loan_id' ORDER BY p.pay_id DESC LIMIT 5");
      return $data->result();
      }
 
 
      public function get_total_amount_paid_loan($loan_id){
-     	$data = $this->db->query("SELECT SUM(depost) AS total_Deposit FROM tbl_depost WHERE loan_id = '$loan_id'");
+     	$data = $this->db->query("SELECT SUM(depost) AS total_Deposit FROM tbl_depost WHERE loan_id = '$loan_id' LIMIT 1");
      	return $data->row();
      }
 
@@ -5185,24 +5185,24 @@ public function check_empl_privillage($position_id,$empl_id,$comp_id){
  }
 
  public function get_total_remain_with($loan_id){
- 	$data = $this->db->query("SELECT * FROM tbl_pay WHERE loan_id = '$loan_id' ORDER BY pay_id DESC");
+ 	$data = $this->db->query("SELECT * FROM tbl_pay WHERE loan_id = '$loan_id' ORDER BY pay_id DESC LIMIT 1");
  	return $data->row();
  }
 
 
  public function get_total_loan_pend($loan_id){
- 	$data = $this->db->query("SELECT SUM(total_pend) AS total_pending FROM  tbl_pending_total WHERE loan_id = '$loan_id'");
+ 	$data = $this->db->query("SELECT SUM(total_pend) AS total_pending FROM  tbl_pending_total WHERE loan_id = '$loan_id' LIMIT 1");
  	return $data->row();
  }
 
 
  public function get_total_penart_loan($loan_id){
- 	$data = $this->db->query("SELECT SUM(penart_amount) AS total_penart FROM tbl_customer_report WHERE loan_id = '$loan_id'");
+ 	$data = $this->db->query("SELECT SUM(penart_amount) AS total_penart FROM tbl_customer_report WHERE loan_id = '$loan_id' LIMIT 1");
  	return $data->row();
  }
 
  public function get_total_paypenart($loan_id){
- 	$data = $this->db->query("SELECT SUM(penart_paid) AS total_penart_paid FROM tbl_pay_penart WHERE loan_id = '$loan_id'");
+ 	$data = $this->db->query("SELECT SUM(penart_paid) AS total_penart_paid FROM tbl_pay_penart WHERE loan_id = '$loan_id' LIMIT 1");
  	return $data->row();
  }
 
@@ -5270,12 +5270,12 @@ public function check_empl_privillage($position_id,$empl_id,$comp_id){
  }
 
  public function get_outstand_loan_customer($loan_id){
- 	$data = $this->db->query("SELECT SUM(remain_amount) AS total_out FROM tbl_outstand_loan WHERE loan_id = '$loan_id'");
+ 	$data = $this->db->query("SELECT SUM(remain_amount) AS total_out FROM tbl_outstand_loan WHERE loan_id = '$loan_id' LIMIT 1");
  	return $data->row();
  }
 
  public function get_end_deposit_time($loan_id){
- 	$data = $this->db->query("SELECT * FROM tbl_depost WHERE loan_id = '$loan_id' ORDER BY dep_id DESC");
+ 	$data = $this->db->query("SELECT * FROM tbl_depost WHERE loan_id = '$loan_id' ORDER BY dep_id DESC LIMIT 1");
  	return $data->row();
  }
 
@@ -5418,7 +5418,7 @@ public function check_empl_privillage($position_id,$empl_id,$comp_id){
   public function get_yesterday_balance_comp($comp_id){
  	$date = date("Y-m-d");
   $back = date('Y-m-d', strtotime('-1 day', strtotime($date)));
- 	$data = $this->db->query("SELECT SUM(cash_amount) AS total_yesterday_Balance FROM tbl_cash_inhand WHERE comp_id = '$comp_id' AND cash_day = '$back'");
+ 	$data = $this->db->query("SELECT SUM(cash_amount) AS total_yesterday_Balance FROM tbl_cash_inhand WHERE comp_id = '$comp_id' AND cash_day = '$back'LIMIT 1");
  	return $data->row();
  }
 
@@ -5432,7 +5432,7 @@ public function check_empl_privillage($position_id,$empl_id,$comp_id){
  //comp todaydeposit
   public function get_total_today_deposit_comp($comp_id){
  	$date = date("Y-m-d");
- 	$data = $this->db->query("SELECT SUM(depost) AS total_deposit FROM tbl_depost WHERE comp_id = '$comp_id' AND depost_day = '$date' AND dep_status = 'withdrawal'");
+ 	$data = $this->db->query("SELECT SUM(depost) AS total_deposit FROM tbl_depost WHERE comp_id = '$comp_id' AND depost_day = '$date' AND dep_status = 'withdrawal' LIMIT 1");
  	return $data->row();
  }
 
@@ -5460,7 +5460,7 @@ public function check_empl_privillage($position_id,$empl_id,$comp_id){
  //company loanwith
  public function get_loan_withdrawal_today_company($comp_id){
  	$date = date("Y-m-d");
- 	$data = $this->db->query("SELECT SUM(l.loan_aprove) AS total_loan_with,SUM(l.loan_int) AS total_loan_int FROM tbl_outstand ot LEFT JOIN tbl_loans l ON l.loan_id = ot.loan_id WHERE ot.comp_id = '$comp_id' AND ot.loan_stat_date = '$date' AND l.loan_status = 'withdrawal'");
+ 	$data = $this->db->query("SELECT SUM(l.loan_aprove) AS total_loan_with,SUM(l.loan_int) AS total_loan_int FROM tbl_outstand ot LEFT JOIN tbl_loans l ON l.loan_id = ot.loan_id WHERE ot.comp_id = '$comp_id' AND ot.loan_stat_date = '$date' AND l.loan_status = 'withdrawal' LIMIT 1");
  	return  $data->row();
  }
 
