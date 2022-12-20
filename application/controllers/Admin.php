@@ -9108,8 +9108,8 @@ public function modify_fomu(){
 
 public function update_hela_yafomu($comp_id,$blanch_id,$deduct_balance,$date_deduct){
  $sqldata ="UPDATE `tbl_deduction_day` SET `deduct_balance`= '$deduct_balance' WHERE `comp_id`= '$comp_id' AND `blanch_id`='$blanch_id' AND `date_deduct` = '$date_deduct'";
- print_r($sqldata);
-         exit();
+//  print_r($sqldata);
+//          exit();
      $query = $this->db->query($sqldata);
      return true; 	
 }
