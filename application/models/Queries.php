@@ -6186,6 +6186,22 @@ public function get_deposit_out_systemloan($blanch_id){
 		return 0; 
 }
 
+public function insert_cash_inhand($data){
+	return $this->db->insert('tbl_cash_inhand',$data);
+}
+
+public function insert_fomu($data){
+	return $this->db->insert('tbl_deduction_day',$data);
+}
+
+public function insert_faini($data){
+	return $this->db->insert('tbl_non_deduct_day',$data);
+}
+
+public function insert_jumla_income($data){
+	return $this->db->insert('tbl_deduction',$data);
+}
+
 
  
 

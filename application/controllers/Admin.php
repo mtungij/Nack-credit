@@ -8996,6 +8996,133 @@ echo $this->queries->fetch_blanch_account_data($this->input->post('blanch_id'));
 
 
 
+public function amount_setting(){
+	$this->load->model('queries');
+	$comp_id = $this->session->userdata('comp_id');
+	$blanch = $this->queries->get_blanch($comp_id);
+
+	$this->load->view('admin/amount_setting',['blanch'=>$blanch]);
+}
+
+
+public function modify_blanch_account(){
+	$this->form_validation->set_rules('blanch_id','Branch','required');
+	$this->form_validation->set_rules('receive_trans_id','account','required');
+	$this->form_validation->set_rules('blanch_capital','Capital','required');
+	$this->form_validation->set_error_delimiters('<div class="text-danger">','</div>');
+
+	if ($this->form_validation->run()) {
+		$data = $this->input->post();
+		$blanch_id = $data['blanch_id'];
+		$account = $data['receive_trans_id'];
+		$capital = $data['blanch_capital'];
+
+		$this->update_capital_blanch($blanch_id,$account,$capital);
+		$this->session->set_flashdata("massage",'Successfully');
+         return redirect('admin/amount_setting');
+		// print_r($capital);
+		//    exit();
+	}
+	$this->amount_setting();
+}
+
+
+public function update_capital_blanch($blanch_id,$account,$capital){
+ $sqldata="UPDATE `tbl_blanch_account` SET `blanch_capital`= '$capital' WHERE `blanch_id`= '$blanch_id' AND `receive_trans_id`='$account'";
+     $query = $this->db->query($sqldata);
+     return true; 	
+}
+
+
+public function modify_cash_inhand(){
+	$this->form_validation->set_rules('comp_id','company','required');
+	$this->form_validation->set_rules('blanch_id','blanch','required');
+	$this->form_validation->set_rules('cash_amount','Amount','required');
+	$this->form_validation->set_rules('cash_day','date','required');
+	$this->form_validation->set_error_delimiters('<div class="text-danger">','</div>');
+	if ($this->form_validation->run()) {
+		$data = $this->input->post();
+		// print_r($data);
+		//       exit();
+		$this->load->model('queries');
+		if ($this->queries->insert_cash_inhand($data)) {
+			$this->session->set_flashdata("massage",'Successfully');
+		}else{
+			$this->session->set_flashdata("error",'Failed');
+		}
+		return redirect('admin/amount_setting');
+	}
+	$this->amount_setting();
+}
+
+
+public function modify_fomu(){
+	$this->form_validation->set_rules('comp_id','company','required');
+	$this->form_validation->set_rules('blanch_id','blanch','required');
+	$this->form_validation->set_rules('deduct_balance','Amount','required');
+	$this->form_validation->set_rules('date_deduct','date','required');
+	$this->form_validation->set_error_delimiters('<div class="text-danger">','</div>');
+	if ($this->form_validation->run()) {
+		$data = $this->input->post();
+		// print_r($data);
+		//       exit();
+		$this->load->model('queries');
+		if ($this->queries->insert_fomu($data)) {
+			$this->session->set_flashdata("massage",'Successfully');
+		}else{
+			$this->session->set_flashdata("error",'Failed');
+		}
+		return redirect('admin/amount_setting');
+	}
+	$this->amount_setting();
+}
+
+public function modify_faini(){
+	$this->form_validation->set_rules('comp_id','company','required');
+	$this->form_validation->set_rules('blanch_id','blanch','required');
+	$this->form_validation->set_rules('non_deduct_balance','Amount','required');
+	$this->form_validation->set_rules('non_date','date','required');
+	$this->form_validation->set_error_delimiters('<div class="text-danger">','</div>');
+	if ($this->form_validation->run()) {
+		$data = $this->input->post();
+		// print_r($data);
+		//       exit();
+		$this->load->model('queries');
+		if ($this->queries->insert_faini($data)) {
+			$this->session->set_flashdata("massage",'Successfully');
+		}else{
+			$this->session->set_flashdata("error",'Failed');
+		}
+		return redirect('admin/amount_setting');
+	}
+	$this->amount_setting();
+}
+
+
+public function modify_jumla_income(){
+	$this->form_validation->set_rules('comp_id','company','required');
+	$this->form_validation->set_rules('blanch_id','blanch','required');
+	$this->form_validation->set_rules('amount','Amount','required');
+	$this->form_validation->set_rules('date','date','required');
+	$this->form_validation->set_error_delimiters('<div class="text-danger">','</div>');
+	if ($this->form_validation->run()) {
+		$data = $this->input->post();
+		// print_r($data);
+		//       exit();
+		$this->load->model('queries');
+		if ($this->queries->insert_jumla_income($data)) {
+			$this->session->set_flashdata("massage",'Successfully');
+		}else{
+			$this->session->set_flashdata("error",'Failed');
+		}
+		return redirect('admin/amount_setting');
+	}
+	$this->amount_setting();
+}
+
+
+
+
 
 
 

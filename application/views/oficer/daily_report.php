@@ -126,7 +126,7 @@
                                     </tr>
                                     <tr>
                                         <td><b>LALA JUMLA</b></td>
-                                        <td><b><?php echo number_format(@$total_today_cash->today_cash); ?></b></td>
+                                        <td><b><?php echo number_format(@$total_today_cash->today_cash +@$saving_deposit_remain->total_amount_saving); ?></b></td>
                                     </tr>
                                      
                                      <tr>
