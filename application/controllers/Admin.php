@@ -3337,7 +3337,7 @@ $this->db->query("INSERT INTO tbl_outstand (`comp_id`,`loan_id`,`blanch_id`,`loa
 	      //insert depost balance
 
           if ($check_deposit == TRUE) {
-            $this->update_deposit_record($loan_id,$deposit_date,$again_deposit);
+            $this->update_deposit_record($loan_id,$deposit_date,$again_deposit,$p_method);
              }else{
              $dep_id = $this->insert_loan_lecorDeposit($comp_id,$customer_id,$loan_id,$blanch_id,$new_depost,$p_method,$role,$day_int,$day_princ,$loan_status,$group_id,$deposit_date,$empl_id);
              }
@@ -3434,7 +3434,7 @@ $this->db->query("INSERT INTO tbl_outstand (`comp_id`,`loan_id`,`blanch_id`,`loa
 	          
 	      //insert depost balance
           if ($check_deposit == TRUE) {
-            $this->update_deposit_record($loan_id,$deposit_date,$again_deposit);
+            $this->update_deposit_record($loan_id,$deposit_date,$again_deposit,$p_method);
              }else{
              $dep_id = $this->insert_loan_lecorDeposit($comp_id,$customer_id,$loan_id,$blanch_id,$new_depost,$p_method,$role,$day_int,$day_princ,$loan_status,$group_id,$deposit_date,$empl_id);
              }
@@ -3529,7 +3529,7 @@ $this->db->query("INSERT INTO tbl_outstand (`comp_id`,`loan_id`,`blanch_id`,`loa
 	      //insert depost balance
 
 	       	if ($check_deposit == TRUE) {
-            $this->update_deposit_record($loan_id,$deposit_date,$again_deposit);
+            $this->update_deposit_record($loan_id,$deposit_date,$again_deposit,$p_method);
              }else{
              $dep_id = $this->insert_loan_lecorDeposit($comp_id,$customer_id,$loan_id,$blanch_id,$new_depost,$p_method,$role,$day_int,$day_princ,$loan_status,$group_id,$deposit_date,$empl_id);
              }
@@ -3683,8 +3683,8 @@ $this->db->query("INSERT INTO tbl_outstand (`comp_id`,`loan_id`,`blanch_id`,`loa
     }
 
 
-  public function update_deposit_record($loan_id,$deposit_date,$again_deposit){
-    $sqldata="UPDATE `tbl_depost` SET `depost`= '$again_deposit' WHERE `loan_id`= '$loan_id' AND `depost_day`='$deposit_date'";
+  public function update_deposit_record($loan_id,$deposit_date,$again_deposit,$p_method){
+    $sqldata="UPDATE `tbl_depost` SET `depost`= '$again_deposit',`depost_method`='$p_method' WHERE `loan_id`= '$loan_id' AND `depost_day`='$deposit_date'";
      $query = $this->db->query($sqldata);
      return true;	
   }
@@ -4760,7 +4760,7 @@ public function previous_transfor(){
  }
 
  public function update_deposit_record_data($pay_id,$remain_depost){
- $sqldata="UPDATE `tbl_depost` SET `depost`= '$remain_depost',`sche_principal`='0',`sche_interest`='0' WHERE `dep_id`= '$pay_id'";
+ $sqldata="UPDATE `tbl_depost` SET `depost`= '$remain_depost',`sche_principal`='0',`sche_interest`='0',`depost_method`='0' WHERE `dep_id`= '$pay_id'";
     // print_r($sqldata);
     //    exit();
   $query = $this->db->query($sqldata);
@@ -9035,6 +9035,7 @@ public function update_capital_blanch($blanch_id,$account,$capital){
 
 
 public function modify_cash_inhand(){
+	$this->load->model('queries');
 	$this->form_validation->set_rules('comp_id','company','required');
 	$this->form_validation->set_rules('blanch_id','blanch','required');
 	$this->form_validation->set_rules('cash_amount','Amount','required');
@@ -9042,21 +9043,41 @@ public function modify_cash_inhand(){
 	$this->form_validation->set_error_delimiters('<div class="text-danger">','</div>');
 	if ($this->form_validation->run()) {
 		$data = $this->input->post();
-		// print_r($data);
+		$comp_id = $data['comp_id'];
+		$blanch_id = $data['blanch_id'];
+		$cash_day = $data['cash_day'];
+		$cash_amount = $data['cash_amount'];
+
+        $date_confirm = $this->queries->get_date_cashinhand($comp_id,$blanch_id,$cash_day);
+
+        if ($date_confirm == TRUE) {
+         $this->update_cashdata($comp_id,$blanch_id,$cash_amount,$cash_day);
+       $this->session->set_flashdata("massage",'Update Successfully');
+        }else{
+       $this->queries->insert_cash_inhand($data);
+       $this->session->set_flashdata("massage",'Successfully');
+        }
+
+		// print_r($date_confirm);
 		//       exit();
-		$this->load->model('queries');
-		if ($this->queries->insert_cash_inhand($data)) {
-			$this->session->set_flashdata("massage",'Successfully');
-		}else{
-			$this->session->set_flashdata("error",'Failed');
-		}
 		return redirect('admin/amount_setting');
 	}
 	$this->amount_setting();
 }
 
 
+
+public function update_cashdata($comp_id,$blanch_id,$cash_amount,$cash_day){
+ $sqldata ="UPDATE `tbl_cash_inhand` SET `cash_amount`= '$cash_amount' WHERE `comp_id`= '$comp_id' AND `blanch_id`='$blanch_id' AND `cash_day` = '$cash_day'";
+ // print_r($sqldata);
+ //         exit();
+     $query = $this->db->query($sqldata);
+     return true; 	
+}
+
+
 public function modify_fomu(){
+	$this->load->model('queries');
 	$this->form_validation->set_rules('comp_id','company','required');
 	$this->form_validation->set_rules('blanch_id','blanch','required');
 	$this->form_validation->set_rules('deduct_balance','Amount','required');
@@ -9064,20 +9085,37 @@ public function modify_fomu(){
 	$this->form_validation->set_error_delimiters('<div class="text-danger">','</div>');
 	if ($this->form_validation->run()) {
 		$data = $this->input->post();
-		// print_r($data);
-		//       exit();
-		$this->load->model('queries');
-		if ($this->queries->insert_fomu($data)) {
-			$this->session->set_flashdata("massage",'Successfully');
+		$comp_id = $data['comp_id'];
+		$blanch_id = $data['blanch_id'];
+		$date_deduct = $data['date_deduct'];
+		$deduct_balance = $data['deduct_balance'];
+
+		$date_conf = $this->queries->get_daeduction_day_data($comp_id,$blanch_id,$date_deduct);
+		if ($date_conf == TRUE){
+			$this->update_hela_yafomu($comp_id,$blanch_id,$deduct_balance,$date_deduct);
+			$this->session->set_flashdata("massage",'Update Successfully');
 		}else{
-			$this->session->set_flashdata("error",'Failed');
+		$this->queries->insert_fomu($data);
+		$this->session->set_flashdata("massage",'Successfully');
 		}
+		//exit();
+		
+		
 		return redirect('admin/amount_setting');
 	}
 	$this->amount_setting();
 }
 
+public function update_hela_yafomu($comp_id,$blanch_id,$deduct_balance,$date_deduct){
+ $sqldata ="UPDATE `tbl_deduction_day` SET `deduct_balance`= '$deduct_balance' WHERE `comp_id`= '$comp_id' AND `blanch_id`='$blanch_id' AND `date_deduct` = '$date_deduct'";
+ print_r($sqldata);
+         exit();
+     $query = $this->db->query($sqldata);
+     return true; 	
+}
+
 public function modify_faini(){
+	$this->load->model('queries');
 	$this->form_validation->set_rules('comp_id','company','required');
 	$this->form_validation->set_rules('blanch_id','blanch','required');
 	$this->form_validation->set_rules('non_deduct_balance','Amount','required');
@@ -9085,21 +9123,43 @@ public function modify_faini(){
 	$this->form_validation->set_error_delimiters('<div class="text-danger">','</div>');
 	if ($this->form_validation->run()) {
 		$data = $this->input->post();
+
+		$comp_id = $data['comp_id'];
+		$blanch_id = $data['blanch_id'];
+		$non_deduct_balance = $data['non_deduct_balance'];
+		$non_date = $data['non_date'];
+
+		$date_conf = $this->queries->get_non_deduct_data($comp_id,$blanch_id,$non_date);
+
+		if ($date_conf == TRUE) {
+			//echo "update";
+		$this->update_faini_data($comp_id,$blanch_id,$non_deduct_balance,$non_date);
+		$this->session->set_flashdata("massage",'update Successfully');
+		}else{
+		//echo "insert";
+		$this->queries->insert_faini($data);
+		$this->session->set_flashdata("massage",'Successfully');	
+		}
 		// print_r($data);
 		//       exit();
-		$this->load->model('queries');
-		if ($this->queries->insert_faini($data)) {
-			$this->session->set_flashdata("massage",'Successfully');
-		}else{
-			$this->session->set_flashdata("error",'Failed');
-		}
+		
+		
 		return redirect('admin/amount_setting');
 	}
 	$this->amount_setting();
 }
 
+public function update_faini_data($comp_id,$blanch_id,$non_deduct_balance,$non_date){
+$sqldata ="UPDATE `tbl_non_deduct_day` SET `non_deduct_balance`= '$non_deduct_balance' WHERE `comp_id`= '$comp_id' AND `blanch_id`='$blanch_id' AND `non_date` = '$non_date'";
+ // print_r($sqldata);
+ //         exit();
+     $query = $this->db->query($sqldata);
+     return true;	
+}
+
 
 public function modify_jumla_income(){
+	$this->load->model('queries');
 	$this->form_validation->set_rules('comp_id','company','required');
 	$this->form_validation->set_rules('blanch_id','blanch','required');
 	$this->form_validation->set_rules('amount','Amount','required');
@@ -9107,17 +9167,36 @@ public function modify_jumla_income(){
 	$this->form_validation->set_error_delimiters('<div class="text-danger">','</div>');
 	if ($this->form_validation->run()) {
 		$data = $this->input->post();
-		// print_r($data);
-		//       exit();
-		$this->load->model('queries');
-		if ($this->queries->insert_jumla_income($data)) {
-			$this->session->set_flashdata("massage",'Successfully');
+
+		$comp_id = $data['comp_id'];
+		$blanch_id = $data['blanch_id'];
+		$amount = $data['amount'];
+		$date = $data['date'];
+
+		$date_conf = $this->queries->get_total_fainiFomu($comp_id,$blanch_id,$date);
+
+		if ($date_conf == TRUE) {
+		$this->update_jumla($comp_id,$blanch_id,$amount,$date);
+		$this->session->set_flashdata("massage",'Update Successfully');
 		}else{
-			$this->session->set_flashdata("error",'Failed');
+          $this->queries->insert_jumla_income($data);
+          $this->session->set_flashdata("massage",'Successfully');
 		}
+		// print_r($date_conf);
+		//       exit();
+		
 		return redirect('admin/amount_setting');
 	}
 	$this->amount_setting();
+}
+
+
+public function update_jumla($comp_id,$blanch_id,$amount,$date){
+ $sqldata ="UPDATE `tbl_deduction` SET `amount`= '$amount' WHERE `comp_id`= '$comp_id' AND `blanch_id`='$blanch_id' AND `date` = '$date'";
+ // print_r($sqldata);
+ //         exit();
+     $query = $this->db->query($sqldata);
+     return true;	
 }
 
 

@@ -6186,16 +6186,39 @@ public function get_deposit_out_systemloan($blanch_id){
 		return 0; 
 }
 
+
+public function get_date_cashinhand($comp_id,$blanch_id,$date_cash){
+	$data = $this->db->query("SELECT * FROM tbl_cash_inhand WHERE comp_id = '$comp_id' AND blanch_id = '$blanch_id' AND cash_day = '$date_cash'");
+	return $data->row();
+}
+
 public function insert_cash_inhand($data){
 	return $this->db->insert('tbl_cash_inhand',$data);
+}
+
+
+public function get_daeduction_day_data($comp_id,$blanch_id,$date_deduct){
+	$data = $this->db->query("SELECT * FROM tbl_deduction_day WHERE comp_id = '$comp_id' AND blanch_id = '$blanch_id' AND date_deduct = '$date_deduct'");
+	return $data->row();
 }
 
 public function insert_fomu($data){
 	return $this->db->insert('tbl_deduction_day',$data);
 }
 
+
+public function get_non_deduct_data($comp_id,$blanch_id,$non_date){
+	$data = $this->db->query("SELECT * FROM tbl_non_deduct_day WHERE comp_id = '$comp_id' AND blanch_id = '$blanch_id' AND non_date = '$non_date'");
+	return $data->row();
+}
+
 public function insert_faini($data){
 	return $this->db->insert('tbl_non_deduct_day',$data);
+}
+
+public function get_total_fainiFomu($comp_id,$blanch_id,$date){
+	$data = $this->db->query("SELECT * FROM tbl_deduction WHERE comp_id = '$comp_id' AND blanch_id = '$blanch_id' AND date = '$date'");
+	return $data->row();
 }
 
 public function insert_jumla_income($data){

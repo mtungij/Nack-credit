@@ -2284,7 +2284,7 @@ $this->db->query("INSERT INTO tbl_outstand (`comp_id`,`loan_id`,`blanch_id`,`loa
           //insert depost balance
 
           if ($check_deposit == TRUE) {
-            $this->update_deposit_record($loan_id,$deposit_date,$again_deposit);
+            $this->update_deposit_record($loan_id,$deposit_date,$again_deposit,$p_method);
              }else{
              $dep_id = $this->insert_loan_lecorDeposit($comp_id,$customer_id,$loan_id,$blanch_id,$new_depost,$p_method,$role,$day_int,$day_princ,$loan_status,$group_id,$deposit_date,$empl_id);
              }
@@ -2376,7 +2376,7 @@ $this->db->query("INSERT INTO tbl_outstand (`comp_id`,`loan_id`,`blanch_id`,`loa
               
           //insert depost balance
           if ($check_deposit == TRUE) {
-            $this->update_deposit_record($loan_id,$deposit_date,$again_deposit);
+            $this->update_deposit_record($loan_id,$deposit_date,$again_deposit,$p_method);
              }else{
              $dep_id = $this->insert_loan_lecorDeposit($comp_id,$customer_id,$loan_id,$blanch_id,$new_depost,$p_method,$role,$day_int,$day_princ,$loan_status,$group_id,$deposit_date,$empl_id);
              }
@@ -2642,8 +2642,8 @@ $this->db->query("INSERT INTO tbl_outstand (`comp_id`,`loan_id`,`blanch_id`,`loa
     }
 
 
-  public function update_deposit_record($loan_id,$deposit_date,$again_deposit){
-    $sqldata="UPDATE `tbl_depost` SET `depost`= '$again_deposit' WHERE `loan_id`= '$loan_id' AND `depost_day`='$deposit_date'";
+  public function update_deposit_record($loan_id,$deposit_date,$again_deposit,$p_method){
+    $sqldata="UPDATE `tbl_depost` SET `depost`= '$again_deposit',`depost_method`='$p_method' WHERE `loan_id`= '$loan_id' AND `depost_day`='$deposit_date'";
      $query = $this->db->query($sqldata);
      return true;   
   }
