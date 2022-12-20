@@ -9108,8 +9108,8 @@ public function modify_fomu(){
 
 public function update_hela_yafomu($comp_id,$blanch_id,$deduct_balance,$date_deduct){
  $sqldata ="UPDATE `tbl_deduction_day` SET `deduct_balance`= '$deduct_balance' WHERE `comp_id`= '$comp_id' AND `blanch_id`='$blanch_id' AND `date_deduct` = '$date_deduct'";
-//  print_r($sqldata);
-//          exit();
+ // print_r($sqldata);
+ //         exit();
      $query = $this->db->query($sqldata);
      return true; 	
 }
@@ -9177,9 +9177,13 @@ public function modify_jumla_income(){
 
 		if ($date_conf == TRUE) {
 		$this->update_jumla($comp_id,$blanch_id,$amount,$date);
+		$this->update_receive_income_deducted($comp_id,$blanch_id,$amount);
+		$this->update_non_balance_deducted($comp_id,$blanch_id);
 		$this->session->set_flashdata("massage",'Update Successfully');
 		}else{
           $this->queries->insert_jumla_income($data);
+          $this->update_receive_income_deducted($comp_id,$blanch_id,$amount);
+          $this->update_non_balance_deducted($comp_id,$blanch_id);
           $this->session->set_flashdata("massage",'Successfully');
 		}
 		// print_r($date_conf);
@@ -9199,9 +9203,22 @@ public function update_jumla($comp_id,$blanch_id,$amount,$date){
      return true;	
 }
 
+public function update_receive_income_deducted($comp_id,$blanch_id,$amount){
+$sqldata ="UPDATE `tbl_receive_deducted` SET `deducted`= '$amount' WHERE `comp_id`= '$comp_id' AND `blanch_id`='$blanch_id'";
+ // print_r($sqldata);
+ //         exit();
+     $query = $this->db->query($sqldata);
+     return true;
+}
 
 
-
+public function update_non_balance_deducted($comp_id,$blanch_id){
+  $sqldata ="UPDATE `tbl_receive_non_deducted` SET `non_balance`= '0' WHERE `comp_id`= '$comp_id' AND `blanch_id`='$blanch_id'";
+ // print_r($sqldata);
+ //         exit();
+     $query = $this->db->query($sqldata);
+     return true;
+}
 
 
 
