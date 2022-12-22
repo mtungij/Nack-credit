@@ -6226,6 +6226,17 @@ public function insert_jumla_income($data){
 }
 
 
+// public function get_total_penart_loan($loan_id){
+// 	$data = $this->db->query("SELECT SUM(total_penart) AS total_penart FROM tbl_store_penalt WHERE loan_id = '$loan_id'");
+// 	return $data->row();
+// }
+
+public function get_loan_data_customer($customer_id){
+	$data = $this->db->query("SELECT * FROM tbl_loans WHERE customer_id = '$customer_id' ORDER BY loan_id DESC");
+	return $data->row();
+}
+
+
  
 
 

@@ -579,8 +579,16 @@
                         </div>
                     </div>
 
+                          <?php 
+          $loan_customer = $this->queries->get_loan_data_customer($customer_id);
+          $loan_id = $loan_customer->loan_id;
+          //print_r($loan_id);
+            //exit();
+           ?>
+
 
                <?php }else{ ?>
+           
                    
                               <div class="col-md-12">
                     <div class="card">
