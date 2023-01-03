@@ -9,8 +9,8 @@
                     <div class="col-lg-6 col-md-8 col-sm-12">
                         <ul class="breadcrumb">
                             <li class="breadcrumb-item"><a href="<?php echo base_url("oficer/index"); ?>"><i class="icon-home"></i></a></li>                            
-                            <li class="breadcrumb-item active">Report</li>
-                            <li class="breadcrumb-item active">Today Received</li>
+                            <li class="breadcrumb-item active"><?php echo $this->lang->line("report_menu"); ?></li>
+                            <li class="breadcrumb-item active"><?php echo $this->lang->line("received_menu"); ?></li>
                         </ul>
                     </div>            
                  
@@ -28,10 +28,10 @@
                 <div class="col-lg-12">
                     <div class="card">
                          <div class="header">
-                            <h2>Today Received</h2>
+                            <h2><?php echo $this->lang->line("received_loan_menu"); ?></h2>
                             <div class="pull-right">
                              <!--    <a href="" data-toggle="modal" data-target="#addcontact2" class="btn btn-primary"><i class="icon-calendar">Today Receivable</i></a> -->
-                             <a href="" class="btn btn-primary btn-sm"><i class="icon-printer">Print</i></a>
+                             <a href="" class="btn btn-primary btn-sm"><i class="icon-printer"><?php echo $this->lang->line("print_menu"); ?></i></a>
                             </div>    
                          </div>
                           <div class="body">
@@ -41,15 +41,15 @@
                                     <thead class="thead-primary">
                                         <tr>
                                         <th>S/no.</th>
-                                        <th>Customer Name</th>
-                                        <th>Phone Number</th>
-                                        <th>Loan Amount</th>
-                                        <th>Duration Type</th>
-                                        <th>Received Amount</th>
-                                        <th>Deposit Method</th>
-                                        <th>Employee</th>
-                                        <th>Deposit Day</th>
-                                        <th>Deposit Date & Time</th>
+                                        <th><?php echo $this->lang->line("customer_name_menu"); ?></th>
+                                        <th><?php echo $this->lang->line("phone_number_menu"); ?></th>
+                                        <th><?php echo $this->lang->line("loan_amount_appy_menu"); ?></th>
+                                        <th><?php echo $this->lang->line("loan_duration_menu"); ?></th>
+                                        <th><?php echo $this->lang->line("received_loan_menu"); ?></th>
+                                        <th><?php echo $this->lang->line("Account_menu"); ?></th>
+                                        <th><?php echo $this->lang->line("employee_menu"); ?></th>
+                                        <th><?php echo $this->lang->line("deposit_day_menu"); ?></th>
+                                        <th><?php echo $this->lang->line("date_menu"); ?> & <?php echo $this->lang->line("time_menu"); ?></th>
                                         </tr>
                                     </thead>
                                    

@@ -10,8 +10,8 @@
                         <ul class="breadcrumb">
                             <li class="breadcrumb-item"><a href="<?php echo base_url("oficer/index"); ?>"><i class="icon-home"></i></a></li>
                             
-                            <li class="breadcrumb-item active">Report</li>
-                            <li class="breadcrumb-item active">Customer Account Statement</li>
+                            <li class="breadcrumb-item active"><?php echo $this->lang->line("report_menu"); ?></li>
+                            <li class="breadcrumb-item active"><?php echo $this->lang->line("customer_statement_menu"); ?></li>
                         </ul>
                     </div>            
                  
@@ -53,7 +53,7 @@
                                     <!-- <i class=""></i> -->
                                    <div class="profile-image"> <img src="<?php echo base_url().'assets/img/sig.jpg'; ?>" class="rounded-circle" alt="Gualantors image" style="width: 135px;height: 135px;">
                                       </div>
-                                    <small>Signature</small>
+                                    <small><?php echo $this->lang->line("signature_menu"); ?></small>
                                 </div>
                             </div>
                            
@@ -70,29 +70,17 @@
                 <div class="col-lg-12">
                     <div class="card">
                           <div class="body">
-                     <?php echo form_open("oficer/customer_report"); ?>
-                            <div class="sam">
-                                
-                                <select type="number" class="form-control select2" name="customer_id" required>
-                                    <option>Search Customer</option>
-                                    <?php foreach ($customery as $customer_datas): ?>
-                                    <option value="<?php echo $customer_datas->customer_id; ?>"><?php echo $customer_datas->f_name; ?> <?php echo $customer_datas->m_name; ?> <?php echo $customer_datas->l_name; ?> / <?php echo $customer_datas->customer_code; ?> </option>
-                                    <?php endforeach; ?>
-                                </select>
-                                <button type="submit" class="btn btn-primary"><i class="icon-magnifier-add">Search</i></button>
-                                
-                            </div>
-                            <?php echo form_close(); ?>
+                     
                             
                             <div class="table-responsive">
                                 <table class="table table-hover j-basic-example dataTable table-custom">
                                     <thead class="thead-primary">
                                         <tr>
-                                        <th>Customer Name</th>
-                                        <th>Phone Number</th>
-                                        <th>District</th>
-                                        <th>Ward</th>
-                                        <th>Street</th>
+                                        <th><?php echo $this->lang->line("customer_name_menu"); ?></th>
+                                        <th><?php echo $this->lang->line("phone_number_menu"); ?></th>
+                                        <th><?php echo $this->lang->line("district_menu"); ?></th>
+                                        <th><?php echo $this->lang->line("ward_menu"); ?></th>
+                                        <th><?php echo $this->lang->line("street_menu"); ?></th>
                                         </tr>
                                     </thead>
                                    
@@ -130,19 +118,32 @@
 
                   <div class="col-lg-12">
                     <div class="card">
+                        <?php echo form_open("oficer/customer_report"); ?>
+                            <div class="sam">
+                                
+                                <select type="number" class="form-control select2" name="customer_id" required>
+                                    <option>Search Customer</option>
+                                    <?php foreach ($customery as $customer_datas): ?>
+                                    <option value="<?php echo $customer_datas->customer_id; ?>"><?php echo $customer_datas->f_name; ?> <?php echo $customer_datas->m_name; ?> <?php echo $customer_datas->l_name; ?> / <?php echo $customer_datas->customer_code; ?> </option>
+                                    <?php endforeach; ?>
+                                </select>
+                                <button type="submit" class="btn btn-primary"><i class="icon-magnifier-add"><?php echo $this->lang->line("search_menu"); ?></i></button>
+                                
+                            </div>
+                            <?php echo form_close(); ?>
                           <div class="body">
                              <div class="pull-right">
-                             <a href="" class="btn btn-success" data-toggle="modal" data-target="#addcontact1"><i class="icon-pencil">Filter</i></a> 
+                             <a href="" class="btn btn-success" data-toggle="modal" data-target="#addcontact1"><i class="icon-pencil"><?php echo $this->lang->line("search_menu"); ?></i></a> 
                              </div>
                             <div class="table-responsive">
                                 <table class="table table-hover j-basic-example dataTable table-custom">
                                     <thead class="thead-primary">
                                         <tr>
-                                        <th>Date</th>
-                                        <th>Description</th>
-                                        <th>Deposit</th>
-                                        <th>Withdrawal</th>
-                                        <th>Balance</th> 
+                                        <th><?php echo $this->lang->line("date_menu"); ?></th>
+                                        <th><?php echo $this->lang->line("description_menu"); ?></th>
+                                        <th><?php echo $this->lang->line("deposit_menu"); ?></th>
+                                        <th><?php echo $this->lang->line("withdrawal_menu"); ?></th>
+                                        <th><?php echo $this->lang->line("balance_menu"); ?></th> 
                                         </tr>
                                     </thead>
                                    
@@ -242,18 +243,18 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h7 class="title" id="defaultModalLabel">Filter customer Account Statement</h7>
+                <h7 class="title" id="defaultModalLabel"><?php echo $this->lang->line("search_menu"); ?> <?php echo $this->lang->line("customer_statement_menu"); ?></h7>
             </div>
             <?php echo form_open("oficer/filter_customer_statement"); ?>
             <div class="modal-body">
                 <div class="row clearfix">
                     <?php $date = date("Y-m-d"); ?>
                     <div class="col-md-6 col-6">
-                    <span>From:</span>
+                    <span><?php echo $this->lang->line("from_menu"); ?>:</span>
                     <input type="date" class="form-control" value="<?php echo $date; ?>" name="from" required>       
                     </div>
                       <div class="col-md-6 col-6">
-                    <span>To:</span>
+                    <span><?php echo $this->lang->line("to_menu"); ?>:</span>
                     <input type="date" class="form-control" value="<?php echo $date; ?>" name="to" required>       
                     <input type="hidden" class="form-control" value="<?php echo $customer->customer_id; ?>" name="customer_id" required>       
                     </div>
@@ -261,8 +262,8 @@
             </div>
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-primary">Filter</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">CLOSE</button>
+                <button type="submit" class="btn btn-primary"><?php echo $this->lang->line("search_menu"); ?></button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal"><?php echo $this->lang->line("close_menu"); ?></button>
             </div>
             <?php echo form_close(); ?>
         </div>

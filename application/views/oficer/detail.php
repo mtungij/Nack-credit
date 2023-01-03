@@ -9,8 +9,8 @@
                     <div class="col-lg-6 col-md-8 col-sm-12">
                         <ul class="breadcrumb">
                             <li class="breadcrumb-item"><a href="<?php echo base_url("admin/index"); ?>"><i class="icon-home"></i></a></li>                            
-                            <li class="breadcrumb-item active">Customer</li>
-                            <li class="breadcrumb-item active">Customer Photo & Gualantors Photo</li>
+                            <li class="breadcrumb-item active"><?php echo $this->lang->line("customer_menu") ?></li>
+                            <li class="breadcrumb-item active"><?php echo $this->lang->line("customer_photo_guarantor_menu"); ?></li>
                         </ul>
                     </div>            
                  
@@ -36,18 +36,18 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="header">
-                            <h2>Customer Photo & Gualantors Photo</h2>
+                            <h2><?php echo $this->lang->line("customer_photo_guarantor_menu"); ?></h2>
                         </div>
                         <div class="body">
                             <?php echo form_open("oficer/update_customerID/{$customer->customer_id}") ?>
                             <div class="row">
 
                               <div class="col-lg-6 form-group-sub">
-                                    <label class="form-control-label">Customer Photo:</label>
+                                    <label class="form-control-label"><?php echo $this->lang->line("customer_photo_menu") ?>:</label>
                             <input type="file"  name="passport" placeholder="Monthly Income" class="form-control input-sm" data-required="true">
                                 </div>
                                     <div class="col-lg-6 form-group-sub">
-                                    <label class="form-control-label">Gualantors Photo:</label>
+                                    <label class="form-control-label"><?php echo $this->lang->line("Gualantors_photo_menu"); ?>:</label>
                             <input type="file"  name="signature"  class="form-control input-sm" data-required="true">
                                 </div>
                                 <br>
@@ -56,8 +56,8 @@
                                 <input type="hidden" name="customer_id" value="<?php echo $customer->customer_id; ?>">
                             </div>
                                 <div class="text-center">
-                                <button type="submit" class="btn btn-primary"><i class="icon-pencil">Save</i></button>
-                                <a href="<?php echo base_url("oficer/customer_profile/{$customer->customer_id}") ?>" class="btn btn-info btn-elevate btn-pill">Finish</a>
+                                <button type="submit" class="btn btn-primary"><i class="icon-pencil"><?php echo $this->lang->line("save_menu"); ?></i></button>
+                                <a href="<?php echo base_url("oficer/customer_profile/{$customer->customer_id}") ?>" class="btn btn-info btn-elevate btn-pill"><?php echo $this->lang->line("finish_menu"); ?></a>
                                 </div>
                             
                             <?php echo form_close();  ?>

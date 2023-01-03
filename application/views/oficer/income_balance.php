@@ -9,8 +9,8 @@
                     <div class="col-lg-6 col-md-8 col-sm-12">
                         <ul class="breadcrumb">
                             <li class="breadcrumb-item"><a href="<?php echo base_url("admin/index"); ?>"><i class="icon-home"></i></a></li>                            
-                            <li class="breadcrumb-item active">Income</li>
-                            <li class="breadcrumb-item active">Income Balance</li>
+                            <li class="breadcrumb-item active"><?php echo $this->lang->line("income_menu"); ?></li>
+                            <li class="breadcrumb-item active"><?php echo $this->lang->line("transifor_income_menu"); ?></li>
                         </ul>
                     </div>            
                  
@@ -36,25 +36,25 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="header">
-                            <h2>Transifor Income To Blanch Account</h2>
+                            <h2><?php echo $this->lang->line("transifor_income_menu"); ?></h2>
                         </div>
                         <div class="body">
                             <?php echo form_open("oficer/transfor_income_data"); ?>
                         <div class="row">
 
                 <div class="col-lg-3 col-6">
-                    <span>*Deduction Type:</span>
+                    <span>*<?php echo $this->lang->line("incometype_menu"); ?>:</span>
                 <select class="form-control" name="deduct_type"  required>
-                <option value="">Select Deduction Type </option>
-                <option value="deducted">Deducted Income </option>
-                <option value="non deducted">Non - Deducted Income </option>
+                <option value=""><?php echo $this->lang->line("incometype_menu"); ?> </option>
+                <option value="deducted"><?php echo $this->lang->line("income_deducted_menu"); ?> </option>
+                <option value="non deducted"><?php echo $this->lang->line("income_non_menu"); ?></option>
                     </select>
                  </div>
 
                  <div class="col-lg-3 col-6">
-                    <span>*Branch Account:</span>
+                    <span>*<?php echo $this->lang->line("branch_account_menu"); ?>:</span>
                 <select class="form-control " name="to_blanch_account_id" required data-live-search="true">
-                <option value="">Select Branch Account</option>
+                <option value=""><?php echo $this->lang->line("branch_account_menu"); ?></option>
                     <?php foreach ($acount as $acounts): ?>
                    <option value="<?php echo $acounts->receive_trans_id; ?>"><?php echo $acounts->account_name; ?></option>
                     <?php endforeach; ?>
@@ -63,12 +63,12 @@
 
 
                 <div class="col-lg-3 col-6">
-                <span>*Amount</span>
-            <input type="number" name="from_mount" autocomplete="off" class="form-control" placeholder="Enter Amount" required>
+                <span>*<?php echo $this->lang->line("amount_menu"); ?></span>
+            <input type="number" name="from_mount" autocomplete="off" class="form-control" placeholder="<?php echo $this->lang->line("amount_menu"); ?>" required>
                 </div>
                 <div class="col-lg-3 col-6">
-                <span>*With/Chargers</span>
-            <input type="number" name="trans_fee" autocomplete="off" placeholder="Enter Chargers" class="form-control" required>
+                <span>*<?php echo $this->lang->line("charger_menu"); ?></span>
+            <input type="number" name="trans_fee" autocomplete="off" placeholder="<?php echo $this->lang->line("charger_menu"); ?>" class="form-control" required>
                 </div>
                 <input type="hidden" name="comp_id" value="<?php echo $empl_data->comp_id; ?>">
                 <input type="hidden" name="user_trans" value="<?php echo $empl_data->empl_id; ?>">
@@ -80,7 +80,7 @@
                                 </div>
                                  <br>
                                 <div class="text-center">
-                                <button type="submit" class="btn btn-primary"><i class="icon-drawer">Transifor</i></button>
+                                <button type="submit" class="btn btn-primary"><i class="icon-drawer"><?php echo $this->lang->line("transfor_menu"); ?></i></button>
                                 </div>
                             
                             <?php echo form_close();  ?>
@@ -102,12 +102,12 @@
                                     <thead class="thead-primary">
                                         <tr>
                                                 <th>S/no.</th>
-                                                <th>Deducted Income Type</th>
-                                                <th>Branch Account</th>
-                                                <th>Amount</th>
-                                                <th>Withdrawal Chargers</th>
-                                                <th>Date</th>
-                                                <th>Action</th>
+                                                <th><?php echo $this->lang->line("incometype_menu") ?></th>
+                                                <th><?php echo $this->lang->line("branch_account_menu"); ?></th>
+                                                <th><?php echo $this->lang->line("amount_menu"); ?></th>
+                                                <th><?php echo $this->lang->line("charger_menu"); ?></th>
+                                                <th><?php echo $this->lang->line("date_menu"); ?></th>
+                                                <th><?php echo $this->lang->line("action_menu"); ?></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -115,7 +115,17 @@
                                         <?php foreach ($transaction as $transactions): ?>
                                         <tr>
                                             <td><?php echo $no++; ?>.</td>
-                                            <td><?php echo $transactions->deduct_type; ?></td>
+                                            <td>
+                                                <?php if ($transactions->deduct_type == 'non deducted') {
+                                                 ?>
+                                                 <?php echo $this->lang->line("income_non_menu") ?>
+                                             <?php }elseif ($transactions->deduct_type == 'deducted') {
+                                              ?>
+                                              <?php echo $this->lang->line("income_deducted_menu") ?>
+                                              <?php } ?>
+                                                <?php //echo $transactions->deduct_type; ?>
+                                                    
+                                                </td>
                                             <td><?php echo $transactions->account_name; ?></td>
                                             <td><?php echo number_format($transactions->from_mount); ?></td>
                                             <td><?php echo number_format($transactions->trans_fee); ?></td>
@@ -135,7 +145,7 @@
                 <div class="col-lg-6">
                     <div class="card">
                          <div class="header">
-                            <h2>Deducted Income </h2> 
+                            <h2><?php echo $this->lang->line("income_deducted_menu"); ?> </h2> 
                             <div class="pull-right">
                           <!--     <a href="" class="btn btn-sm btn-icon btn-pure btn-primary on-default m-r-5 button-edit"
                                             data-toggle="modal" data-target="#addcontact1" data-original-title="Edit"><i class="icon-calendar"></i>Filter</a> --> 
@@ -146,8 +156,8 @@
                                 <table class="table table-hover j-basic-example dataTable table-custom">
                                     <thead class="thead-primary">
                                         <tr>
-                                                <th>Branch</th>
-                                                <th>Balance</th>
+                                                <th><?php echo $this->lang->line("branch_menu"); ?></th>
+                                                <th><?php echo $this->lang->line("amount_menu"); ?></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -167,7 +177,7 @@
                 <div class="col-lg-6">
                     <div class="card">
                          <div class="header">
-                            <h2>Non - Deducted Income </h2> 
+                            <h2><?php echo $this->lang->line("income_non_menu"); ?></h2> 
                             <div class="pull-right">
                              <!--  <a href="" class="btn btn-sm btn-icon btn-pure btn-primary on-default m-r-5 button-edit"
                                             data-toggle="modal" data-target="#addcontact1" data-original-title="Edit"><i class="icon-calendar"></i>Filter</a>  -->
@@ -178,8 +188,8 @@
                                 <table class="table table-hover j-basic-example dataTable table-custom">
                                     <thead class="thead-primary">
                                         <tr>
-                                                <th>Branch Name</th>
-                                                <th>Balance</th>
+                                                <th><?php echo $this->lang->line("branch_menu"); ?></th>
+                                                <th><?php echo $this->lang->line("amount_menu"); ?></th>
                                         </tr>
                                     </thead>
                                     <tbody>

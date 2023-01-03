@@ -9,8 +9,8 @@
                     <div class="col-lg-6 col-md-8 col-sm-12">
                         <ul class="breadcrumb">
                             <li class="breadcrumb-item"><a href="<?php echo base_url("oficer/index"); ?>"><i class="icon-home"></i></a></li>                            
-                            <li class="breadcrumb-item active">Teller</li>
-                             <li class="breadcrumb-item active">Teller Dashboard</li>
+                            <li class="breadcrumb-item active"><?php echo $this->lang->line("teller_menu"); ?></li>
+                             <li class="breadcrumb-item active"><?php echo $this->lang->line("teller_dashboard_menu"); ?></li>
                         </ul>
                     </div>            
                  
@@ -36,7 +36,7 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="header">
-                            <h2>Search Customer</h2>
+                            <h2><?php echo $this->lang->line("search_customer_menu") ?></h2>
                             
                         </div>
                         <div class="text-center">
@@ -52,7 +52,7 @@
                                    
                                  <select type="number" class="form-control select2" name="customer_id" required>
                                     
-                                     <option value="">Search Customer</option>
+                                     <option value=""><?php echo $this->lang->line("search_customer_menu") ?></option>
                                      <?php foreach ($customer as $customers): ?>
                                      <option value="<?php echo $customers->customer_id; ?>"><?php echo $customers->f_name; ?> <?php echo $customers->m_name; ?> <?php echo $customers->l_name; ?> / <?php echo $customers->customer_code; ?></option>
                                  <?php endforeach; ?>
@@ -68,7 +68,7 @@
                                 
                             </div>
                                 <div class="text-center">
-                                <button type="submit" class="btn btn-primary"><i class="icon-pencil">Search</i></button>
+                                <button type="submit" class="btn btn-primary"><i class="icon-pencil"><?php echo $this->lang->line("search_menu") ?></i></button>
                                
                                 </div>
                             

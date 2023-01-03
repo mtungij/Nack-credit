@@ -10,8 +10,8 @@
                         <ul class="breadcrumb">
                             <li class="breadcrumb-item"><a href="<?php echo base_url("oficer/index"); ?>"><i class="icon-home"></i></a></li>
                             
-                            <li class="breadcrumb-item active">Report</li>
-                            <li class="breadcrumb-item active">Customer Account Statement</li>
+                            <li class="breadcrumb-item active"><?php echo $this->lang->line("report_menu"); ?></li>
+                            <li class="breadcrumb-item active"><?php echo $this->lang->line("customer_statement_menu"); ?></li>
                         </ul>
                     </div>            
                  

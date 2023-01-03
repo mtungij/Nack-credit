@@ -217,7 +217,7 @@
                         <div class="card linkedin-widget">
                         <div class="icon"><img src="<?php echo base_url() ?>assets/img/withdrawal.png" style="width: 44px; height: 44px;"></div>
                         <div class="content">
-                            <div class="text" style="color:black;"><?php echo $this->lang->line("loanwithin_contract_menu"); ?></div>
+                            <div class="text" style="color:black;"><?php echo $this->lang->line("loan_with_menu"); ?></div>
                             <!-- <div class="number">2510</div> -->
                         </div>
                     </div>
@@ -228,7 +228,7 @@
                         <div class="card behance-widget">
                         <div class="icon"><img src="<?php echo base_url() ?>assets/img/default.jpeg" style="width: 44px; height: 44px;"></div>
                         <div class="content">
-                            <div class="text" style="color:black;"><?php echo $this->lang->line("loanDefault_menu"); ?></div>
+                            <div class="text" style="color:black;"><?php echo $this->lang->line("outstand_menu"); ?></div>
                             <!-- <div class="number">121</div> -->
                         </div>
                     </div>
@@ -301,7 +301,7 @@
                         <div class="card twitter-widget">
                         <div class="icon"><img src="<?php echo base_url() ?>assets/img/saving.png" style="width: 44px; height: 44px;"></div>
                         <div class="content">
-                            <div class="text" style="color:black;"><?php echo $this->lang->line("savingdEPOSIT_menu"); ?></div>
+                            <div class="text" style="color:black;"><?php echo $this->lang->line("saving_menu"); ?></div>
                             <!-- <div class="number">31</div> -->
                         </div>
                     </div>

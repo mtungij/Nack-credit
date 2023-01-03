@@ -202,7 +202,7 @@ public function insert_customer($data){
 }
 
 public function get_admin_role($comp_id){
-	$data = $this->db->query("SELECT * FROM tbl_company WHERE comp_id = '$comp_id'");
+	$data = $this->db->query("SELECT * FROM tbl_company WHERE comp_id = '$comp_id' LIMIT 1");
 	 return $data->row();
 }
 
@@ -748,7 +748,7 @@ public function get_totalLoanout($customer_id){
         }
 
         public function get_customer_Loandata($customer_id){
-        $data = $this->db->query("SELECT * FROM tbl_pay p JOIN tbl_loans l ON l.loan_id = p.loan_id JOIN tbl_loan_category lc ON lc.category_id = l.category_id  WHERE p.customer_id = '$customer_id' ORDER BY pay_id DESC");
+        $data = $this->db->query("SELECT * FROM tbl_pay p JOIN tbl_loans l ON l.loan_id = p.loan_id JOIN tbl_loan_category lc ON lc.category_id = l.category_id  WHERE p.customer_id = '$customer_id' ORDER BY pay_id DESC LIMIT 1");
         	 return $data->row();
         }
 
@@ -1068,7 +1068,7 @@ public function get_totalLoanout($customer_id){
 
 
 	public function get_companyData($comp_id){
-		$comp = $this->db->query("SELECT * FROM tbl_company WHERE comp_id = '$comp_id'");
+		$comp = $this->db->query("SELECT * FROM tbl_company WHERE comp_id = '$comp_id' LIMIT 1");
 		   return $comp->row();
 	}
 
@@ -1088,7 +1088,7 @@ public function get_totalLoanout($customer_id){
 	}
 
 	public function get_employee_data($empl_id){
-		$empl = $this->db->query("SELECT * FROM tbl_employee WHERE empl_id = '$empl_id'");
+		$empl = $this->db->query("SELECT * FROM tbl_employee WHERE empl_id = '$empl_id' LIMIT 1");
 	   return $empl->row();
 	}
 
@@ -1310,7 +1310,7 @@ public function get_totalLoanout($customer_id){
 
 
 	public function get_manager_data($empl_id){
-		$data = $this->db->query("SELECT * FROM tbl_employee e JOIN tbl_company c ON c.comp_id = e.comp_id JOIN tbl_blanch b ON b.blanch_id = e.blanch_id WHERE empl_id = '$empl_id'");
+		$data = $this->db->query("SELECT * FROM tbl_employee e JOIN tbl_company c ON c.comp_id = e.comp_id JOIN tbl_blanch b ON b.blanch_id = e.blanch_id WHERE empl_id = '$empl_id' LIMIT 1");
 		  return $data->row();
 	}
 
@@ -3008,12 +3008,12 @@ public function get_totalLoanDoneGroup($group_id){
 
 
        public function get_customerData($customer_id){
-       	$customer = $this->db->query("SELECT * FROM tbl_customer WHERE customer_id = '$customer_id'");
+       	$customer = $this->db->query("SELECT * FROM tbl_customer WHERE customer_id = '$customer_id' LIMIT 1");
        	 return $customer->row();
        }
 
        public function get_comp_data($comp_id){
-       	$data = $this->db->query("SELECT * FROM tbl_company WHERE comp_id = '$comp_id'");
+       	$data = $this->db->query("SELECT * FROM tbl_company WHERE comp_id = '$comp_id' LIMIT 1");
        	 return $data->row();
        }
 
@@ -3029,7 +3029,7 @@ public function get_totalLoanDoneGroup($group_id){
 
 
        public function getOutstand_loanData($loan_id){
-       	$data = $this->db->query("SELECT * FROM tbl_outstand_loan WHERE loan_id = '$loan_id'");
+       	$data = $this->db->query("SELECT * FROM tbl_outstand_loan WHERE loan_id = '$loan_id' LIMIT 1");
        	 return $data->row();
        }
 
@@ -3224,7 +3224,7 @@ public function get_totalLoanDoneGroup($group_id){
 
 
        public function get_total_depost($loan_id){
-       	$data = $this->db->query("SELECT SUM(depost) AS total_depost FROM tbl_depost WHERE loan_id = '$loan_id'");
+       	$data = $this->db->query("SELECT SUM(depost) AS total_depost FROM tbl_depost WHERE loan_id = '$loan_id' LIMIT 1");
        	 return $data->row();
        }
 
@@ -3407,7 +3407,7 @@ public function get_totalLoanDoneGroup($group_id){
 
 
  public function get_sum_dapost($loan_id){
- 	$data = $this->db->query("SELECT SUM(depost) AS remain_balance_loan FROM tbl_depost WHERE loan_id = '$loan_id'");
+ 	$data = $this->db->query("SELECT SUM(depost) AS remain_balance_loan FROM tbl_depost WHERE loan_id = '$loan_id' LIMIT 1");
  	  return $data->row();
  }
 
@@ -3563,7 +3563,7 @@ public function get_sum_companyBalance($comp_id){
 
 
 public function get_amount_remainAmountBlanch($blanch_id,$payment_method){
-	$data = $this->db->query("SELECT * FROM tbl_blanch_account WHERE blanch_id = '$blanch_id' AND receive_trans_id = '$payment_method'");
+	$data = $this->db->query("SELECT * FROM tbl_blanch_account WHERE blanch_id = '$blanch_id' AND receive_trans_id = '$payment_method' LIMIT 1");
 	return $data->row();
 }
 
@@ -3619,7 +3619,7 @@ public function get_deducted_blanch($blanch_id){
 
 
  public function get_interest_loan($loan_id){
- 	$data = $this->db->query("SELECT * FROM tbl_prev_lecod pr JOIN tbl_loans l ON l.loan_id = pr.loan_id JOIN tbl_loan_category lc ON lc.category_id = l.category_id WHERE pr.loan_id = '$loan_id'");
+ 	$data = $this->db->query("SELECT * FROM tbl_prev_lecod pr JOIN tbl_loans l ON l.loan_id = pr.loan_id JOIN tbl_loan_category lc ON lc.category_id = l.category_id WHERE pr.loan_id = '$loan_id' LIMIT 1");
  	return $data->row();
  }
 
@@ -4762,7 +4762,7 @@ public function get_total_pending_loan($loan_ID){
 }
 
 public function get_outstand_total($loan_ID){
-	$data = $this->db->query("SELECT * FROM  tbl_outstand_loan WHERE loan_id = '$loan_ID'");
+	$data = $this->db->query("SELECT * FROM  tbl_outstand_loan WHERE loan_id = '$loan_ID' LIMIT 1");
 	return $data->row();
 }
 
@@ -5208,7 +5208,7 @@ public function check_empl_privillage($position_id,$empl_id,$comp_id){
 
 
  public function get_today_deposit_record($loan_id,$deposit_date){
- 	$data = $this->db->query("SELECT * FROM tbl_depost WHERE loan_id = '$loan_id' AND depost_day = '$deposit_date' ORDER BY dep_id DESC");
+ 	$data = $this->db->query("SELECT * FROM tbl_depost WHERE loan_id = '$loan_id' AND depost_day = '$deposit_date' ORDER BY dep_id DESC LIMIT 1");
  	return $data->row();
  }
 
@@ -5243,7 +5243,7 @@ public function check_empl_privillage($position_id,$empl_id,$comp_id){
  }
 
  public function get_remain_blanch_capital($blanch_id,$trans_id){
- 	$data = $this->db->query("SELECT * FROM tbl_blanch_account WHERE blanch_id = '$blanch_id' AND receive_trans_id = '$trans_id'");
+ 	$data = $this->db->query("SELECT * FROM tbl_blanch_account WHERE blanch_id = '$blanch_id' AND receive_trans_id = '$trans_id' LIMIT 1");
  	return $data->row();
  }
 
@@ -5425,7 +5425,7 @@ public function check_empl_privillage($position_id,$empl_id,$comp_id){
 
  public function get_total_today_deposit($blanch_id){
  	$date = date("Y-m-d");
- 	$data = $this->db->query("SELECT SUM(depost) AS total_deposit FROM tbl_depost WHERE blanch_id = '$blanch_id' AND depost_day = '$date' AND dep_status = 'withdrawal'");
+ 	$data = $this->db->query("SELECT SUM(depost) AS total_deposit FROM tbl_depost WHERE blanch_id = '$blanch_id' AND depost_day = '$date'");
  	return $data->row();
  }
 
@@ -5722,7 +5722,7 @@ public function get_loan_withdrawal_today_blanch_general($blanch_id){
 
 
        public function get_outstand_deposit($blanch_id,$trans_id){
-       	$data = $this->db->query("SELECT * FROM tbl_receve_outstand WHERE blanch_id = '$blanch_id' AND trans_id = '$trans_id'");
+       	$data = $this->db->query("SELECT * FROM tbl_receve_outstand WHERE blanch_id = '$blanch_id' AND trans_id = '$trans_id' LIMIT 1");
        	return $data->row();
        }
 
@@ -6235,6 +6235,85 @@ public function get_loan_data_customer($customer_id){
 	$data = $this->db->query("SELECT * FROM tbl_loans WHERE customer_id = '$customer_id' ORDER BY loan_id DESC");
 	return $data->row();
 }
+
+
+
+function fetch_loan_active($customer_id)
+ {
+  $this->db->where('customer_id', $customer_id);
+  $this->db->order_by('loan_code', 'DESC');
+  $query = $this->db->query("SELECT * FROM tbl_loans WHERE customer_id = '$customer_id' ORDER BY loan_id DESC LIMIT 1");
+  $query->row();
+  $output = '<input value="'.$query->row()->loan_id.'" name="loan_id">';
+  // foreach($query->result() as $row)
+  // {
+  //  //$output .= '<input value="'.$row->loan_id.'">';
+   
+  // }
+  return $output;
+ }
+
+ public function get_blanch_account_balance_amount($from_blanch,$from_blanch_account){
+ 	$data = $this->db->query("SELECT * FROM tbl_blanch_account WHERE blanch_id = '$from_blanch' AND receive_trans_id = '$from_blanch_account'");
+ 	return $data->row();
+ }
+
+
+ public function get_blanch_account_balance_to_amount($to_branch,$to_branch_account){
+ 	$data = $this->db->query("SELECT * FROM tbl_blanch_account WHERE blanch_id = '$to_branch' AND receive_trans_id = '$to_branch_account'");
+ 	return $data->row();
+ }
+
+
+
+  public function get_total_penart_data($loan_id){
+        $data = $this->db->query("SELECT SUM(total_penart) AS Total_Penart FROM tbl_store_penalt WHERE loan_id = '$loan_id'");
+        return $data->row();
+   }
+
+   public function get_loan_customer_old($customer_id){
+   	$data = $this->db->query("SELECT * FROM tbl_loans l LEFT JOIN tbl_customer c ON c.customer_id = l.customer_id WHERE l.customer_id = '$customer_id' ORDER BY l.loan_id DESC");
+   	return $data->row();
+   }
+
+   public function get_total_penart_paid_loan($loan_id){
+   	$data = $this->db->query("SELECT SUM(penart_paid) AS total_PaidPenart FROM tbl_pay_penart WHERE loan_id = '$loan_id'");
+   	return $data->row();
+   }
+
+   public function insert_msamaha($data){
+   	return $this->db->insert('tbl_penart_check',$data);
+   }
+
+
+   public function get_penart_check($loan_id){
+   	$data = $this->db->query("SELECT * FROM tbl_penart_check WHERE loan_id = '$loan_id'");
+   	return $data->row();
+   }
+
+
+   public function get_transaction_prev_blanch($blanch_id,$from,$to){
+   	$data = $this->db->query("SELECT SUM(blanch_amount) AS total_transfor, SUM(charger) AS total_charger FROM tbl_transfor WHERE trans_day between '$from' and '$to' AND blanch_id = '$blanch_id'");
+   	return $data->row();
+   }
+
+
+   public function get_transaction_income_prevBlanch($blanch_id,$from,$to){
+   	$data = $this->db->query("SELECT SUM(from_mount) AS total_fomu_fine,SUM(trans_fee) AS total_incomeFee FROM tbl_transfor_blanch_blanch WHERE date_transfor between '$from' and '$to' AND from_blanch_id = '$blanch_id'");
+   	return $data->row();
+   }
+
+   public function get_transaction_outSystem_prev($blanch_id,$from,$to){
+   	$data = $this->db->query("SELECT SUM(amount_trans) AS total_out,SUM(trans_fee) AS out_fee FROM tbl_trans_out WHERE date between '$from' and '$to' AND blanch_id = '$blanch_id'");
+   	return $data->row();
+   }
+
+
+   public function get_cash_inhand_prev_blanc($blanch_id,$from,$to){
+   	$today = date("Y-m-d");
+   	$data = $this->db->query("SELECT SUM(cash_amount) AS total_cashInhand FROM tbl_cash_inhand ch WHERE ch.cash_day between '$from' and '$to' AND  DATE(ch.cash_day) <> '$today' AND ch.blanch_id = '$blanch_id'");
+   	return $data->row();
+   }
 
 
  

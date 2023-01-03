@@ -9,8 +9,8 @@
                     <div class="col-lg-6 col-md-8 col-sm-12">
                         <ul class="breadcrumb">
                             <li class="breadcrumb-item"><a href="<?php echo base_url("admin/index"); ?>"><i class="icon-home"></i></a></li>                            
-                            <li class="breadcrumb-item active">Loan</li>
-                            <li class="breadcrumb-item active">Default loan </li>
+                            <li class="breadcrumb-item active"><?php echo $this->lang->line("report_menu"); ?></li>
+                            <li class="breadcrumb-item active"><?php echo $this->lang->line("outstand_menu"); ?> </li>
                         </ul>
                     </div>            
                  
@@ -36,7 +36,7 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="header">
-                            <h2>Default Amount Out Of System</h2>
+                            <h2><?php echo $this->lang->line("default_outsystem_menu"); ?></h2>
                         </div>
                         <div class="body">
                 <?php 
@@ -49,7 +49,7 @@
                 <?php echo form_open("oficer/modify_out_loan/{$out_data->id}"); ?>
                 <div class="row">
                 <div class="col-lg-12 col-12">
-                <span>*Amount</span>
+                <span>*<?php echo $this->lang->line("amount_menu"); ?></span>
                <input type="number" name="out_amount" readonly value="<?php echo @$out_data->out_amount - @$sum_out->total_out; ?>" autocomplete="off" class="form-control" placeholder="Enter Amount" required>
                 </div>
             </div>
@@ -84,11 +84,11 @@
             <div class="col-lg-12">
                     <div class="card">
                          <div class="header">
-                            <h2>Today Depost List </h2> 
+                            <h2><?php echo $this->lang->line("received_loan_menu"); ?> </h2> 
                             <div class="pull-right">
                               <a href="" class="btn btn-sm btn-icon btn-pure btn-primary on-default m-r-5 button-edit"
-                                            data-toggle="modal" data-target="#addcontact1" data-original-title="Edit"><i class="icon-pencil"></i>Deposit</a> 
-                           <a href="" data-toggle="modal" data-target="#addcontact2" class="btn btn-primary"><i class="icon-calendar">Filter </i></a>
+                                            data-toggle="modal" data-target="#addcontact1" data-original-title="Edit"><i class="icon-pencil"></i><?php echo $this->lang->line("deposit_menu"); ?></a> 
+                       <!--     <a href="" data-toggle="modal" data-target="#addcontact2" class="btn btn-primary"><i class="icon-calendar">Filter </i></a> -->
                             </div>   
                              </div>
                           <div class="body">
@@ -97,12 +97,12 @@
                                     <thead class="thead-primary">
                                         <tr>
                                                 <th>S/no.</th>
-                                                <th>Customer Name</th>
-                                                <th>Account</th>
-                                                <th>Amount</th>
-                                                <th>Employee</th>
-                                                <th>Date</th>
-                                                <th>Action</th>
+                                                <th><?php echo $this->lang->line("customer_name_menu"); ?></th>
+                                                <th><?php echo $this->lang->line("Account_menu"); ?></th>
+                                                <th><?php echo $this->lang->line("amount_menu"); ?></th>
+                                                <th><?php echo $this->lang->line("employee_menu"); ?></th>
+                                                <th><?php echo $this->lang->line("date_menu"); ?></th>
+                                                <th><?php echo $this->lang->line("action_menu"); ?></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -118,8 +118,9 @@
                                             <td><a href="<?php echo base_url("oficer/delete_outstand_system/{$transactions->id}"); ?>" class="btn btn-danger btn-sm" onclick="return confirm('Are You Sure?')"><i class="icon-trash"></i></a></td>
                                         </tr>
                                         <?php endforeach; ?>
-                                        <tr>
-                                            <td><b>TOTAL:</b></td>
+                                    </tbody>
+                                    <tr>
+                                            <td><b><?php echo $this->lang->line("total_menu") ?>:</b></td>
                                             <td></td>
                                             <td></td>
                                             <td><b><?php echo number_format($today_deposit->total_out_today); ?></b></td>
@@ -127,7 +128,6 @@
                                             <td></td>
                                             <td></td>
                                         </tr>
-                                    </tbody>
                                 </table>
                             </div>
                         </div>

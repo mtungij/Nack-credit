@@ -9,8 +9,8 @@
                     <div class="col-lg-6 col-md-8 col-sm-12">
                         <ul class="breadcrumb">
                             <li class="breadcrumb-item"><a href="<?php echo base_url("oficer/index"); ?>"><i class="icon-home"></i></a></li>                            
-                            <li class="breadcrumb-item active">Loan</li>
-                            <li class="breadcrumb-item active">Default Loan</li>
+                            <li class="breadcrumb-item active"><?php echo $this->lang->line("report_menu"); ?></li>
+                            <li class="breadcrumb-item active"><?php echo $this->lang->line("outstand_menu"); ?></li>
                         </ul>
                     </div>            
                  
@@ -28,10 +28,10 @@
                 <div class="col-lg-12">
                     <div class="card">
                          <div class="header">
-                            <h2>Default Loan</h2>
+                            <h2><?php echo $this->lang->line("outstand_menu"); ?></h2>
                             <div class="pull-right">
-                                <a href="<?php echo base_url("oficer/default_balance"); ?>" class="btn btn-primary"><i class="icon-pencil">Default Balance </i></a>
-                                 <a href="<?php echo base_url("oficer/out_ofsyastem"); ?>" class="btn btn-primary"><i class="icon-pencil">Default Out System </i></a>
+                                <a href="<?php echo base_url("oficer/default_balance"); ?>" class="btn btn-primary"><i class="icon-pencil"><?php echo $this->lang->line("default_balance_menu") ?> </i></a>
+                                 <a href="<?php echo base_url("oficer/out_ofsyastem"); ?>" class="btn btn-primary"><i class="icon-pencil"><?php echo $this->lang->line("default_outsystem_menu"); ?></i></a>
                             </div>    
                          </div>
                           <div class="body">
@@ -40,19 +40,19 @@
                                     <thead class="thead-primary">
                                         <tr>
                                         <th>S/no.</th>
-                                        <th>Customer Name</th>
-                                        <th>Employee</th>
-                                        <th>Loan Ac</th>
-                                        <th>Loan Product</th>
-                                        <th>Loan Interest</th>
-                                        <th>Loan Withdrawal</th>
-                                        <th>Principal + interest</th>
-                                        <th>Method</th>
-                                        <th>Duration Type</th>
-                                        <th>Number of Repayment</th>
-                                        <th>Remain Debt</th>
-                                        <th>Withdrawal Date</th>
-                                        <th>End Date</th>
+                                        <th><?php echo $this->lang->line("customer_name_menu"); ?></th>
+                                        <th><?php echo $this->lang->line("employee_menu"); ?></th>
+                                        <th><?php echo $this->lang->line("loanID_menu"); ?></th>
+                                        <th><?php echo $this->lang->line("loan_category_menu"); ?></th>
+                                        <th><?php echo $this->lang->line("loan_interest_menu"); ?></th>
+                                        <th><?php echo $this->lang->line("loan_with_menu"); ?></th>
+                                        <th><?php echo $this->lang->line("principal_interest_menu"); ?></th>
+                                        <th><?php echo $this->lang->line("account_name"); ?></th>
+                                        <th><?php echo $this->lang->line("loan_duration_menu"); ?></th>
+                                        <th><?php echo $this->lang->line("number_repayment_menu"); ?></th>
+                                        <th><?php echo $this->lang->line("remain_debit_menu"); ?></th>
+                                        <th><?php echo $this->lang->line("with_date_menu"); ?></th>
+                                        <th><?php echo $this->lang->line("end_date_menu"); ?></th>
                                        <!--  <th>Action</th> -->
                                         </tr>
                                     </thead>
@@ -72,14 +72,14 @@
                                     <td><?php echo $loan_aproveds->account_name; ?></td>
                                     <td>
                                <?php if ($loan_aproveds->day == 1) {
-                                                 echo "Daily";
+                                                 echo $this->lang->line("daily_menu");
                                              ?>
                                             <?php }elseif($loan_aproveds->day == 7){
-                                                  echo "Weekly";
+                                                  echo $this->lang->line("weekly_menu");
                                              ?>
                                             
                                         <?php }elseif($loan_aproveds->day == 30 || $loan_aproveds->day == 31 || $loan_aproveds->day == 29 || $loan_aproveds->day == 28){
-                                                echo "Monthly"; 
+                                                echo $this->lang->line("monthly_menu"); 
                                             ?>
                                             <?php } ?>
                                     </td>
@@ -94,8 +94,9 @@
                                  </tr>
 
                             <?php endforeach; ?>
-                                <tr>
-                                    <td><b>TOTAL:</b></td>
+                                    </tbody>
+                                      <tr>
+                                    <td><b><?php echo $this->lang->line("total_menu"); ?>:</b></td>
                                     <td></td>
                                     <td></td>
                                     <td></td>
@@ -111,7 +112,6 @@
                                     <td></td>
                                  <!--    <td></td> -->
                                 </tr>
-                                    </tbody>
                                 </table>
                             </div>
                         </div>

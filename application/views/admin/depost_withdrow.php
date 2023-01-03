@@ -70,20 +70,6 @@
                 <div class="col-lg-12">
                     <div class="card">
                           <div class="body">
-                     <?php echo form_open("admin/search_customerData"); ?>
-                            <div class="sam">
-                                
-                                <select type="number" class="form-control select2" name="customer_id" required>
-                                    <option>Search Customer</option>
-                                    <?php foreach ($customery as $customer_datas): ?>
-                                    <option value="<?php echo $customer_datas->customer_id; ?>"><?php echo $customer_datas->f_name; ?> <?php echo $customer_datas->m_name; ?> <?php echo $customer_datas->l_name; ?> / <?php echo $customer_datas->customer_code; ?> </option>
-                                    <?php endforeach; ?>
-                                </select>
-                                <button type="submit" class="btn btn-primary"><i class="icon-magnifier-add">Search</i></button>
-                                
-                            </div>
-                            <?php echo form_close(); ?>
-                            
                             <div class="table-responsive">
                                 <table class="table table-hover j-basic-example dataTable table-custom">
                                     <thead class="thead-primary">
@@ -195,6 +181,19 @@
 
                   <div class="col-lg-12">
                     <div class="card">
+                         <?php echo form_open("admin/search_customerData"); ?>
+                            <div class="sam">
+                                
+                                <select type="number" class="form-control select2" name="customer_id" required>
+                                    <option>Search Customer</option>
+                                    <?php foreach ($customery as $customer_datas): ?>
+                                    <option value="<?php echo $customer_datas->customer_id; ?>"><?php echo $customer_datas->f_name; ?> <?php echo $customer_datas->m_name; ?> <?php echo $customer_datas->l_name; ?> / <?php echo $customer_datas->customer_code; ?> </option>
+                                    <?php endforeach; ?>
+                                </select>
+                                <button type="submit" class="btn btn-primary"><i class="icon-magnifier-add">Search</i></button>
+                                
+                            </div>
+                            <?php echo form_close(); ?>
                           <div class="body">
                              <div class="pull-right">
                                 <?php if (@$customer_loan->loan_status == 'withdrawal' || @$customer_loan->loan_status == 'out') {
@@ -203,9 +202,10 @@
                          <?php }elseif (@$customer_loan->loan_status == 'disbarsed') {
                           ?>
                              <a href="" class="btn btn-success" data-toggle="modal" data-target="#addcontact2"><i class="icon-pencil">Withdrawal</i></a> 
-                             <?php }else{ ?>
+                             <?php }elseif(@$customer_loan->loan_status == 'done'){ ?>
+                                <a href="" class="btn btn-info" data-toggle="modal" data-target="#addcontact3"><i class="icon-pencil">Faini</i></a>
                              <?php } ?>   
-                            <!--  <a href="" class="btn btn-info" data-toggle="modal" data-target="#addcontact3"><i class="icon-pencil">Adjust</i></a> -->    
+                                 
                              </div>
                             <div class="table-responsive">
                                 <table class="table table-hover j-basic-example dataTable table-custom">
@@ -469,29 +469,41 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h6 class="title" id="defaultModalLabel"><?php echo $customer->f_name; ?> <?php echo $customer->m_name; ?> <?php echo $customer->l_name; ?><br> End Deposit Amount: 100,000</h6>
+                <h6 class="title" id="defaultModalLabel">Taarifa Ya Faini</h6>
             </div>
-            <?php echo form_open("admin/"); ?>
+            <?php echo form_open("admin/samehe_faini/{$customer->customer_id}"); ?>
             <div class="modal-body">
                 <div class="row clearfix">
+                    <div class="col-md-6 col-6">
+                    <span>Jumla ya Faini </span>
+                    <input type="text" style="color: red" readonly class="form-control" value="<?php echo number_format($total_penart->total_penart); ?>.00" required>     
+                    </div>
+                     <div class="col-md-6 col-6">
+                    <span>Faini Aliyo lipa </span>
+                    <input type="text" style="color: red" readonly class="form-control" value="<?php echo number_format($total_deposit_penart->total_penart_paid); ?>.00" required>     
+                    </div>
                     <div class="col-md-12 col-12">
-                    <span>Adjust Amount </span>
-                    <input type="number" class="form-control" name="" required>     
+                    <span>Faini Iliyo Baki Kulipwa </span>
+                    <input type="text" style="color: red" readonly class="form-control" value="<?php echo number_format($total_penart->total_penart - $total_deposit_penart->total_penart_paid); ?>.00" required>     
                     </div>
                     
-                    
+                    <input type="hidden" value="<?php echo $customer_loan->loan_id; ?>" name="loan_id">
+                    <input type="hidden" value="<?php echo $customer->customer_id; ?>" name="customer_id">
+                    <input type="hidden" value="<?php echo $customer->comp_id; ?>" name="comp_id">
+                    <input type="hidden" value="<?php echo $customer->blanch_id; ?>" name="blanch_id">
                     
                    
             </div>
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-primary">Withdrawal</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">CLOSE</button>
+                <button type="submit" class="btn btn-primary">Samehe</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Funga</button>
             </div>
             <?php echo form_close(); ?>
         </div>
     </div>
 </div>
+
 
 
 

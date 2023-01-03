@@ -102,13 +102,13 @@
                                 <table class="table table-hover js-basic-example dataTable table-custom">
                                     <thead class="thead-primary">
                                         <tr>
-                                                <th><?php echo $this->lang->line("customername_menu"); ?></th>
+                                                <th><?php echo $this->lang->line("customer_name_menu"); ?></th>
                                                 <th><?php echo $this->lang->line("loanAprove_menu"); ?></th>
                                                 <th><?php echo $this->lang->line("incometype_menu"); ?></th>
-                                                <th>Income Amount</th>
-                                                <th>User Employee</th>
-                                                <th>Date</th>
-                                                <th>Action</th>
+                                                <th><?php echo  $this->lang->line("income_amount_menu"); ?></th>
+                                                <th><?php echo $this->lang->line("employee_menu"); ?></th>
+                                                <th><?php echo $this->lang->line("date_menu"); ?></th>
+                                                <th><?php echo $this->lang->line("action_menu"); ?></th>
                                         </tr>
                                     </thead>
                                    
@@ -136,8 +136,10 @@
                             </tr>
    
                                          <?php endforeach; ?>
-                                         <tr>
-                                             <td>TOTAL:</td>
+                                        
+                                    </tbody>
+                                     <tr>
+                                             <td><?php echo $this->lang->line("total_menu"); ?>:</td>
                                              <td></td>
                                              <td></td>
                                              <td><b><?php echo number_format($total_receved->total_receved); ?></b></td>
@@ -145,7 +147,6 @@
                                              <td></td>
                                              <td></td>
                                          </tr>
-                                    </tbody>
                                 </table>
                             </div>
                         </div>

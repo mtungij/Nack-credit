@@ -598,7 +598,7 @@ return true;
 
 
 		public function update_customer_number($customer_id,$number){
-		$sqldata="UPDATE `tbl_customer` SET `customer_code`= '$number' WHERE `customer_id`= '$customer_id'";
+		$sqldata="UPDATE `tbl_customer` SET `customer_code`= '$number',`customer_status`='pending' WHERE `customer_id`= '$customer_id'";
        // print_r($sqldata);
         //    exit();
        $query = $this->db->query($sqldata);
@@ -919,7 +919,7 @@ public function modify_sponser($sp_id,$customer_id){
           //   echo "</pre>";
           //        exit();
     	     
-    	$this->load->view('oficer/loan_aplication_form',['customer'=>$customer,'loan_category'=>$loan_category,'group'=>$group,'region'=>$region,'blanch'=>$blanch,'loan_form_request'=>$loan_form_request,'loan_option'=>$loan_option,'skip_next'=>$skip_next,'reject_skip'=>$reject_skip,'formular'=>$formular,'loan_fee_category'=>$loan_fee_category,'mpl_data_blanch'=>$mpl_data_blanch,'empl_data'=>$empl_data]);
+    	$this->load->view('oficer/loan_aplication_form',['customer'=>$customer,'loan_category'=>$loan_category,'group'=>$group,'region'=>$region,'blanch'=>$blanch,'loan_form_request'=>$loan_form_request,'loan_option'=>$loan_option,'skip_next'=>$skip_next,'reject_skip'=>$reject_skip,'formular'=>$formular,'loan_fee_category'=>$loan_fee_category,'mpl_data_blanch'=>$mpl_data_blanch,'empl_data'=>$empl_data,'customer_id'=>$customer_id]);
     }
 
 
@@ -2162,9 +2162,9 @@ $this->db->query("INSERT INTO tbl_outstand (`comp_id`,`loan_id`,`blanch_id`,`loa
 
 
           //sms count function
-          @$smscount = $this->queries->get_smsCountDate($comp_id);
-          $sms_number = @$smscount->sms_number;
-          $sms_id = @$smscount->sms_id;
+          // @$smscount = $this->queries->get_smsCountDate($comp_id);
+          // $sms_number = @$smscount->sms_number;
+          // $sms_id = @$smscount->sms_id;
 
           $comp_name = $company->comp_name;
           $comp_phone = $company->comp_phone;
@@ -2214,14 +2214,14 @@ $this->db->query("INSERT INTO tbl_outstand (`comp_id`,`loan_id`,`blanch_id`,`loa
           $interest_balance = $day_int;
            
           //principal
-          $principal_blanch = $this->queries->get_blanch_capitalPrincipal($comp_id,$blanch_id,$trans_id,$princ_status);
-          $old_principal_balance = @$principal_blanch->principal_balance;
-          $principal_insert = $old_principal_balance + $principal_balance;
+          // $principal_blanch = $this->queries->get_blanch_capitalPrincipal($comp_id,$blanch_id,$trans_id,$princ_status);
+          // $old_principal_balance = @$principal_blanch->principal_balance;
+          // $principal_insert = $old_principal_balance + $principal_balance;
 
            //interest
-          $interest_blanch = $this->queries->get_blanch_interest_capital($comp_id,$blanch_id,$trans_id,$princ_status);
-          $interest_blanch_balance = @$interest_blanch->capital_interest;
-          $interest_insert = $interest_blanch_balance + $day_int;
+          // $interest_blanch = $this->queries->get_blanch_interest_capital($comp_id,$blanch_id,$trans_id,$princ_status);
+          // $interest_blanch_balance = @$interest_blanch->capital_interest;
+          // $interest_insert = $interest_blanch_balance + $day_int;
            
 
          $total_depost = $this->queries->get_sum_dapost($loan_id);
@@ -2316,17 +2316,18 @@ $this->db->query("INSERT INTO tbl_outstand (`comp_id`,`loan_id`,`blanch_id`,`loa
          $this->update_loastatus($loan_id);
          $this->depost_balance($loan_id,$comp_id,$blanch_id,$customer_id,$new_depost,$sum_balance,$description,$role,$group_id,$p_method,$deposit_date,$dep_id);
          //$this->depost_Blanch_accountBalance($comp_id,$blanch_id,$payment_method,$depost_money);
-            if(@$principal_blanch == TRUE){
-         $this->update_principal_capital_balanc($comp_id,$blanch_id,$trans_id,$princ_status,$principal_insert);
-         }elseif(@$principal_blanch == FALSE){
-         $this->insert_blanch_principal($comp_id,$blanch_id,$trans_id,$princ_status,$principal_insert);
-         }
+         $this->insert_blanch_amount_deposit($blanch_id,$deposit_new,$trans_id);
+         //    if(@$principal_blanch == TRUE){
+         // $this->update_principal_capital_balanc($comp_id,$blanch_id,$trans_id,$princ_status,$principal_insert);
+         // }elseif(@$principal_blanch == FALSE){
+         // $this->insert_blanch_principal($comp_id,$blanch_id,$trans_id,$princ_status,$principal_insert);
+         // }
           //interest
-         if (@$interest_blanch == TRUE) {
-         $this->update_interest_blanchBalance($comp_id,$blanch_id,$trans_id,$princ_status,$interest_insert);    
-         }elseif(@$interest_blanch == FALSE){
-         $this->insert_interest_blanch_capital($comp_id,$blanch_id,$trans_id,$princ_status,$interest_insert);
-       }
+       //   if (@$interest_blanch == TRUE) {
+       //   $this->update_interest_blanchBalance($comp_id,$blanch_id,$trans_id,$princ_status,$interest_insert);    
+       //   }elseif(@$interest_blanch == FALSE){
+       //   $this->insert_interest_blanch_capital($comp_id,$blanch_id,$trans_id,$princ_status,$interest_insert);
+       // }
           $this->insert_customer_report($loan_id,$comp_id,$blanch_id,$customer_id,$group_id,$new_depost,$pay_id,$deposit_date);
          //$this->insert_prepaid_balance($loan_id,$comp_id,$blanch_id,$customer_id,$prepaid);
          $this->update_customer_statusLoan($customer_id);
@@ -2355,14 +2356,6 @@ $this->db->query("INSERT INTO tbl_outstand (`comp_id`,`loan_id`,`blanch_id`,`loa
             // print_r($phone);
             //      exit();
           if ($company_data->sms_status == 'YES'){
-              if ($smscount->sms_number == TRUE) {
-                $new_sms = 1;
-                $total_sms = $sms_number + $new_sms;
-                $this->update_count_sms($comp_id,$total_sms,$sms_id);
-              }elseif ($smscount->sms_number == FALSE) {
-             $sms_number = 1;
-             $this->insert_count_sms($comp_id,$sms_number);
-             }
              $this->sendsms($phone,$massage);
              //echo "kitu kipo";
           }elseif($company_data->sms_status == 'NO'){
@@ -2405,19 +2398,18 @@ $this->db->query("INSERT INTO tbl_outstand (`comp_id`,`loan_id`,`blanch_id`,`loa
          $this->insert_remainloan($loan_id,$depost_amount,$paid_out,$pay_id);
          
          $this->depost_balance($loan_id,$comp_id,$blanch_id,$customer_id,$new_depost,$sum_balance,$description,$role,$group_id,$p_method,$deposit_date,$dep_id);
-
-         //$this->depost_Blanch_accountBalance($comp_id,$blanch_id,$payment_method,$depost_money);
-            if (@$principal_blanch == TRUE) {
-         $this->update_principal_capital_balanc($comp_id,$blanch_id,$trans_id,$princ_status,$principal_insert);
-         }elseif(@$principal_blanch == FALSE){
-         $this->insert_blanch_principal($comp_id,$blanch_id,$trans_id,$princ_status,$principal_insert);
-         }
+         $this->insert_blanch_amount_deposit($blanch_id,$deposit_new,$trans_id);
+         //    if (@$principal_blanch == TRUE) {
+         // $this->update_principal_capital_balanc($comp_id,$blanch_id,$trans_id,$princ_status,$principal_insert);
+         // }elseif(@$principal_blanch == FALSE){
+         // $this->insert_blanch_principal($comp_id,$blanch_id,$trans_id,$princ_status,$principal_insert);
+         // }
           //inrterest
-         if (@$interest_blanch == TRUE) {
-         $this->update_interest_blanchBalance($comp_id,$blanch_id,$trans_id,$princ_status,$interest_insert);    
-         }elseif(@$interest_blanch == FALSE){
-         $this->insert_interest_blanch_capital($comp_id,$blanch_id,$trans_id,$princ_status,$interest_insert);
-       }
+         // if (@$interest_blanch == TRUE) {
+         // $this->update_interest_blanchBalance($comp_id,$blanch_id,$trans_id,$princ_status,$interest_insert);    
+         // }elseif(@$interest_blanch == FALSE){
+         // $this->insert_interest_blanch_capital($comp_id,$blanch_id,$trans_id,$princ_status,$interest_insert);
+         // }
           $this->insert_customer_report($loan_id,$comp_id,$blanch_id,$customer_id,$group_id,$new_depost,$pay_id,$deposit_date);
          //$this->insert_prepaid_balance($loan_id,$comp_id,$blanch_id,$customer_id,$prepaid);
           $total_depost = $this->queries->get_sum_dapost($loan_id);
@@ -2447,14 +2439,6 @@ $this->db->query("INSERT INTO tbl_outstand (`comp_id`,`loan_id`,`blanch_id`,`loa
             // print_r($phone);
             //      exit();
           if ($company_data->sms_status == 'YES'){
-             if ($smscount->sms_number == TRUE) {
-                $new_sms = 1;
-                $total_sms = $sms_number + $new_sms;
-                $this->update_count_sms($comp_id,$total_sms,$sms_id);
-              }elseif ($smscount->sms_number == FALSE) {
-             $sms_number = 1;
-             $this->insert_count_sms($comp_id,$sms_number);
-             }
              $this->sendsms($phone,$massage);
              //echo "kitu kipo";
           }elseif($company_data->sms_status == 'NO'){
@@ -2476,8 +2460,6 @@ $this->db->query("INSERT INTO tbl_outstand (`comp_id`,`loan_id`,`blanch_id`,`loa
              }else{
              $dep_id = $this->insert_loan_lecorDeposit($comp_id,$customer_id,$loan_id,$blanch_id,$new_depost,$p_method,$role,$day_int,$day_princ,$loan_status,$group_id,$deposit_date,$empl_id);
              }
-           
-
           $this->insert_blanch_amount_deposit($blanch_id,$deposit_new,$trans_id);
           $this->update_loan_dep_status($loan_id);
              //exit();
@@ -2502,17 +2484,17 @@ $this->db->query("INSERT INTO tbl_outstand (`comp_id`,`loan_id`,`blanch_id`,`loa
 
          //$this->depost_Blanch_accountBalance($comp_id,$blanch_id,$payment_method,$depost_money);
          //principal
-         if (@$principal_blanch == TRUE) {
-         $this->update_principal_capital_balanc($comp_id,$blanch_id,$trans_id,$princ_status,$principal_insert);
-         }elseif(@$principal_blanch == FALSE){
-         $this->insert_blanch_principal($comp_id,$blanch_id,$trans_id,$princ_status,$principal_insert);
-         }
+         // if (@$principal_blanch == TRUE) {
+         // $this->update_principal_capital_balanc($comp_id,$blanch_id,$trans_id,$princ_status,$principal_insert);
+         // }elseif(@$principal_blanch == FALSE){
+         // $this->insert_blanch_principal($comp_id,$blanch_id,$trans_id,$princ_status,$principal_insert);
+         // }
           //inrterest
-         if (@$interest_blanch == TRUE) {
-         $this->update_interest_blanchBalance($comp_id,$blanch_id,$trans_id,$princ_status,$interest_insert);    
-         }elseif(@$interest_blanch == FALSE){
-         $this->insert_interest_blanch_capital($comp_id,$blanch_id,$trans_id,$princ_status,$interest_insert);
-       }
+       //   if (@$interest_blanch == TRUE) {
+       //   $this->update_interest_blanchBalance($comp_id,$blanch_id,$trans_id,$princ_status,$interest_insert);    
+       //   }elseif(@$interest_blanch == FALSE){
+       //   $this->insert_interest_blanch_capital($comp_id,$blanch_id,$trans_id,$princ_status,$interest_insert);
+       // }
         
          
           //updating recovery loan
@@ -2557,14 +2539,6 @@ $this->db->query("INSERT INTO tbl_outstand (`comp_id`,`loan_id`,`blanch_id`,`loa
           $phone = $phones;
 
           if ($company_data->sms_status == 'YES'){
-              if (@$smscount->sms_number == TRUE) {
-                $new_sms = 1;
-                $total_sms = @$sms_number + $new_sms;
-                $this->update_count_sms($comp_id,$total_sms,$sms_id);
-              }elseif (@$smscount->sms_number == FALSE) {
-             $sms_number = 1;
-             $this->insert_count_sms($comp_id,$sms_number);
-             }
              $this->sendsms($phone,$massage);
              //echo "kitu kipo";
           }elseif($company_data->sms_status == 'NO'){
@@ -2945,7 +2919,6 @@ public function insert_blanch_principal($comp_id,$blanch_id,$trans_id,$princ_sta
         $total_kopesha_out = $this->queries->get_total_transaction_default_outsystem($blanch_id);
 
         $today_remain_deposit = $this->queries->get_total_today_deposit_loan($blanch_id);
-
         $saving_deposit_remain = $this->queries->get_total_saving_deposit($blanch_id);
 
 
@@ -2957,6 +2930,26 @@ public function insert_blanch_principal($comp_id,$blanch_id,$trans_id,$princ_sta
       
      $this->load->view('oficer/daily_report',['empl_data'=>$empl_data,'cash_transaction'=>$cash_transaction,'income'=>$income,'yester_day_balance'=>$yester_day_balance,'today_deposit'=>$today_deposit,'total_today_cash'=>$total_today_cash,'loan_with'=>$loan_with,'prepaid'=>$prepaid,'stoo'=>$stoo,'acount'=>$acount,'yesterday_income'=>$yesterday_income,'today_total_income'=>$today_total_income,'more_expenses'=>$more_expenses,'today_transactionInc'=>$today_transactionInc,'today_expenses'=>$today_expenses,'inc_lala'=>$inc_lala,'today_recevable'=>$today_recevable,'deposit_out'=>$deposit_out,'yesterDay'=>$yesterDay,'today_stoo_out'=>$today_stoo_out,'remain_out'=>$remain_out,'account_out_balance'=>$account_out_balance,'prev_deduct'=>$prev_deduct,'today_deduct_income'=>$today_deduct_income,'prev_non'=>$prev_non,'today_non_data'=>$today_non_data,'yester_dayNje'=>$yester_dayNje,'total_nje'=>$total_nje,'nje_deni'=>$nje_deni,'sum_out'=>$sum_out,'nje_account'=>$nje_account,'total_out_system'=>$total_out_system,'total_kopesha_in'=>$total_kopesha_in,'total_kopesha_out'=>$total_kopesha_out,'today_remain_deposit'=>$today_remain_deposit,'saving_deposit_remain'=>$saving_deposit_remain,'non_today'=>$non_today]);
       }
+
+
+    public function filter_daily_report(){
+        $this->load->model('queries');
+      $blanch_id = $this->session->userdata('blanch_id');
+      $empl_id = $this->session->userdata('empl_id');
+      $manager_data = $this->queries->get_manager_data($empl_id);
+      $comp_id = $manager_data->comp_id;
+      $company_data = $this->queries->get_companyData($comp_id);
+      $blanch_data = $this->queries->get_blanchData($blanch_id);
+      $empl_data = $this->queries->get_employee_data($empl_id);
+
+        $blanch_id = $this->input->post('blanch_id');
+        $from = $this->input->post('from');
+        $to = $this->input->post('to');
+        // print_r($to);
+        //     exit();
+
+        $this->load->view('oficer/filter_daily_report',['empl_data'=>$empl_data,'blanch_id'=>$blanch_id,'from'=>$from,'to'=>$to]);
+    }
 
 
       public function print_daily_report_data(){
@@ -3409,7 +3402,7 @@ public function create_requstion_form(){
            }else{
             $this->update_expenses_income_deducted($blanch_id,$expenses_deducted);
             $this->queries->insert_reques_expenses($data);
-            $this->session->set_flashdata("massage",'Expenses Request Successfully');
+            $this->session->set_flashdata("massage",$this->lang->line("expenses_alert_menu"));
            }
 
         }elseif ($deduct_type == 'non deducted') {
@@ -3419,7 +3412,7 @@ public function create_requstion_form(){
             }else{
                 $this->update_income_nonbalance($blanch_id,$expenses_non);
                 $this->queries->insert_reques_expenses($data);
-                $this->session->set_flashdata("massage",'Expenses Request Successfully');
+                $this->session->set_flashdata("massage",$this->lang->line("expenses_alert_menu"));
             }
         }
         return redirect("oficer/expnses_requisition_form");
@@ -3580,6 +3573,17 @@ public function loan_rejected(){
   } 
 
 
+  public function remove_saving_deposit($id){
+    $this->load->model('queries');
+    if($this->queries->remove_saving($id));
+    $this->session->set_flashdata("massage",'Removed successfully');
+    return redirect("oficer/saving_deposit");
+  }
+
+
+ 
+
+
   public function create_saving_deposit(){
     $this->form_validation->set_rules('comp_id','company','required');
     $this->form_validation->set_rules('blanch_id','blanch','required');
@@ -3677,15 +3681,9 @@ public function loan_rejected(){
     $cash_day = $cash_inHand->total_cashDay;
 
     $remove_cash = $cash_day - $amount;
-     // print_r($remove_cash);
+     // print_r($blanch_capital);
      //     exit();
-    if ($date == $today) {
      $this->update_blanch_capitaldata($blanch_id,$account,$saving);  
-    }else{
-     $this->update_cash_prev($blanch_id,$remove_cash,$date);
-    }
-    
-   
     if ($data->status = 'close') {
          // echo "<pre>";
       //   print_r($data);
@@ -3693,8 +3691,28 @@ public function loan_rejected(){
         $this->queries->update_miamala($data,$id);
         $this->session->set_flashdata('massage','Checked Successfully');
         }
-    return redirect('oficer/saving_deposit');
+    return redirect('oficer/checkd_miamala_data/'.$id);
      
+    }
+
+
+   public function checkd_miamala_data($id){
+    $this->load->model('queries');
+    $blanch_id = $this->session->userdata('blanch_id');
+    $empl_id = $this->session->userdata('empl_id');
+    $manager_data = $this->queries->get_manager_data($empl_id);
+    $comp_id = $manager_data->comp_id;
+    $company_data = $this->queries->get_companyData($comp_id);
+    $blanch_data = $this->queries->get_blanchData($blanch_id);
+    $empl_data = $this->queries->get_employee_data($empl_id);
+
+    $data_saving = $this->queries->get_miamala_depost($id);
+    $customer = $this->queries->get_allcutomerblanchData($blanch_id);
+    //     echo "<pre>";
+    // print_r($data_saving);
+    //       exit();
+
+    $this->load->view('oficer/saving_deposit_loan',['empl_data'=>$empl_data,'data_saving'=>$data_saving,'customer'=>$customer]);
     }
 
   
@@ -4256,6 +4274,576 @@ public function blanchwise_loan(){
 
     $this->load->view('oficer/blanch_wise',['empl_data'=>$empl_data,'blanch_wise'=>$blanch_wise]);
 }
+
+function fetch_active_loan()
+{
+$this->load->model('queries');
+if($this->input->post('customer_id'))
+{
+echo $this->queries->fetch_loan_active($this->input->post('customer_id'));
+}
+}
+
+
+
+public function deposit_loan_saving(){
+    $this->form_validation->set_rules('customer_id','Customer','required');
+    $this->form_validation->set_rules('comp_id','Company','required');
+    $this->form_validation->set_rules('blanch_id','blanch','required');
+    $this->form_validation->set_rules('loan_id','Loan','required');
+    $this->form_validation->set_rules('depost','depost','required');
+    $this->form_validation->set_rules('p_method','Method','required');
+    $this->form_validation->set_rules('description','description','required');
+    $this->form_validation->set_rules('deposit_date','deposit date','required');
+    $this->form_validation->set_error_delimiters('<div class="text-danger">','</div>');
+       if ($this->form_validation->run()) {
+          $depost = $this->input->post();
+          // print_r($depost);
+          //     exit();
+          $customer_id = $depost['customer_id'];
+          $comp_id = $depost['comp_id'];
+          $blanch_id = $depost['blanch_id'];
+          $p_method = $depost['p_method'];
+          $loan_id = $depost['loan_id'];
+          $deposit_date = $depost['deposit_date'];
+          $depost = $depost['depost'];
+          $description = 'LOAN RETURN';
+          $new_depost = $depost;
+          $deposit_date = $deposit_date;
+          $payment_method = $p_method;
+          $kumaliza = $depost;
+          $trans_id = $p_method;
+          $new_balance = $depost;
+
+          $today = date("Y-m-d");
+
+           $this->load->model('queries');
+           $blanch_id = $this->session->userdata('blanch_id');
+           $empl_id = $this->session->userdata('empl_id');
+           $manager_data = $this->queries->get_manager_data($empl_id);
+            $comp_id = $manager_data->comp_id;
+            $company_data = $this->queries->get_companyData($comp_id);
+            $blanch_data = $this->queries->get_blanchData($blanch_id);
+            $empl_data = $this->queries->get_employee_data($empl_id);
+          $company_data = $this->queries->get_companyData($comp_id);
+          $loan_restoration = $this->queries->get_restoration_loan($loan_id);
+          $empl_id = $loan_restoration->empl_id;
+          $date_show = $loan_restoration->date_show;
+          $company = $this->queries->get_comp_data($comp_id);
+
+
+          //sms count function
+          // @$smscount = $this->queries->get_smsCountDate($comp_id);
+          // $sms_number = @$smscount->sms_number;
+          // $sms_id = @$smscount->sms_id;
+
+          $comp_name = $company->comp_name;
+          $comp_phone = $company->comp_phone;
+          
+          $restoration = $loan_restoration->restration;
+          $group_id = $loan_restoration->group_id;
+          $loan_codeID = $loan_restoration->loan_code;
+
+      
+ 
+          $data_depost = $this->queries->get_customer_Loandata($customer_id);
+          $customer_data = $this->queries->get_customerData($customer_id);
+          $phones = $customer_data->phone_no;
+          $admin_data = $this->queries->get_admin_role($comp_id);
+          $remain_balance = $data_depost->balance;
+          $old_balance = $remain_balance;
+          $sum_balance = $old_balance + $new_depost;
+
+          @$blanch_account = $this->queries->get_amount_remainAmountBlanch($blanch_id,$payment_method);
+          $blanch_capital = @$blanch_account->blanch_capital;
+          $depost_money = $blanch_capital + $new_depost;
+               
+          //admin role
+          $role = $empl_data->username;
+          
+
+          $out_data = $this->queries->getOutstand_loanData($loan_id);
+          $total_depost_loan = $this->queries->get_total_depost($loan_id);
+
+               //new code
+          $interest_data = $this->queries->get_interest_loan($loan_id);
+          $int = $new_depost;
+          $day = $interest_data->day;
+          $interest_formular = $interest_data->interest_formular;
+          $session = $interest_data->session;
+          $loan_aprove = $interest_data->loan_aprove;
+          $loan_status = $interest_data->loan_status;
+          $loan_int = $interest_data->loan_int;
+          $ses_day = $session;
+          $day_int = $int /  $ses_day;
+          $day_princ = $int - $day_int;
+
+          //insert principal balance 
+          $trans_id = $payment_method;
+          $princ_status = $loan_status;
+          $principal_balance = $day_princ;
+          $interest_balance = $day_int;
+           
+          //principal
+          // $principal_blanch = $this->queries->get_blanch_capitalPrincipal($comp_id,$blanch_id,$trans_id,$princ_status);
+          // $old_principal_balance = @$principal_blanch->principal_balance;
+          // $principal_insert = $old_principal_balance + $principal_balance;
+
+           //interest
+          // $interest_blanch = $this->queries->get_blanch_interest_capital($comp_id,$blanch_id,$trans_id,$princ_status);
+          // $interest_blanch_balance = @$interest_blanch->capital_interest;
+          // $interest_insert = $interest_blanch_balance + $day_int;
+           
+
+         $total_depost = $this->queries->get_sum_dapost($loan_id);
+         $loan_dep = $total_depost->remain_balance_loan;
+         $kumaliza_depost = $loan_dep + $kumaliza;
+
+         $loan_int = $loan_restoration->loan_int;
+         $remain_loan = $loan_int - $total_depost->remain_balance_loan;
+
+         $sun_blanch_capital = $this->queries->get_remain_blanch_capital($blanch_id,$trans_id);
+         $total_blanch_amount = $sun_blanch_capital->blanch_capital;
+         $deposit_new = $total_blanch_amount + $depost;
+      
+         if ($kumaliza_depost < $loan_int){
+            //print_r($kumaliza_depost);
+              // echo "bado sana";
+           }elseif($kumaliza_depost > $loan_int){
+            //echo "hapana";
+           }elseif($kumaliza_depost = $loan_int){
+            $this->update_loastatus_done($loan_id);
+            $this->insert_loan_kumaliza($comp_id,$blanch_id,$customer_id,$loan_id,$kumaliza,$group_id);
+            $this->update_customer_statusclose($customer_id);
+            //echo "tunamaliza kazi";
+          }
+
+
+          @$check_deposit = $this->queries->get_today_deposit_record($loan_id,$deposit_date);
+          $depost_check = @$check_deposit->depost;
+          $dep_id = @$check_deposit->dep_id;
+          $again_deposit = $depost_check +  $depost;
+
+          @$check_prev = $this->queries->get_prev_record_report($loan_id,$deposit_date);
+          $prev_deposit = @$check_prev->depost;
+          $dep_id = @$check_prev->pay_id;
+          $again_prev = $prev_deposit + $depost;
+
+      //outstand deposit
+
+          @$out_deposit = $this->queries->get_outstand_deposit($blanch_id,$trans_id);
+          $out_balance = @$out_deposit->out_balance;
+
+          $new_out_balance = $out_balance + $depost;
+          // print_r($new_out_balance);
+          //          exit();
+         $pay_id = $dep_id;
+
+           if ($out_data == TRUE){
+            if ($depost > $out_data->remain_amount){
+            $this->session->set_flashdata("error",'Your Depost Amount is Greater');
+            }else{
+           $remain_amount = $out_data->remain_amount;
+           $paid_amount = $out_data->paid_amount;
+           $customer_id = $out_data->customer_id;
+            if($new_balance >= $remain_amount){
+           $depost_amount = $remain_amount - $new_balance;
+           $paid_out = $paid_amount + $new_balance;
+           
+           // print_r($depost_amount);
+              //       exit();
+          //insert depost balance
+
+          if ($check_deposit == TRUE) {
+            $this->update_deposit_record($loan_id,$deposit_date,$again_deposit,$p_method);
+             }else{
+             $dep_id = $this->insert_loan_lecorDeposit($comp_id,$customer_id,$loan_id,$blanch_id,$new_depost,$p_method,$role,$day_int,$day_princ,$loan_status,$group_id,$deposit_date,$empl_id);
+             }
+           
+           if (@$out_deposit->out_balance == TRUE || @$out_deposit->out_balance == '0' ) {
+           $this->update_blanch_amount_outstand($comp_id,$blanch_id,$new_out_balance,$trans_id);   
+           }else{
+          $this->insert_blanch_amount_outstand_deposit($comp_id,$blanch_id,$new_out_balance,$trans_id);
+           }
+           $this->update_loan_dep_status($loan_id);
+          $new_balance = $new_depost;
+
+          if ($dep_id > 0) {
+             $this->session->set_flashdata('massage','Deposit has made Sucessfully');
+          }else{
+            $this->session->set_flashdata('massage','Failed');
+          }
+          $this->update_outstand_status($loan_id);
+         if ($check_prev == TRUE) {
+          $dep_id = $dep_id;
+          $empl_id = $empl_id;
+          $this->update_deposit_record_prev($loan_id,$deposit_date,$again_prev,$dep_id,$p_method);
+          }else{
+          $dep_id = $dep_id;
+          $empl_id = $empl_id;
+         $this->insert_loan_lecordDataDeposit($comp_id,$customer_id,$loan_id,$blanch_id,$new_depost,$dep_id,$group_id,$trans_id,$restoration,$loan_aproved,$deposit_date,$empl_id);
+          }
+         $this->insert_remainloan($loan_id,$depost_amount,$paid_out,$pay_id);
+         $this->update_loastatus($loan_id);
+         $this->depost_balance($loan_id,$comp_id,$blanch_id,$customer_id,$new_depost,$sum_balance,$description,$role,$group_id,$p_method,$deposit_date,$dep_id);
+         //$this->depost_Blanch_accountBalance($comp_id,$blanch_id,$payment_method,$depost_money);
+         $this->insert_blanch_amount_deposit($blanch_id,$deposit_new,$trans_id);
+         //    if(@$principal_blanch == TRUE){
+         // $this->update_principal_capital_balanc($comp_id,$blanch_id,$trans_id,$princ_status,$principal_insert);
+         // }elseif(@$principal_blanch == FALSE){
+         // $this->insert_blanch_principal($comp_id,$blanch_id,$trans_id,$princ_status,$principal_insert);
+         // }
+          //interest
+       //   if (@$interest_blanch == TRUE) {
+       //   $this->update_interest_blanchBalance($comp_id,$blanch_id,$trans_id,$princ_status,$interest_insert);    
+       //   }elseif(@$interest_blanch == FALSE){
+       //   $this->insert_interest_blanch_capital($comp_id,$blanch_id,$trans_id,$princ_status,$interest_insert);
+       // }
+          $this->insert_customer_report($loan_id,$comp_id,$blanch_id,$customer_id,$group_id,$new_depost,$pay_id,$deposit_date);
+         //$this->insert_prepaid_balance($loan_id,$comp_id,$blanch_id,$customer_id,$prepaid);
+         $this->update_customer_statusLoan($customer_id);
+         $total_depost = $this->queries->get_sum_dapost($loan_id);
+         $loan_int = $loan_restoration->loan_int;
+         $remain_loan = $loan_int - $total_depost->remain_balance_loan;
+            //sms send
+          $sms = 'Umeingiza Tsh.' .$new_balance. ' kwenye Acc Yako ' . $loan_codeID . $comp_name.' Mpokeaji '.$role . ' Kiasi kilicho baki Kulipwa ni Tsh.'.$remain_loan.' Kwa malalamiko piga '.$comp_phone;
+          $massage = $sms;
+          $phone = $phones;
+
+          $loan_ID = $loan_id;
+          @$out_check = $this->queries->get_outstand_total($loan_id);
+          $amount_remain = @$out_check->remain_amount;
+            // print_r($new_balance);
+            //       exit();
+          if($amount_remain > $new_balance){
+          $this->insert_outstand_balance($comp_id,$blanch_id,$customer_id,$loan_id,$new_balance,$group_id,$dep_id);
+          }elseif($amount_remain = $new_balance) {
+          $this->insert_outstand_balance($comp_id,$blanch_id,$customer_id,$loan_id,$new_balance,$group_id,$dep_id);
+          }
+
+          //$phone = '255'.substr($phones, 1,10);
+            // print_r($sms);
+            //   echo "<br>";
+            // print_r($phone);
+            //      exit();
+          if ($company_data->sms_status == 'YES'){
+             $this->sendsms($phone,$massage);
+             //echo "kitu kipo";
+          }elseif($company_data->sms_status == 'NO'){
+             //echo "Hakuna kitu hapa";
+          }
+
+
+        }else{      
+           $depost_amount = $remain_amount - $new_balance;
+           $paid_out = $paid_amount + $new_balance;
+              
+          //insert depost balance
+          if ($check_deposit == TRUE) {
+            $this->update_deposit_record($loan_id,$deposit_date,$again_deposit,$p_method);
+             }else{
+             $dep_id = $this->insert_loan_lecorDeposit($comp_id,$customer_id,$loan_id,$blanch_id,$new_depost,$p_method,$role,$day_int,$day_princ,$loan_status,$group_id,$deposit_date,$empl_id);
+             }
+          
+          if (@$out_deposit->out_balance == TRUE || @$out_deposit->out_balance == '0' ) {
+           $this->update_blanch_amount_outstand($comp_id,$blanch_id,$new_out_balance,$trans_id);   
+           }else{
+          $this->insert_blanch_amount_outstand_deposit($comp_id,$blanch_id,$new_out_balance,$trans_id);
+           }
+           $this->update_loan_dep_status($loan_id);
+          $new_balance = $new_depost;
+          if ($dep_id > 0) {
+             $this->session->set_flashdata('massage','Deposit has made Sucessfully');
+          }else{
+            $this->session->set_flashdata('massage','Failed');
+          }
+         if ($check_prev == TRUE) {
+          $dep_id = $dep_id;
+          $empl_id = $empl_id;
+          $this->update_deposit_record_prev($loan_id,$deposit_date,$again_prev,$dep_id,$p_method);
+          }else{
+          $dep_id = $dep_id;
+          $empl_id = $empl_id;
+         $this->insert_loan_lecordDataDeposit($comp_id,$customer_id,$loan_id,$blanch_id,$new_depost,$dep_id,$group_id,$trans_id,$restoration,$loan_aproved,$deposit_date,$empl_id);
+          }
+         $this->insert_remainloan($loan_id,$depost_amount,$paid_out,$pay_id);
+         
+         $this->depost_balance($loan_id,$comp_id,$blanch_id,$customer_id,$new_depost,$sum_balance,$description,$role,$group_id,$p_method,$deposit_date,$dep_id);
+         $this->insert_blanch_amount_deposit($blanch_id,$deposit_new,$trans_id);
+         //    if (@$principal_blanch == TRUE) {
+         // $this->update_principal_capital_balanc($comp_id,$blanch_id,$trans_id,$princ_status,$principal_insert);
+         // }elseif(@$principal_blanch == FALSE){
+         // $this->insert_blanch_principal($comp_id,$blanch_id,$trans_id,$princ_status,$principal_insert);
+         // }
+          //inrterest
+         // if (@$interest_blanch == TRUE) {
+         // $this->update_interest_blanchBalance($comp_id,$blanch_id,$trans_id,$princ_status,$interest_insert);    
+         // }elseif(@$interest_blanch == FALSE){
+         // $this->insert_interest_blanch_capital($comp_id,$blanch_id,$trans_id,$princ_status,$interest_insert);
+         // }
+          $this->insert_customer_report($loan_id,$comp_id,$blanch_id,$customer_id,$group_id,$new_depost,$pay_id,$deposit_date);
+         //$this->insert_prepaid_balance($loan_id,$comp_id,$blanch_id,$customer_id,$prepaid);
+          $total_depost = $this->queries->get_sum_dapost($loan_id);
+         $loan_int = $loan_restoration->loan_int;
+         $remain_loan = $loan_int - $total_depost->remain_balance_loan;
+            //sms send
+          $sms = 'Umeingiza Tsh.' .$new_balance. ' kwenye Acc Yako ' . $loan_codeID . $comp_name.' Mpokeaji '.$role . ' Kiasi kilicho baki Kulipwa ni Tsh.'.$remain_loan.' Kwa malalamiko piga '.$comp_phone;
+          $massage = $sms;
+          $phone = $phones;
+
+
+           $loan_ID = $loan_id;
+          @$out_check = $this->queries->get_outstand_total($loan_id);
+          $amount_remain = @$out_check->remain_amount;
+              
+          if($amount_remain > $new_balance){
+
+         $this->insert_outstand_balance($comp_id,$blanch_id,$customer_id,$loan_id,$new_balance,$group_id,$dep_id);
+          // print_r($comp_id);
+          //         exit();
+          }elseif($amount_remain = $new_balance) {
+          $this->insert_outstand_balance($comp_id,$blanch_id,$customer_id,$loan_id,$new_balance,$group_id,$dep_id);
+          }
+          //$phone = '255'.substr($phones, 1,10);
+            // print_r($sms);
+            //   echo "<br>";
+            // print_r($phone);
+            //      exit();
+          if ($company_data->sms_status == 'YES'){
+             $this->sendsms($phone,$massage);
+             //echo "kitu kipo";
+          }elseif($company_data->sms_status == 'NO'){
+             //echo "Hakuna kitu hapa";
+          }
+          }
+          }
+
+
+        //ndani ya mkataba
+           }elseif($out_data == FALSE){
+            if ($kumaliza_depost > $loan_int) {
+            $this->session->set_flashdata("error",'Your Depost Amount is Greater'); 
+            }else{
+          //insert depost balance
+
+            if ($check_deposit == TRUE) {
+            $this->update_deposit_record($loan_id,$deposit_date,$again_deposit,$p_method);
+             }else{
+             $dep_id = $this->insert_loan_lecorDeposit($comp_id,$customer_id,$loan_id,$blanch_id,$new_depost,$p_method,$role,$day_int,$day_princ,$loan_status,$group_id,$deposit_date,$empl_id);
+             }
+          $this->insert_blanch_amount_deposit($blanch_id,$deposit_new,$trans_id);
+          $this->update_loan_dep_status($loan_id);
+             //exit();
+          
+          $new_balance = $new_depost;
+          if ($dep_id > 0) {
+             $this->session->set_flashdata('massage','Deposit has made Sucessfully');
+          }else{
+            $this->session->set_flashdata('massage','Deposit has made Sucessfully');
+          }
+          
+          if ($check_prev == TRUE) {
+          $dep_id = $dep_id;
+          $empl_id = $empl_id;
+          $this->update_deposit_record_prev($loan_id,$deposit_date,$again_prev,$dep_id,$p_method);
+          }else{
+          $dep_id = $dep_id;
+          $empl_id = $empl_id;
+         $this->insert_loan_lecordDataDeposit($comp_id,$customer_id,$loan_id,$blanch_id,$new_depost,$dep_id,$group_id,$trans_id,$restoration,$loan_aproved,$deposit_date,$empl_id);
+          }
+         $this->depost_balance($loan_id,$comp_id,$blanch_id,$customer_id,$new_depost,$sum_balance,$description,$role,$group_id,$p_method,$deposit_date,$dep_id);
+
+         //$this->depost_Blanch_accountBalance($comp_id,$blanch_id,$payment_method,$depost_money);
+         //principal
+         // if (@$principal_blanch == TRUE) {
+         // $this->update_principal_capital_balanc($comp_id,$blanch_id,$trans_id,$princ_status,$principal_insert);
+         // }elseif(@$principal_blanch == FALSE){
+         // $this->insert_blanch_principal($comp_id,$blanch_id,$trans_id,$princ_status,$principal_insert);
+         // }
+          //inrterest
+       //   if (@$interest_blanch == TRUE) {
+       //   $this->update_interest_blanchBalance($comp_id,$blanch_id,$trans_id,$princ_status,$interest_insert);    
+       //   }elseif(@$interest_blanch == FALSE){
+       //   $this->insert_interest_blanch_capital($comp_id,$blanch_id,$trans_id,$princ_status,$interest_insert);
+       // }
+        
+         
+          //updating recovery loan
+         $loan_ID = $loan_id;
+         @$data_pend = $this->queries->get_total_pending_loan($loan_ID);
+          $total_pend = @$data_pend->total_pend;
+
+          if (@$data_pend->total_pend == TRUE) {
+            if($depost > $total_pend){
+           $deni_lipa = $depost - $total_pend;
+           //$recovery = $deni_lipa - $total_pend; 
+           $this->update_loan_pending_remain($loan_id);
+           $this->insert_description_report($comp_id,$blanch_id,$customer_id,$loan_id,$total_pend,$deni_lipa,$group_id,$dep_id); 
+            }elseif($depost < $total_pend){
+           $deni_lipa = $total_pend - $depost;
+           $this->update_loan_pending_balance($loan_id,$deni_lipa);
+           $this->insert_returnDescriptionData_report($comp_id,$blanch_id,$customer_id,$loan_id,$depost,$group_id,$dep_id);
+          }elseif ($depost = $total_pend) {
+          $this->update_loan_pending_remain($loan_id);
+          $this->insert_returnDescriptionData_report($comp_id,$blanch_id,$customer_id,$loan_id,$depost,$group_id,$dep_id);
+          }
+          }elseif ($data_pend->total_pend == FALSE) {
+          if($date_show >= $today){
+            if ($depost < $restoration) {
+                $prepaid = 0;
+            }else{
+           $prepaid = $depost - $restoration;
+           }
+           $this->insert_prepaid_balance($loan_id,$comp_id,$blanch_id,$customer_id,$prepaid,$dep_id);   
+            }else{
+            
+            }
+          
+          }
+
+         $total_depost = $this->queries->get_sum_dapost($loan_id);
+         $loan_int = $loan_restoration->loan_int;
+         $remain_loan = $loan_int - $total_depost->remain_balance_loan;
+            //sms send
+          $sms = 'Umeingiza Tsh.' .$new_balance. ' kwenye Acc Yako ' . $loan_codeID . $comp_name.' Mpokeaji '.$role . ' Kiasi kilicho baki Kulipwa ni Tsh.'.$remain_loan.' Kwa malalamiko piga '.$comp_phone;
+          $massage = $sms;
+          $phone = $phones;
+
+          if ($company_data->sms_status == 'YES'){
+             $this->sendsms($phone,$massage);
+             //echo "kitu kipo";
+          }elseif($company_data->sms_status == 'NO'){
+             //echo "Hakuna kitu hapa";
+          }
+         }
+         }
+
+          
+          return redirect('oficer/data_with_depost/'.$customer_id);
+             
+       }
+         
+       $this->data_with_depost();
+
+      }
+
+
+
+      public function float_transaction(){
+        $this->load->model('queries');
+        $blanch_id = $this->session->userdata('blanch_id');
+        $empl_id = $this->session->userdata('empl_id');
+        $manager_data = $this->queries->get_manager_data($empl_id);
+        $comp_id = $manager_data->comp_id;
+        $company_data = $this->queries->get_companyData($comp_id);
+        $blanch_data = $this->queries->get_blanchData($blanch_id);
+        $empl_data = $this->queries->get_employee_data($empl_id);
+
+        //accont
+        $acount = $this->queries->get_customer_account_verfied($blanch_id);
+        // print_r($acount);
+        //      exit();
+
+        $this->load->view('oficer/float_transaction',['acount'=>$acount,'empl_data'=>$empl_data]);
+      }
+
+
+      public function transfor_money_blanch(){
+        $this->load->model('queries');
+        $this->form_validation->set_rules('comp_id','company','required');
+        $this->form_validation->set_rules('from_blanch','blanch','required');
+        $this->form_validation->set_rules('from_blanch_account','blanch_account','required');
+        $this->form_validation->set_rules('from_amount','Amount','required');
+        $this->form_validation->set_rules('to_branch','Amount','required');
+        $this->form_validation->set_rules('to_branch_account','Amount','required');
+        //$this->form_validation->set_rules('to_amount','Amount','required');
+        $this->form_validation->set_rules('charger_fee','Fee','required');
+        $this->form_validation->set_rules('date_trans','Date','required');
+        $this->form_validation->set_error_delimiters('<div class="text-danger">','</div>');
+
+        if ($this->form_validation->run()) {
+            $data = $this->input->post();
+            // echo "<pre>";
+            // print_r($data);
+            //      exit();
+
+            $comp_id = $data['comp_id'];
+            $from_blanch = $data['from_blanch'];
+            $from_blanch_account = $data['from_blanch_account'];
+            $from_amount = $data['from_amount'];
+            $to_branch = $data['to_branch'];
+            $to_branch_account = $data['to_branch_account'];
+            $charger_fee = $data['charger_fee'];
+            $date_trans = $data['date_trans'];
+
+          //from account
+         $from_account_blance = $this->queries->get_blanch_account_balance_amount($from_blanch,$from_blanch_account);
+
+         $from_blanch_ = $from_account_blance->blanch_id;
+         $from_account_ =  $from_account_blance->receive_trans_id;
+         $from_balance_ =  $from_account_blance->blanch_capital;
+         $remove_balance = $from_balance_ - ($from_amount + $charger_fee);
+
+         $total_makato = ($from_amount + $charger_fee);
+
+
+         //to account
+         $to_account_balance = $this->queries->get_blanch_account_balance_to_amount($to_branch,$to_branch_account);
+         $to_blanch_ = $to_account_balance->blanch_id;
+         $to_account_ = $to_account_balance->receive_trans_id;
+         $to_balance = $to_account_balance->blanch_capital;
+         $receive_balance = $to_balance + $from_amount;
+
+         // print_r($from_balance_);
+         //     echo "<br>";
+         //     print_r($total_makato);
+         //    exit();
+  
+        if ($from_balance_ < $total_makato) {
+            //echo "hapana ndogo";
+        $this->session->set_flashdata("error",'Account balance Is Not Enough');
+        }else{
+            //  echo "hapo sawa";
+            // exit();
+        $this->insert_record_trans_data($comp_id,$from_blanch,$from_blanch_account,$from_amount,$to_branch,$to_branch_account,$charger_fee,$date_trans);
+        $this->update_from_account($from_blanch,$from_blanch_account,$remove_balance);
+        $this->update_to_account($to_branch,$to_branch_account,$receive_balance);
+        $this->session->set_flashdata("massage",'Transaction successfully');
+         return redirect("oficer/float_transaction");
+            // print_r($receive_balance);
+            //       exit(); 
+        }
+        }
+
+        $this->float_transaction();
+      }
+
+
+      public function insert_record_trans_data($comp_id,$from_blanch,$from_blanch_account,$from_amount,$to_branch,$to_branch_account,$charger_fee,$date_trans){
+        $this->db->query("INSERT INTO tbl_float_branch (`comp_id`,`from_blanch`,`from_blanch_account`,`from_amount`,`to_branch`,`to_branch_account`,`charger_fee`,`date_trans`) VALUES ('$comp_id','$from_blanch','$from_blanch_account','$from_amount','$to_branch','$to_branch_account','$charger_fee','$date_trans')");
+      }
+
+
+      public function update_from_account($from_blanch,$from_blanch_account,$remove_balance){
+      $sqldata="UPDATE `tbl_blanch_account` SET `blanch_capital`= '$remove_balance' WHERE  `blanch_id`='$from_blanch' AND `receive_trans_id` = '$from_blanch_account'";
+      // print_r($sqldata);
+      //  exit();
+      $query = $this->db->query($sqldata);
+     return true;
+      }
+
+      public function update_to_account($to_branch,$to_branch_account,$receive_balance){
+      $sqldata="UPDATE `tbl_blanch_account` SET `blanch_capital`= '$receive_balance' WHERE  `blanch_id`='$to_branch' AND `receive_trans_id` = '$to_branch_account'";
+      // print_r($sqldata);
+      //  exit();
+      $query = $this->db->query($sqldata);
+     return true;
+      }
+
+     
+
+
+
 
 
 // function sendsms($phone,$massage){

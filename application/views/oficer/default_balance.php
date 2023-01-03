@@ -9,8 +9,8 @@
                     <div class="col-lg-6 col-md-8 col-sm-12">
                         <ul class="breadcrumb">
                             <li class="breadcrumb-item"><a href="<?php echo base_url("admin/index"); ?>"><i class="icon-home"></i></a></li>                            
-                            <li class="breadcrumb-item active">Report</li>
-                            <li class="breadcrumb-item active">Default  Balance</li>
+                            <li class="breadcrumb-item active"><?php echo $this->lang->line("report_menu"); ?></li>
+                            <li class="breadcrumb-item active"><?php echo $this->lang->line("default_balance_menu"); ?></li>
                         </ul>
                     </div>            
                  
@@ -36,39 +36,31 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="header">
-                            <h2>Transifor Default Balance To Blanch Account</h2>
+                            <h2><?php echo $this->lang->line("transfor_default_menu"); ?></h2>
                         </div>
                         <div class="body">
                         <?php echo form_open("oficer/create_transaction_default"); ?>
                         <div class="row">
                 
                 <div class="col-lg-4 col-12">
-                    <span>*Default Type:</span>
+                    <span>*<?php echo $this->lang->line("default_outsystem_menu") ?>:</span>
                 <select class="form-control" name="trans_type"  required>
-                <option value="">Select Default Type </option>
-                <option value="outsystem">Default Laon Out of System - <?php echo number_format($total_outsystem->total_out_systemData);
+                <option value=""><?php echo $this->lang->line("select_menu"); ?> </option>
+                <option value="outsystem"><?php echo $this->lang->line("default_outsystem_menu"); ?> - <?php echo number_format($total_outsystem->total_out_systemData);
                 $out_system_account = $this->queries->get_njeya_mfumo_data_account($total_outsystem->blanch_id)
                  ?>
                  /
                  <?php foreach ($out_system_account as $out_system_accounts): ?>
                      <?php echo @$out_system_accounts->account_name ?> - <?php echo @$out_system_accounts->amount_receive; ?>  
                  <?php endforeach; ?></option>
-                <option value="insystem">Default Loan In System / <?php echo number_format($total_insystem->total_out_blanch);
-               $insystem_account = $this->queries->get_outstand_account_balance($total_insystem->blanch_id);
-                 ?>
-                 /
-                 <?php foreach ($insystem_account as  $insystem_accounts): ?>
-                   <?php echo $insystem_accounts->account_name ?> - <?php echo $insystem_accounts->out_balance; ?>  
-                 <?php endforeach; ?>
-                    
-                </option>
+                
                     </select>
                  </div>
 
                  <div class="col-lg-4 col-12">
-                    <span>*From Default account:</span>
+                    <span>*<?php echo $this->lang->line("from_account_menu") ?>:</span>
                 <select class="form-control " name="from_trans_id" required data-live-search="true">
-                <option value="">Select Branch Account</option>
+                <option value=""><?php echo $this->lang->line("select_menu") ?></option>
                     <?php foreach ($acount as $acounts): ?>
                    <option value="<?php echo $acounts->receive_trans_id; ?>"><?php echo $acounts->account_name; ?></option>
                     <?php endforeach; ?>
@@ -76,9 +68,9 @@
                  </div>
 
                  <div class="col-lg-4 col-12">
-                    <span>*To Branch account:</span>
+                    <span>*<?php echo $this->lang->line("to_account_menu") ?>:</span>
                 <select class="form-control " name="to_trans_id" required data-live-search="true">
-                <option value="">Select Branch Account</option>
+                <option value=""><?php echo $this->lang->line("select_menu"); ?></option>
                     <?php foreach ($acount as $acounts): ?>
                    <option value="<?php echo $acounts->receive_trans_id; ?>"><?php echo $acounts->account_name; ?></option>
                     <?php endforeach; ?>
@@ -87,12 +79,12 @@
 
 
                 <div class="col-lg-6 col-6">
-                <span>*Amount</span>
-            <input type="number" name="amount_trans" autocomplete="off" class="form-control" placeholder="Enter Amount" required>
+                <span>*<?php echo $this->lang->line("amount_menu"); ?></span>
+            <input type="number" name="amount_trans" autocomplete="off" class="form-control" placeholder="<?php echo $this->lang->line("amount_menu"); ?>" required>
                 </div>
                 <div class="col-lg-6 col-6">
-                <span>*With/Chargers</span>
-            <input type="number" name="trans_fee" autocomplete="off" placeholder="Enter Chargers" class="form-control" required>
+                <span>*<?php echo $this->lang->line("charger_menu"); ?></span>
+            <input type="number" name="trans_fee" autocomplete="off" placeholder="<?php echo $this->lang->line("charger_menu"); ?>" class="form-control" required>
                 </div>
                 <input type="hidden" name="comp_id" value="<?php echo $empl_data->comp_id; ?>">
                 <input type="hidden" name="empl_id" value="<?php echo $empl_data->empl_id; ?>">
@@ -104,7 +96,7 @@
                                 </div>
                                  <br>
                                 <div class="text-center">
-                                <button type="submit" class="btn btn-primary"><i class="icon-drawer">Transifor</i></button>
+                                <button type="submit" class="btn btn-primary"><i class="icon-pencil"><?php echo $this->lang->line("transfor_menu"); ?></i></button>
                                 </div>
                             
                             <?php echo form_close();  ?>
@@ -114,10 +106,10 @@
             <div class="col-lg-12">
                     <div class="card">
                          <div class="header">
-                            <h2>Transaction List </h2> 
+                            <h2><?php echo $this->lang->line("trans_list_menu"); ?></h2> 
                             <div class="pull-right">
-                              <a href="" class="btn btn-sm btn-icon btn-pure btn-primary on-default m-r-5 button-edit"
-                                            data-toggle="modal" data-target="#addcontact1" data-original-title="Edit"><i class="icon-calendar"></i>Filter</a> 
+                              <!-- <a href="" class="btn btn-sm btn-icon btn-pure btn-primary on-default m-r-5 button-edit"
+                                            data-toggle="modal" data-target="#addcontact1" data-original-title="Edit"><i class="icon-calendar"></i>Filter</a>  -->
                             </div>   
                              </div>
                           <div class="body">
@@ -126,13 +118,13 @@
                                     <thead class="thead-primary">
                                         <tr>
                                                 <th>S/no.</th>
-                                                <th>Default Type</th>
-                                                <th>From Default Account</th>
-                                                <th>To Branch Account</th>
-                                                <th>Amount</th>
-                                                <th>Withdrawal Chargers</th>
-                                                <th>Date</th>
-                                                <th>Action</th>
+                                               <!--  <th>Default Type</th> -->
+                                                <th><?php echo $this->lang->line("from_account_menu"); ?></th>
+                                                <th><?php echo $this->lang->line("to_account_menu"); ?></th>
+                                                <th><?php echo $this->lang->line("amount_menu"); ?></th>
+                                                <th><?php echo $this->lang->line("charger_menu"); ?></th>
+                                                <th><?php echo $this->lang->line("date_menu"); ?></th>
+                                                <th><?php echo $this->lang->line("action_menu"); ?></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -140,7 +132,7 @@
                                         <?php foreach ($miamala_out as $miamala_outs): ?>
                                         <tr>    
                                             <td><?php echo $no++; ?>.</td>
-                                            <td><?php echo $miamala_outs->trans_type; ?></td>
+                                            <!-- <td><?php echo $miamala_outs->trans_type; ?></td> -->
                                             <td><?php echo $miamala_outs->from_account; ?></td>
                                             <td><?php echo $miamala_outs->toaccount; ?></td>
                                             <td><?php echo number_format($miamala_outs->amount_trans); ?></td>
@@ -151,7 +143,7 @@
                                         <?php endforeach; ?>
                                         <tr>
                                             <td><b>TOTAL:</b></td>
-                                            <td></td>
+                                            <!-- <td></td> -->
                                             <td></td>
                                             <td></td>
                                             <td><b><?php echo number_format($out_transaction->total_outtrans); ?></b></td>

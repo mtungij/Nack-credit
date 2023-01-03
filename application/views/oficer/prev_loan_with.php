@@ -9,8 +9,8 @@
                     <div class="col-lg-6 col-md-8 col-sm-12">
                         <ul class="breadcrumb">
                             <li class="breadcrumb-item"><a href="<?php echo base_url("oficer/index"); ?>"><i class="icon-home"></i></a></li>                            
-                            <li class="breadcrumb-item active">Loan</li>
-                            <li class="breadcrumb-item active">Loan Withdrawal</li>
+                            <li class="breadcrumb-item active"><?php echo $this->lang->line("loan"); ?></li>
+                            <li class="breadcrumb-item active"><?php echo $this->lang->line("loan_with_menu"); ?></li>
                         </ul>
                     </div>            
                  
@@ -28,9 +28,9 @@
                 <div class="col-lg-12">
                     <div class="card">
                          <div class="header">
-                            <h2>Loan Withdrawal From:<?php echo $from; ?> To:<?php echo $to; ?></h2>
+                            <h2><?php echo $this->lang->line("loan_with_menu"); ?> <?php echo $this->lang->line("from_menu"); ?>:<?php echo $from; ?> <?php echo $this->lang->line("to_menu"); ?>:<?php echo $to; ?></h2>
                             <div class="pull-right">
-                                <a href="" data-toggle="modal" data-target="#addcontact2" class="btn btn-primary"><i class="icon-calendar">Filter</i></a>
+                                <a href="" data-toggle="modal" data-target="#addcontact2" class="btn btn-primary"><i class="icon-calendar"><?php echo $this->lang->line("search_menu"); ?></i></a>
                             </div>    
                          </div>
                           <div class="body">
@@ -39,19 +39,19 @@
                                     <thead class="thead-primary">
                                         <tr>
                                         <th>S/no.</th>
-                                        <th>Customer Name</th>
+                                        <th><?php echo $this->lang->line("customer_name_menu"); ?></th>
                                       <!--   <th>Branch Name</th> -->
-                                        <th>Loan Ac</th>
-                                        <th>Loan Product</th>
-                                        <th>Loan Interest</th>
-                                        <th>Loan Withdrawal</th>
-                                        <th>Principal + interest</th>
-                                        <th>Method</th>
-                                        <th>Duration Type</th>
-                                        <th>Number of Repayment</th>
-                                        <th>Restoration</th>
-                                        <th>Withdrawal Date</th>
-                                        <th>End Date</th>
+                                        <th><?php echo $this->lang->line("loanID_menu"); ?></th>
+                                        <th><?php echo $this->lang->line("loan_category_menu"); ?></th>
+                                        <th><?php echo $this->lang->line("loan_interest_menu"); ?></th>
+                                        <th><?php echo $this->lang->line("loan_with_menu"); ?></th>
+                                        <th><?php echo $this->lang->line("principal_interest_menu"); ?></th>
+                                        <th><?php echo $this->lang->line("account_name"); ?></th>
+                                        <th><?php echo $this->lang->line("loan_duration_menu"); ?></th>
+                                        <th><?php echo $this->lang->line("number_repayment_menu"); ?></th>
+                                        <th><?php echo $this->lang->line("restoration_menu"); ?></th>
+                                        <th><?php echo $this->lang->line("with_date_menu"); ?></th>
+                                        <th><?php echo $this->lang->line("end_date_menu"); ?></th>
                                        <!--  <th>Action</th> -->
                                         </tr>
                                     </thead>
@@ -71,14 +71,14 @@
                                     <td><?php echo $loan_aproveds->account_name; ?></td>
                                     <td>
                                <?php if ($loan_aproveds->day == 1) {
-                                                 echo "Daily";
+                                                 echo $this->lang->line("daily_menu");
                                              ?>
                                             <?php }elseif($loan_aproveds->day == 7){
-                                                  echo "Weekly";
+                                                  echo $this->lang->line("weekly_menu");
                                              ?>
                                             
                                         <?php }elseif($loan_aproveds->day == 30 || $loan_aproveds->day == 31 || $loan_aproveds->day == 29 || $loan_aproveds->day == 28){
-                                                echo "Monthly"; 
+                                                echo $this->lang->line("monthly_menu"); 
                                             ?>
                                             <?php } ?>
                                     </td>
@@ -132,18 +132,18 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h6 class="title" id="defaultModalLabel">Filter Loan Withdrawal</h6>
+                <h6 class="title" id="defaultModalLabel"><?php echo $this->lang->line("search_menu"); ?></h6>
             </div>
             <?php echo form_open("oficer/filter_loan_with"); ?>
             <div class="modal-body">
                 <div class="row clearfix">
                     <div class="col-md-6 col-6">
                         <?php $date = date("Y-m-d"); ?>
-                        <span>From:</span>
+                        <span><?php echo $this->lang->line("from_menu"); ?>:</span>
                        <input type="date" name="from" value="<?php echo $date; ?>" class="form-control">
                     </div>
                       <div class="col-md-6 col-6">
-                        <span>To:</span>
+                        <span><?php echo $this->lang->line("to"); ?>:</span>
                        <input type="date" name="to" value="<?php echo $date; ?>" class="form-control">
                     </div>
 
@@ -153,8 +153,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-primary">Filter</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">CLOSE</button>
+                <button type="submit" class="btn btn-primary"><?php echo $this->lang->line("search_menu"); ?></button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal"><?php echo $this->lang->line("close_menu"); ?></button>
             </div>
             <?php echo form_close(); ?>
         </div>

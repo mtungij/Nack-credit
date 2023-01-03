@@ -9,8 +9,8 @@
                     <div class="col-lg-6 col-md-8 col-sm-12">
                         <ul class="breadcrumb">
                             <li class="breadcrumb-item"><a href="<?php echo base_url("oficer/index"); ?>"><i class="icon-home"></i></a></li>                            
-                            <li class="breadcrumb-item active">Loan</li>
-                            <li class="breadcrumb-item active">Loan Rejected</li>
+                            <li class="breadcrumb-item active"><?php echo $this->lang->line("loan") ?></li>
+                            <li class="breadcrumb-item active"><?php echo $this->lang->line("loan_rejected_menu"); ?></li>
                         </ul>
                     </div>            
                  
@@ -28,7 +28,7 @@
                 <div class="col-lg-12">
                     <div class="card">
                          <div class="header">
-                            <h2>Loan Rejected </h2>    
+                            <h2><?php echo $this->lang->line("loan_rejected_menu"); ?> </h2>    
                              </div>
                           <div class="body">
                             <div class="table-responsive">
@@ -36,16 +36,16 @@
                                     <thead class="thead-primary">
                                         <tr>
                                     <th>S/No.</th>
-                                    <th>Loan AC/No</th>
-                                    <th>customer name</th>
-                                    <th>Phone Number</th>
+                                    <th><?php echo $this->lang->line("loanID_menu"); ?></th>
+                                    <th><?php echo $this->lang->line("customer_name_menu"); ?></th>
+                                    <th><?php echo $this->lang->line("phone_number_menu"); ?></th>
                                     <!-- <th>Busines/Job Name</th> -->
-                                    <th>Branch</th>
-                                    <th>Loan Amount</th>
-                                    <th>Loan Duration</th>
-                                    <th>Number of repayments</th>
-                                    <th>Loan Status</th>
-                                    <th>Customer Status</th>
+                                    <th><?php echo $this->lang->line("branch_menu"); ?></th>
+                                    <th><?php echo $this->lang->line("loan_amount_appy_menu"); ?></th>
+                                    <th><?php echo $this->lang->line("loan_duration_menu"); ?></th>
+                                    <th><?php echo $this->lang->line("number_repayment_menu"); ?></th>
+                                    <th><?php echo $this->lang->line("status_loan_menu"); ?></th>
+                                    <th><?php echo $this->lang->line("status_customer_menu"); ?></th>
                                    <!--  <th>Action</th> -->
                                         </tr>
                                     </thead>
@@ -70,14 +70,14 @@
                                         <td><?php echo number_format($loan_pendings->how_loan); ?></td>
                                         <td>
                                             <?php if ($loan_pendings->day == 1) {
-                                                 echo "Daily";
+                                                 echo $this->lang->line("daily_menu");
                                              ?>
                                             <?php }elseif($loan_pendings->day == 7){
-                                                  echo "Weekly";
+                                                  echo $this->lang->line("weekly_menu");
                                              ?>
                                             
                                         <?php }elseif($loan_pendings->day == 30 || $loan_pendings->day == 31 || $loan_pendings->day == 29 || $loan_pendings->day == 28){
-                                                echo "Monthly"; 
+                                                echo $this->lang->line("monthly_menu"); 
                                             ?>
                                             <?php } ?>
                                                 
@@ -85,17 +85,17 @@
                                         <td><?php echo $loan_pendings->session; ?></td>
                                         <td>
                                        
-                                         <a href="#" class="badge badge-danger">Rejected</a>
+                                         <a href="#" class="badge badge-danger"><?php echo $this->lang->line("rejected_menu"); ?></a>
                                         
                                          
                                         </td>
                                         <td>
                                             <?php if (@$customer_condition->total_loan == 1) {
                                              ?>
-                                            <span class="badge badge-success">New Customer</span>
+                                            <span class="badge badge-success"><?php echo $this->lang->line("new_customer_menu"); ?></span>
                                             <?php }else{ ?>
                                             <?php //echo $customer_condition->total_loan; ?>
-                                            <span class="badge badge-warning">Old Customer</span>
+                                            <span class="badge badge-warning"><?php echo $this->lang->line("old_customer_menu"); ?></span>
                                             <?php } ?>
                                                 
                                             </td>   

@@ -9,8 +9,8 @@
                     <div class="col-lg-6 col-md-8 col-sm-12">
                         <ul class="breadcrumb">
                             <li class="breadcrumb-item"><a href="<?php echo base_url("oficer/index"); ?>"><i class="icon-home"></i></a></li>                            
-                            <li class="breadcrumb-item active">Report</li>
-                            <li class="breadcrumb-item active">Store</li>
+                            <li class="breadcrumb-item active"><?php echo $this->lang->line("report_menu"); ?></li>
+                            <li class="breadcrumb-item active"><?php echo $this->lang->line("store_menu"); ?></li>
                         </ul>
                     </div>            
                  
@@ -36,24 +36,24 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="header">
-                            <h2>Transifor From Account Balance to Store</h2>
+                            <h2><?php echo $this->lang->line("transfor_stoo_menu"); ?></h2>
                         </div>
                         <div class="body">
                             <?php echo form_open("oficer/transfor_amount_stoo"); ?>
                         <div class="row">
 
                 <div class="col-lg-6 col-6">
-                    <span>*Select Acount:</span>
+                    <span>*<?php echo $this->lang->line("from_account_menu"); ?>:</span>
                 <select class="form-control" name="from_account"  required>
-                <option value="">Select Acount </option>
+                <option value=""><?php echo $this->lang->line("select_menu"); ?> </option>
                <?php foreach ($acount as $acounts): ?>
                 <option value="<?php echo $acounts->receive_trans_id; ?>"><?php echo $acounts->account_name; ?> - <?php echo number_format($acounts->blanch_capital); ?> </option>
                 <?php endforeach; ?>
                     </select>
                  </div>
                 <div class="col-lg-6 col-6">
-                <span>*Amount</span>
-            <input type="number" name="stoo_amount" autocomplete="off" class="form-control" placeholder="Enter Amount" required>
+                <span>*<?php echo $this->lang->line("amount_menu"); ?></span>
+            <input type="number" name="stoo_amount" autocomplete="off" class="form-control" placeholder="<?php echo $this->lang->line("amount_menu"); ?>" required>
                 </div>
             
                 <input type="hidden" name="comp_id" value="<?php echo $empl_data->comp_id; ?>">
@@ -66,7 +66,7 @@
                                 </div>
                                  <br>
                                 <div class="text-center">
-                                <button type="submit" class="btn btn-primary"><i class="icon-drawer">Transifor</i></button>
+                                <button type="submit" class="btn btn-primary"><i class="icon-pencil"><?php echo $this->lang->line("transfor_menu"); ?></i></button>
                                 </div>
                             
                             <?php echo form_close();  ?>
@@ -78,8 +78,8 @@
                          <div class="header">
                             <h2>Today Transaction </h2> 
                             <div class="pull-right">
-                              <a href="" class="btn btn-sm btn-icon btn-pure btn-primary on-default m-r-5 button-edit"
-                                            data-toggle="modal" data-target="#addcontact1" data-original-title="Edit"><i class="icon-calendar"></i>Filter</a> 
+                              <!-- <a href="" class="btn btn-sm btn-icon btn-pure btn-primary on-default m-r-5 button-edit"
+                                            data-toggle="modal" data-target="#addcontact1" data-original-title="Edit"><i class="icon-calendar"></i>Filter</a> --> 
                             </div>   
                              </div>
                           <div class="body">
@@ -88,11 +88,11 @@
                                     <thead class="thead-primary">
                                         <tr>
                                                 <th>S/no.</th>
-                                                <th>From Account</th>
-                                                <th>Amount</th>
-                                                <th>Employee</th>
-                                                <th>Date</th>
-                                                <th>Action</th>
+                                                <th><?php echo $this->lang->line("from_account_menu"); ?></th>
+                                                <th><?php echo $this->lang->line("amount_menu"); ?></th>
+                                                <th><?php echo $this->lang->line("employee_menu"); ?></th>
+                                                <th><?php echo $this->lang->line("date_menu"); ?></th>
+                                                <th><?php echo $this->lang->line("action_menu"); ?></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -105,7 +105,7 @@
                                             <td><?php echo $transaction_stoos->empl_name; ?></td>
                                             <td><?php echo $transaction_stoos->stoo_date; ?></td>
                                             
-                                            <td><a href="<?php echo base_url("oficer/adjust_transaction/{$transaction_stoos->stoo_id}"); ?>" class="btn btn-primary btn-sm" onclick="return confirm('Are you sure?')"><i class="icon-pencil"></i></a></td>
+                                            <td><a href="<?php echo base_url("oficer/adjust_transaction/{$transaction_stoos->stoo_id}"); ?>" class="btn btn-primary btn-sm" onclick="return confirm('<?php echo $this->lang->line("confirm_menu"); ?>')"><i class="icon-pencil"></i></a></td>
                                         </tr>
                                         <?php endforeach; ?>
                                         <tr>

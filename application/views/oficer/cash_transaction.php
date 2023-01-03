@@ -9,8 +9,8 @@
                     <div class="col-lg-6 col-md-8 col-sm-12">
                         <ul class="breadcrumb">
                             <li class="breadcrumb-item"><a href="<?php echo base_url("oficer/index"); ?>"><i class="icon-home"></i></a></li>                            
-                            <li class="breadcrumb-item active">Report</li>
-                            <li class="breadcrumb-item active">Cash Transaction</li>
+                            <li class="breadcrumb-item active"><?php echo $this->lang->line("report_menu"); ?></li>
+                            <li class="breadcrumb-item active"><?php echo $this->lang->line("transaction_menu"); ?></li>
                         </ul>
                     </div>            
                  
@@ -28,9 +28,9 @@
                 <div class="col-lg-12">
                     <div class="card">
                          <div class="header">
-                            <h2>Today Cash Transaction </h2> 
+                            <h2><?php echo $this->lang->line("today_cashtransaction_menu"); ?> </h2> 
                             <div class="pull-right">
-                               <a href="" data-toggle="modal" data-target="#addcontact2" class="btn btn-primary"><i class="icon-calendar">Filter</i></a>  
+                               <a href="" data-toggle="modal" data-target="#addcontact2" class="btn btn-primary"><i class="icon-calendar"><?php echo $this->lang->line("search_menu"); ?></i></a>  
                             </div>   
                              </div>
                           <div class="body">
@@ -39,12 +39,12 @@
                                     <thead class="thead-primary">
                                          <th>S/No.</th>
                                         <!--  <th>Branch</th> -->
-                                         <th>Employee</th>
-                                        <th>Customer Name</th>
-                                        <th>Deposit</th>
-                                        <th>Withdrawal</th>
-                                        <th>Date</th>
-                                        <th>Date & Time</th>
+                                         <th><?php echo $this->lang->line("employee_menu"); ?></th>
+                                        <th><?php echo $this->lang->line("customer_name_menu"); ?></th>
+                                        <th><?php echo $this->lang->line("deposit_menu"); ?></th>
+                                        <th><?php echo $this->lang->line("withdrawal_menu"); ?></th>
+                                        <th><?php echo $this->lang->line("date_menu"); ?></th>
+                                        <th><?php echo $this->lang->line("date_menu"); ?> & <?php echo $this->lang->line("time_menu"); ?></th>
                                        <!--  <th>Action</th> -->
                                     </thead>
                                    
@@ -84,8 +84,10 @@
                                     </tr>
 
                                     <?php endforeach; ?>
-                                    <tr>
-                                        <td><b>TOTAL:</b></td>
+                                   
+                                    </tbody>
+                                     <tr>
+                                        <td><b><?php echo $this->lang->line("total_menu"); ?>:</b></td>
                                         <!-- <td></td> -->
                                         <td></td>
                                         <td></td>
@@ -95,7 +97,6 @@
                                         <td></td>
                                        <!--  <td></td> -->
                                     </tr>
-                                    </tbody>
                                 </table>
                             </div>
                         </div>
@@ -117,7 +118,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h6 class="title" id="defaultModalLabel">Filter Cash Transaction</h6>
+                <h6 class="title" id="defaultModalLabel"><?php echo $this->lang->line("search_menu") ?> <?php echo $this->lang->line("today_cashtransaction_menu") ?></h6>
             </div>
             <?php echo form_open("oficer/filter_cashTransaction"); ?>
             <div class="modal-body">
@@ -125,11 +126,11 @@
 
                                 <div class="col-md-6 col-6 ">
                                     <?php $date = date("Y-m-d"); ?>
-                                    <span>*From:</span>
+                                    <span>*<?php echo $this->lang->line("from_menu") ?>:</span>
                                     <input type="date" name="from" autocomplete="off" value="<?php echo $date; ?>" class="form-control" required>
                                 </div>
                                 <div class="col-md-6 col-6 ">
-                                    <span>*To:</span>
+                                    <span>*<?php echo $this->lang->line("to_menu") ?>:</span>
                                     <input type="date" name="to" autocomplete="off" value="<?php echo $date; ?>" class="form-control" required>
                                 </div>
                                 <input type="hidden" name="blanch_id" value="<?php echo $empl_data->blanch_id; ?>">
@@ -137,8 +138,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-primary">Filter</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">CLOSE</button>
+                <button type="submit" class="btn btn-primary"><?php echo $this->lang->line("search_menu") ?></button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal"><?php echo $this->lang->line("close_menu") ?></button>
             </div>
             <?php echo form_close(); ?>
         </div>

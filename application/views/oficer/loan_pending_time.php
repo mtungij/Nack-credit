@@ -9,8 +9,8 @@
                     <div class="col-lg-6 col-md-8 col-sm-12">
                         <ul class="breadcrumb">
                             <li class="breadcrumb-item"><a href="<?php echo base_url("oficer/index"); ?>"><i class="icon-home"></i></a></li>                            
-                            <li class="breadcrumb-item active">Report</li>
-                            <li class="breadcrumb-item active">Today Pending</li>
+                            <li class="breadcrumb-item active"><?php echo $this->lang->line("report_menu"); ?></li>
+                            <li class="breadcrumb-item active"><?php echo $this->lang->line("pending_menu"); ?></li>
                         </ul>
                     </div>            
                  
@@ -28,9 +28,9 @@
                 <div class="col-lg-12">
                     <div class="card">
                          <div class="header">
-                            <h2>Pending</h2>
+                            <h2><?php echo $this->lang->line("pending_menu"); ?></h2>
                             <div class="pull-right">
-                                <a href="" data-toggle="modal" data-target="#addcontact2" class="btn btn-primary"><i class="icon-calendar">Today Loan Pending</i></a>
+                                <a href="" data-toggle="modal" data-target="#addcontact2" class="btn btn-primary"><i class="icon-calendar"><?php echo $this->lang->line("today_pending_menu"); ?></i></a>
                             </div>    
                          </div>
                           <div class="body">
@@ -40,13 +40,13 @@
                                     <thead class="thead-primary">
                                         <tr>
                                         <th>S/no.</th>
-                                        <th>Customer Name</th>
-                                        <th>Phone Number</th>
-                                        <th>Loan Amount</th>
-                                        <th>Duration Type</th>
-                                        <th>Pending Amount</th>
-                                        <th>Penart</th>
-                                        <th>Date</th>
+                                        <th><?php echo $this->lang->line("customer_name_menu"); ?></th>
+                                        <th><?php echo $this->lang->line("phone_number_menu"); ?></th>
+                                        <th><?php echo $this->lang->line("loan_amount_appy_menu"); ?></th>
+                                        <th><?php echo $this->lang->line("loan_duration_menu"); ?></th>
+                                        <th><?php echo $this->lang->line("Pending_Amount_menu"); ?></th>
+                                        <th><?php echo $this->lang->line("penart_menu"); ?></th>
+                                        <th><?php echo $this->lang->line("date_menu"); ?></th>
                                         </tr>
                                     </thead>
                                    
@@ -90,8 +90,10 @@
                                  </tr>
 
                             <?php endforeach; ?>
-                                <tr>
-                                    <td><b>TOTAL:</b></td>
+                               
+                                    </tbody>
+                                     <tr>
+                                    <td><b><?php echo $this->lang->line("total_menu"); ?>:</b></td>
                                     <td></td>
                                    <!--  <td></td> -->
                                     <td></td>
@@ -101,7 +103,6 @@
                                     <td><b><?php //echo number_format($total_loanwith->total_loan_int); ?></b></td>
                                     <td></td>
                                 </tr>
-                                    </tbody>
                                 </table>
                             </div>
                         </div>
@@ -123,7 +124,7 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h6 class="title" id="defaultModalLabel">Today Loan Pending</h6>
+                <h6 class="title" id="defaultModalLabel"><?php echo $this->lang->line("today_pending_menu"); ?></h6>
             </div>
      
             <div class="modal-body">
@@ -132,12 +133,12 @@
                                     <thead class="thead-primary">
                                         <tr>
                                         <th>S/no.</th>
-                                        <th>Customer Name</th>
-                                        <th>Phone Number</th>
-                                        <th>Loan Amount</th>
-                                        <th>Duration Type</th>
-                                        <th>Pending Amount</th>
-                                        <th>Date</th>
+                                        <th><?php echo $this->lang->line("customer_name_menu"); ?></th>
+                                        <th><?php echo $this->lang->line("phone_number_menu"); ?></th>
+                                        <th><?php echo $this->lang->line("loan_amount_appy_menu"); ?></th>
+                                        <th><?php echo $this->lang->line("loan_duration_menu"); ?></th>
+                                        <th><?php echo $this->lang->line("Pending_Amount_menu"); ?></th>
+                                        <th><?php echo $this->lang->line("date_menu"); ?></th>
                                         </tr>
                                     </thead>
                                    
@@ -173,8 +174,10 @@
                                  </tr>
 
                             <?php endforeach; ?>
-                                <tr>
-                                    <td><b>TOTAL:</b></td>
+                                
+                                    </tbody>
+                                    <tr>
+                                    <td><b><?php echo $this->lang->line("total_menu"); ?>:</b></td>
                                     <td></td>
                                     <td></td>
                                     <td></td>
@@ -183,12 +186,11 @@
                                     <td><b><?php //echo number_format($total_loanwith->total_loan_with); ?></b></td>
                                    
                                 </tr>
-                                    </tbody>
                                 </table>
                             </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">CLOSE</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal"><?php echo $this->lang->line("close_menu"); ?></button>
             </div>
            
         </div>

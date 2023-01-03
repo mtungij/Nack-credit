@@ -9,8 +9,8 @@
                     <div class="col-lg-6 col-md-8 col-sm-12">
                         <ul class="breadcrumb">
                             <li class="breadcrumb-item"><a href="<?php echo base_url("oficer/index"); ?>"><i class="icon-home"></i></a></li>                            
-                            <li class="breadcrumb-item active">Loan</li>
-                            <li class="breadcrumb-item active">Loan Disbursed</li>
+                            <li class="breadcrumb-item active"><?php echo $this->lang->line("loan") ?></li>
+                            <li class="breadcrumb-item active"><?php echo $this->lang->line("loan_disburse_menu") ?></li>
                         </ul>
                     </div>            
                  
@@ -28,7 +28,7 @@
                 <div class="col-lg-12">
                     <div class="card">
                          <div class="header">
-                            <h2>Loan Disbursed List</h2>    
+                            <h2><?php echo $this->lang->line("loan_disburse_menu") ?></h2>    
                          </div>
                           <div class="body">
                             <div class="table-responsive">
@@ -36,16 +36,16 @@
                                     <thead class="thead-primary">
                                         <tr>
                                        <th>S/no.</th>
-                                       <th>Customer Name</th>
+                                       <th><?php echo $this->lang->line("customer_name_menu"); ?></th>
                                        <!--  <th>Branch Name</th> -->
-                                        <th>Loan Ac</th>
-                                        <th>Loan Disbursed</th>
-                                        <th>Loan Interest</th>
-                                        <th>Principle + Interest</th>
-                                        <th>Restoration Type</th>
-                                        <th>Number of Repayment</th>
-                                        <th>Restoration</th>
-                                        <th>Date</th>
+                                        <th><?php echo $this->lang->line("loanID_menu"); ?></th>
+                                        <th><?php echo $this->lang->line("loan_disburse_menu"); ?></th>
+                                        <th><?php echo $this->lang->line("loan_interest_menu"); ?></th>
+                                        <th><?php echo $this->lang->line("principal_interest_menu"); ?></th>
+                                        <th><?php echo $this->lang->line("loan_duration_menu"); ?></th>
+                                        <th><?php echo $this->lang->line("number_repayment_menu"); ?></th>
+                                        <th><?php echo $this->lang->line("restoration_menu"); ?></th>
+                                        <th><?php echo $this->lang->line("date_menu"); ?></th>
                                         <!-- <th>Action</th> -->
                                         </tr>
                                     </thead>
@@ -63,14 +63,14 @@
                                     <td><?php echo $loan_aproveds->interest_formular; ?>%</td>
                                     <td><?php echo number_format($loan_aproveds->loan_int); ?></td>
                                     <td><?php if ($loan_aproveds->day == 1) {
-                                                 echo "Daily";
+                                                 echo $this->lang->line("daily_menu");
                                              ?>
                                             <?php }elseif($loan_aproveds->day == 7){
-                                                  echo "Weekly";
+                                                  echo $this->lang->line("weekly_menu");
                                              ?>
                                             
                                         <?php }elseif($loan_aproveds->day == 30 || $loan_aproveds->day == 31 || $loan_aproveds->day == 29 || $loan_aproveds->day == 28){
-                                                echo "Monthly"; 
+                                                echo $this->lang->line("monthly_menu");
                                             ?>
                                             <?php } ?></td>
                                     <td><?php echo $loan_aproveds->session ?></td>

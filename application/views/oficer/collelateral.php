@@ -9,8 +9,8 @@
                     <div class="col-lg-6 col-md-8 col-sm-12">
                         <ul class="breadcrumb">
                             <li class="breadcrumb-item"><a href="<?php echo base_url("admin/index"); ?>"><i class="icon-home"></i></a></li>                            
-                            <li class="breadcrumb-item active">Loan</li>
-                            <li class="breadcrumb-item active">Collateral Session</li>
+                            <li class="breadcrumb-item active"><?php echo $this->lang->line("loan"); ?></li>
+                            <li class="breadcrumb-item active"><?php echo $this->lang->line("collateral_menu"); ?></li>
                         </ul>
                     </div>            
                  
@@ -28,34 +28,34 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="header">
-                            <h2>Add Collateral</h2>
+                            <h2><?php echo $this->lang->line("collateral_form_menu"); ?></h2>
                         </div>
                         <div class="body">
                             <?php echo form_open("oficer/create_colateral/{$loan_attach->loan_id}") ?>
                             <div class="row">
                                 <div class="col-lg-6">
                             <div class="form-group">
-                              <span>Name:</span>
-                                <input type="text" class="form-control" id="description" placeholder="Enter Name" name="description" autocomplete="off">
+                              <span><?php echo $this->lang->line("name_collateral_menu"); ?>:</span>
+                                <input type="text" class="form-control" id="description" placeholder="<?php echo $this->lang->line("name_collateral_menu"); ?>" name="description" autocomplete="off">
                             </div>
                             </div>
                             <div class="col-lg-6">
                             <div class="form-group">
-                              <span>Condition:</span>
-                                <input type="text" class="form-control" id="" placeholder="Enter Condition" name="co_condition" autocomplete="off">
+                              <span><?php echo $this->lang->line("Condition_menu"); ?>:</span>
+                                <input type="text" class="form-control" id="" placeholder="<?php echo $this->lang->line("Condition_menu"); ?>" name="co_condition" autocomplete="off">
                             </div>
                             </div>
 
                             <div class="col-lg-6">
                             <div class="form-group">
-                              <span>Cullent colateral Value:</span>
-                                <input type="number" class="form-control" id="" placeholder="Enter value" name="value" autocomplete="off">
+                              <span><?php echo $this->lang->line("value_collateral_menu") ?>:</span>
+                                <input type="number" class="form-control" id="" placeholder="<?php echo $this->lang->line("value_collateral_menu") ?>" name="value" autocomplete="off">
                             </div>
                             </div>
 
                             <div class="col-lg-6">
                             <div class="form-group">
-                              <span>Attachment/picture:</span>
+                              <span><?php echo $this->lang->line("picture_menu"); ?>:</span>
                                 <input type="file" class="form-control" id="attach" placeholder="Enter Middle name" name="file_name" autocomplete="off">
                             </div>
                             </div>
@@ -65,8 +65,8 @@
                                 </div>
                                  <br>
                                 <div class="text-center">
-                                <button type="submit" class="btn btn-primary"><i class="icon-drawer">Save</i></button>
-                                <a href="<?php echo base_url("oficer/local_government/{$loan_attach->loan_id}"); ?>" class="btn btn-primary">Next</a>
+                                <button type="submit" class="btn btn-primary"><i class="icon-drawer"><?php echo $this->lang->line("save_menu") ?></i></button>
+                                <a href="<?php echo base_url("oficer/local_government/{$loan_attach->loan_id}"); ?>" class="btn btn-primary"><?php echo $this->lang->line("next_menu") ?></a>
                                 </div>
                             <?php echo form_close();  ?>
                         </div>
@@ -77,7 +77,7 @@
                 <div class="col-lg-12">
                     <div class="card">
                          <div class="header">
-                            <h2> Collateral List</h2>    
+                            <h2><?php echo $this->lang->line("collateral_list_menu"); ?></h2>    
                              </div>
                           <div class="body">
                             <div class="table-responsive">
@@ -85,11 +85,11 @@
                                     <thead class="thead-primary">
                                         <tr>
                                           <th>S/No.</th>
-                                            <th>Colateral Name</th>
-                                            <th>Colateral Condition</th>
-                                            <th>Colateral Value</th>
-                                            <th>Colateral Picture</th>
-                                            <th>Action</th>
+                                            <th><?php echo $this->lang->line("name_collateral_menu"); ?></th>
+                                            <th><?php echo $this->lang->line("Condition_menu"); ?></th>
+                                            <th><?php echo $this->lang->line("value_collateral_menu"); ?></th>
+                                            <th><?php echo $this->lang->line("picture_menu"); ?></th>
+                                            <th><?php echo $this->lang->line("action_menu"); ?></th>
                                         </tr>
                                     </thead>
                                    
@@ -119,21 +119,21 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h6 class="title" id="defaultModalLabel">Edit colateral</h6>
+                <h6 class="title" id="defaultModalLabel"><?php echo $this->lang->line("update_menu") ?></h6>
             </div>
             <?php echo form_open("oficer/modify_colateral/{$collaterals->loan_id}/{$collaterals->col_id}"); ?>
             <div class="modal-body">
                 <div class="row clearfix">
                               <div class="col-md-6">
-                                    <label for="recipient-name" class="form-control-label">*Name:</label>
+                                    <label for="recipient-name" class="form-control-label">*<?php echo $this->lang->line("name_collateral_menu") ?>:</label>
                              <input type="text" class="form-control" autocomplete="off" name="description" value="<?php echo $collaterals->description; ?>">
                                 </div>
                                 <div class="col-md-6">
-                            <label for="recipient-name" class="form-control-label">*Condition:</label>
+                            <label for="recipient-name" class="form-control-label">*<?php echo $this->lang->line("Condition_menu") ?>:</label>
                          <input type="text" class="form-control" autocomplete="off" name="co_condition" value="<?php echo $collaterals->co_condition; ?>">
                                 </div>
                                 <div class="col-md-12">
-                                   <label for="recipient-name" class="form-control-label">*Value:</label>
+                                   <label for="recipient-name" class="form-control-label">*<?php echo $this->lang->line("value_collateral_menu") ?>:</label>
                               <input type="text" class="form-control" autocomplete="off" name="value" value="<?php echo $collaterals->value; ?>">
                                 </div>
                                
@@ -141,8 +141,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-primary">Update</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">CLOSE</button>
+                <button type="submit" class="btn btn-primary"><?php echo $this->lang->line("update_menu") ?></button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal"><?php echo $this->lang->line("close_menu") ?></button>
             </div>
             <?php echo form_close(); ?>
         </div>
@@ -154,13 +154,13 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h6 class="title" id="defaultModalLabel">Edit colateral Photo</h6>
+                <h6 class="title" id="defaultModalLabel"><?php echo $this->lang->line("update_menu") ?></h6>
             </div>
             <?php echo form_open_multipart("oficer/modify_colateral_picture/{$collaterals->loan_id}/{$collaterals->col_id}"); ?>
             <div class="modal-body">
                 <div class="row clearfix">
                               <div class="col-md-6">
-                                    <label for="recipient-name" class="form-control-label">*picture:</label>
+                                    <label for="recipient-name" class="form-control-label">*<?php echo $this->lang->line("picture_menu") ?>:</label>
                              <input type="file" class="form-control" autocomplete="off" name="file_name">
                                 </div>
                                 <div class="col-md-6">
@@ -172,8 +172,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-primary">Update</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">CLOSE</button>
+                <button type="submit" class="btn btn-primary"><?php echo $this->lang->line("update_menu") ?></button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal"><?php echo $this->lang->line("close_menu") ?></button>
             </div>
             <?php echo form_close(); ?>
         </div>

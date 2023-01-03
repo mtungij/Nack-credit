@@ -9,8 +9,8 @@
                     <div class="col-lg-6 col-md-8 col-sm-12">
                         <ul class="breadcrumb">
                             <li class="breadcrumb-item"><a href="<?php echo base_url("admin/index"); ?>"><i class="icon-home"></i></a></li>                            
-                            <li class="breadcrumb-item active">Income</li>
-                            <li class="breadcrumb-item active">Deducted Income</li>
+                            <li class="breadcrumb-item active"><?php echo $this->lang->line("income_menu"); ?></li>
+                            <li class="breadcrumb-item active"><?php echo $this->lang->line("income_deducted_menu"); ?></li>
                         </ul>
                     </div>            
                  
@@ -28,10 +28,10 @@
                 <div class="col-lg-12">
                     <div class="card">
                          <div class="header">
-                            <h2>Today Deducted Income</h2> 
+                            <h2><?php echo $this->lang->line("income_deducted_menu"); ?></h2> 
                             <div class="pull-right">
                               <a href="" class="btn btn-sm btn-icon btn-pure btn-primary on-default m-r-5 button-edit"
-                                            data-toggle="modal" data-target="#addcontact1" data-original-title="Edit"><i class="icon-calendar"></i>Filter</a> 
+                                            data-toggle="modal" data-target="#addcontact1" data-original-title="Edit"><i class="icon-calendar"></i><?php echo $this->lang->line("search_menu"); ?></a> 
                             </div>   
                              </div>
                           <div class="body">
@@ -39,11 +39,11 @@
                                 <table class="table table-hover js-basic-example dataTable table-custom">
                                     <thead class="thead-primary">
                                         <tr>    <!-- <th>Branch Name</th> -->
-                                                <th>Customer Name</th>
-                                                <th>Loan Amount</th>
-                                                <th>Income Amount</th>
-                                                <th>User</th>
-                                                <th>Date</th>
+                                                <th><?php echo $this->lang->line("customer_name_menu"); ?></th>
+                                                <th><?php echo $this->lang->line("loan_amount_appy_menu"); ?></th>
+                                                <th><?php echo $this->lang->line("amount_menu"); ?></th>
+                                                <th><?php echo $this->lang->line("employee_menu"); ?></th>
+                                                <th><?php echo $this->lang->line("action_menu"); ?></th>
                                         </tr>
                                     </thead>
                                    
@@ -61,15 +61,16 @@
                                     </tr>
    
                                          <?php endforeach; ?>
-                                         <tr>
-                                             <td><b>TOTAL:</b></td>
+                                        
+                                    </tbody>
+                                     <tr>
+                                             <td><b><?php echo $this->lang->line("total_menu"); ?>:</b></td>
                                              <!-- <td></td> -->
                                              <td></td>
                                              <td><b><?php echo number_format($total_deducted->total_deducted_fee); ?></b></td>
                                              <td></td>
                                              <td></td>
                                          </tr>
-                                    </tbody>
                                 </table>
                             </div>
                         </div>
@@ -170,7 +171,7 @@ $('#loan').html('<option value="">Select Active loan</option>');
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h6 class="title" id="defaultModalLabel">Filter Deducted Income</h6>
+                <h6 class="title" id="defaultModalLabel"><?php echo $this->lang->line("search_menu"); ?></h6>
             </div>
             <?php echo form_open("oficer/filter_deducted_income"); ?>
             <div class="modal-body">
@@ -178,19 +179,19 @@ $('#loan').html('<option value="">Select Active loan</option>');
                     
                     <?php $date = date("Y-m-d"); ?>
                     <div class="col-md-6 col-6">
-                    <span>From:</span>
+                    <span><?php echo $this->lang->line("from_menu"); ?>:</span>
                     <input type="date" class="form-control" value="<?php echo $date; ?>" name="from" required>        
                     <input type="hidden" name="blanch_id" value="<?php echo $empl_data->blanch_id; ?>">       
                     </div>
                     <div class="col-md-6 col-6">
-                    <span>To:</span>
+                    <span><?php echo $this->lang->line("total_menu"); ?>:</span>
                     <input type="date" class="form-control" name="to" value="<?php echo $date; ?>" required>           
                     </div>
             </div>
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-primary">Filter</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">CLOSE</button>
+                <button type="submit" class="btn btn-primary"><?php echo $this->lang->line("search_menu"); ?></button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal"><?php echo $this->lang->line("close_menu"); ?></button>
             </div>
             <?php echo form_close(); ?>
         </div>

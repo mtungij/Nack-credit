@@ -3371,6 +3371,7 @@ $this->db->query("INSERT INTO tbl_outstand (`comp_id`,`loan_id`,`blanch_id`,`loa
 	     $this->update_loastatus($loan_id);
 	     $this->depost_balance($loan_id,$comp_id,$blanch_id,$customer_id,$new_depost,$sum_balance,$description,$role,$group_id,$p_method,$deposit_date,$dep_id);
 	     //$this->depost_Blanch_accountBalance($comp_id,$blanch_id,$payment_method,$depost_money);
+	     $this->insert_blanch_amount_deposit($blanch_id,$deposit_new,$trans_id);
 	        if(@$principal_blanch == TRUE){
          $this->update_principal_capital_balanc($comp_id,$blanch_id,$trans_id,$princ_status,$principal_insert);
 	     }elseif(@$principal_blanch == FALSE){
@@ -3465,6 +3466,7 @@ $this->db->query("INSERT INTO tbl_outstand (`comp_id`,`loan_id`,`blanch_id`,`loa
 	     $this->depost_balance($loan_id,$comp_id,$blanch_id,$customer_id,$new_depost,$sum_balance,$description,$role,$group_id,$p_method,$deposit_date,$dep_id);
 
 	     //$this->depost_Blanch_accountBalance($comp_id,$blanch_id,$payment_method,$depost_money);
+	     $this->insert_blanch_amount_deposit($blanch_id,$deposit_new,$trans_id);
 	        if (@$principal_blanch == TRUE) {
          $this->update_principal_capital_balanc($comp_id,$blanch_id,$trans_id,$princ_status,$principal_insert);
 	     }elseif(@$principal_blanch == FALSE){
@@ -8370,6 +8372,7 @@ public function create_saving_deposit(){
 
 
 
+
  public function check_miamala($id){
     $this->load->model('queries');
     $data = $this->queries->get_miamala_depost($id);
@@ -8399,7 +8402,6 @@ public function create_saving_deposit(){
      $this->update_cash_prev($blanch_id,$remove_cash,$date);
     }
     
-   
     if ($data->status = 'close') {
          // echo "<pre>";
       //   print_r($data);
@@ -9222,6 +9224,30 @@ public function update_non_balance_deducted($comp_id,$blanch_id){
 
 
 
+public function samehe_faini($customer_id){
+	$this->form_validation->set_rules('comp_id','company','required');
+	$this->form_validation->set_rules('blanch_id','blanch','required');
+	$this->form_validation->set_rules('loan_id','Loan','required');
+	$this->form_validation->set_rules('customer_id','Customer','required');
+	$this->form_validation->set_error_delimiters('<div class="text-danger">','</div>');
+
+	if ($this->form_validation->run()) {
+		$data = $this->input->post();
+		// print_r($data);
+		//     exit();
+		$this->load->model('queries');
+		if ($this->queries->insert_msamaha($data)) {
+			$this->session->set_flashdata("massage",'Umefanikiwa Kusamehe Faini Ahsante');
+		}else{
+		 $this->session->set_flashdata("massage",'Umefanikiwa Kusamehe Faini Ahsante');	
+		}
+		return redirect('admin/data_with_depost/'.$customer_id);
+	}
+	$this->data_with_depost();
+}
+
+
+
 
 
 
@@ -9356,6 +9382,7 @@ public function update_non_balance_deducted($comp_id,$blanch_id){
 	//$phone = '255628323760';
 	//$massage = 'mapenzi yanauwa';
 	$api_key = 'Ny.ieZRLozwocjNH3Du9x424Ec';
+	//$api_key = 'zv6/gSrwlMnUPp8aNSObGHKS46';
 	//$curl = curl_init();
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL,"https://dovesms.aifrruislabs.com/api/v1/receive/action/send/sms");
@@ -9366,6 +9393,8 @@ curl_setopt($ch, CURLOPT_POSTFIELDS,
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 $server_output = curl_exec($ch);
 curl_close ($ch);
+
+print_r($ch);
 }
 
 

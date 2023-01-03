@@ -10,8 +10,8 @@
                         <ul class="breadcrumb">
                             <li class="breadcrumb-item"><a href="<?php echo base_url("admin/index"); ?>"><i class="icon-home"></i></a></li>
                             
-                            <li class="breadcrumb-item active">Loan</li>
-                            <li class="breadcrumb-item active">Gualantors Information</li>
+                            <li class="breadcrumb-item active"><?php echo $this->lang->line("applyloan_menu") ?></li>
+                            <li class="breadcrumb-item active"><?php echo $this->lang->line("guarantorsinfo_menu"); ?></li>
                         </ul>
                     </div>            
                  
@@ -70,13 +70,13 @@
                                 <table class="table table-hover j-basic-example dataTable table-custom">
                                     <thead class="thead-primary">
                                         <tr>
-                                            <th>Full Name</th>
-                                            <th>Phone Number</th>
-                                            <th>Employee</th>
-                                            <th>Branch</th>
-                                            <th>District</th>
-                                            <th>Ward</th>
-                                            <th>Street</th>
+                                            <th><?php echo $this->lang->line("full_name_menu"); ?></th>
+                                            <th><?php echo $this->lang->line("phone_number_menu") ?></th>
+                                            <th><?php echo $this->lang->line("employee_menu") ?></th>
+                                            <th><?php echo $this->lang->line("employee_menu") ?></th>
+                                            <th><?php echo $this->lang->line("district_menu") ?></th>
+                                            <th><?php echo $this->lang->line("ward_menu") ?></th>
+                                            <th><?php echo $this->lang->line("street_menu") ?></th>
                                         </tr>
                                     </thead>
                                    
@@ -107,16 +107,16 @@
                     <div class="card">
                           <div class="body">
                             <div class="header">
-                              <h2>Guarantors List</h2>
+                              <h2><?php echo $this->lang->line("Guarantors_menu") ?></h2>
                             </div>
                             <div class="table-responsive">
                                 <table class="table table-hover j-basic-example dataTable table-custom">
                                     <thead class="thead-primary">
                                         <tr>
-                                            <th>Full Name</th>
-                                            <th>Phone Number</th>
-                                            <th>Relationship</th>
-                                            <th>Action</th>
+                                            <th><?php echo $this->lang->line("full_name_menu") ?></th>
+                                            <th><?php echo $this->lang->line("phone_number_menu") ?></th>
+                                            <th><?php echo $this->lang->line("relationship") ?></th>
+                                            <th><?php echo $this->lang->line("action_menu") ?></th>
                                         </tr>
                                     </thead>
                                    
@@ -138,30 +138,30 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h6 class="title" id="defaultModalLabel">Edit Guarantors</h6>
+                <h6 class="title" id="defaultModalLabel"><?php echo $this->lang->line("update_menu") ?></h6>
             </div>
             <?php echo form_open("oficer/modify_sponser/{$sponsers_datas->sp_id}/{$sponsers_datas->customer_id}"); ?>
             <div class="modal-body">
                 <div class="row clearfix">
                              <div class="col-lg-4 col-6">
-                          <span>First Name:</span>
+                          <span><?php echo $this->lang->line("first_name_menu"); ?>:</span>
                             <input type="text" class="form-control" id="sp_name" value="<?php echo $sponsers_datas->sp_name ?>" placeholder="First name" name="sp_name" autocomplete="off">
                         </div>
                                <div class="col-lg-4 col-6">
-                              <span>Middle name:</span>
+                              <span><?php echo $this->lang->line("midle_name_menu"); ?>:</span>
                                 <input type="text" class="form-control" id="sp_mname" value="<?php echo $sponsers_datas->sp_mname ?>" placeholder="Enter Middle name" name="sp_mname" autocomplete="off">
                             </div>
                                  <div class="col-lg-4 col-6">
-                      <span>Last name:</span>
+                      <span><?php echo $this->lang->line("last_name_menu"); ?>:</span>
                         <input type="text" class="form-control" value="<?php echo $sponsers_datas->sp_lname ?>" id="sp_lname" placeholder="Enter Last name" name="sp_lname" autocomplete="off">
                     </div>
                     <div class="col-lg-6 col-6">
-                      <span>Phone number:</span>  
+                      <span><?php echo $this->lang->line("phone_number_menu") ?>:</span>  
                         <input type="number" class="form-control" value="<?php echo $sponsers_datas->sp_phone_no ?>" id="sp_phone_no" placeholder="Enter Phone number" name="sp_phone_no" autocomplete="off">
                     </div>
                    
                      <div class="col-lg-6 col-12">
-                      <span>Reationship with Customer:</span>  
+                      <span><?php echo $this->lang->line("relationship") ?>:</span>  
                         <input type="text" class="form-control" id="sp_relation" value="<?php echo $sponsers_datas->sp_relation ?>" placeholder="Enter Reationship With Customer" name="sp_relation" autocomplete="off">
                     </div>
                                
@@ -169,8 +169,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-primary">Update</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">CLOSE</button>
+                <button type="submit" class="btn btn-primary"><?php echo $this->lang->line("update_menu"); ?></button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal"><?php echo $this->lang->line("close_menu") ?></button>
             </div>
             <?php echo form_close(); ?>
         </div>
@@ -196,7 +196,7 @@
                                 <div class="col-md-12">
                     <div class="card">
                         <div class="header">
-                            <h2>Guarantors Information</h2>
+                            <h2><?php echo $this->lang->line("guarantorsinfo_menu"); ?></h2>
                         </div>
                         <div class="body">
 
@@ -204,39 +204,39 @@
                             <div class="row">
 
     <div class="col-lg-4 col-6">
-      <span>First Name:</span>
-        <input type="text" class="form-control" id="sp_name" placeholder="First name" name="sp_name" autocomplete="off">
+      <span><?php echo $this->lang->line("first_name_menu"); ?>:</span>
+        <input type="text" class="form-control" id="sp_name" placeholder="<?php echo $this->lang->line("first_name_menu"); ?>" name="sp_name" autocomplete="off">
     </div>
 
     <div class="col-lg-4 col-6">
-      <span>Middle name:</span>
-        <input type="text" class="form-control" id="sp_mname" placeholder="Enter Middle name" name="sp_mname" autocomplete="off">
+      <span><?php echo $this->lang->line("midle_name_menu"); ?>:</span>
+        <input type="text" class="form-control" id="sp_mname" placeholder="<?php echo $this->lang->line("midle_name_menu"); ?>" name="sp_mname" autocomplete="off">
     </div>
 
     <input type="hidden" name="customer_id"  id="customer_id" value="<?php echo $customer->customer_id; ?>">
     <input type="hidden" name="comp_id" id="comp_id" value="<?php echo $customer->comp_id; ?>">
 
     <div class="col-lg-4 col-6">
-      <span>Last name:</span>
-        <input type="text" class="form-control" id="sp_lname" placeholder="Enter Last name" name="sp_lname" autocomplete="off">
+      <span><?php echo $this->lang->line("last_name_menu"); ?>:</span>
+        <input type="text" class="form-control" id="sp_lname" placeholder="<?php echo $this->lang->line("last_name_menu"); ?>" name="sp_lname" autocomplete="off">
     </div>
     <div class="col-lg-6 col-6">
-      <span>Phone number:</span>  
-        <input type="number" class="form-control" id="sp_phone_no" placeholder="Enter Phone number" name="sp_phone_no" autocomplete="off">
+      <span><?php echo $this->lang->line("phone_number_menu") ?>:</span>  
+        <input type="number" class="form-control" id="sp_phone_no" placeholder="<?php echo $this->lang->line("phone_number_menu") ?>" name="sp_phone_no" autocomplete="off">
     </div>
    
      <div class="col-lg-6 col-12">
-      <span>Reationship with Customer:</span>  
-        <input type="text" class="form-control" id="sp_relation" placeholder="Enter Reationship With Customer" name="sp_relation" autocomplete="off">
+      <span><?php echo $this->lang->line("relationship") ?></span>  
+        <input type="text" class="form-control" id="sp_relation" placeholder="<?php echo $this->lang->line("relationship") ?>" name="sp_relation" autocomplete="off">
     </div>
       </div>
     </div>
     <br>
 
     <div class="text-center">
-    <button type="submit" class="btn btn-primary"><i class="icon-drawer">Save</i></button>
+    <button type="submit" class="btn btn-primary"><i class="icon-drawer"><?php echo $this->lang->line("save_menu") ?></i></button>
  
-    <a href="<?php echo base_url("oficer/loan_applicationForm/{$customer->customer_id}"); ?>" class="btn btn-primary">Skip</a>
+    <a href="<?php echo base_url("oficer/loan_applicationForm/{$customer->customer_id}"); ?>" class="btn btn-primary"><?php echo $this->lang->line("skip_menu"); ?></a>
     </div>
                             
                             <?php echo form_close();  ?>

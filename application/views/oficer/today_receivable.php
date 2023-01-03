@@ -9,8 +9,8 @@
                     <div class="col-lg-6 col-md-8 col-sm-12">
                         <ul class="breadcrumb">
                             <li class="breadcrumb-item"><a href="<?php echo base_url("oficer/index"); ?>"><i class="icon-home"></i></a></li>                            
-                            <li class="breadcrumb-item active">Report</li>
-                            <li class="breadcrumb-item active">Today Receivable</li>
+                            <li class="breadcrumb-item active"><?php echo $this->lang->line("report_menu"); ?></li>
+                            <li class="breadcrumb-item active"><?php echo $this->lang->line("receivable_menu"); ?></li>
                         </ul>
                     </div>            
                  
@@ -28,7 +28,7 @@
                 <div class="col-lg-12">
                     <div class="card">
                          <div class="header">
-                            <h2>Today Receivable & Not Receivable</h2>
+                            <h2><?php echo $this->lang->line("receivable_menu"); ?> </h2>
                             <div class="pull-right">
                              <!--    <a href="" data-toggle="modal" data-target="#addcontact2" class="btn btn-primary"><i class="icon-calendar">Today Receivable</i></a> -->
                             </div>    
@@ -40,13 +40,13 @@
                                     <thead class="thead-primary">
                                         <tr>
                                         <th>S/no.</th>
-                                        <th>Customer Name</th>
-                                        <th>Phone Number</th>
-                                        <th>Loan Amount</th>
-                                        <th>Duration Type</th>
-                                        <th>Receivable Amount</th>
-                                        <th>Employee</th>
-                                        <th>Date</th>
+                                        <th><?php echo $this->lang->line("customer_name_menu"); ?></th>
+                                        <th><?php echo $this->lang->line("phone_number_menu"); ?></th>
+                                        <th><?php echo $this->lang->line("loan_amount_appy_menu"); ?></th>
+                                        <th><?php echo $this->lang->line("loan_duration_menu"); ?></th>
+                                        <th><?php echo $this->lang->line("receivable_menu"); ?></th>
+                                        <th><?php echo $this->lang->line("employee_menu"); ?></th>
+                                        <th><?php echo $this->lang->line("date_menu"); ?></th>
                                         </tr>
                                     </thead>
                                    
@@ -85,8 +85,9 @@
                                  </tr>
 
                             <?php endforeach; ?>
-                                <tr>
-                                    <td><b>TOTAL:</b></td>
+                                    </tbody>
+                                    <tr>
+                                    <td><b><?php echo $this->lang->line("total_menu"); ?>:</b></td>
                                     <td></td>
                                    <!--  <td></td> -->
                                     <td></td>
@@ -96,7 +97,6 @@
                                     <td><b><?php //echo number_format($total_loanwith->total_loan_int); ?></b></td>
                                     <td></td>
                                 </tr>
-                                    </tbody>
                                 </table>
                             </div>
                         </div>

@@ -10,8 +10,8 @@
                         <ul class="breadcrumb">
                             <li class="breadcrumb-item"><a href="<?php echo base_url("admin/index"); ?>"><i class="icon-home"></i></a></li>
                             
-                            <li class="breadcrumb-item active">Customer</li>
-                            <li class="breadcrumb-item active">Customer Profile</li>
+                            <li class="breadcrumb-item active"><?php echo $this->lang->line("customer_menu"); ?></li>
+                            <li class="breadcrumb-item active"><?php echo $this->lang->line("customer_profile_menu"); ?></li>
                         </ul>
                     </div>            
                  
@@ -53,7 +53,7 @@
                                     <i class="fa fa-star"></i>
                                    <div class="profile-image"> <img src="<?php echo base_url().'assets/img/sig.jpg'; ?>" class="rounded-circle" alt="Gualantors image" style="width: 135px;height: 135px;">
                                       </div>
-                                    <small>Gualantors Picture</small>
+                                    <small><?php echo $this->lang->line("signature_menu"); ?></small>
                                 </div>
                             </div>
                            
@@ -66,10 +66,10 @@
                     <div class="card">
                         <div class="body">
                             <ul class="nav nav-tabs-new">
-                                <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#Basic">Basic</a></li>
-                                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#Account">Guarantors </a></li>
-                                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#General">All Loans</a></li>
-                                <li class="nav-item"><a class="nav-link"href="<?php echo base_url("oficer/all_customer"); ?>">Back</a></li>
+                                <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#Basic"><?php echo $this->lang->line("basicinfo_menu") ?></a></li>
+                                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#Account"><?php echo $this->lang->line("Guarantors_menu") ?></a></li>
+                                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#General"><?php echo $this->lang->line("All_Loans_menu"); ?></a></li>
+                                <li class="nav-item"><a class="nav-link"href="<?php echo base_url("oficer/all_customer"); ?>"><?php echo $this->lang->line("back_menu"); ?></a></li>
                             </ul>
                         </div>
                     </div>
@@ -79,25 +79,25 @@
                         <div class="tab-pane active" id="Basic">
                             <div class="card">
                                 <div class="body">
-                                    <h6>Basic Information</h6>
+                                    <h6><?php echo $this->lang->line("basicinfo_menu") ?></h6>
                             <?php echo form_open("oficer/update_customer_info/{$customer_profile->customer_id}"); ?>
                             <div class="row">
                             <div class="col-lg-4 col-6">
-                            <span>First Name:</span>
+                            <span><?php echo $this->lang->line("first_name_menu"); ?>:</span>
                             <input type="text" name="f_name" value="<?php echo $customer_profile->f_name; ?>" placeholder="First name" autocomplete="off" class="form-control input-sm" required>
                                 </div>
                                 <div class="col-lg-4 col-6">
-                                    <span>Middle name:<spanl>
+                                    <span><?php echo $this->lang->line("midle_name_menu"); ?>:<spanl>
                                     <input type="text" name="m_name" value="<?php echo $customer_profile->m_name; ?>" placeholder="Middle name" autocomplete="off" class="form-control input-sm" required>
                                 </div>
                                 
                                 <div class="col-lg-4 col-6">
-                                    <span>Last name:</span>
+                                    <span><?php echo $this->lang->line("last_name_menu"); ?>:</span>
                                     <input type="text" name="l_name" placeholder="Last name" value="<?php echo $customer_profile->l_name; ?>" autocomplete="off" class="form-control input-sm" required>
                                 </div>
 
                                 <div class="col-lg-4 col-6">
-                                    <span>Branch:</span>
+                                    <span><?php echo $this->lang->line("branch_menu"); ?>:</span>
                                 <select type="number" name="blanch_id" class="form-control select2 input-sm" id="blanch" required class="form-control input-sm">
                                 <option value="<?php echo $customer_profile->blanch_id ?>"><?php echo $customer_profile->blanch_name; ?></option>
                                 <?php foreach ($blanch as $blanchs): ?>
@@ -107,7 +107,7 @@
                                 </div>
 
                                 <div class="col-lg-4 col-6">
-                                    <span>Employee:</span>
+                                    <span><?php echo $this->lang->line("employee_menu"); ?>:</span>
                                 <select type="number" name="empl_id" class="form-control select2 input-sm" id="empl" required class="form-control input-sm">
                                 <option value="<?php echo $customer_profile->empl_id; ?>"><?php echo $customer_profile->empl_name; ?></option>
                                 
@@ -115,24 +115,35 @@
                                 </div>
                         
                                 <div class="col-lg-4 col-6">
-                                    <span>Gender:</span>
+                                    <span><?php echo $this->lang->line("gender_menu"); ?>:</span>
                                 <select type="text" name="gender" class="form-control select2 input-sm" required class="form-control input-sm">
-                                <option value="<?php echo $customer_profile->gender; ?>"><?php echo $customer_profile->gender; ?></option>
-                                <option value="male">Male</option>
-                                <option value="female">Female</option>
+                                <option value="<?php echo $customer_profile->gender; ?>">
+
+                                    <?php 
+                                    if ($customer_profile->gender == 'male') {
+                                        echo $this->lang->line("male_menu");
+                                    }elseif ($customer_profile->gender == 'female') {
+                                        echo $this->lang->line("female_menu");
+                                    }
+                                    //echo $customer_profile->gender;
+                                     ?>
+                                        
+                                    </option>
+                                <option value="male"><?php echo $this->lang->line("male_menu"); ?></option>
+                                <option value="female"><?php echo $this->lang->line("female_menu"); ?></option>
                             </select>
                                 </div>
                                 <div class="col-lg-4 col-6">
-                                    <span>Date of Birth:</span>
+                                    <span><?php echo $this->lang->line("date_birth_menu"); ?>:</span>
                             <input type="date" name="date_birth" value="<?php echo $customer_profile->date_birth; ?>" onchange="getDate(this.value)" placeholder="Date of Birth" autocomplete="off" class="form-control input-sm" required>
                                 </div>
                                 <div class="col-lg-4 col-6">
-                                    <span>Year:</span>
+                                    <span><?php echo $this->lang->line("year_customer_menu"); ?>:</span>
                             <input type="" id="age" name="age" value="<?php echo $customer_profile->age; ?>" readonly class="form-control input-sm" value="" required>
                                 </div>
                                     <div class="col-lg-4 col-6">
-                                    <span>Phone Number:</span>
-                            <input type="number" name="phone_no" value="<?php echo $customer_profile->phone_no; ?>" placeholder="Eg,7538, 6283" autocomplete="off" class="form-control input-sm" required >
+                                    <span><?php echo $this->lang->line("phone_number_menu"); ?>:</span>
+                            <input type="number" readonly name="phone_no" value="<?php echo $customer_profile->phone_no; ?>" placeholder="Eg,7538, 6283" autocomplete="off" class="form-control input-sm" required >
                                 </div>
                              <!--        <div class="col-lg-4 form-group-sub">
                                     <label class="form-control-label">*Region:</label>
@@ -145,22 +156,22 @@
                                 </div> -->
                                 <input type="hidden" name="region_id" value="1">
                                     <div class="col-lg-4 col-6">
-                                    <span>District:</span>
+                                    <span><?php echo $this->lang->line("district_menu"); ?>:</span>
                             <input type="text" name="district" value="<?php echo $customer_profile->district; ?>" placeholder="district" autocomplete="off" class="form-control input-sm" required>
                                 </div>
                                     <div class="col-lg-4 col-6">
-                                    <span>Ward:</span>
+                                    <span><?php echo $this->lang->line("ward_menu") ?>:</span>
                             <input type="text" name="ward" value="<?php echo $customer_profile->ward; ?>" placeholder="Ward" autocomplete="off" class="form-control input-sm" required>
                                 </div>
                                         <div class="col-lg-4 col-6">
-                                    <span>Street:</span>
+                                    <span><?php echo $this->lang->line("street_menu"); ?>:</span>
                             <input type="text" name="street" value="<?php echo $customer_profile->street; ?>" placeholder="street" autocomplete="off" class="form-control input-sm" required>
                                 </div>
                                     
                                     </div>
                                     <br>
                                     <div class="text-center">
-                                    <button type="submit" class="btn btn-primary">Update</button> &nbsp;
+                                    <button type="submit" class="btn btn-primary"><?php echo $this->lang->line("update_menu"); ?></button> &nbsp;
                                     </div>
                                     <?php echo form_close(); ?>
                                 </div>
@@ -174,7 +185,7 @@
                 <div class="col-lg-12">
                     <div class="">
                          <div class="header">
-                            <h2>Gualantors List </h2>    
+                            <h2><?php echo $this->lang->line("Gualantors_List_menu"); ?></h2>    
                              </div>
                           <div class="body">
                             <div class="table-responsive">
@@ -182,11 +193,11 @@
                                     <thead class="thead-primary">
                                         <tr>
                                             <th>S/No.</th>
-                                            <th>First Name</th>
-                                            <th>Middle Name</th>
-                                            <th>Last Name</th>
-                                            <th>Phone Number</th>
-                                            <th>Relationship</th>
+                                            <th><?php echo $this->lang->line("first_name_menu"); ?></th>
+                                            <th><?php echo $this->lang->line("midle_name_menu"); ?></th>
+                                            <th><?php echo $this->lang->line("last_name_menu"); ?></th>
+                                            <th><?php echo $this->lang->line("phone_number_menu"); ?></th>
+                                            <th><?php echo $this->lang->line("relationship"); ?></th>
                                         </tr>
                                     </thead>
                                    
@@ -219,7 +230,7 @@
                 <div class="col-lg-12">
                     <div class="card">
                          <div class="header">
-                            <h2>All Loans </h2>    
+                            <h2><?php echo $this->lang->line("All_Loans_menu"); ?> </h2>    
                              </div>
                           <div class="body">
                             <div class="table-responsive">
@@ -227,17 +238,17 @@
                                     <thead class="thead-primary">
                                         <tr>
                                         <th>S/no.</th>
-                                        <th>Loan Ac</th>
-                                        <th>Loan Product</th>
-                                        <th>Loan Interest</th>
-                                        <th>Loan Withdrawal</th>
-                                        <th>Principal + interest</th>
-                                        <th>Duration Type</th>
-                                        <th>Number of Repayment</th>
-                                        <th>Restoration</th>
-                                        <th>Status</th>
-                                        <th>Withdrawal Date</th>
-                                        <th>End Date</th>
+                                        <th><?php echo $this->lang->line("loanID_menu"); ?></th>
+                                        <th><?php echo $this->lang->line("loan_category_menu"); ?></th>
+                                        <th><?php echo $this->lang->line("loan_interest_menu"); ?></th>
+                                        <th><?php echo $this->lang->line("loan_with_menu"); ?></th>
+                                        <th><?php echo $this->lang->line("principal_interest_menu"); ?></th>
+                                        <th><?php echo $this->lang->line("loan_duration_menu"); ?></th>
+                                        <th><?php echo $this->lang->line("number_repayment_menu"); ?></th>
+                                        <th><?php echo $this->lang->line("restoration_menu"); ?></th>
+                                        <th><?php echo $this->lang->line("status_loan_menu"); ?></th>
+                                        <th><?php echo $this->lang->line("with_date_menu"); ?></th>
+                                        <th><?php echo $this->lang->line("end_date_menu"); ?></th>
                                        <!--  <th>Action</th> -->
                                         </tr>
                                     </thead>
@@ -256,14 +267,14 @@
                                     
                                     <td>
                                <?php if ($loan_aproveds->day == 1) {
-                                                 echo "Daily";
+                                                 echo $this->lang->line("daily_menu");
                                              ?>
                                             <?php }elseif($loan_aproveds->day == 7){
-                                                  echo "Weekly";
+                                                  echo $this->lang->line("weekly_menu");
                                              ?>
                                             
                                         <?php }elseif($loan_aproveds->day == 30 || $loan_aproveds->day == 31 || $loan_aproveds->day == 29 || $loan_aproveds->day == 28){
-                                                echo "Monthly"; 
+                                                echo $this->lang->line("monthly_menu"); 
                                             ?>
                                             <?php } ?>
                                     </td>

@@ -9,8 +9,8 @@
                     <div class="col-lg-6 col-md-8 col-sm-12">
                         <ul class="breadcrumb">
                             <li class="breadcrumb-item"><a href="<?php echo base_url("admin/index"); ?>"><i class="icon-home"></i></a></li>                            
-                            <li class="breadcrumb-item active">Customer</li>
-                            <li class="breadcrumb-item active">All Customer</li>
+                            <li class="breadcrumb-item active"><?php echo $this->lang->line("customer_menu"); ?></li>
+                            <li class="breadcrumb-item active"><?php echo $this->lang->line("all_customer_menu"); ?></li>
                         </ul>
                     </div>            
                  
@@ -28,7 +28,7 @@
                 <div class="col-lg-12">
                     <div class="card">
                          <div class="header">
-                            <h2>All Customer </h2>    
+                            <h2><?php echo $this->lang->line("all_customer_menu"); ?></h2>    
                              </div>
                           <div class="body">
                             <div class="table-responsive">
@@ -36,18 +36,18 @@
                                     <thead class="thead-primary">
                                         <tr>
                                            <th>S/No.</th>
-                                            <th>Customer ID</th>
-                                            <th>customer name</th>
-                                            <th>Date of Birth</th>
-                                            <th>Age</th>
-                                            <th>Gender</th>
-                                            <th>Phone number</th>
+                                            <th><?php echo $this->lang->line("customerId_menu"); ?></th>
+                                            <th><?php echo $this->lang->line("customername_menu"); ?></th>
+                                            <th><?php echo $this->lang->line("date_birth_menu"); ?></th>
+                                            <th><?php echo $this->lang->line("year_customer_menu"); ?></th>
+                                            <th><?php echo $this->lang->line("gender_menu"); ?></th>
+                                            <th><?php echo $this->lang->line("phone_number_menu"); ?></th>
                                             <!-- <th>Branch</th> -->
-                                            <th>District</th>
-                                            <th>Ward</th>
-                                            <th>Street</th>
-                                            <th>Status</th>
-                                            <th>Action</th>
+                                            <th><?php echo $this->lang->line("district_menu"); ?></th>
+                                            <th><?php echo $this->lang->line("ward_menu"); ?></th>
+                                            <th><?php echo $this->lang->line("street_menu"); ?></th>
+                                            <th><?php echo $this->lang->line("status_menu"); ?></th>
+                                            <th><?php echo $this->lang->line("action_menu"); ?></th>
                                         </tr>
                                     </thead>
                                    
@@ -78,11 +78,14 @@
                                              <a href="#" class="badge badge-success">Active</a>
                                             <?php }elseif ($customers->customer_status == 'close') {
                                              ?>
-                                             <a href="#" class="badge badge-danger">Closed</a>
+                                             <a href="#" class="badge badge-primary">Closed</a>
                                              <?php }elseif($customers->customer_status == 'pending'){
                                               ?>
                                               <a href="#" class="badge badge-warning">Pending</a>
-                                              <?php } ?>
+                                              <?php }elseif ($customers->customer_status == 'out') {
+                                              ?>
+                                              <a href="#" class="badge badge-danger">Default</a>
+                                              <?php  } ?>
                                             </td>
                                             <td>
                                             <a href="<?php echo base_url("oficer/customer_profile/{$customers->customer_id}"); ?>" class="btn btn-sm btn-icon btn-pure btn-primary on-default m-r-5 button-edit"data-original-title="Edit"><i class="icon-eye"></i></a>

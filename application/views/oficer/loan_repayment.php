@@ -9,8 +9,8 @@
                     <div class="col-lg-6 col-md-8 col-sm-12">
                         <ul class="breadcrumb">
                             <li class="breadcrumb-item"><a href="<?php echo base_url("oficer/index"); ?>"><i class="icon-home"></i></a></li>                            
-                            <li class="breadcrumb-item active">Report</li>
-                            <li class="breadcrumb-item active">Loan Repayment</li>
+                            <li class="breadcrumb-item active"><?php echo $this->lang->line("report_menu"); ?></li>
+                            <li class="breadcrumb-item active"><?php echo $this->lang->line("repayment_menu"); ?></li>
                         </ul>
                     </div>            
                  
@@ -28,10 +28,10 @@
                 <div class="col-lg-12">
                     <div class="card">
                          <div class="header">
-                            <h2>Loan Repayment</h2>
+                            <h2><?php echo $this->lang->line("repayment_menu"); ?></h2>
                             <div class="pull-right">
                               <!--   <a href="" data-toggle="modal" data-target="#addcontact2" class="btn btn-primary"><i class="icon-calendar">Filter</i></a> -->
-                              <a href="" class="btn btn-primary"><i class="icon-printer">Print</i></a>
+                              <a href="" class="btn btn-primary"><i class="icon-printer"><?php echo $this->lang->line("print_menu"); ?></i></a>
                             </div>    
                          </div>
                           <div class="body">
@@ -40,15 +40,15 @@
                                     <thead class="thead-primary">
                                         <tr>
                                         <th>S/no.</th>
-                                        <th>Customer Name</th>
-                                        <th>Loan Ac</th>
-                                        <th>Loan Product</th>
-                                        <th>Total laon</th>
-                                        <th>Duration Type</th>
-                                        <th>Number of Repayment</th>
-                                        <th>Restoration</th>
-                                        <th>Withdrawal Date</th>
-                                        <th>End Date</th>
+                                        <th><?php echo $this->lang->line("customer_name_menu"); ?></th>
+                                        <th><?php echo $this->lang->line("loanID_menu"); ?></th>
+                                        <th><?php echo $this->lang->line("loan_category_menu"); ?></th>
+                                        <th><?php echo $this->lang->line("total_loan_menu"); ?></th>
+                                        <th><?php echo $this->lang->line("loan_duration_menu"); ?></th>
+                                        <th><?php echo $this->lang->line("repayment_menu"); ?></th>
+                                        <th><?php echo $this->lang->line("restoration_menu"); ?></th>
+                                        <th><?php echo $this->lang->line("with_date_menu"); ?></th>
+                                        <th><?php echo $this->lang->line("end_date_menu"); ?></th>
                                         </tr>
                                     </thead>
                                    

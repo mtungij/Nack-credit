@@ -9,8 +9,8 @@
                     <div class="col-lg-6 col-md-8 col-sm-12">
                         <ul class="breadcrumb">
                             <li class="breadcrumb-item"><a href="<?php echo base_url("oficer/index"); ?>"><i class="icon-home"></i></a></li>                            
-                            <li class="breadcrumb-item active">Report</li>
-                            <li class="breadcrumb-item active">Branchwise loan Report</li>
+                            <li class="breadcrumb-item active"><?php echo $this->lang->line("report_menu"); ?></li>
+                            <li class="breadcrumb-item active"><?php echo $this->lang->line("branchwise_report_menu"); ?></li>
                         </ul>
                     </div>            
                  
@@ -28,7 +28,7 @@
                 <div class="col-lg-12">
                     <div class="card">
                          <div class="header">
-                            <h2>Branchwise Loan Summary </h2> 
+                            <h2><?php echo $this->lang->line("branchwise_report_menu"); ?> </h2> 
                             <!-- <div class="pull-right">
                                <a href="" data-toggle="modal" data-target="#addcontact2" class="btn btn-primary"><i class="icon-calendar">Filter</i></a>  
                             </div> -->   
@@ -37,10 +37,10 @@
                             <div class="table-responsive">
                                 <table class="table table-hover js-basic-example dataTable table-custom">
                                     <thead class="thead-primary">
-                                        <th>Disbursed Loan</th>
-                                        <th>Receivable</th>
-                                        <th>Received</th>
-                                        <th>Pending</th>
+                                        <th><?php echo $this->lang->line("disburse_loan_menu"); ?></th>
+                                        <th><?php echo $this->lang->line("matarajio_menu"); ?></th>
+                                        <th><?php echo $this->lang->line("pokea_menu"); ?></th>
+                                        <th><?php echo $this->lang->line("pending_menu"); ?></th>
                                     </thead>
                                    
                                     <tbody>

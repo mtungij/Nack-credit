@@ -57,9 +57,9 @@
                                     <li><a href="<?php echo base_url("oficer/income_balance"); ?>"><?php echo $this->lang->line("total_income_menu"); ?></a></li>
                                 </ul>
                             </li>
-                            <li><a href="javascript:void(0);" class="has-arrow"><i class="icon-credit-card"></i><span>Expenses</span> </a>
+                            <li><a href="javascript:void(0);" class="has-arrow"><i class="icon-credit-card"></i><span><?php echo $this->lang->line("expenses_menu"); ?></span> </a>
                                 <ul>
-                                    <li><a href="<?php echo base_url("oficer/expnses_requisition_form"); ?>">Request Expenses</a></li>
+                                    <li><a href="<?php echo base_url("oficer/expnses_requisition_form"); ?>"><?php echo $this->lang->line("request_expenses_menu"); ?></a></li>
                                    <!--  <li><a href="<?php //echo base_url("admin/get_recomended_request"); ?>">All Expenses Request</a></li> -->
                                 </ul>
                             </li>
@@ -67,27 +67,28 @@
                            
                             
                             <li>
-                                <a href="#Authentication" class="has-arrow"><i class="icon-user"></i><span>Customer</span></a>
+                                <a href="#Authentication" class="has-arrow"><i class="icon-user"></i><span><?php echo $this->lang->line("customer_menu"); ?></span></a>
                                 <ul>
-                                    <li><a href="<?php echo base_url("oficer/customer"); ?>">Register Customer</a></li>
-                                    <li><a href="<?php echo base_url("oficer/all_customer"); ?>">All Customer</a></li>
+                                    <li><a href="<?php echo base_url("oficer/customer"); ?>"><?php echo $this->lang->line("registercustomer_menu"); ?></a></li>
+                                    <li><a href="<?php echo base_url("oficer/all_customer"); ?>"><?php echo $this->lang->line("all_customer_menu"); ?></a></li>
                                 </ul>
                             </li>
                             <li>
-                                <a href="#Widgets" class="has-arrow"><i class="icon-list"></i><span>Loan</span></a>
+                                <a href="#Widgets" class="has-arrow"><i class="icon-list"></i><span><?php echo $this->lang->line("loan"); ?></span></a>
                                 <ul>
-                                    <li><a href="<?php echo base_url("oficer/loan_application"); ?>">Loan Application</a></li>
-                                    <li><a href="<?php echo base_url("oficer/loan_pending"); ?>">Loan Pending Approve</a></li>
+                                    <li><a href="<?php echo base_url("oficer/loan_application"); ?>"><?php echo $this->lang->line("applyloan_menu") ?></a></li>
+                                    <li><a href="<?php echo base_url("oficer/loan_pending"); ?>"><?php echo $this->lang->line("loanRequest_menu") ?></a></li>
                                     
-                                    <li><a href="<?php echo base_url("oficer/disburse_loan"); ?>">Loan Disbursed</a></li>
-                                    <li><a href="<?php echo base_url("oficer/get_loan_withdrawal_data"); ?>">Loan Withdrawal</a></li>
-                                    <li><a href="<?php echo base_url("oficer/loan_rejected"); ?>">Loan Rejected</a></li>
+                                    <li><a href="<?php echo base_url("oficer/disburse_loan"); ?>"><?php echo $this->lang->line("loan_disburse_menu") ?></a></li>
+                                    <li><a href="<?php echo base_url("oficer/get_loan_withdrawal_data"); ?>"><?php echo $this->lang->line("loan_with_menu") ?></a></li>
+                                    <li><a href="<?php echo base_url("oficer/loan_rejected"); ?>"><?php echo $this->lang->line("loan_rejected_menu") ?></a></li>
                                     <!-- <li><a href="javascript:;">Individual Loan</a></li>
                                     <li><a href="javascript:;">Group Loan</a></li> -->
                                 </ul>
                             </li>
-                            <li><a href="<?php echo base_url("oficer/teller_dashboard"); ?>"><i class="icon-list"></i>Teller Dashboard</a></li>
-                            <li><a href="<?php echo base_url("oficer/saving_deposit"); ?>"><i class="icon-list"></i>Saving Deposit</a></li>
+                            <li><a href="<?php echo base_url("oficer/teller_dashboard"); ?>"><i class="icon-list"></i><?php echo $this->lang->line("teller_dashboard_menu"); ?></a></li>
+                            <li><a href="<?php echo base_url("oficer/saving_deposit"); ?>"><i class="icon-list"></i><?php echo $this->lang->line("saving_menu"); ?></a></li>
+                            <li><a href="<?php echo base_url("oficer/float_transaction"); ?>"><i class="icon-list"></i><?php echo $this->lang->line("froat_transaction_menu"); ?></a></li>
                         </ul>
                     </nav>
                     <br><br><br><br>
@@ -96,19 +97,19 @@
                 <div class="tab-pane" id="sub_menu">
                     <nav class="sidebar-nav">
                         <ul class="main-menu metismenu">
-                        	<li><a href="<?php echo base_url("oficer/cash_transaction"); ?>"><i class="icon-wallet"></i>Cash Transaction</a></li>
-                        	<li><a href="<?php echo base_url("oficer/blanchwise_loan"); ?>"><i class="icon-list"></i>Branch Wise Report</a></li>
-                        	<li><a href="<?php echo base_url("oficer/loan_pending_time"); ?>"><i class="icon-list"></i>Loan Pending</a></li>
-                        	<li><a href="<?php echo base_url("oficer/loan_repayment"); ?>"><i class="icon-list"></i>Loan Repayment</a></li>
-                        	<li><a href="<?php echo base_url("oficer/oustand_loan"); ?>"><i class="icon-list"></i>Default Loan</a></li>
-                        	<li><a href="<?php echo base_url("oficer/loan_collection"); ?>"><i class="icon-list"></i>Loan Collection</a></li>
+                        	<li><a href="<?php echo base_url("oficer/cash_transaction"); ?>"><i class="icon-wallet"></i><?php echo $this->lang->line("transaction_menu") ?></a></li>
+                        	<li><a href="<?php echo base_url("oficer/blanchwise_loan"); ?>"><i class="icon-list"></i><?php echo $this->lang->line("branchwise_report_menu"); ?></a></li>
+                        	<li><a href="<?php echo base_url("oficer/loan_pending_time"); ?>"><i class="icon-list"></i><?php echo $this->lang->line("pending_menu"); ?></a></li>
+                        	<li><a href="<?php echo base_url("oficer/loan_repayment"); ?>"><i class="icon-list"></i><?php echo $this->lang->line("repayment_menu"); ?></a></li>
+                        	<li><a href="<?php echo base_url("oficer/oustand_loan"); ?>"><i class="icon-list"></i><?php echo $this->lang->line("outstand_menu"); ?></a></li>
+                        	<li><a href="<?php echo base_url("oficer/loan_collection"); ?>"><i class="icon-list"></i><?php echo $this->lang->line("collection_menu"); ?></a></li>
                         	<!-- <li><a href="javascript:;"><i class="icon-list"></i>Customer Loan Report</a></li> -->
-                        	<li><a href="<?php echo base_url("oficer/customer_account_statement"); ?>"><i class="icon-list"></i>Customer Account</a></li>
-                        	<li><a href="<?php echo base_url("oficer/get_today_receivable"); ?>"><i class="icon-list"></i>Today Receivable</a></li>
-                        	<li><a href="<?php echo base_url("oficer/today_received"); ?>"><i class="icon-list"></i>Today Received</a></li>
+                        	<li><a href="<?php echo base_url("oficer/customer_account_statement"); ?>"><i class="icon-list"></i><?php echo $this->lang->line("customer_statement_menu"); ?></a></li>
+                        	<li><a href="<?php echo base_url("oficer/get_today_receivable"); ?>"><i class="icon-list"></i><?php echo $this->lang->line("receivable_menu"); ?></a></li>
+                        	<li><a href="<?php echo base_url("oficer/today_received"); ?>"><i class="icon-list"></i><?php echo $this->lang->line("received_menu"); ?></a></li>
                         	<!-- <li><a href="javascript:;"><i class="icon-list"></i>Teller Officer Transaction</a></li> -->
                         	<!-- <li><a href="javascript:;"><i class="icon-list"></i>Branch Officer Transaction</a></li> -->
-                        	<li><a href="<?php echo base_url("oficer/daily_report"); ?>"><i class="icon-list"></i>Daily Report</a></li>
+                        	<li><a href="<?php echo base_url("oficer/daily_report"); ?>"><i class="icon-list"></i> <?php echo $this->lang->line("Daily_report_menu") ?></a></li>
                            <!--  <li>
                                 <a href="#uiElements" class="has-arrow"><i class="icon-wallet"></i> <span>Accounting Report</span></a>
                                 <ul>

@@ -9,8 +9,8 @@
                     <div class="col-lg-6 col-md-8 col-sm-12">
                         <ul class="breadcrumb">
                             <li class="breadcrumb-item"><a href="<?php echo base_url("oficer/index"); ?>"><i class="icon-home"></i></a></li>                            
-                            <li class="breadcrumb-item active">Customer</li>
-                            <li class="breadcrumb-item active">Register Customer</li>
+                            <li class="breadcrumb-item active"><?php echo $this->lang->line("customer_menu"); ?></li>
+                            <li class="breadcrumb-item active"><?php echo $this->lang->line("registercustomer_menu"); ?></li>
                         </ul>
                     </div>            
                  
@@ -36,24 +36,24 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="header">
-                            <h2>Register Customer</h2>
+                            <h2><?php echo $this->lang->line("registercustomer_menu"); ?></h2>
                         </div>
                         <div class="body">
                             <?php echo form_open("oficer/create_customer") ?>
                             <div class="row">
 
                                 <div class="col-lg-4 col-6">
-                                    <span>First Name:</span>
-                            <input type="text" name="f_name" placeholder="First name" autocomplete="off" class="form-control input-sm" required>
+                                    <span><?php echo $this->lang->line("first_name_menu"); ?>:</span>
+                            <input type="text" name="f_name" placeholder="<?php echo $this->lang->line("first_name_menu"); ?>" autocomplete="off" class="form-control input-sm" required>
                                 </div>
                                 <div class="col-lg-4 col-6">
-                                    <span>Middle name:</span>
-                                    <input type="text" name="m_name" placeholder="Middle name" autocomplete="off" class="form-control input-sm" required>
+                                    <span><?php echo $this->lang->line("midle_name_menu"); ?>:</span>
+                                    <input type="text" name="m_name" placeholder="<?php echo $this->lang->line("midle_name_menu"); ?>" autocomplete="off" class="form-control input-sm" required>
                                 </div>
                                 <input type="hidden" name="comp_id" value="<?php echo $empl_data->comp_id; ?>">
                                 <div class="col-lg-4 col-6">
-                                    <span>Last name:</span>
-                                    <input type="text" name="l_name" placeholder="Last name" autocomplete="off" class="form-control input-sm" required>
+                                    <span><?php echo $this->lang->line("last_name_menu"); ?>:</span>
+                                    <input type="text" name="l_name" placeholder="<?php echo $this->lang->line("last_name_menu"); ?>" autocomplete="off" class="form-control input-sm" required>
                                 </div>
 
                                 <!-- <div class="col-lg-3 col-6">
@@ -69,7 +69,7 @@
                                 <input type="hidden" name="blanch_id" value="<?php echo $empl_data->blanch_id; ?>">
 
                                 <div class="col-lg-4 col-6">
-                                    <span>Employee:</span>
+                                    <span><?php echo $this->lang->line("employee_menu") ?>:</span>
                                 <select type="number" name="empl_id" class="form-control select2 input-sm" id="empl" required class="form-control input-sm">
                                 <option value="<?php echo $empl_data->empl_id; ?>"><?php echo $empl_data->empl_name; ?></option>
                                 <?php foreach ($employee as $employees): ?>
@@ -80,25 +80,25 @@
                                 </div>
                         
                                 <div class="col-lg-4 col-6">
-                                    <span>Gender:</span>
+                                    <span><?php echo $this->lang->line("gender_menu"); ?>:</span>
                                 <select type="text" name="gender" class="form-control select2 input-sm" required class="form-control input-sm">
-                                <option value="">Select Gender</option>
-                                <option value="male">Male</option>
-                                <option value="female">Female</option>
+                                <option value=""><?php echo $this->lang->line("selectgender_menu"); ?></option>
+                                <option value="male"><?php echo $this->lang->line("male_menu") ?></option>
+                                <option value="female"><?php echo $this->lang->line("female_menu") ?></option>
                             </select>
                                 </div>
                                 <div class="col-lg-4 col-6">
-                                    <span>Date of Birth:</span>
+                                    <span><?php echo $this->lang->line("date_birth_menu"); ?>:</span>
                             <input type="date" name="date_birth" onchange="getDate(this.value)" placeholder="Date of Birth" autocomplete="off" class="form-control input-sm" required>
                                 </div>
                                 <div class="col-lg-4 col-6">
-                                    <span>Year:</span>
+                                    <span><?php echo $this->lang->line("year_customer_menu"); ?>:</span>
                             <input type="" id="age" name="age" readonly class="form-control input-sm" value="" required>
                             <?php $date = date("Y-m-d"); ?>
                             <input type="hidden" name="reg_date" value="<?php echo $date; ?>">
                                 </div>
                                     <div class="col-lg-4 col-6">
-                                    <span>Phone Number:</span>
+                                    <span><?php echo $this->lang->line("phone_number_menu"); ?>:</span>
                             <input type="number" name="phone_no" placeholder="Eg,7538, 6283" autocomplete="off" class="form-control input-sm" required >
                                 </div>
                              <!--        <div class="col-lg-4 form-group-sub">
@@ -112,22 +112,22 @@
                                 </div> -->
                                 <input type="hidden" name="region_id" value="1">
                                     <div class="col-lg-4 col-6">
-                                    <span>District:</span>
-                            <input type="text" name="district" placeholder="district" autocomplete="off" class="form-control input-sm" required>
+                                    <span><?php echo $this->lang->line("district_menu"); ?>:</span>
+                            <input type="text" name="district" placeholder="<?php echo $this->lang->line("district_menu"); ?>" autocomplete="off" class="form-control input-sm" required>
                                 </div>
                                     <div class="col-lg-6 col-6">
-                                    <span>Ward:</span>
-                            <input type="text" name="ward" placeholder="Ward" autocomplete="off" class="form-control input-sm" required>
+                                    <span><?php echo $this->lang->line("ward_menu"); ?>:</span>
+                            <input type="text" name="ward" placeholder="<?php echo $this->lang->line("ward_menu"); ?>" autocomplete="off" class="form-control input-sm" required>
                                 </div>
                                         <div class="col-lg-6 col-12">
-                                    <span>Street:</span>
+                                    <span><?php echo $this->lang->line("street_menu"); ?>:</span>
                             <input type="text" name="street" placeholder="street" autocomplete="off" class="form-control input-sm" required>
                                 </div>
                                 <br>
                                 </div>
                             </div>
                                 <div class="text-center">
-                                <button type="submit" class="btn btn-primary"><i class="icon-pencil">Next</i></button>
+                                <button type="submit" class="btn btn-primary"><i class="icon-pencil"><?php echo $this->lang->line("next_menu"); ?></i></button>
                                 </div>
                             
                             <?php echo form_close();  ?>

@@ -10,8 +10,8 @@
                         <ul class="breadcrumb">
                             <li class="breadcrumb-item"><a href="<?php echo base_url("oficer/index"); ?>"><i class="icon-home"></i></a></li>
                             
-                            <li class="breadcrumb-item active">Teller</li>
-                            <li class="breadcrumb-item active">Customer Loan Information</li>
+                            <li class="breadcrumb-item active"><?php echo $this->lang->line("teller_menu") ?></li>
+                            <li class="breadcrumb-item active"><?php echo $this->lang->line("customer_profile_menu") ?></li>
                         </ul>
                     </div>            
                  
@@ -53,7 +53,7 @@
                                     <!-- <i class="fa fa-star"></i> -->
                                    <div class="profile-image"> <img src="<?php echo base_url().'assets/img/sig.jpg'; ?>" class="rounded-circle" alt="Gualantors image" style="width: 135px;height: 135px;">
                                       </div>
-                                    <small>Signature</small>
+                                    <small><?php echo $this->lang->line("signature_menu") ?></small>
                                 </div>
                             </div>
                            
@@ -77,13 +77,13 @@
                                 <table class="table table-hover j-basic-example dataTable table-custom">
                                     <thead class="thead-primary">
                                         <tr>
-                                        <th>Phone Number</th>
-                                        <th>Withdrawal Date</th>
-                                        <th>End Date</th>
-                                        <th>Loan Amount</th>
-                                        <th>Restoration</th>
-                                        <th>Amount Paid</th>
-                                        <th>Remaining debt</th>
+                                        <th><?php echo $this->lang->line("phone_number_menu"); ?></th>
+                                        <th><?php echo $this->lang->line("with_date_menu"); ?></th>
+                                        <th><?php echo $this->lang->line("end_date_menu"); ?></th>
+                                        <th><?php echo $this->lang->line("loan_amount_appy_menu"); ?></th>
+                                        <th><?php echo $this->lang->line("restoration_menu"); ?></th>
+                                        <th><?php echo $this->lang->line("amount_paid_menu"); ?></th>
+                                        <th><?php echo $this->lang->line("remain_debit_menu"); ?></th>
                                         </tr>
                                     </thead>
                                    
@@ -156,10 +156,10 @@
                                 <table class="table table-hover j-basic-example dataTable table-custom">
                                     <thead class="thead-primary">
                                         <tr>
-                                       <th>Opening</th>
-                                        <th>Deposit</th>
-                                        <th>Withdrawal</th>
-                                        <th>Closing</th>
+                                       <th><?php echo $this->lang->line("opening_menu"); ?></th>
+                                        <th><?php echo $this->lang->line("deposit_menu"); ?></th>
+                                        <th><?php echo $this->lang->line("withdrawal_menu"); ?></th>
+                                        <th><?php echo $this->lang->line("closing_menu"); ?></th>
                                         </tr>
                                     </thead>
                                    
@@ -167,10 +167,10 @@
                                 
                                       
                                         <tr>
-                                            <td><?php //echo $customer->phone_no; ?></td>
-                                            <td><?php //echo $customer->phone_no; ?></td>
-                                            <td><?php //echo $customer->empl_name; ?></td>
-                                            <td><?php //echo $customer->blanch_name; ?></td>
+                                            <td><?php //echo $customer->phone_no; ?>0.00</td>
+                                            <td><?php //echo $customer->phone_no; ?>0.00</td>
+                                            <td><?php //echo $customer->empl_name; ?>0.00</td>
+                                            <td><?php //echo $customer->blanch_name; ?>0.00</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -190,12 +190,12 @@
                     <?php echo form_open("oficer/search_customerData",['id'=>'login_form']); ?>
                             <div class="sam">
                                 <select type="number" class="form-control select2" name="customer_id" required>
-                                    <option>Search Customer</option>
+                                    <option><?php echo $this->lang->line("search_customer_menu"); ?></option>
                                     <?php foreach ($customery as $customer_datas): ?>
                                     <option value="<?php echo $customer_datas->customer_id; ?>"><?php echo $customer_datas->f_name; ?> <?php echo $customer_datas->m_name; ?> <?php echo $customer_datas->l_name; ?> / <?php echo $customer_datas->customer_code; ?> </option>
                                     <?php endforeach; ?>
                                 </select>
-                                <button type="submit" class="btn btn-primary"><i class="icon-magnifier-add">Search</i></button>
+                                <button type="submit" class="btn btn-primary"><i class="icon-magnifier-add"><?php echo $this->lang->line("search_menu"); ?></i></button>
                                 
                             </div>
                             <?php echo form_close(); ?>
@@ -206,10 +206,10 @@
                              <div class="pull-right">
                                 <?php if (@$customer_loan->loan_status == 'withdrawal' || @$customer_loan->loan_status == 'out') {
                                  ?>
-                             <a href="" class="btn btn-primary" data-toggle="modal" data-target="#addcontact1"><i class="icon-pencil">Deposit</i></a>
+                             <a href="" class="btn btn-primary" data-toggle="modal" data-target="#addcontact1"><i class="icon-pencil"><?php echo $this->lang->line("deposit_menu"); ?></i></a>
                          <?php }elseif (@$customer_loan->loan_status == 'disbarsed') {
                           ?>
-                             <a href="" class="btn btn-success" data-toggle="modal" data-target="#addcontact2"><i class="icon-pencil">Withdrawal</i></a> 
+                             <a href="" class="btn btn-success" data-toggle="modal" data-target="#addcontact2"><i class="icon-pencil"><?php echo $this->lang->line("withdrawal_menu"); ?></i></a> 
                              <?php }else{ ?>
                              <?php } ?>   
                             <!--  <a href="" class="btn btn-info" data-toggle="modal" data-target="#addcontact3"><i class="icon-pencil">Adjust</i></a> -->    
@@ -218,11 +218,11 @@
                                 <table class="table table-hover j-basic-example dataTable table-custom">
                                     <thead class="thead-primary">
                                         <tr>
-                                        <th>Date</th>
-                                        <th>Description</th>
-                                        <th>Deposit</th>
-                                        <th>Withdrawal</th>
-                                        <th>Balance</th> 
+                                        <th><?php echo $this->lang->line("date_menu"); ?></th>
+                                        <th><?php echo $this->lang->line("description_menu"); ?></th>
+                                        <th><?php echo $this->lang->line("deposit_menu"); ?></th>
+                                        <th><?php echo $this->lang->line("withdrawal_menu"); ?></th>
+                                        <th><?php echo $this->lang->line("balance_menu"); ?></th> 
                                         </tr>
                                     </thead>
                                    
@@ -323,19 +323,19 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h7 class="title" id="defaultModalLabel"><?php echo $customer->f_name; ?> <?php echo $customer->m_name; ?> <?php echo $customer->l_name; ?><br>With Date:<?php if (@$customer_loan->loan_stat_date == TRUE) {
+                <h7 class="title" id="defaultModalLabel"><?php echo $customer->f_name; ?> <?php echo $customer->m_name; ?> <?php echo $customer->l_name; ?><br><?php echo $this->lang->line("with_date_menu"); ?>:<?php if (@$customer_loan->loan_stat_date == TRUE) {
                                                  ?>
                                                 <?php echo @$customer_loan->loan_stat_date; ?>
                                             <?php }elseif (@$customer_loan->loan_stat_date == FALSE) {
                                              ?>
                                              YY-MM-DD
-                                             <?php } ?> - End Date:  <?php if (@$customer_loan->loan_end_date == TRUE) {
+                                             <?php } ?> - <?php echo $this->lang->line("end_date_menu"); ?>:  <?php if (@$customer_loan->loan_end_date == TRUE) {
                                                  ?>
                                                  <?php echo substr(@$customer_loan->loan_end_date, 0,10); ?>
                                             <?php }elseif (@$customer_loan->loan_end_date == FALSE) {
                                              ?>
                                              YY-MM-DD
-                                             <?php } ?> <br> End Deposit Amount : <?php echo number_format(@$end_deposit->depost); ?> <br>Deposit Time : <?php echo @$end_deposit->deposit_day; ?></h7>
+                                             <?php } ?> <br> <?php echo $this->lang->line("end_deposit_amount_menu"); ?> : <?php echo number_format(@$end_deposit->depost); ?> <br><?php echo $this->lang->line("deposit_date_menu") ?> : <?php echo @$end_deposit->deposit_day; ?></h7>
             </div>
                                      <div class="text-center">
                                         <img id="loaderIcons" style="visibility:hidden; display:none;width: 100px; height: 100px;"
@@ -345,11 +345,11 @@
             <div class="modal-body">
                 <div class="row clearfix">
                     <div class="col-md-4 col-6">
-                    <span>Total Loan</span>
+                    <span><?php echo $this->lang->line("total_loan_menu"); ?></span>
                     <input type="text" class="form-control" value="<?php echo number_format(@$customer_loan->loan_int); ?>" readonly>     
                     </div>
                      <div class="col-md-4 col-6">
-                    <span>Amount Paid</span>
+                    <span><?php echo $this->lang->line("amount_paid_menu"); ?></span>
                     <input type="text" class="form-control" value="<?php if (@$total_deposit->total_Deposit > @$customer_loan->loan_int) {
                                                  ?>
                                         <?php echo number_format(@$customer_loan->loan_int); ?>
@@ -358,7 +358,7 @@
                                                  <?php } ?>" readonly>     
                     </div>
                      <div class="col-md-4 col-12">
-                    <span>Remain Debit</span>
+                    <span><?php echo $this->lang->line("remain_debit_menu"); ?></span>
                     <input type="text" class="form-control" value="<?php if (@$total_deposit->total_Deposit > @$customer_loan->loan_int) {
                                                  ?>
                                                  0.00
@@ -369,31 +369,31 @@
                    
                      <?php if ($customer_loan->loan_status == 'withdrawal') {
                       ?>
-                <span>Recovery Amount</span>
+                <span><?php echo $this->lang->line("recovery_menu"); ?></span>
                     <input type="text" class="form-control" value="<?php echo number_format($total_recovery->total_pending); ?>.00" readonly style="color:red"> 
                 <?php }elseif ($customer_loan->loan_status == 'out') {
                  ?>
-                  <span style="color:red;">Default Amount</span>
+                  <span style="color:red;"><?php echo $this->lang->line("outstand_menu"); ?></span>
                 <input type="text" class="form-control" value="<?php echo number_format($out_stand->total_out); ?>.00" readonly style="color:red"> 
                  <?php }else{ ?>
-                    <span>Recovery Amount</span>
+                    <span><?php echo $this->lang->line("recovery_menu"); ?></span>
                     <input type="text" class="form-control" value="0.00" readonly style="color:red"> 
                     <?php } ?>
 
                     </div>
 
                     <div class="col-md-6 col-6">
-                    <span>Penart</span>
+                    <span><?php echo $this->lang->line("penart_menu"); ?></span>
                     <input type="text" class="form-control" value="<?php echo number_format($total_penart->total_penart - $total_deposit_penart->total_penart_paid); ?>.00" readonly style="color:red">     
                     </div>
                     <div class="col-md-6 col-6">
-                    <span>Deposit </span>
-                    <input type="number" class="form-control" name="depost" placeholder="Enter Deposit Amount" required>     
+                    <span><?php echo $this->lang->line("deposit_amount_menu"); ?> </span>
+                    <input type="number" class="form-control" name="depost" placeholder="<?php echo $this->lang->line("deposit_amount_menu"); ?>" required>     
                     </div>
                     <div class="col-md-6 col-6">
-                    <span>Select Account:</span>
+                    <span><?php echo $this->lang->line("Account_menu"); ?>:</span>
                     <select type="number" class="form-control" name="p_method" required>
-                        <option value="">---Select Account---</option>
+                        <option value="">---<?php echo $this->lang->line("select_menu"); ?>---</option>
                         <?php foreach ($acount as $acounts): ?>
                         <option value="<?php echo $acounts->trans_id; ?>"><?php echo $acounts->account_name; ?></option>
                         <?php endforeach; ?>
@@ -406,7 +406,7 @@
                      <input type="hidden" value="LOAN RETURN" name="description">
                     <?php $date = date("Y-m-d"); ?>
                     <div class="col-md-12 col-12">
-                    <span>Deposit Date</span>
+                    <span><?php echo $this->lang->line("deposit_date_menu"); ?></span>
                     <input type="date" class="form-control" value="<?php echo $date; ?>" name="deposit_date" required>       
                     </div>
                    
@@ -415,11 +415,11 @@
             <div class="modal-footer">
                  <?php if (@$today_dep->deposit_day == TRUE) {
                   ?>
-            <button type="submit" class="btn btn-primary" onclick="return confirm('Are you Sure To Deposit Again?')">Deposit</button>
+            <button type="submit" class="btn btn-primary" onclick="return confirm('Are you Sure To Deposit Again?')"><?php echo $this->lang->line("deposit_menu"); ?></button>
               <?php }elseif(@$today_dep->deposit_day == FALSE){ ?>
-                <button type="submit" class="btn btn-primary">Deposit</button>
+                <button type="submit" class="btn btn-primary"><?php echo $this->lang->line("deposit_menu"); ?></button>
                 <?php } ?>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">CLOSE</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal"><?php echo $this->lang->line("close_menu"); ?></button>
             </div>
             <?php echo form_close(); ?>
         </div>
@@ -444,13 +444,13 @@
             <div class="modal-body">
                 <div class="row clearfix">
                     <div class="col-md-6 col-6">
-                    <span>Total Withdrawal</span>
+                    <span><?php echo $this->lang->line("total_with_menu"); ?></span>
                     <input type="number" class="form-control" name="withdrow" value="<?php echo $remain_balance->balance; ?>" readonly>     
                     </div>
                     <div class="col-md-6 col-6">
-                    <span>Select Account:</span>
+                    <span><?php echo $this->lang->line("Account_menu"); ?>:</span>
                     <select type="number" class="form-control" name="method" required>
-                        <option value="">---Select Account---</option>
+                        <option value="">---<?php echo $this->lang->line("select_menu"); ?>---</option>
                         <?php foreach ($acount as $acounts): ?>
                         <option value="<?php echo $acounts->trans_id; ?>"><?php echo $acounts->account_name; ?></option>
                         <?php endforeach; ?>
@@ -468,16 +468,16 @@
                     
                     <?php $date = date("Y-m-d"); ?>
                     <div class="col-md-12 col-12">
-                    <span>withdrawal Date</span>
+                    <span><?php echo $this->lang->line("with_date_menu") ?></span>
                     <input type="date" class="form-control" value="<?php echo $date; ?>" name="with_date" required>       
                     </div>
                    
             </div>
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-primary">Withdrawal</button>
+                <button type="submit" class="btn btn-primary"><?php echo $this->lang->line("withdrawal_menu"); ?></button>
                <!-- <a href="" class="btn btn-primary">Resend Code</a> -->
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">CLOSE</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal"><?php echo $this->lang->line("close_menu"); ?></button>
             </div>
             <?php echo form_close(); ?>
         </div>

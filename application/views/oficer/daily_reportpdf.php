@@ -91,12 +91,12 @@ tr:nth-child(even) {
                                     
                                     <td><?php echo number_format($income->total_transaction); ?></td>                                                     
                                     </tr>
-                                    <tr>
+                                   <!--  <tr>
                                     <td>ONGEZEKO KUTOKA MADENI SUGU NDANI YA MFUMO</td>
                                     <td>
-                                        <?php echo number_format(@$total_kopesha_in->total_trans_in + @$total_kopesha_in->total_fee_in); ?>
+                                        <?php //echo number_format(@$total_kopesha_in->total_trans_in + @$total_kopesha_in->total_fee_in); ?>
                                     </td>
-                                     </tr> 
+                                     </tr> --> 
                                      <tr>
                                     <td>ONGEZEKO KUTOKA MADENI SUGU NJE YA MFUMO</td>
                                     <td><?php echo number_format(@$total_kopesha_out->total_trans_out + @$total_kopesha_out->total_fee_out) ?></td>
