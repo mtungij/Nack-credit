@@ -9379,8 +9379,8 @@ public function sendsms($phone,$massage){
 	//public function sendsms(){
 	//$phone = '255628323760';
 	//$massage = 'mapenzi yanauwa';
-	//$api_key = 'Ny.ieZRLozwocjNH3Du9x424Ec';
-	$api_key = 'qFzd89PXu1e/DuwbwxOE5uUBn6';
+	$api_key = 'Ny.ieZRLozwocjNH3Du9x424Ec';
+	//$api_key = 'qFzd89PXu1e/DuwbwxOE5uUBn6';
 	//$curl = curl_init();
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL,"https://dovesms.aifrruislabs.com/api/v1/receive/action/send/sms");
