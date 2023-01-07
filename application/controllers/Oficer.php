@@ -2316,7 +2316,7 @@ $this->db->query("INSERT INTO tbl_outstand (`comp_id`,`loan_id`,`blanch_id`,`loa
          $this->update_loastatus($loan_id);
          $this->depost_balance($loan_id,$comp_id,$blanch_id,$customer_id,$new_depost,$sum_balance,$description,$role,$group_id,$p_method,$deposit_date,$dep_id);
          //$this->depost_Blanch_accountBalance($comp_id,$blanch_id,$payment_method,$depost_money);
-         $this->insert_blanch_amount_deposit($blanch_id,$deposit_new,$trans_id);
+         //$this->insert_blanch_amount_deposit($blanch_id,$deposit_new,$trans_id);
          //    if(@$principal_blanch == TRUE){
          // $this->update_principal_capital_balanc($comp_id,$blanch_id,$trans_id,$princ_status,$principal_insert);
          // }elseif(@$principal_blanch == FALSE){
@@ -2398,7 +2398,7 @@ $this->db->query("INSERT INTO tbl_outstand (`comp_id`,`loan_id`,`blanch_id`,`loa
          $this->insert_remainloan($loan_id,$depost_amount,$paid_out,$pay_id);
          
          $this->depost_balance($loan_id,$comp_id,$blanch_id,$customer_id,$new_depost,$sum_balance,$description,$role,$group_id,$p_method,$deposit_date,$dep_id);
-         $this->insert_blanch_amount_deposit($blanch_id,$deposit_new,$trans_id);
+         //$this->insert_blanch_amount_deposit($blanch_id,$deposit_new,$trans_id);
          //    if (@$principal_blanch == TRUE) {
          // $this->update_principal_capital_balanc($comp_id,$blanch_id,$trans_id,$princ_status,$principal_insert);
          // }elseif(@$principal_blanch == FALSE){
