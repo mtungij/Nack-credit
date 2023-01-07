@@ -199,6 +199,7 @@ $lang['default_outsystem_menu'] = "Madeni Sugu Nje Ya Mfumo";
 $lang['default_balance_menu'] = "Madeni Sugu Baki";
 $lang['transfor_default_menu'] = "Hamisha Pesa Kutoka madeni Sugu Nje Ya Mfumo";
 $lang['trans_list_menu'] = "Orodha Ya Miamala";
+$lang['insystem_menu'] = "Madeni Sugu Ndani ya Mfumo";
 
 
 

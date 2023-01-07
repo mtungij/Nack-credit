@@ -201,6 +201,7 @@ $lang['default_outsystem_menu'] = "Default Out System";
 $lang['default_balance_menu'] = "Default Balance";
 $lang['transfor_default_menu'] = "Transifor Default Balance To Blanch Account";
 $lang['trans_list_menu'] = "Transaction List";
+$lang['insystem_menu'] = "Default Loan In System";
 
 
 
