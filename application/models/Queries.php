@@ -5425,7 +5425,7 @@ public function check_empl_privillage($position_id,$empl_id,$comp_id){
 
  public function get_total_today_deposit($blanch_id){
  	$date = date("Y-m-d");
- 	$data = $this->db->query("SELECT SUM(depost) AS total_deposit FROM tbl_depost WHERE blanch_id = '$blanch_id' AND depost_day = '$date'");
+ 	$data = $this->db->query("SELECT SUM(depost) AS total_deposit FROM tbl_depost WHERE blanch_id = '$blanch_id' AND depost_day = '$date' AND dep_status = 'withdrawal'");
  	return $data->row();
  }
 
