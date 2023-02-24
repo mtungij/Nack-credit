@@ -5233,12 +5233,12 @@ public function check_empl_privillage($position_id,$empl_id,$comp_id){
 
 
  public function get_previous_loan_with($from,$to,$blanch_id,$loan_status){
- 	$data = $this->db->query("SELECT * FROM tbl_outstand ot LEFT JOIN tbl_loans l ON l.loan_id = ot.loan_id JOIN tbl_blanch b ON b.blanch_id = l.blanch_id JOIN tbl_customer c ON c.customer_id = l.customer_id JOIN tbl_loan_category lc ON lc.category_id = l.category_id JOIN tbl_account_transaction at ON at.trans_id = l.method WHERE ot.loan_stat_date between '$from' and '$to' AND l.blanch_id = '$blanch_id' AND l.loan_status = '$loan_status' GROUP BY l.blanch_id");
+ 	$data = $this->db->query("SELECT * FROM tbl_outstand ot LEFT JOIN tbl_loans l ON l.loan_id = ot.loan_id JOIN tbl_blanch b ON b.blanch_id = l.blanch_id JOIN tbl_customer c ON c.customer_id = l.customer_id JOIN tbl_loan_category lc ON lc.category_id = l.category_id JOIN tbl_account_transaction at ON at.trans_id = l.method WHERE ot.loan_stat_date between '$from' and '$to' AND l.blanch_id = '$blanch_id'");
  	return $data->result();
  }
 
   public function get_previous_loan_with_total($from,$to,$blanch_id,$loan_status){
- 	$data = $this->db->query("SELECT SUM(l.loan_aprove) AS total_loan_aprove,SUM(l.loan_int) AS total_loan_int FROM tbl_outstand ot LEFT JOIN tbl_loans l ON l.loan_id = ot.loan_id JOIN tbl_blanch b ON b.blanch_id = l.blanch_id JOIN tbl_customer c ON c.customer_id = l.customer_id JOIN tbl_loan_category lc ON lc.category_id = l.category_id JOIN tbl_account_transaction at ON at.trans_id = l.method WHERE ot.loan_stat_date between '$from' and '$to' AND l.blanch_id = '$blanch_id' AND l.loan_status = '$loan_status' GROUP BY l.blanch_id");
+ 	$data = $this->db->query("SELECT SUM(l.loan_aprove) AS total_loan_aprove,SUM(l.loan_int) AS total_loan_int FROM tbl_outstand ot LEFT JOIN tbl_loans l ON l.loan_id = ot.loan_id JOIN tbl_blanch b ON b.blanch_id = l.blanch_id JOIN tbl_customer c ON c.customer_id = l.customer_id JOIN tbl_loan_category lc ON lc.category_id = l.category_id JOIN tbl_account_transaction at ON at.trans_id = l.method WHERE ot.loan_stat_date between '$from' and '$to' AND l.blanch_id = '$blanch_id' ");
  	return $data->row();
  }
 
@@ -5630,13 +5630,13 @@ public function get_loan_withdrawal_today_blanch_general($blanch_id){
 
 
   public function get_previous_loan_with_blanch($from,$to,$blanch_id,$loan_status){
- 	$data = $this->db->query("SELECT * FROM tbl_outstand ot LEFT JOIN tbl_loans l ON l.loan_id = ot.loan_id JOIN tbl_blanch b ON b.blanch_id = l.blanch_id JOIN tbl_customer c ON c.customer_id = l.customer_id JOIN tbl_loan_category lc ON lc.category_id = l.category_id JOIN tbl_account_transaction at ON at.trans_id = l.method WHERE ot.loan_stat_date between '$from' and '$to' AND l.blanch_id = '$blanch_id' AND l.loan_status = '$loan_status'");
+ 	$data = $this->db->query("SELECT * FROM tbl_outstand ot LEFT JOIN tbl_loans l ON l.loan_id = ot.loan_id JOIN tbl_blanch b ON b.blanch_id = l.blanch_id JOIN tbl_customer c ON c.customer_id = l.customer_id JOIN tbl_loan_category lc ON lc.category_id = l.category_id JOIN tbl_account_transaction at ON at.trans_id = l.method WHERE ot.loan_stat_date between '$from' and '$to' AND l.blanch_id = '$blanch_id' ");
  	return $data->result();
  }
 
 
  public function total_filter_loan_with($from,$to,$blanch_id,$loan_status){
- 	$data = $this->db->query("SELECT SUM(l.loan_aprove) AS total_loan,SUM(l.loan_int) AS total_interest FROM tbl_outstand ot LEFT JOIN tbl_loans l ON l.loan_id = ot.loan_id JOIN tbl_blanch b ON b.blanch_id = l.blanch_id JOIN tbl_customer c ON c.customer_id = l.customer_id JOIN tbl_loan_category lc ON lc.category_id = l.category_id JOIN tbl_account_transaction at ON at.trans_id = l.method WHERE ot.loan_stat_date between '$from' and '$to' AND l.blanch_id = '$blanch_id' AND l.loan_status = '$loan_status'");
+ 	$data = $this->db->query("SELECT SUM(l.loan_aprove) AS total_loan,SUM(l.loan_int) AS total_interest FROM tbl_outstand ot LEFT JOIN tbl_loans l ON l.loan_id = ot.loan_id JOIN tbl_blanch b ON b.blanch_id = l.blanch_id JOIN tbl_customer c ON c.customer_id = l.customer_id JOIN tbl_loan_category lc ON lc.category_id = l.category_id JOIN tbl_account_transaction at ON at.trans_id = l.method WHERE ot.loan_stat_date between '$from' and '$to' AND l.blanch_id = '$blanch_id'");
  	return $data->row();
  }
 

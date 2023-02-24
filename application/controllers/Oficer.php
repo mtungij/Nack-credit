@@ -4880,8 +4880,8 @@ public function sendsms($phone,$massage){
     $api_key = 'Ny.ieZRLozwocjNH3Du9x424Ec';
     //$api_key = 'qFzd89PXu1e/DuwbwxOE5uUBn6';
     //$curl = curl_init();
-  $ch = curl_init();
-  curl_setopt($ch, CURLOPT_URL,"https://dovesms.aifrruislabs.com/api/v1/receive/action/send/sms");
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_URL,"https://dovesms.aifrruislabs.com/api/v1/receive/action/send/sms");
 curl_setopt($ch, CURLOPT_POST, 1);
 curl_setopt($ch, CURLOPT_POSTFIELDS,
             'apiKey='.$api_key.'&phoneNumber='.$phone.'&messageContent='.$massage);

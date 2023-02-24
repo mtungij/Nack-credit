@@ -93,7 +93,9 @@
                                  </tr>
 
                             <?php endforeach; ?>
-                                <tr>
+                                
+                                    </tbody>
+                                    <tr>
                                     <td><b>TOTAL:</b></td>
                                     <td></td>
                                    <!--  <td></td> -->
@@ -110,7 +112,6 @@
                                     <td></td>
                                  <!--    <td></td> -->
                                 </tr>
-                                    </tbody>
                                 </table>
                             </div>
                         </div>

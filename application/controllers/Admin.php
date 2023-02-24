@@ -9399,7 +9399,6 @@ curl_close ($ch);
 
 
 
-
 	  	//session destroy
 	  public function __construct(){
 	   parent::__construct();
