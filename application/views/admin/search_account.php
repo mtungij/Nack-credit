@@ -36,32 +36,7 @@
                     <?php endif; ?>
 
             <div class="row clearfix">
-                <div class="col-lg-12 col-md-12">
-
-                    <div class="card">
-                        <div class="row profile_state">
-                            <div class="col-lg-6 col-6">
-                                <div class="body">
-                                   <!--  <i class=""></i> -->
-                                     <div class="profile-image"> <img src="<?php echo base_url().'assets/img/male.jpeg'; ?>" class="rounded-circle" alt="customer image" style="width: 135px;height: 135px;">
-                                      </div>
-                                    <small><?php echo @$customer->f_name; ?> <?php echo @$customer->m_name; ?> <?php echo @$customer->l_name; ?></small>
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-6">
-                                <div class="body">
-                                    <!-- <i class=""></i> -->
-                                   <div class="profile-image"> <img src="<?php echo base_url().'assets/img/sig.jpg'; ?>" class="rounded-circle" alt="Gualantors image" style="width: 135px;height: 135px;">
-                                      </div>
-                                    <small>Signature</small>
-                                </div>
-                            </div>
-                           
-                            
-                        </div>
-                    </div>
-                </div>
-
+            
                 <style>
                     .sam{
                         display: flex;
@@ -78,16 +53,16 @@
                                         <tr>
                                         <th>Customer Name</th>
                                         <th>Phone Number</th>
-                                        <th>District</th>
-                                        <th>Ward</th>
-                                        <th>Street</th>
+                                        <th>Loan Amount</th>
+                                        <th>Paid Amount</th>
+                                        <th>Remain Amount</th>
                                         </tr>
                                     </thead>
                                    
                                     <tbody>
                                 
-                                      <?php //@$customer_loan = $this->queries->get_loan_active_customer($customer->customer_id);
-                                         //@$total_deposit = $this->queries->get_total_amount_paid_loan($customer_loan->loan_id);
+                                      <?php @$customer_loan = $this->queries->get_loan_account_statement($loan_id);
+                                         @$total_deposit = $this->queries->get_total_amount_paid_loan($loan_id);
 
                                         // @$out_stand = $this->queries->get_outstand_loan_customer($customer_loan->loan_id);
                                        ?>
@@ -99,9 +74,9 @@
                                             <td><?php echo @$customer->f_name; ?> <?php echo @$customer->m_name; ?> <?php echo @$customer->l_name; ?></td>
                                             <td><?php echo @$customer->phone_no; ?></td> 
                                                 
-                                            <td><?php echo @$customer->district; ?></td>
-                                            <td><?php echo @$customer->ward; ?></td>
-                                            <td><?php echo @$customer->street; ?></td>
+                                            <td><?php echo number_format($customer_loan->loan_int); ?></td>
+                                            <td><?php echo number_format($total_deposit->total_Deposit) ?></td>
+                                            <td><?php echo number_format(($customer_loan->loan_int) - ($total_deposit->total_Deposit) ) ?></td>
                                         
                                         </tr>
                                     </tbody>
@@ -118,25 +93,27 @@
 
                   <div class="col-lg-12">
                     <?php echo form_open("admin/search_acount_statement"); ?>
-                            <div class="sam">
-                                
-                                <select type="number" class="form-control select2" name="customer_id" required>
+                     <div class="sam">
+                            <select type="number" class="form-control select2" required name="customer_id" id="customer" >
                                     <option>Search Customer</option>
                                     <?php foreach ($customery as $customer_datas): ?>
                                     <option value="<?php echo $customer_datas->customer_id; ?>"><?php echo $customer_datas->f_name; ?> <?php echo $customer_datas->m_name; ?> <?php echo $customer_datas->l_name; ?> / <?php echo $customer_datas->customer_code; ?> </option>
                                     <?php endforeach; ?>
                                 </select>
+                                <select type="number" class="form-control select2" required name="loan_id" id="loan">
+                                    <option>Select Loan</option>
+                                </select>
                                 <button type="submit" class="btn btn-primary"><i class="icon-magnifier-add">Search</i></button>
-                                
-                            </div>
+                                </div>
                             <?php echo form_close(); ?>
+                            
                     <div class="card">
                           <div class="body">
                              <div class="pull-right">
-                             <a href="" class="btn btn-success" data-toggle="modal" data-target="#addcontact1"><i class="icon-pencil">Filter</i></a> 
+                             <a href="<?php echo base_url("admin/print_account_statement/{$customer_id}/{$loan_id}"); ?>" target="_blank" class="btn btn-primary" target="_blank"><i class="icon-printer"></i></a> 
                              </div>
                             <div class="table-responsive">
-                                <table class="table table-hover js-basic-example dataTable table-custom">
+                                <table class="table table-hover j-basic-example dataTable table-custom">
                                     <thead class="thead-primary">
                                         <tr>
                                         <th>Date</th>
@@ -149,7 +126,7 @@
                                    
                                     <tbody>
                                 
-                                      <?php @$loan_desc = $this->queries->get_total_pay_description_customer($customer->customer_id);
+                                      <?php @$loan_desc = $this->queries->get_total_pay_description_acount_statement($loan_id);
                                       //@$remain_balance = $this->queries->get_total_remain_with($customer_loan->loan_id);
                                       //@$total_recovery = $this->queries->get_total_loan_pend($customer_loan->loan_id);
                                       //@$total_penart =   $this->queries->get_total_penart_loan($customer_loan->loan_id);
@@ -183,7 +160,7 @@
                                             <?php }else{ ?>
                                                / 
                                                <?php } ?>
-                                               <?php echo @$payisnulls->description; ?>  <?php echo @$payisnulls->loan_name ; ?>
+                                               <?php //echo @$payisnulls->description; ?>  <?php echo @$payisnulls->loan_name ; ?>
                                          <?php if(@$payisnulls->day == 1){
                                            echo "Daily";
                                     }elseif(@$payisnulls->day == 7){
@@ -191,7 +168,10 @@
                                     }elseif (@$payisnulls->day == 30 || @$payisnulls->day == 31 || @$payisnulls->day == 28 || @$payisnulls->day == 29) {
                                         echo "Monthly";
                                      ?> 
-                                    <?php } ?><?php //echo $payisnulls->session; ?>  / AC/No. <?php echo @$payisnulls->loan_code; ?></td>
+                                    <?php } ?><?php //echo $payisnulls->session; ?>  / AC/No. <?php echo @$payisnulls->loan_code; ?>
+                                        
+                                    </td>
+
                                               <td>
                                                 <?php if($payisnulls->depost == TRUE){ ?>
                                                 <?php echo round(@$payisnulls->depost,2); ?>
@@ -239,36 +219,60 @@
 
 <?php include('incs/footer.php'); ?>
 
- <div class="modal fade" id="addcontact1" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h7 class="title" id="defaultModalLabel">Filter customer Account Statement</h7>
-            </div>
-            <?php echo form_open("admin/filter_customer_statement"); ?>
-            <div class="modal-body">
-                <div class="row clearfix">
-                    <?php $date = date("Y-m-d"); ?>
-                    <div class="col-md-6 col-6">
-                    <span>From:</span>
-                    <input type="date" class="form-control" value="<?php echo $date; ?>" name="from" required>       
-                    </div>
-                      <div class="col-md-6 col-6">
-                    <span>To:</span>
-                    <input type="date" class="form-control" value="<?php echo $date; ?>" name="to" required> 
-                    <input type="hidden" name="customer_id" value="<?php echo $customer->customer_id; ?>">      
-                    </div>
-                   
-            </div>
-            </div>
-            <div class="modal-footer">
-                <button type="submit" class="btn btn-primary">Filter</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">CLOSE</button>
-            </div>
-            <?php echo form_close(); ?>
-        </div>
-    </div>
-</div>
+ <script>
+$(document).ready(function(){
+
+$('#customer').change(function(){
+var customer_id = $('#customer').val();
+ //alert(customer_id)
+if(customer_id != '')
+{
+$.ajax({
+url:"<?php echo base_url(); ?>admin/fetch_data_loanActive",
+method:"POST",
+data:{customer_id:customer_id},
+success:function(data)
+{
+$('#loan').html(data);
+//$('#malipo_name').html('<option value="">select center</option>');
+}
+});
+}
+else
+{
+$('#loan').html('<option value="">Select Active loan</option>');
+//$('#malipo_name').html('<option value="">chagua vipimio</option>');
+}
+});
+
+
+
+$('#blanch').change(function(){
+ var blanch_id = $('#blanch').val();
+ //alert (blanch_id)
+ if(blanch_id != '')
+ {
+  $.ajax({
+   url:"<?php echo base_url(); ?>admin/fetch_blanch_account",
+   method:"POST",
+   data:{blanch_id:blanch_id},
+   success:function(data)
+   {
+    $('#account').html(data);
+    //$('#malipo').html('<option value="">chagua malipo</option>');
+   }
+  });
+ }
+ else
+ {
+  //$('#vipimio').html('<option value="">chagua vipimio</option>');
+  $('#account').html('<option value="">Select Account</option>');
+ }
+});
+
+
+});
+</script>
 
 
 

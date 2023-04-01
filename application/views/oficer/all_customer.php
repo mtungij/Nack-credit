@@ -36,7 +36,7 @@
                                     <thead class="thead-primary">
                                         <tr>
                                            <th>S/No.</th>
-                                            <th><?php echo $this->lang->line("customerId_menu"); ?></th>
+                                            <!-- <th><?php //echo $this->lang->line("customerId_menu"); ?></th> -->
                                             <th><?php echo $this->lang->line("customername_menu"); ?></th>
                                             <th><?php echo $this->lang->line("date_birth_menu"); ?></th>
                                             <th><?php echo $this->lang->line("year_customer_menu"); ?></th>
@@ -56,7 +56,7 @@
                                         <?php foreach($customer  as $customers): ?>
                                         <tr>
                                             <td><?php echo $no++; ?>.</td>
-                                            <td><?php echo $customers->customer_code; ?></td>
+                                            <!-- <td><?php //echo $customers->customer_code; ?></td> -->
                                             <td><?php echo $customers->f_name; ?> <?php echo $customers->m_name; ?> <?php echo $customers->l_name; ?></td>
                                             <td><?php echo $customers->date_birth; ?></td>
                                             <td><?php if ($customers->age == TRUE) {

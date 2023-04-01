@@ -63,10 +63,10 @@
 <body class="theme-cyan">
 
 <!-- Page Loader -->
-<div class="page-loader-wrapper">
+<!-- <div class="page-loader-wrapper">
     <div class="loader">
         <div class="m-t-30"><img src="<?php echo base_url() ?>assets/img/mikopo.png" width="300" height="100" alt="Lucid"></div>
         <p>Please wait...</p>        
     </div>
-</div>
+</div> -->
 <!-- Overlay For Sidebars -->

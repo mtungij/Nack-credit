@@ -120,7 +120,7 @@
 
                                 <a href="#Pages" class="has-arrow"><i class="icon-docs"></i><span>Commnication</span></a>
                                 <ul>
-                                    <li><a href="javascript:;">Via SMS</a> </li>
+                                    <li><a href="<?php echo base_url("admin/reminder_sms"); ?>">Via SMS</a> </li>
                                     <li><a href="javascript:;">Via Email</a></li>
                                 </ul>
                             </li>

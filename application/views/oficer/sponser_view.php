@@ -234,8 +234,12 @@
 
     <div class="text-center">
     <button type="submit" class="btn btn-primary"><i class="icon-drawer"><?php echo $this->lang->line("save_menu"); ?></i></button>
- 
+       <?php if ($data_loan_desc->loan_status == 'open' || $data_loan_desc->loan_status == 'reject' || $data_loan_desc->loan_status == 'out' || $data_loan_desc->loan_status == 'withdrawal') {
+        ?>
     <a href="<?php echo base_url("oficer/loan_applicationForm/{$customer->customer_id}"); ?>" class="btn btn-primary"><?php echo $this->lang->line("skip_menu"); ?></a>
+    <?php }else{ ?>
+    <a href="<?php echo base_url("oficer/verfication_code/{$customer->customer_id}"); ?>" class="btn btn-primary"><?php echo $this->lang->line("skip_menu"); ?></a>
+    <?php } ?>
     </div>
                             
                             <?php echo form_close();  ?>

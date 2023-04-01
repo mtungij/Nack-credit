@@ -208,7 +208,7 @@ public function get_admin_role($comp_id){
 
 
 public function get_customer_data($customer_id){
-	$customer = $this->db->query("SELECT c.customer_id,c.blanch_id,c.comp_id,c.empl_id,e.empl_name,c.customer_day FROM tbl_customer c LEFT JOIN tbl_employee e ON e.empl_id = c.empl_id  WHERE c.customer_id = $customer_id");
+	$customer = $this->db->query("SELECT c.customer_id,c.blanch_id,c.comp_id,c.empl_id,e.empl_name,c.customer_day,c.f_name,c.m_name,c.l_name,c.phone_no FROM tbl_customer c LEFT JOIN tbl_employee e ON e.empl_id = c.empl_id  WHERE c.customer_id = $customer_id");
 	  return $customer->row();
 }
 
@@ -523,7 +523,7 @@ public function get_allcutomer($comp_id){
        }
 
        public function get_loanDisbarsed($loan_id){
-       	  $data = $this->db->query("SELECT l.loan_id,l.code,l.blanch_id,l.group_id,l.comp_id,l.customer_id,l.loan_aprove,l.loan_code,l.day,l.session,c.comp_name,c.comp_phone,cs.phone_no FROM tbl_loans l JOIN tbl_company c ON c.comp_id = l.comp_id JOIN tbl_customer cs ON cs.customer_id = l.customer_id WHERE l.loan_id = '$loan_id'");
+       	  $data = $this->db->query("SELECT l.loan_id,l.code,l.blanch_id,l.group_id,l.comp_id,l.customer_id,l.loan_aprove,l.loan_code,l.day,l.session,c.comp_name,c.comp_phone,cs.phone_no,cs.f_name,cs.m_name,cs.l_name FROM tbl_loans l JOIN tbl_company c ON c.comp_id = l.comp_id JOIN tbl_customer cs ON cs.customer_id = l.customer_id WHERE l.loan_id = '$loan_id'");
        	     return $data->row();
        }
 
@@ -592,13 +592,13 @@ public function get_allcutomer($comp_id){
     //  }
 
      public function search_CustomerLoan($customer_id){
-    	$data = $this->db->query("SELECT c.customer_id,c.comp_id,c.blanch_id,c.customer_code,c.f_name,c.m_name,c.l_name,c.gender,c.date_birth,c.phone_no,c.district,c.ward,c.street FROM tbl_customer c LEFT JOIN tbl_sub_customer sc ON sc.customer_id = c.customer_id WHERE c.customer_id = '$customer_id'");
+    	$data = $this->db->query("SELECT c.customer_id,c.comp_id,c.blanch_id,c.customer_code,c.f_name,c.m_name,c.l_name,c.gender,c.date_birth,c.phone_no,c.district,c.ward,c.street,c.customer_code FROM tbl_customer c LEFT JOIN tbl_sub_customer sc ON sc.customer_id = c.customer_id WHERE c.customer_id = '$customer_id'");
     	return $data->row();
      }
 
 
      public function get_loan_active_customer($customer_id){
-     	$data = $this->db->query("SELECT l.loan_id,l.loan_int,l.restration,l.customer_id,ot.loan_stat_date,ot.loan_end_date,l.loan_status FROM tbl_loans l LEFT JOIN tbl_outstand ot ON ot.loan_id = l.loan_id  WHERE l.customer_id = '$customer_id' ORDER BY l.loan_id DESC LIMIT 1");
+     	$data = $this->db->query("SELECT l.loan_id,l.loan_int,l.restration,l.customer_id,ot.loan_stat_date,ot.loan_end_date,l.loan_status,l.loan_code FROM tbl_loans l LEFT JOIN tbl_outstand ot ON ot.loan_id = l.loan_id  WHERE l.customer_id = '$customer_id' ORDER BY l.loan_id DESC LIMIT 1");
      	return $data->row();
      }
 
@@ -613,6 +613,11 @@ public function get_allcutomer($comp_id){
      	$data = $this->db->query("SELECT SUM(depost) AS total_Deposit FROM tbl_depost WHERE loan_id = '$loan_id' LIMIT 1");
      	return $data->row();
      }
+
+    public function get_loan_schedule_customer($loan_id){
+   	$loan = $this->db->query("SELECT * FROM tbl_loans l LEFT JOIN tbl_customer c ON c.customer_id = l.customer_id LEFT JOIN tbl_loan_category lt ON lt.category_id = l.category_id LEFT JOIN tbl_blanch b ON b.blanch_id = l.blanch_id LEFT JOIN tbl_sub_customer s ON s.customer_id = l.customer_id LEFT JOIN tbl_outstand ot ON ot.loan_id = l.loan_id LEFT JOIN tbl_account_transaction at ON at.trans_id = l.method  WHERE l.loan_id = '$loan_id' ");
+       return $loan->row();
+   }
 
 
 
@@ -1362,10 +1367,35 @@ public function update_account($account_id,$data){
  	return $this->db->where('sp_id',$sp_id)->update('tbl_sponser',$data);
  }
 
- public function get_search_dataCustomer($customer_id){
- 	$data = $this->db->query("SELECT * FROM tbl_customer c LEFT JOIN tbl_sub_customer sc ON sc.customer_id = c.customer_id LEFT JOIN tbl_account_type at ON at.account_id = sc.account_id  LEFT JOIN tbl_blanch b ON b.blanch_id = c.blanch_id LEFT JOIN tbl_employee e ON e.empl_id = c.empl_id WHERE c.customer_id = '$customer_id'");
+public function get_search_dataCustomer($customer_id){
+ 	$data = $this->db->query("SELECT c.customer_id,c.f_name,c.m_name,c.l_name,c.phone_no,e.empl_id,e.empl_name,b.blanch_id,b.blanch_name,c.district,c.ward,c.street,c.comp_id FROM tbl_customer c LEFT JOIN tbl_sub_customer sc ON sc.customer_id = c.customer_id LEFT JOIN tbl_account_type at ON at.account_id = sc.account_id  LEFT JOIN tbl_blanch b ON b.blanch_id = c.blanch_id LEFT JOIN tbl_employee e ON e.empl_id = c.empl_id WHERE c.customer_id = '$customer_id'");
  	return $data->row();
  }
+
+  function fetch_loan_list($customer_id)
+ {
+  $this->db->where('customer_id', $customer_id);
+  $this->db->order_by('loan_code', 'DESC');
+  $query = $this->db->query("SELECT * FROM tbl_loans l LEFT JOIN tbl_outstand ot ON ot.loan_id = l.loan_id WHERE l.customer_id = '$customer_id' ORDER BY l.loan_id DESC");
+  //$output = '<option value="">Select Active Loan</option>';
+  foreach($query->result() as $row)
+  {
+   $output .= '<option value="'.$row->loan_id.'">'.$row->loan_code. "-" ."(Tsh.".number_format($row->loan_aprove).")"."/"."Date " .$row->loan_stat_date.'</option>';
+   
+  }
+  return $output;
+ }
+
+   public function get_loan_account_statement($loan_id){
+     	$data = $this->db->query("SELECT l.loan_id,l.loan_int,l.restration,l.customer_id,ot.loan_stat_date,ot.loan_end_date,l.loan_status,l.day FROM tbl_loans l LEFT JOIN tbl_outstand ot ON ot.loan_id = l.loan_id  WHERE l.loan_id = '$loan_id' LIMIT 1");
+     	return $data->row();
+     }
+
+  public function get_total_pay_description_acount_statement($loan_id){
+     $data = $this->db->query("SELECT * FROM tbl_pay p LEFT JOIN tbl_loans l ON l.loan_id = p.loan_id LEFT JOIN tbl_account_transaction at ON at.trans_id = p.p_method WHERE p.loan_id = '$loan_id' ORDER BY p.pay_id DESC");
+     return $data->result(
+     );
+     }
 
 
   public function get_sum_depostLoan($loan_id){
@@ -6314,6 +6344,233 @@ function fetch_loan_active($customer_id)
    	$data = $this->db->query("SELECT SUM(cash_amount) AS total_cashInhand FROM tbl_cash_inhand ch WHERE ch.cash_day between '$from' and '$to' AND  DATE(ch.cash_day) <> '$today' AND ch.blanch_id = '$blanch_id'");
    	return $data->row();
    }
+
+
+   public function get_verfication_code($customer_id){
+   	$data = $this->db->query("SELECT * FROM tbl_customer WHERE customer_id = '$customer_id'");
+   	return $data->row();
+   }
+
+
+   //reminder sms
+ 	 public function get_sms_data($comp_id){
+ 	 	$data = $this->db->query("SELECT * FROM tbl_reminder WHERE comp_id = '$comp_id'");
+ 	 	return $data->result();
+ 	 }
+
+ 	  public function insert_sms_settup($data){
+ 	 	return $this->db->insert('tbl_reminder',$data);
+ 	 }
+
+ 	 public function remove_sms($id){
+ 	return $this->db->delete('tbl_reminder',['id'=>$id]);
+ }
+
+  public function update_sms_settup($data,$id){
+ 	 	return $this->db->where('id',$id)->update('tbl_reminder',$data);
+ 	 }
+
+ 	 public function get_sms_structure($comp_id,$loan_status){
+ 	$data = $this->db->query("SELECT * FROM tbl_reminder WHERE comp_id = '$comp_id' AND sms_type = '$loan_status'");
+ 	return $data->row();
+ }
+
+
+ public function get_loan_reminder($customer_id){
+ 	 	$data = $this->db->query("SELECT c.phone_no,c.f_name,c.m_name,c.l_name FROM tbl_customer c   WHERE c.customer_id = '$customer_id'");
+ 	 return $data->row();
+ 	 }
+
+ 	 public function get_employee_data_staff($empl_id){
+ 	$data = $this->db->query("SELECT * FROM tbl_employee WHERE empl_id = '$empl_id'");
+ 	return $data->row();
+ }
+
+
+ public function get_loan_desc_loan($customer_id){
+ 	$data = $this->db->query("SELECT * FROM tbl_loans WHERE customer_id = '$customer_id' ORDER BY loan_id DESC");
+ 	return $data->row();
+ }
+
+  public function get_total_blanch_account($blanch_id){
+       $data = $this->db->query("SELECT SUM(blanch_capital) AS total_blanch_amount FROM tbl_blanch_account WHERE blanch_id = '$blanch_id'");
+       return $data->row();
+    }
+
+    public function fetch_today_deposit_daily_comp($comp_id){
+       	$today = date("Y-m-d");
+       	$data = $this->db->query("SELECT SUM(depost) AS total_deposit,SUM(double_amont) AS total_double FROM tbl_depost WHERE comp_id = '$comp_id' AND day_id = '1' AND depost_day = '$today'");
+       	return $data->row();
+       }
+
+
+public function fetch_today_deposit_monthly_comp($comp_id){
+       	$today = date("Y-m-d");
+       	$data = $this->db->query("SELECT SUM(depost) AS total_deposit_monthly,SUM(double_amont) AS total_double_month FROM tbl_depost  WHERE comp_id = '$comp_id' AND day_id = '30'  AND depost_day = '$today'");
+       	return $data->row();
+       }
+
+    public function fetch_today_deposit_comp($comp_id){
+       	$today = date("Y-m-d");
+       	$data = $this->db->query("SELECT SUM(depost) AS total_deposit_all,SUM(double_amont) AS total_double_all FROM tbl_depost WHERE comp_id = '$comp_id'  AND depost_day = '$today'");
+       	return $data->row();
+       }
+
+         public function get_today_withdrawal_daily_comp($comp_id){
+       	$today = date("Y-m-d");
+       	$data = $this->db->query("SELECT SUM(loan_aprove) AS total_loanWith_day FROM tbl_loans l LEFT JOIN tbl_outstand ot ON ot.loan_id = l.loan_id WHERE l.comp_id = '$comp_id' AND loan_stat_date = '$today' AND l.day = '1'");
+       	return $data->row();
+       }
+
+        public function get_today_withdrawal_weekly_comp($comp_id){
+       	$today = date("Y-m-d");
+       	$data = $this->db->query("SELECT SUM(loan_aprove) AS total_loanWith_weekly FROM tbl_loans l LEFT JOIN tbl_outstand ot ON ot.loan_id = l.loan_id WHERE l.comp_id = '$comp_id' AND loan_stat_date = '$today' AND l.day = '7'");
+       	return $data->row();
+       }
+
+       public function get_today_withdrawal_monthly_comp($comp_id){
+       	$today = date("Y-m-d");
+       	$data = $this->db->query("SELECT SUM(loan_aprove) AS total_loanWith_monthly FROM tbl_loans l LEFT JOIN tbl_outstand ot ON ot.loan_id = l.loan_id WHERE l.comp_id = '$comp_id' AND loan_stat_date = '$today' AND l.day = '30'");
+       	return $data->row();
+       }
+
+        public function get_today_withdrawal_all_comp($comp_id){
+       	$today = date("Y-m-d");
+       	$data = $this->db->query("SELECT SUM(loan_aprove) AS total_loanWith_all FROM tbl_loans l LEFT JOIN tbl_outstand ot ON ot.loan_id = l.loan_id WHERE l.comp_id = '$comp_id' AND loan_stat_date = '$today'");
+       	return $data->row();
+       }
+
+       public function get_today_deducted_income_dahboard_comp($comp_id){
+       	$today = date("Y-m-d");
+       	$data = $this->db->query("SELECT SUM(deducted_balance) AS total_deducted FROM tbl_deducted_fee WHERE comp_id = '$comp_id' AND deducted_date = '$today'");
+       	return $data->row();
+       }
+
+ public function get_today_nonDeducted_receive_comp($comp_id){
+       	$today = date("Y-m-d");
+       	$data = $this->db->query("SELECT SUM(receve_amount) AS total_non FROM tbl_receve WHERE comp_id = '$comp_id' AND receve_day = '$today'");
+       	return $data->row();
+       }
+
+    public function get_today_expenses_blanch_data_comp($comp_id){
+       	$today = date("Y-m-d");
+       	$data = $this->db->query("SELECT SUM(req_amount) AS total_expenses FROM  tbl_request_exp WHERE comp_id = '$comp_id' AND req_date = '$today'");
+       	return $data->row();
+       }
+
+          public function fetch_today_deposit_weekly_comp($comp_id){
+       	$today = date("Y-m-d");
+       	$data = $this->db->query("SELECT SUM(depost) AS total_deposit_weekly,SUM(double_amont) AS total_double_wekly FROM tbl_depost WHERE comp_id = '$comp_id' AND day_id = '7' AND depost_day = '$today'");
+       	return $data->row();
+       }
+
+        public function get_blanch_account_name($blanch_id){
+       	$data = $this->db->query("SELECT * FROM tbl_blanch_account ba JOIN tbl_account_transaction at ON at.trans_id = ba.receive_trans_id WHERE ba.blanch_id = '$blanch_id'");
+       	return $data->result();
+       }
+
+        public function get_loan_with_drawal($blanch_id){
+       	$data = $this->db->query("SELECT SUM(loan_aprove) AS toptal_loan_disbures, SUM(loan_int) AS total_loan_int FROM tbl_loans WHERE blanch_id = '$blanch_id' AND loan_status = 'withdrawal'");
+       	return $data->row();
+       }
+
+        public function get_default_loan($blanch_id){
+       	$data = $this->db->query("SELECT SUM(remain_amount) AS total_default FROM  tbl_outstand_loan WHERE blanch_id = '$blanch_id'");
+       	return $data->row();
+       }
+
+         public function fetch_today_deposit_daily($blanch_id){
+       	$today = date("Y-m-d");
+       	$data = $this->db->query("SELECT SUM(depost) AS total_deposit,SUM(double_amont) AS total_double  FROM tbl_depost WHERE blanch_id = '$blanch_id' AND day_id = '1' AND depost_day = '$today'");
+       	return $data->row();
+       }
+
+
+        public function fetch_today_deposit_weekly($blanch_id){
+       	$today = date("Y-m-d");
+       	$data = $this->db->query("SELECT SUM(depost) AS total_deposit_weekly,SUM(double_amont) AS total_double_wekly FROM tbl_depost WHERE blanch_id = '$blanch_id' AND day_id = '7' AND depost_day = '$today'");
+       	return $data->row();
+       }
+
+       
+
+        public function fetch_today_deposit_monthly($blanch_id){
+       	$today = date("Y-m-d");
+       	$data = $this->db->query("SELECT SUM(depost) AS total_deposit_monthly,SUM(double_amont) AS total_double_month FROM tbl_depost WHERE blanch_id = '$blanch_id' AND day_id = '30'  AND depost_day = '$today'");
+       	return $data->row();
+       }
+   
+     public function fetch_today_deposit($blanch_id){
+       	$today = date("Y-m-d");
+       	$data = $this->db->query("SELECT SUM(depost) AS total_deposit_all,SUM(double_amont) AS total_double_all FROM tbl_depost WHERE blanch_id = '$blanch_id'  AND depost_day = '$today'");
+       	return $data->row();
+       }
+
+
+       public function get_today_withdrawal_daily($blanch_id){
+       	$today = date("Y-m-d");
+       	$data = $this->db->query("SELECT SUM(loan_aprove) AS total_loanWith_day FROM tbl_loans l LEFT JOIN tbl_outstand ot ON ot.loan_id = l.loan_id WHERE l.blanch_id = '$blanch_id' AND loan_stat_date = '$today' AND l.day = '1'");
+       	return $data->row();
+       }
+
+
+         public function get_today_withdrawal_weekly($blanch_id){
+       	$today = date("Y-m-d");
+       	$data = $this->db->query("SELECT SUM(loan_aprove) AS total_loanWith_weekly FROM tbl_loans l LEFT JOIN tbl_outstand ot ON ot.loan_id = l.loan_id WHERE l.blanch_id = '$blanch_id' AND loan_stat_date = '$today' AND l.day = '7'");
+       	return $data->row();
+       }
+
+        public function get_today_withdrawal_monthly($blanch_id){
+       	$today = date("Y-m-d");
+       	$data = $this->db->query("SELECT SUM(loan_aprove) AS total_loanWith_monthly FROM tbl_loans l LEFT JOIN tbl_outstand ot ON ot.loan_id = l.loan_id WHERE l.blanch_id = '$blanch_id' AND loan_stat_date = '$today' AND l.day = '30'");
+       	return $data->row();
+       }
+
+        public function get_today_withdrawal_all($blanch_id){
+       	$today = date("Y-m-d");
+       	$data = $this->db->query("SELECT SUM(loan_aprove) AS total_loanWith_all FROM tbl_loans l LEFT JOIN tbl_outstand ot ON ot.loan_id = l.loan_id WHERE l.blanch_id = '$blanch_id' AND loan_stat_date = '$today'");
+       	return $data->row();
+       }
+
+       public function get_today_deducted_income_dahboard($blanch_id){
+       	$today = date("Y-m-d");
+       	$data = $this->db->query("SELECT SUM(deducted_balance) AS total_deducted FROM tbl_deducted_fee WHERE blanch_id = '$blanch_id' AND deducted_date = '$today'");
+       	return $data->row();
+       }
+
+        public function get_today_nonDeducted_receive($blanch_id){
+       	$today = date("Y-m-d");
+       	$data = $this->db->query("SELECT SUM(receve_amount) AS total_non FROM tbl_receve WHERE blanch_id = '$blanch_id' AND receve_day = '$today'");
+       	return $data->row();
+       }
+
+       public function get_today_expenses_blanch_data($blanch_id){
+       	$today = date("Y-m-d");
+       	$data = $this->db->query("SELECT SUM(req_amount) AS total_expenses FROM  tbl_request_exp WHERE blanch_id = '$blanch_id' AND req_date = '$today'");
+       	return $data->row();
+       }
+
+       public function get_expences_request_blanch($blanch_id){
+	$date = date("Y-m-d");
+	$expences = $this->db->query("SELECT * FROM tbl_request_exp re LEFT JOIN tbl_expenses e ON e.ex_id = re.ex_id LEFT JOIN tbl_blanch b ON b.blanch_id = re.blanch_id LEFT JOIN tbl_account_transaction at ON at.trans_id = re.trans_id WHERE re.blanch_id = '$blanch_id' AND re.req_date = '$date' ORDER BY re.req_id DESC");
+	 return $expences->result();;
+}
+
+
+ public function get_sum_expences_blanch($blanch_id){
+    	$date = date("Y-m-d");
+    	$data = $this->db->query("SELECT SUM(req_amount) AS total_expences FROM tbl_request_exp WHERE blanch_id = '$blanch_id' AND req_date = '$date'");
+    	 return $data->row();
+    }
+
+
+
+
+
+
+
+
+
 
 
  

@@ -379,8 +379,8 @@ $sqldata="UPDATE `tbl_loans` SET `dis_date`='$now',`return_date`= '$return_data'
       	  $remain = $withdraw_ba;
       	  $chukua_chote = $old_balance_data - $old_balance_data;
 
-      	  //$today = date("Y-m-d 23:59");
-      	  $today = date("2022-09-22 23:59");
+      	  $today = date("Y-m-d 23:59");
+      	  //$today = date("2022-09-22 23:59");
       	  @$loans = $this->queries->get_sum_deposit($loan_id);
       	  $depost_data = @$loans->depos;
       	  $rem = $totalloan - $depost_data;
@@ -736,6 +736,81 @@ $sqldata="UPDATE `tbl_customer` SET `customer_status`= 'close' WHERE `customer_i
 			$this->super();	
 		}
 	}
+
+
+ // 15:00
+//sending receivable
+public function Send_reminder_automatic(){
+$today = date('Y-m-d');
+ $comp_id = 39;
+$data = $this->db->query("SELECT * FROM tbl_loans l LEFT JOIN tbl_customer c ON c.customer_id = l.customer_id WHERE l.comp_id = '$comp_id' AND l.dep_status = 'open' AND l.date_show = '$today' AND l.loan_status = 'withdrawal'");
+	$auto_reminder =  $data->result();
+
+	foreach ($auto_reminder as $auto_reminders) {
+	$this->send_reminder_auto_receivable($auto_reminders->comp_id,$auto_reminders->customer_id,$auto_reminders->loan_id);
+	}
+
+}
+
+
+
+//send sms reminder Function
+public function send_reminder_auto_receivable($comp_id,$customer_id,$loan_id){
+    $this->load->model('queries');
+    $data_sms = $this->queries->get_loan_reminder($customer_id);
+    $loan_restoration = $this->queries->get_restoration_loan($loan_id);
+    $compdata = $this->queries->get_companyData($comp_id);
+    $comp_name = $compdata->comp_name;
+
+	$phone = $data_sms->phone_no;
+	$first_name = $data_sms->f_name;
+	$midle_name = $data_sms->m_name;
+	$last_name = $data_sms->l_name;
+
+	$restoration = $loan_restoration->restration;
+	$massage = 'Ndugu Mteja Unakumbushwa Kuleta Rejesho La Tsh.' .number_format($restoration) .' '. $comp_name .' '. 'Kabla ya Saa 11:00 Jioni Kuepuka Kupigwa faini ya Kuchelewesha.';
+	//    echo "<pre>";
+	// print_r($phone);
+	//      exit();
+	$this->sendsms($phone,$massage);
+}
+
+
+
+// 20:00
+//send pending loan
+public function Send_reminder_automatic_pending(){
+$today = date('Y-m-d');
+ $comp_id = 39;
+$data = $this->db->query("SELECT * FROM tbl_loans l LEFT JOIN tbl_customer c ON c.customer_id = l.customer_id WHERE l.comp_id = '$comp_id' AND l.dep_status = 'open' AND l.date_show = '$today' AND l.loan_status = 'withdrawal'");
+	$auto_reminder =  $data->result();
+
+	foreach ($auto_reminder as $auto_reminders) {
+	$this->send_reminder_auto_pending($auto_reminders->comp_id,$auto_reminders->customer_id,$auto_reminders->loan_id);
+	}
+
+}
+
+
+public function send_reminder_auto_pending($comp_id,$customer_id,$loan_id){
+    $this->load->model('queries');
+    $data_sms = $this->queries->get_loan_reminder($customer_id);
+    $loan_restoration = $this->queries->get_restoration_loan($loan_id);
+    $compdata = $this->queries->get_companyData($comp_id);
+    $comp_name = $compdata->comp_name;
+
+	$phone = $data_sms->phone_no;
+	$first_name = $data_sms->f_name;
+	$midle_name = $data_sms->m_name;
+	$last_name = $data_sms->l_name;
+
+	$restoration = $loan_restoration->restration;
+	$massage = 'Ndugu Mteja Rejesho lako la leo Halijapokelewa '.' '. $comp_name .' '. 'Epuka Kuchajiwa  Faini Ya Kulaza Rejesho kwa Kutokulipa kwa Wakati Ahsante.';
+	//    echo "<pre>";
+	// print_r($phone);
+	//      exit();
+	$this->sendsms($phone,$massage);
+}
 
  
 

@@ -804,11 +804,13 @@ $customer = $this->queries->search_CustomerID($customer_id,$comp_id);
 $sponser = $this->queries->get_sponser($customer_id);
 $sponsers_data = $this->queries->get_sponserCustomer($customer_id);
 $region = $this->queries->get_region();
+
+$data_loan_desc = $this->queries->get_loan_desc_loan($customer_id);
 //   echo "<pre>";
 // print_r($customer);
 //  echo "</pre>";
 //    exit();
-$this->load->view('oficer/search_customer',['customer'=>$customer,'sponser'=>$sponser,'sponsers_data'=>$sponsers_data,'region'=>$region]);
+$this->load->view('oficer/search_customer',['customer'=>$customer,'sponser'=>$sponser,'sponsers_data'=>$sponsers_data,'region'=>$region,'data_loan_desc'=>$data_loan_desc]);
 }
 
 
@@ -854,10 +856,12 @@ public function modify_sponser($sp_id,$customer_id){
         $sponsers_data = $this->queries->get_sponserCustomer($customer_id);
         $customer = $this->queries->get_search_dataCustomer($customer_id);
         $region = $this->queries->get_region();
+
+        $data_loan_desc = $this->queries->get_loan_desc_loan($customer_id);
         //   echo "<pre>";
         // print_r($customer);
         //        exit();
-        $this->load->view('oficer/sponser_view',['sponser'=>$sponser,'sponsers_data'=>$sponsers_data,'customer'=>$customer,'region'=>$region]);
+        $this->load->view('oficer/sponser_view',['sponser'=>$sponser,'sponsers_data'=>$sponsers_data,'customer'=>$customer,'region'=>$region,'data_loan_desc'=>$data_loan_desc]);
 
     }
 
@@ -886,7 +890,62 @@ public function modify_sponser($sp_id,$customer_id){
                }else{
                 $this->session->set_flashdata('error','Data failed!!');
             }
-        return redirect("oficer/loan_applicationForm/".$customer_id);        
+        return redirect("oficer/edit_viewSponser/".$customer_id);        
+    }
+
+
+    public function verfication_code($customer_id)
+    {
+     $this->load->model('queries');
+     $this->load->helper('string');
+     //$comp_id = $this->session->userdata('comp_id');
+     $blanch_id = $this->session->userdata('blanch_id');
+     $empl_id = $this->session->userdata('empl_id');
+     $manager_data = $this->queries->get_manager_data($empl_id);
+     $comp_id = $manager_data->comp_id;
+     $empl_data = $this->queries->get_employee_data($empl_id);
+     $compdata = $this->queries->get_companyData($comp_id);
+     $custm_data = $this->queries->get_customer_data($customer_id);
+     $loan_verfication = 'N-'. random_string('numeric',4);
+     $this->update_customer_verfication_code($customer_id,$loan_verfication);
+       
+       // print_r($loan_verfication);
+       //          exit();
+     $company_name = $compdata->comp_name;
+     //$full_name = $custm_data->f_name . ' ' . $custm_data->m_name . ' ' . $custm_data->l_name ;
+     $phone = $custm_data->phone_no; 
+     $massage = $loan_verfication .' ' .'Msimbo wa Uthibitisho' .' '. $company_name; 
+     $this->sendsms($phone,$massage);
+     
+      
+      $this->load->view('oficer/loan_verfication',['customer_id'=>$customer_id]);
+    }
+
+    public function update_customer_verfication_code($customer_id,$loan_verfication){
+    $sqldata="UPDATE `tbl_customer` SET `otp`= '$loan_verfication' WHERE `customer_id`= '$customer_id'";
+    $query = $this->db->query($sqldata);
+    return true;
+    }
+
+    public function verfy_otp_data($customer_id){
+        $this->form_validation->set_rules('otp','otp','required');
+        $this->form_validation->set_error_delimiters('<div class="text-danger">','</div>');
+        if ($this->form_validation->run()) {
+            $this->load->model('queries');
+            $data = $this->input->post();
+            $otp = $data['otp'];
+            $code = $this->queries->get_verfication_code($customer_id);
+            $verf = $code->otp;
+            if ($verf == $otp) {
+            return redirect('oficer/loan_applicationForm/'.$customer_id);
+                //echo "successfully";
+            }else{
+         $this->session->set_flashdata("error",'Msimbo Haupo Sahihi');
+         return redirect('oficer/verfication_code/'.$customer_id);
+                //echo "successfully";
+            }
+
+        }
     }
 
 
@@ -940,7 +999,7 @@ public function modify_sponser($sp_id,$customer_id){
         	  $data = $this->input->post();
         	  // print_r($data);
         	  //           exit();
-        	  $data['loan_code'] = random_string('numeric',14);
+        	  $data['loan_code'] = random_string('numeric',4);
         	  
         	  $this->load->model('queries');
         	   $category_id = $data['category_id'];
@@ -1051,7 +1110,7 @@ public function modify_sponser($sp_id,$customer_id){
         	  // print_r($data);
         	  //    exit();
         	  
-        	  //$data['loan_code'] = random_string('numeric',14);
+        	  //$data['loan_code'] = redit_viewSponserandom_string('numeric',14);
         	  
         	  $this->load->model('queries');
         	   $category_id = $data['category_id'];
@@ -1845,15 +1904,15 @@ public function create_withdrow_balance($customer_id){
           $customer_id = $up_balance->customer_id;
           $input_balance = $withdrow_newbalance;
 
+          $comp_name = $company_data->comp_name;
+
           //$today_float = $this->queries->get_today_cash($blanch_id);
           //$float = $today_float->blanch_capital;
           $remain_balance = $balance;
           $today = date("Y-m-d H:i");
-
-          $sms = 'Tsh.'.$remain_balance.' Imetolewa kwenye Acc Yako ' . $loan_codeID .' Tarehe '.$today;
+          $sms = 'Umepokea ' .' '. 'Tsh.'.number_format($remain_balance).' ' .'Kutoka ' .' '.$comp_name.' '. 'Tarehe '.$today;
           $massage = $sms;
           $phone = $phones;
-
         //sms counter function
           @$smscount = $this->queries->get_smsCountDate($comp_id);
           $sms_number = @$smscount->sms_number;
@@ -2115,7 +2174,6 @@ $this->db->query("INSERT INTO tbl_outstand (`comp_id`,`loan_id`,`blanch_id`,`loa
 
 
  public function deposit_loan($customer_id){
-
     $this->form_validation->set_rules('customer_id','Customer','required');
     $this->form_validation->set_rules('comp_id','Company','required');
     $this->form_validation->set_rules('blanch_id','blanch','required');
@@ -2160,6 +2218,9 @@ $this->db->query("INSERT INTO tbl_outstand (`comp_id`,`loan_id`,`blanch_id`,`loa
           $date_show = $loan_restoration->date_show;
           $company = $this->queries->get_comp_data($comp_id);
 
+          $day_id = $loan_restoration->day;
+
+
 
           //sms count function
           // @$smscount = $this->queries->get_smsCountDate($comp_id);
@@ -2178,6 +2239,7 @@ $this->db->query("INSERT INTO tbl_outstand (`comp_id`,`loan_id`,`blanch_id`,`loa
           $data_depost = $this->queries->get_customer_Loandata($customer_id);
           $customer_data = $this->queries->get_customerData($customer_id);
           $phones = $customer_data->phone_no;
+          $full_name = $customer_data->f_name;
           $admin_data = $this->queries->get_admin_role($comp_id);
           $remain_balance = $data_depost->balance;
           $old_balance = $remain_balance;
@@ -2284,9 +2346,9 @@ $this->db->query("INSERT INTO tbl_outstand (`comp_id`,`loan_id`,`blanch_id`,`loa
           //insert depost balance
 
           if ($check_deposit == TRUE) {
-            $this->update_deposit_record($loan_id,$deposit_date,$again_deposit,$p_method);
+            $this->update_deposit_record($loan_id,$deposit_date,$again_deposit,$p_method,$day_id);
              }else{
-             $dep_id = $this->insert_loan_lecorDeposit($comp_id,$customer_id,$loan_id,$blanch_id,$new_depost,$p_method,$role,$day_int,$day_princ,$loan_status,$group_id,$deposit_date,$empl_id);
+             $dep_id = $this->insert_loan_lecorDeposit($comp_id,$customer_id,$loan_id,$blanch_id,$new_depost,$p_method,$role,$day_int,$day_princ,$loan_status,$group_id,$deposit_date,$empl_id,$day_id);
              }
            
            if (@$out_deposit->out_balance == TRUE || @$out_deposit->out_balance == '0' ) {
@@ -2335,7 +2397,9 @@ $this->db->query("INSERT INTO tbl_outstand (`comp_id`,`loan_id`,`blanch_id`,`loa
          $loan_int = $loan_restoration->loan_int;
          $remain_loan = $loan_int - $total_depost->remain_balance_loan;
             //sms send
-          $sms = 'Umeingiza Tsh.' .$new_balance. ' kwenye Acc Yako ' . $loan_codeID . $comp_name.' Mpokeaji '.$role . ' Kiasi kilicho baki Kulipwa ni Tsh.'.$remain_loan.' Kwa malalamiko piga '.$comp_phone;
+          $today = date("Y-m-d");
+         $date = date('F,j,Y',strtotime($today));
+          $sms = 'Ndugu, '.$full_name. ' '. 'Umeingiza Tsh.' .number_format($new_balance). ' ' . $comp_name.' Mpokeaji '.$role . ' Kiasi kilicho baki Kulipwa ni Tsh.'.$remain_loan.' Kwa malalamiko piga '.$comp_phone .' '. $date;
           $massage = $sms;
           $phone = $phones;
 
@@ -2369,9 +2433,9 @@ $this->db->query("INSERT INTO tbl_outstand (`comp_id`,`loan_id`,`blanch_id`,`loa
               
           //insert depost balance
           if ($check_deposit == TRUE) {
-            $this->update_deposit_record($loan_id,$deposit_date,$again_deposit,$p_method);
+            $this->update_deposit_record($loan_id,$deposit_date,$again_deposit,$p_method,$day_id);
              }else{
-             $dep_id = $this->insert_loan_lecorDeposit($comp_id,$customer_id,$loan_id,$blanch_id,$new_depost,$p_method,$role,$day_int,$day_princ,$loan_status,$group_id,$deposit_date,$empl_id);
+             $dep_id = $this->insert_loan_lecorDeposit($comp_id,$customer_id,$loan_id,$blanch_id,$new_depost,$p_method,$role,$day_int,$day_princ,$loan_status,$group_id,$deposit_date,$empl_id,$day_id);
              }
           
           if (@$out_deposit->out_balance == TRUE || @$out_deposit->out_balance == '0' ) {
@@ -2416,7 +2480,10 @@ $this->db->query("INSERT INTO tbl_outstand (`comp_id`,`loan_id`,`blanch_id`,`loa
          $loan_int = $loan_restoration->loan_int;
          $remain_loan = $loan_int - $total_depost->remain_balance_loan;
             //sms send
-          $sms = 'Umeingiza Tsh.' .$new_balance. ' kwenye Acc Yako ' . $loan_codeID . $comp_name.' Mpokeaji '.$role . ' Kiasi kilicho baki Kulipwa ni Tsh.'.$remain_loan.' Kwa malalamiko piga '.$comp_phone;
+          $today = date("Y-m-d");
+         $date = date('F,j,Y',strtotime($today));
+          $sms = 'Ndugu, '.$full_name. ' '. 'Umeingiza Tsh.' .number_format($new_balance). ' ' . $comp_name.' Mpokeaji '.$role . ' Kiasi kilicho baki Kulipwa ni Tsh.'.$remain_loan.' Kwa malalamiko piga '.$comp_phone .' '. $date;
+
           $massage = $sms;
           $phone = $phones;
 
@@ -2456,9 +2523,9 @@ $this->db->query("INSERT INTO tbl_outstand (`comp_id`,`loan_id`,`blanch_id`,`loa
           //insert depost balance
 
             if ($check_deposit == TRUE) {
-            $this->update_deposit_record($loan_id,$deposit_date,$again_deposit,$p_method);
+            $this->update_deposit_record($loan_id,$deposit_date,$again_deposit,$p_method,$day_id);
              }else{
-             $dep_id = $this->insert_loan_lecorDeposit($comp_id,$customer_id,$loan_id,$blanch_id,$new_depost,$p_method,$role,$day_int,$day_princ,$loan_status,$group_id,$deposit_date,$empl_id);
+             $dep_id = $this->insert_loan_lecorDeposit($comp_id,$customer_id,$loan_id,$blanch_id,$new_depost,$p_method,$role,$day_int,$day_princ,$loan_status,$group_id,$deposit_date,$empl_id,$day_id);
              }
           $this->insert_blanch_amount_deposit($blanch_id,$deposit_new,$trans_id);
           $this->update_loan_dep_status($loan_id);
@@ -2534,7 +2601,10 @@ $this->db->query("INSERT INTO tbl_outstand (`comp_id`,`loan_id`,`blanch_id`,`loa
          $loan_int = $loan_restoration->loan_int;
          $remain_loan = $loan_int - $total_depost->remain_balance_loan;
             //sms send
-          $sms = 'Umeingiza Tsh.' .$new_balance. ' kwenye Acc Yako ' . $loan_codeID . $comp_name.' Mpokeaji '.$role . ' Kiasi kilicho baki Kulipwa ni Tsh.'.$remain_loan.' Kwa malalamiko piga '.$comp_phone;
+         $today = date("Y-m-d");
+         $date = date('F,j,Y',strtotime($today));
+          $sms = 'Ndugu, '.$full_name. ' '. 'Umeingiza Tsh.' .number_format($new_balance). ' ' . $comp_name.' Mpokeaji '.$role . ' Kiasi kilicho baki Kulipwa ni Tsh.'.$remain_loan.' Kwa malalamiko piga '.$comp_phone .' '. $date;
+
           $massage = $sms;
           $phone = $phones;
 
@@ -2616,8 +2686,8 @@ $this->db->query("INSERT INTO tbl_outstand (`comp_id`,`loan_id`,`blanch_id`,`loa
     }
 
 
-  public function update_deposit_record($loan_id,$deposit_date,$again_deposit,$p_method){
-    $sqldata="UPDATE `tbl_depost` SET `depost`= '$again_deposit',`depost_method`='$p_method' WHERE `loan_id`= '$loan_id' AND `depost_day`='$deposit_date'";
+  public function update_deposit_record($loan_id,$deposit_date,$again_deposit,$p_method,$day_id){
+    $sqldata="UPDATE `tbl_depost` SET `depost`= '$again_deposit',`depost_method`='$p_method',`day_id`='$day_id' WHERE `loan_id`= '$loan_id' AND `depost_day`='$deposit_date'";
      $query = $this->db->query($sqldata);
      return true;   
   }
@@ -2751,9 +2821,9 @@ public function insert_blanch_principal($comp_id,$blanch_id,$trans_id,$princ_sta
     $this->db->query("INSERT INTO tbl_prepaid (`loan_id`,`comp_id`,`blanch_id`,`customer_id`,`prepaid_amount`,`prepaid_date`,`dep_id`) VALUES ('$loan_id','$comp_id','$blanch_id','$customer_id','$prepaid','$date','$dep_id')");
       }
 
-      public function insert_loan_lecorDeposit($comp_id,$customer_id,$loan_id,$blanch_id,$new_depost,$p_method,$role,$day_int,$day_princ,$loan_status,$group_id,$deposit_date,$empl_id){
+      public function insert_loan_lecorDeposit($comp_id,$customer_id,$loan_id,$blanch_id,$new_depost,$p_method,$role,$day_int,$day_princ,$loan_status,$group_id,$deposit_date,$empl_id,$day_id){
         $time = date("Y-m-d H:i:s");
-        $this->db->query("INSERT INTO  tbl_depost (`comp_id`,`customer_id`,`loan_id`,`blanch_id`,`depost`,`depost_day`,`depost_method`,`empl_username`,`sche_principal`,`sche_interest`,`dep_status`,`group_id`,`deposit_day`,`empl_id`) VALUES ('$comp_id','$customer_id','$loan_id','$blanch_id','$new_depost','$deposit_date','$p_method','$role','$day_princ','$day_int','$loan_status','$group_id','$time','$empl_id')");
+        $this->db->query("INSERT INTO  tbl_depost (`comp_id`,`customer_id`,`loan_id`,`blanch_id`,`depost`,`depost_day`,`depost_method`,`empl_username`,`sche_principal`,`sche_interest`,`dep_status`,`group_id`,`deposit_day`,`empl_id`,`day_id`) VALUES ('$comp_id','$customer_id','$loan_id','$blanch_id','$new_depost','$deposit_date','$p_method','$role','$day_princ','$day_int','$loan_status','$group_id','$time','$empl_id','$day_id')");
         return $this->db->insert_id();
     }
 
@@ -4211,6 +4281,15 @@ public function customer_account_statement(){
     $this->load->view('oficer/customer_account',['empl_data'=>$empl_data,'customer'=>$customer]);
 }
 
+    function fetch_data_loanActive()
+{
+$this->load->model('queries');
+if($this->input->post('customer_id'))
+{
+echo $this->queries->fetch_loan_list($this->input->post('customer_id'));
+}
+}
+
 public function customer_report(){
     $this->load->model('queries');
     $blanch_id = $this->session->userdata('blanch_id');
@@ -4221,13 +4300,35 @@ public function customer_report(){
     $blanch_data = $this->queries->get_blanchData($blanch_id);
     $empl_data = $this->queries->get_employee_data($empl_id);
     $customer_id = $this->input->post('customer_id');
+    $loan_id = $this->input->post('loan_id');
 
     $customer = $this->queries->search_CustomerLoan($customer_id);
-    // print_r($customer_id);
+    // print_r($loan_id);
     // exit();
     $customery = $this->queries->get_allcutomerblanchData($blanch_id);
-    $this->load->view('oficer/customer_account_report',['empl_data'=>$empl_data,'customery'=>$customery,'customer'=>$customer]);
+    $this->load->view('oficer/customer_account_report',['empl_data'=>$empl_data,'customery'=>$customery,'customer'=>$customer,'loan_id'=>$loan_id,'customer_id'=>$customer_id]);
 }
+
+
+public function print_account_statement($customer_id,$loan_id){
+     $this->load->model('queries');
+    $blanch_id = $this->session->userdata('blanch_id');
+    $empl_id = $this->session->userdata('empl_id');
+    $manager_data = $this->queries->get_manager_data($empl_id);
+    $comp_id = $manager_data->comp_id;
+    $company_data = $this->queries->get_companyData($comp_id);
+    $blanch_data = $this->queries->get_blanchData($blanch_id);
+    $empl_data = $this->queries->get_employee_data($empl_id);
+     $compdata = $this->queries->get_companyData($comp_id);
+     $customer_data = $this->queries->get_loan_schedule_customer($loan_id);
+     
+    $mpdf = new \Mpdf\Mpdf();
+     $html = $this->load->view('oficer/customer_account_statement',['compdata'=>$compdata,'customer_data'=>$customer_data,'loan_id'=>$loan_id,'customer_id'=>$customer_id],true);
+     $mpdf->SetFooter('Generated By Brainsoft');
+     $mpdf->WriteHTML($html);
+     $mpdf->Output(); 
+
+    }
 
 
 public function filter_customer_statement(){
@@ -4455,7 +4556,7 @@ public function deposit_loan_saving(){
           //insert depost balance
 
           if ($check_deposit == TRUE) {
-            $this->update_deposit_record($loan_id,$deposit_date,$again_deposit,$p_method);
+            $this->update_deposit_record($loan_id,$deposit_date,$again_deposit,$p_method,$day_id);
              }else{
              $dep_id = $this->insert_loan_lecorDeposit($comp_id,$customer_id,$loan_id,$blanch_id,$new_depost,$p_method,$role,$day_int,$day_princ,$loan_status,$group_id,$deposit_date,$empl_id);
              }
@@ -4540,7 +4641,7 @@ public function deposit_loan_saving(){
               
           //insert depost balance
           if ($check_deposit == TRUE) {
-            $this->update_deposit_record($loan_id,$deposit_date,$again_deposit,$p_method);
+            $this->update_deposit_record($loan_id,$deposit_date,$again_deposit,$p_method,$day_id);
              }else{
              $dep_id = $this->insert_loan_lecorDeposit($comp_id,$customer_id,$loan_id,$blanch_id,$new_depost,$p_method,$role,$day_int,$day_princ,$loan_status,$group_id,$deposit_date,$empl_id);
              }
@@ -4627,7 +4728,7 @@ public function deposit_loan_saving(){
           //insert depost balance
 
             if ($check_deposit == TRUE) {
-            $this->update_deposit_record($loan_id,$deposit_date,$again_deposit,$p_method);
+            $this->update_deposit_record($loan_id,$deposit_date,$again_deposit,$p_method,$day_id);
              }else{
              $dep_id = $this->insert_loan_lecorDeposit($comp_id,$customer_id,$loan_id,$blanch_id,$new_depost,$p_method,$role,$day_int,$day_princ,$loan_status,$group_id,$deposit_date,$empl_id);
              }
@@ -4877,11 +4978,11 @@ public function deposit_loan_saving(){
 public function sendsms($phone,$massage){
     //$phone = '0753871034';
     //$sms = 'mapenzi yanauwa';
-    $api_key = 'Ny.ieZRLozwocjNH3Du9x424Ec';
+    $api_key = 'UYgMu5H8.rT98BjHoCeZvL/VJv';
     //$api_key = 'qFzd89PXu1e/DuwbwxOE5uUBn6';
     //$curl = curl_init();
 $ch = curl_init();
-curl_setopt($ch, CURLOPT_URL,"https://dovesms.aifrruislabs.com/api/v1/receive/action/send/sms");
+curl_setopt($ch, CURLOPT_URL,"https://galadove.mikoposoft.com/api/v1/receive/action/send/sms");
 curl_setopt($ch, CURLOPT_POST, 1);
 curl_setopt($ch, CURLOPT_POSTFIELDS,
             'apiKey='.$api_key.'&phoneNumber='.$phone.'&messageContent='.$massage);

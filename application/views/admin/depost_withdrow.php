@@ -42,7 +42,7 @@
                         <div class="row profile_state">
                             <div class="col-lg-6 col-6">
                                 <div class="body">
-                                    <i class="fa fa-thumbs-up"></i>
+                                    <!-- <i class="fa fa-thumbs-up"></i> -->
                                      <div class="profile-image"> <img src="<?php echo base_url().'assets/img/male.jpeg'; ?>" class="rounded-circle" alt="customer image" style="width: 135px;height: 135px;">
                                       </div>
                                     <small><?php echo @$customer->f_name; ?> <?php echo @$customer->m_name; ?> <?php echo @$customer->l_name; ?></small>
@@ -50,7 +50,7 @@
                             </div>
                             <div class="col-lg-6 col-6">
                                 <div class="body">
-                                    <i class="fa fa-star"></i>
+                                   <!--  <i class="fa fa-star"></i> -->
                                    <div class="profile-image"> <img src="<?php echo base_url().'assets/img/sig.jpg'; ?>" class="rounded-circle" alt="Gualantors image" style="width: 130px;height: 135px;">
                                       </div>
                                     <small>Gualantors Picture</small>
@@ -70,11 +70,14 @@
                 <div class="col-lg-12">
                     <div class="card">
                           <div class="body">
+                     
+                            
                             <div class="table-responsive">
                                 <table class="table table-hover j-basic-example dataTable table-custom">
                                     <thead class="thead-primary">
                                         <tr>
                                         <th>Phone Number</th>
+                                        <th>Customer ID</th>
                                         <th>Withdrawal Date</th>
                                         <th>End Date</th>
                                         <th>Loan Amount</th>
@@ -97,6 +100,15 @@
                                    <?php //print_r($out_stand); ?>
                                         <tr>
                                             <td><?php echo @$customer->phone_no; ?></td>
+                                            <td>
+                                                <?php if ($customer_loan->loan_status == 'withdrawal' || $customer_loan->loan_status == 'done' || $customer_loan->loan_status == 'out') {
+                                                 ?>
+                                        <?php echo @$customer->customer_code; ?>
+                                             <?php }else{ ?>
+                                                  C-(XXXXXX)
+                                                <?php } ?>
+                                                    
+                                                </td>
                                             <td>
                                             <?php if (@$customer_loan->loan_stat_date == TRUE) {
                                                  ?>
@@ -181,7 +193,7 @@
 
                   <div class="col-lg-12">
                     <div class="card">
-                         <?php echo form_open("admin/search_customerData"); ?>
+                        <?php echo form_open("admin/search_customerData"); ?>
                             <div class="sam">
                                 
                                 <select type="number" class="form-control select2" name="customer_id" required>
@@ -203,9 +215,9 @@
                           ?>
                              <a href="" class="btn btn-success" data-toggle="modal" data-target="#addcontact2"><i class="icon-pencil">Withdrawal</i></a> 
                              <?php }elseif(@$customer_loan->loan_status == 'done'){ ?>
-                                <a href="" class="btn btn-info" data-toggle="modal" data-target="#addcontact3"><i class="icon-pencil">Faini</i></a>
+                                <a href="" class="btn btn-info" data-toggle="modal" data-target="#addcontact3"><i class="icon-pencil">Faini</i></a> 
                              <?php } ?>   
-                                 
+                                
                              </div>
                             <div class="table-responsive">
                                 <table class="table table-hover j-basic-example dataTable table-custom">
@@ -503,7 +515,6 @@
         </div>
     </div>
 </div>
-
 
 
 

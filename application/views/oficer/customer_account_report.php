@@ -8,10 +8,10 @@
                 <div class="row">
                     <div class="col-lg-6 col-md-8 col-sm-12">
                         <ul class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="<?php echo base_url("oficer/index"); ?>"><i class="icon-home"></i></a></li>
+                            <li class="breadcrumb-item"><a href="<?php echo base_url("admin/index"); ?>"><i class="icon-home"></i></a></li>
                             
-                            <li class="breadcrumb-item active"><?php echo $this->lang->line("report_menu"); ?></li>
-                            <li class="breadcrumb-item active"><?php echo $this->lang->line("customer_statement_menu"); ?></li>
+                            <li class="breadcrumb-item active">Report</li>
+                            <li class="breadcrumb-item active">Customer Account Statement</li>
                         </ul>
                     </div>            
                  
@@ -36,32 +36,7 @@
                     <?php endif; ?>
 
             <div class="row clearfix">
-                <div class="col-lg-12 col-md-12">
-
-                    <div class="card">
-                        <div class="row profile_state">
-                            <div class="col-lg-6 col-6">
-                                <div class="body">
-                                   <!--  <i class=""></i> -->
-                                     <div class="profile-image"> <img src="<?php echo base_url().'assets/img/male.jpeg'; ?>" class="rounded-circle" alt="customer image" style="width: 135px;height: 135px;">
-                                      </div>
-                                    <small><?php echo @$customer->f_name; ?> <?php echo @$customer->m_name; ?> <?php echo @$customer->l_name; ?></small>
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-6">
-                                <div class="body">
-                                    <!-- <i class=""></i> -->
-                                   <div class="profile-image"> <img src="<?php echo base_url().'assets/img/sig.jpg'; ?>" class="rounded-circle" alt="Gualantors image" style="width: 135px;height: 135px;">
-                                      </div>
-                                    <small><?php echo $this->lang->line("signature_menu"); ?></small>
-                                </div>
-                            </div>
-                           
-                            
-                        </div>
-                    </div>
-                </div>
-
+            
                 <style>
                     .sam{
                         display: flex;
@@ -70,26 +45,28 @@
                 <div class="col-lg-12">
                     <div class="card">
                           <div class="body">
-                    
+                     
                             
                             <div class="table-responsive">
                                 <table class="table table-hover j-basic-example dataTable table-custom">
                                     <thead class="thead-primary">
                                         <tr>
-                                        <th><?php echo $this->lang->line("customer_name_menu"); ?></th>
-                                        <th><?php echo $this->lang->line("phone_number_menu"); ?></th>
-                                        <th><?php echo $this->lang->line("district_menu"); ?></th>
-                                        <th><?php echo $this->lang->line("ward_menu"); ?></th>
-                                        <th><?php echo $this->lang->line("street_menu"); ?></th>
+                                        <th>Customer Name</th>
+                                        <th>Phone Number</th>
+                                        <th>Loan Amount</th>
+                                        <th>Paid Amount</th>
+                                        <th>Remain Amount</th>
                                         </tr>
                                     </thead>
                                    
                                     <tbody>
                                 
-                                      <?php //@$customer_loan = $this->queries->get_loan_active_customer($customer->customer_id);
-                                         //@$total_deposit = $this->queries->get_total_amount_paid_loan($customer_loan->loan_id);
+                                      <?php $customer_loan = $this->queries->get_loan_account_statement($loan_id);
+                                         @$total_deposit = $this->queries->get_total_amount_paid_loan($loan_id);
 
                                         // @$out_stand = $this->queries->get_outstand_loan_customer($customer_loan->loan_id);
+                                         // print_r($total_deposit);
+                                         //           exit();
                                        ?>
 
 
@@ -99,9 +76,9 @@
                                             <td><?php echo @$customer->f_name; ?> <?php echo @$customer->m_name; ?> <?php echo @$customer->l_name; ?></td>
                                             <td><?php echo @$customer->phone_no; ?></td> 
                                                 
-                                            <td><?php echo @$customer->district; ?></td>
-                                            <td><?php echo @$customer->ward; ?></td>
-                                            <td><?php echo @$customer->street; ?></td>
+                                            <td><?php echo number_format($customer_loan->loan_int); ?></td>
+                                            <td><?php echo number_format($total_deposit->total_Deposit) ?></td>
+                                            <td><?php echo number_format(($customer_loan->loan_int) - ($total_deposit->total_Deposit) ) ?></td>
                                         
                                         </tr>
                                     </tbody>
@@ -117,39 +94,41 @@
 
 
                   <div class="col-lg-12">
-                    <div class="card">
-                         <?php echo form_open("oficer/customer_report"); ?>
-                            <div class="sam">
-                                
-                                <select type="number" class="form-control select2" name="customer_id" required>
-                                    <option><?php echo $this->lang->line("search_customer_menu"); ?></option>
+                    <?php echo form_open("oficer/customer_report"); ?>
+                     <div class="sam">
+                            <select type="number" class="form-control select2" required name="customer_id" id="customer" >
+                                    <option>Search Customer</option>
                                     <?php foreach ($customery as $customer_datas): ?>
                                     <option value="<?php echo $customer_datas->customer_id; ?>"><?php echo $customer_datas->f_name; ?> <?php echo $customer_datas->m_name; ?> <?php echo $customer_datas->l_name; ?> / <?php echo $customer_datas->customer_code; ?> </option>
                                     <?php endforeach; ?>
                                 </select>
-                                <button type="submit" class="btn btn-primary"><i class="icon-magnifier-add"><?php echo $this->lang->line("search_menu"); ?></i></button>
-                                
-                            </div>
+                                <select type="number" class="form-control select2" required name="loan_id" id="loan">
+                                    <option>Select Loan</option>
+                                </select>
+                                <button type="submit" class="btn btn-primary"><i class="icon-magnifier-add">Search</i></button>
+                                </div>
                             <?php echo form_close(); ?>
+                            
+                    <div class="card">
                           <div class="body">
                              <div class="pull-right">
-                             <a href="" class="btn btn-success" data-toggle="modal" data-target="#addcontact1"><i class="icon-pencil"><?php echo $this->lang->line("search_menu"); ?></i></a> 
+                             <a href="<?php echo base_url("oficer/print_account_statement/{$customer_id}/{$loan_id}"); ?>" target="_blank" class="btn btn-primary" target="_blank"><i class="icon-printer"></i></a> 
                              </div>
                             <div class="table-responsive">
                                 <table class="table table-hover j-basic-example dataTable table-custom">
                                     <thead class="thead-primary">
                                         <tr>
-                                        <th><?php echo $this->lang->line("date_menu"); ?></th>
-                                        <th><?php echo $this->lang->line("description_menu"); ?></th>
-                                        <th><?php echo $this->lang->line("deposit_menu"); ?></th>
-                                        <th><?php echo $this->lang->line("withdrawal_menu"); ?></th>
-                                        <th><?php echo $this->lang->line("balance_menu"); ?></th> 
+                                        <th>Date</th>
+                                        <th>Description</th>
+                                        <th>Deposit</th>
+                                        <th>Withdrawal</th>
+                                        <th>Balance</th> 
                                         </tr>
                                     </thead>
                                    
                                     <tbody>
                                 
-                                      <?php @$loan_desc = $this->queries->get_total_pay_description_customer($customer->customer_id);
+                                      <?php @$loan_desc = $this->queries->get_total_pay_description_acount_statement($loan_id);
                                       //@$remain_balance = $this->queries->get_total_remain_with($customer_loan->loan_id);
                                       //@$total_recovery = $this->queries->get_total_loan_pend($customer_loan->loan_id);
                                       //@$total_penart =   $this->queries->get_total_penart_loan($customer_loan->loan_id);
@@ -183,7 +162,7 @@
                                             <?php }else{ ?>
                                                / 
                                                <?php } ?>
-                                               <?php echo @$payisnulls->description; ?>  <?php echo @$payisnulls->loan_name ; ?>
+                                               <?php //echo @$payisnulls->description; ?>  <?php echo @$payisnulls->loan_name ; ?>
                                          <?php if(@$payisnulls->day == 1){
                                            echo "Daily";
                                     }elseif(@$payisnulls->day == 7){
@@ -191,7 +170,10 @@
                                     }elseif (@$payisnulls->day == 30 || @$payisnulls->day == 31 || @$payisnulls->day == 28 || @$payisnulls->day == 29) {
                                         echo "Monthly";
                                      ?> 
-                                    <?php } ?><?php //echo $payisnulls->session; ?>  / AC/No. <?php echo @$payisnulls->loan_code; ?></td>
+                                    <?php } ?><?php //echo $payisnulls->session; ?>  / AC/No. <?php echo @$payisnulls->loan_code; ?>
+                                        
+                                    </td>
+
                                               <td>
                                                 <?php if($payisnulls->depost == TRUE){ ?>
                                                 <?php echo round(@$payisnulls->depost,2); ?>
@@ -239,36 +221,60 @@
 
 <?php include('incs/footer.php'); ?>
 
- <div class="modal fade" id="addcontact1" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h7 class="title" id="defaultModalLabel"><?php echo $this->lang->line("search_menu") ?> <?php echo $this->lang->line("customer_statement_menu"); ?></h7>
-            </div>
-            <?php echo form_open("oficer/filter_customer_statement"); ?>
-            <div class="modal-body">
-                <div class="row clearfix">
-                    <?php $date = date("Y-m-d"); ?>
-                    <div class="col-md-6 col-6">
-                    <span><?php echo $this->lang->line("from_menu"); ?>:</span>
-                    <input type="date" class="form-control" value="<?php echo $date; ?>" name="from" required>       
-                    </div>
-                      <div class="col-md-6 col-6">
-                    <span><?php echo $this->lang->line("total_menu"); ?>:</span>
-                    <input type="date" class="form-control" value="<?php echo $date; ?>" name="to" required> 
-                    <input type="hidden" name="customer_id" value="<?php echo $customer->customer_id; ?>">      
-                    </div>
-                   
-            </div>
-            </div>
-            <div class="modal-footer">
-                <button type="submit" class="btn btn-primary"><?php echo $this->lang->line("search_menu"); ?></button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal"><?php echo $this->lang->line("close_menu"); ?></button>
-            </div>
-            <?php echo form_close(); ?>
-        </div>
-    </div>
-</div>
+ <script>
+$(document).ready(function(){
+
+$('#customer').change(function(){
+var customer_id = $('#customer').val();
+ //alert(customer_id)
+if(customer_id != '')
+{
+$.ajax({
+url:"<?php echo base_url(); ?>oficer/fetch_data_loanActive",
+method:"POST",
+data:{customer_id:customer_id},
+success:function(data)
+{
+$('#loan').html(data);
+//$('#malipo_name').html('<option value="">select center</option>');
+}
+});
+}
+else
+{
+$('#loan').html('<option value="">Select Active loan</option>');
+//$('#malipo_name').html('<option value="">chagua vipimio</option>');
+}
+});
+
+
+
+$('#blanch').change(function(){
+ var blanch_id = $('#blanch').val();
+ //alert (blanch_id)
+ if(blanch_id != '')
+ {
+  $.ajax({
+   url:"<?php echo base_url(); ?>admin/fetch_blanch_account",
+   method:"POST",
+   data:{blanch_id:blanch_id},
+   success:function(data)
+   {
+    $('#account').html(data);
+    //$('#malipo').html('<option value="">chagua malipo</option>');
+   }
+  });
+ }
+ else
+ {
+  //$('#vipimio').html('<option value="">chagua vipimio</option>');
+  $('#account').html('<option value="">Select Account</option>');
+ }
+});
+
+
+});
+</script>
 
 
 

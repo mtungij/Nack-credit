@@ -78,6 +78,7 @@
                                     <thead class="thead-primary">
                                         <tr>
                                         <th><?php echo $this->lang->line("phone_number_menu"); ?></th>
+                                        <th><?php echo $this->lang->line("customerId_menu"); ?></th>
                                         <th><?php echo $this->lang->line("with_date_menu"); ?></th>
                                         <th><?php echo $this->lang->line("end_date_menu"); ?></th>
                                         <th><?php echo $this->lang->line("loan_amount_appy_menu"); ?></th>
@@ -100,6 +101,15 @@
                                    <?php //print_r($out_stand); ?>
                                         <tr>
                                             <td><?php echo @$customer->phone_no; ?></td>
+
+                                            <td>
+                                                <?php if ($customer_loan->loan_status == 'withdrawal' || $customer_loan->loan_status == 'done' || $customer_loan->loan_status == 'out') {
+                                                 ?>
+                                            <?php echo @$customer->customer_code; ?>
+                                             <?php }else{ ?>
+                                                 C-(XXXXXXX)
+                                                <?php } ?>   
+                                             </td>
                                             <td>
                                             <?php if (@$customer_loan->loan_stat_date == TRUE) {
                                                  ?>
