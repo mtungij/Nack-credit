@@ -1476,8 +1476,8 @@ $this->load->view('admin/search_customer',['customer'=>$customer,'sponser'=>$spo
      //$full_name = $custm_data->f_name . ' ' . $custm_data->m_name . ' ' . $custm_data->l_name ;
      $phone = $custm_data->phone_no; 
      $massage = $loan_verfication .' ' .'Msimbo wa Uthibitisho' .' '. $company_name;
-     print_r($massage);
-             exit(); 
+    //  print_r($massage);
+    //          exit(); 
      $this->sendsms($phone,$massage);
      
       
