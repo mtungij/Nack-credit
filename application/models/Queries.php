@@ -6563,6 +6563,11 @@ public function fetch_today_deposit_monthly_comp($comp_id){
     	 return $data->row();
     }
 
+    public function get_otp_done($customer_id){
+    	$data = $this->db->query("SELECT otp FROM tbl_customer WHERE customer_id = '$customer_id'");
+    	return $data->row();
+    }
+
 
 
 

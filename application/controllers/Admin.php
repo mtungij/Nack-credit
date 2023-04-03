@@ -1460,13 +1460,24 @@ $this->load->view('admin/search_customer',['customer'=>$customer,'sponser'=>$spo
      $comp_id = $this->session->userdata('comp_id');
      $compdata = $this->queries->get_companyData($comp_id);
      $custm_data = $this->queries->get_customer_data($customer_id);
-     $loan_verfication = 'N-'. random_string('numeric',4);
+     $data_vefication = $this->queries->get_otp_done($customer_id);
+       if ($data_vefication->otp == FALSE) {
+       $loan_verfication = 'N-'. random_string('numeric',4);	
+       }else{
+       $loan_verfication = $data_vefication->otp;	
+
+       }
+     
+     //$loan_verfication = 'N-'. random_string('numeric',4);
      $this->update_customer_verfication_code($customer_id,$loan_verfication);
+     
 
      $company_name = $compdata->comp_name;
      //$full_name = $custm_data->f_name . ' ' . $custm_data->m_name . ' ' . $custm_data->l_name ;
      $phone = $custm_data->phone_no; 
-     $massage = $loan_verfication .' ' .'Msimbo wa Uthibitisho' .' '. $company_name; 
+     $massage = $loan_verfication .' ' .'Msimbo wa Uthibitisho' .' '. $company_name;
+     print_r($massage);
+             exit(); 
      $this->sendsms($phone,$massage);
      
       

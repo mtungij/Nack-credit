@@ -906,7 +906,13 @@ public function modify_sponser($sp_id,$customer_id){
      $empl_data = $this->queries->get_employee_data($empl_id);
      $compdata = $this->queries->get_companyData($comp_id);
      $custm_data = $this->queries->get_customer_data($customer_id);
-     $loan_verfication = 'N-'. random_string('numeric',4);
+
+     $data_vefication = $this->queries->get_otp_done($customer_id);
+       if ($data_vefication->otp == FALSE) {
+       $loan_verfication = 'N-'. random_string('numeric',4);    
+       }else{
+       $loan_verfication = $data_vefication->otp;   
+       }
      $this->update_customer_verfication_code($customer_id,$loan_verfication);
        
        // print_r($loan_verfication);
@@ -916,8 +922,6 @@ public function modify_sponser($sp_id,$customer_id){
      $phone = $custm_data->phone_no; 
      $massage = $loan_verfication .' ' .'Msimbo wa Uthibitisho' .' '. $company_name; 
      $this->sendsms($phone,$massage);
-     
-      
       $this->load->view('oficer/loan_verfication',['customer_id'=>$customer_id]);
     }
 
