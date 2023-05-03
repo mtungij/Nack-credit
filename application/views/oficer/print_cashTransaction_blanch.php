@@ -62,9 +62,9 @@ display: flex;
 </p>
 <?php if ($blanch_data == FALSE) {
  ?>
- <p style="font-size:12px;text-align:center;" class="c">ALL BRANCH -EXPENSES REPORT From: <?php echo $from; ?> To: <?php echo $to; ?></p>
+ <p style="font-size:12px;text-align:center;" class="c">ALL BRANCH - MAUZO From: <?php echo $from; ?> To: <?php echo $to; ?></p>
 <?php }else{ ?>
-<p style="font-size:12px;text-align:center;" class="c"><?php echo $blanch_data->blanch_name ?> -CASH TRANSACTION REPORT From: <?php echo $from; ?> To: <?php echo $to; ?></p>
+<p style="font-size:12px;text-align:center;" class="c"><?php echo $blanch_data->blanch_name ?> -MAUZO From: <?php echo $from; ?> To: <?php echo $to; ?></p>
 <?php } ?>
 </div>
 </td>
@@ -101,7 +101,7 @@ background-color: ;
                                          <thead>
                                               <tr>
                                         <th style="border: none; font-size: 12px;" class="c">S/No.</th>
-                                        <th style="border: none; font-size: 12px;" class="c">Tawi</th>
+                                       <!--  <th style="border: none; font-size: 12px;" class="c">Tawi</th> -->
                                         <th style="border: none; font-size: 12px;" class="c">Afisa</th>
                                         <th style="border: none; font-size: 12px;" class="c">Jina la Mteja</th>
                                         <th style="border: none; font-size: 12px;" class="c">Nambari Ya Simu</th>
@@ -121,7 +121,7 @@ background-color: ;
                                               <tr>
 
                                     <td style="border:none; font-size: 12px;"><?php echo $no++; ?>.</td>
-                                    <td style="border:none; font-size: 12px;" class="c"><?php echo $cashs->blanch_name; ?></td>
+                                    <!-- <td style="border:none; font-size: 12px;" class="c"><?php echo $cashs->blanch_name; ?></td> -->
                                     <td style="border:none; font-size: 12px;"><?php echo $cashs->empl_name; ?></td>
                                     <td style="border: none; font-size: 12px;"><?php echo $cashs->f_name; ?> <?php echo $cashs->m_name; ?> <?php echo $cashs->l_name; ?></td> style="border:none; font-size: 12px;"
                                     <td style="border:none; font-size: 12px;"><?php echo $cashs->phone_no; ?></td>
@@ -166,7 +166,7 @@ background-color: ;
                                      <?php endforeach; ?>
                                    <tr>
                                        <td style="border:none; font-size:12px;"></td>
-                                       <td style="border:none; font-size:12px;"></td>
+                                       <!-- <td style="border:none; font-size:12px;"></td> -->
                                        <td style="border:none; font-size:12px;"></td>
                                        <td style="border:none; font-size:12px;"></td>
                                        <td style="border:none; font-size:12px;"></td>
@@ -182,7 +182,7 @@ background-color: ;
 
                                    <tr>
                                        <td style="border:none; font-size: 12px;"></td> 
-                                       <td style="border:none; font-size: 12px;"></td> 
+                                       <!-- <td style="border:none; font-size: 12px;"></td>  -->
                                        <td style="border:none; font-size: 12px;"></td> 
                                        <td style="border:none; font-size: 12px;"></td> 
                                        <td style="border:none; font-size: 12px;">MUHTASALI WA KULIPISHA</td> 
@@ -197,7 +197,7 @@ background-color: ;
                                    <?php foreach ($account_deposit as $account_deposits): ?>
                                     <tr>
                                        <td style="border:none; font-size:12px;"></td> 
-                                       <td style="border:none; font-size:12px;"></td> 
+                                       <!-- <td style="border:none; font-size:12px;"></td>  -->
                                        <td style="border:none; font-size:12px;"></td> 
                                        <td style="border:none; font-size:12px;"></td> 
                                        <td style="border:none; font-size:12px;"><b><?php echo $account_deposits->account_name; ?></b></td> 
@@ -212,7 +212,7 @@ background-color: ;
                                      <?php endforeach; ?>
                                      <tr>
                                          <td style="border:none;font-size: 12px;"></td>
-                                         <td style="border:none;font-size: 12px;"></td>
+                                         <!-- <td style="border:none;font-size: 12px;"></td> -->
                                          <td style="border:none;font-size: 12px;"></td>
                                          <td style="border:none;font-size: 12px;"></td>
                                          <td style="border:none;font-size: 12px;"><b>MADENI SUGU</b></td>
@@ -228,7 +228,7 @@ background-color: ;
                                      <?php foreach ($default_list as $default_lists): ?>
                                        <tr>
                                          <td style="border:none; font-size:12px;"></td>
-                                         <td style="border:none; font-size:12px;"> </td>
+                                         <!-- <td style="border:none; font-size:12px;"> </td> -->
                                          <td style="border:none; font-size:12px;"></td>
                                          <td style="border:none; font-size:12px;"></td>
                                          <td style="border:none; font-size:12px;"><?php echo $default_lists->f_name; ?> <?php echo $default_lists->m_name; ?> <?php echo $default_lists->l_name; ?></td>
@@ -243,7 +243,7 @@ background-color: ;
                                       <?php endforeach ?>
                                       <tr>
                                          <td style="border:none;font-size: 12px;"></td>
-                                         <td style="border:none;font-size: 12px;"> </td>
+                                         <!-- <td style="border:none;font-size: 12px;"> </td> -->
                                          <td style="border:none;font-size: 12px;"></td>
                                          <td style="border:none;font-size: 12px;"></td>
                                          <td style="border:none;font-size: 12px;">JUMLA MADENI SUGU</td>
@@ -258,7 +258,7 @@ background-color: ;
 
                                      <tr>
                                          <td style="border:none;font-size: 12px;"></td>
-                                         <td style="border:none;font-size: 12px;"> </td>
+                                         <!-- <td style="border:none;font-size: 12px;"> </td> -->
                                          <td style="border:none;font-size: 12px;"></td>
                                          <td style="border:none;font-size: 12px;"></td>
                                          <td style="border:none;font-size: 12px;"><b>MIAMALA HEWA</b></td>
@@ -273,7 +273,7 @@ background-color: ;
                                     <?php foreach ($miamala as $miamalas): ?>
                                          <tr>
                                          <td style="border:none;font-size: 12px;"></td>
-                                         <td style="border:none;font-size: 12px;"></td>
+                                         <!-- <td style="border:none;font-size: 12px;"></td> -->
                                          <td style="border:none;font-size: 12px;"></td>
                                          <td style="border:none;font-size: 12px;"></td>
                                          <td style="border:none;font-size: 12px;"><?php echo $miamalas->agent; ?></td>
@@ -289,7 +289,7 @@ background-color: ;
 
                                         <tr>
                                          <td style="border:none;font-size: 12px;"></td>
-                                         <td style="border:none;font-size: 12px;"></td>
+                                         <!-- <td style="border:none;font-size: 12px;"></td> -->
                                          <td style="border:none;font-size: 12px;"></td>
                                          <td style="border:none;font-size: 12px;"></td>
                                          <td style="border:none;font-size: 12px;"><b>JUMLA YA MIAMALA HEWA</b><?php //echo $miamalas->agent; ?></td>
@@ -303,7 +303,7 @@ background-color: ;
                                      </tr>
                                      <tr>
                                          <td style="border:none;font-size: 12px;"></td>
-                                         <td style="border:none;font-size: 12px;"></td>
+                                         <!-- <td style="border:none;font-size: 12px;"></td> -->
                                          <td style="border:none;font-size: 12px;"></td>
                                          <td style="border:none;font-size: 12px;"></td>
                                          <td style="border:none;font-size: 12px;">MUHTASALI WA GAWA</td>
@@ -318,7 +318,7 @@ background-color: ;
                                     <?php foreach ($withdrawal_account as $withdrawal_accounts): ?>
                                      <tr>
                                          <td style="border:none;font-size: 12px;"></td>
-                                         <td style="border:none;font-size: 12px;"></td>
+                                         <!-- <td style="border:none;font-size: 12px;"></td> -->
                                          <td style="border:none;font-size: 12px;"></td>
                                          <td style="border:none;font-size: 12px;"></td>
                                          <td style="border:none;font-size: 12px;"><b><?php echo $withdrawal_accounts->account_name; ?></b></td>
@@ -334,7 +334,7 @@ background-color: ;
 
                                       <tr>
                                          <td style="border:none;font-size: 12px;"></td>
-                                         <td style="border:none;font-size: 12px;"></td>
+                                         <!-- <td style="border:none;font-size: 12px;"></td> -->
                                          <td style="border:none;font-size: 12px;"></td>
                                          <td style="border:none;font-size: 12px;"></td>
                                          <td style="border:none;font-size: 12px;"><b>JUMLA YA CODE NO</b></td>
@@ -348,7 +348,7 @@ background-color: ;
                                      </tr>
                                      <tr>
                                          <td style="border:none;font-size: 12px;"></td>
-                                         <td style="border:none;font-size: 12px;"></td>
+                                         <!-- <td style="border:none;font-size: 12px;"></td> -->
                                          <td style="border:none;font-size: 12px;"></td>
                                          <td style="border:none;font-size: 12px;"></td>
                                          <td style="border:none;font-size: 12px;"><b>JUMLA YA FOMU</b></td>
@@ -363,7 +363,7 @@ background-color: ;
 
                                      <tr>
                                          <td style="border:none;font-size: 12px;"></td>
-                                         <td style="border:none;font-size: 12px;"></td>
+                                         <!-- <td style="border:none;font-size: 12px;"></td> -->
                                          <td style="border:none;font-size: 12px;"></td>
                                          <td style="border:none;font-size: 12px;"></td>
                                          <td style="border:none;font-size: 12px;"><b>JUMLA YA FAINI</b></td>

@@ -974,8 +974,32 @@ public function get_totalLoanout($customer_id){
 
 	public function get_cash_transaction($comp_id){
 		$date = date("Y-m-d");
-		$data = $this->db->query("SELECT * FROM tbl_prev_lecod pr LEFT JOIN tbl_customer c ON c.customer_id = pr.customer_id LEFT JOIN tbl_blanch b ON b.blanch_id = pr.blanch_id LEFT JOIN tbl_employee e ON e.empl_id = pr.empl_id WHERE pr.comp_id = '$comp_id' AND date(pr.time_rec) = '$date' ORDER BY prev_id DESC");
+		$data = $this->db->query("SELECT pr.prev_id,pr.pay_id,pr.empl_id,pr.customer_id,pr.loan_id,pr.depost,pr.withdraw,pr.with_trans,pr.lecod_day,pr.day_id,e.empl_name,c.f_name,c.m_name,c.l_name,c.phone_no,b.blanch_name,pr.time_rec,pr.loan_aprov,dat.account_name AS deposit_account,wat.account_name AS withdrawal_account FROM tbl_prev_lecod pr LEFT JOIN tbl_customer c ON c.customer_id = pr.customer_id LEFT JOIN tbl_blanch b ON b.blanch_id = pr.blanch_id LEFT JOIN tbl_employee e ON e.empl_id = pr.empl_id LEFT JOIN tbl_account_transaction dat ON dat.trans_id = pr.trans_id  LEFT JOIN tbl_account_transaction wat ON wat.trans_id = pr.with_trans WHERE pr.comp_id = '$comp_id' AND date(pr.time_rec) = '$date' ORDER BY prev_id DESC");
+
+		foreach ($data->result() as $r) {
+			$r->total_deducted = $this->get_total_witloan_deducted($r->loan_id);
+			$r->total_penartPaid = $this->get_paid_penart_data($r->loan_id);
+		}
 		 return $data->result();
+	}
+
+	public function get_paid_penart_data($loan_id){
+	$date = date("Y-m-d");
+	$penart = $this->db->query("SELECT SUM(pp.penart_paid) AS total_penartPaid FROM tbl_pay_penart pp WHERE pp.loan_id = '$loan_id' AND pp.penart_date = '$date' GROUP BY pp.loan_id");
+		if ($penart->row()) {
+			return $penart->row()->total_penartPaid; 
+		}
+		return 0; 
+	}
+
+
+	public function get_total_witloan_deducted($loan_id){
+		$date = date("Y-m-d");
+	$deducted = $this->db->query("SELECT SUM(df.deducted_balance) AS total_deducted FROM tbl_deducted_fee df WHERE df.loan_id = '$loan_id' AND df.deducted_date = '$date' GROUP BY df.loan_id");
+		if ($deducted->row()) {
+			return $deducted->row()->total_deducted; 
+		}
+		return 0; 	
 	}
 
 	public function get_cash_transaction_sum($comp_id){
@@ -985,15 +1009,13 @@ public function get_totalLoanout($customer_id){
 	}
 
 	public function get_blanchTransaction($from,$to,$blanch_id){
-		$date = date("Y-m-d");
-		$data = $this->db->query("SELECT * FROM tbl_prev_lecod p JOIN tbl_customer c ON c.customer_id = p.customer_id JOIN tbl_blanch b ON b.blanch_id = p.blanch_id LEFT JOIN tbl_employee e ON e.empl_id = p.empl_id WHERE date(p.time_rec) between '$from' and '$to' AND p.blanch_id = '$blanch_id' GROUP BY p.blanch_id");
-		return $data->result();
+		$data = $this->db->query("SELECT pr.prev_id,pr.pay_id,pr.empl_id,pr.customer_id,pr.loan_id,pr.depost,pr.withdraw,pr.with_trans,pr.lecod_day,pr.day_id,e.empl_name,c.f_name,c.m_name,c.l_name,c.phone_no,b.blanch_name,pr.time_rec,pr.loan_aprov,dat.account_name AS deposit_account,wat.account_name AS withdrawal_account FROM tbl_prev_lecod pr LEFT JOIN tbl_customer c ON c.customer_id = pr.customer_id LEFT JOIN tbl_blanch b ON b.blanch_id = pr.blanch_id LEFT JOIN tbl_employee e ON e.empl_id = pr.empl_id LEFT JOIN tbl_account_transaction dat ON dat.trans_id = pr.trans_id  LEFT JOIN tbl_account_transaction wat ON wat.trans_id = pr.with_trans WHERE  pr.lecod_day between '$from' and '$to' AND  pr.blanch_id = '$blanch_id' ORDER BY prev_id DESC ");
+		 return $data->result();
 	}
 
 	public function get_blanchTransaction_comp($from,$to,$comp_id){
-		$date = date("Y-m-d");
-		$data = $this->db->query("SELECT * FROM tbl_prev_lecod p JOIN tbl_customer c ON c.customer_id = p.customer_id JOIN tbl_blanch b ON b.blanch_id = p.blanch_id LEFT JOIN tbl_employee e ON e.empl_id = p.empl_id WHERE date(p.time_rec) between '$from' and '$to' AND p.comp_id = '$comp_id' GROUP BY p.blanch_id");
-		return $data->result();
+		$data = $this->db->query("SELECT pr.prev_id,pr.pay_id,pr.empl_id,pr.customer_id,pr.loan_id,pr.depost,pr.withdraw,pr.with_trans,pr.lecod_day,pr.day_id,e.empl_name,c.f_name,c.m_name,c.l_name,c.phone_no,b.blanch_name,pr.time_rec,pr.loan_aprov,dat.account_name AS deposit_account,wat.account_name AS withdrawal_account FROM tbl_prev_lecod pr LEFT JOIN tbl_customer c ON c.customer_id = pr.customer_id LEFT JOIN tbl_blanch b ON b.blanch_id = pr.blanch_id LEFT JOIN tbl_employee e ON e.empl_id = pr.empl_id LEFT JOIN tbl_account_transaction dat ON dat.trans_id = pr.trans_id  LEFT JOIN tbl_account_transaction wat ON wat.trans_id = pr.with_trans WHERE  pr.lecod_day between '$from' and '$to' AND  pr.comp_id = '$comp_id' ORDER BY prev_id DESC ");
+		 return $data->result();
 	}
 
 	public function get_blanchTransaction_comp_data($from,$to,$comp_id){
@@ -1045,7 +1067,7 @@ public function get_totalLoanout($customer_id){
 
 	public function get_sumCashtransDepost($comp_id){
 		$date = date("Y-m-d");
-		$cash = $this->db->query("SELECT SUM(depost) AS cash_depost FROM tbl_prev_lecod WHERE comp_id = '$comp_id' AND lecod_day >= '$date'");
+		$cash = $this->db->query("SELECT SUM(depost) AS cash_depost FROM tbl_prev_lecod WHERE comp_id = '$comp_id' AND lecod_day = '$date'");
 		 return $cash->row();
 	}
 
@@ -3694,6 +3716,24 @@ public function get_deducted_blanch($blanch_id){
  	return $data->row();
  }
 
+  public function get_total_deducted_income_blanch_data($blanch_id){
+ 	$today = date("Y-m-d");
+ 	$data = $this->db->query("SELECT SUM(deducted_balance) AS total_deducted FROM tbl_deducted_fee WHERE blanch_id = '$blanch_id' AND deducted_date = '$today'");
+ 	return $data->row();
+ }
+
+ public function get_total_deducted_income_company($comp_id,$from,$to){
+ 	$today = date("Y-m-d");
+ 	$data = $this->db->query("SELECT SUM(deducted_balance) AS total_deducted FROM tbl_deducted_fee WHERE deducted_date between '$from' and '$to' AND comp_id = '$comp_id'");
+ 	return $data->row();
+ }
+
+  public function get_total_deducted_income_blanch($blanch_id,$from,$to){
+ 	$today = date("Y-m-d");
+ 	$data = $this->db->query("SELECT SUM(deducted_balance) AS total_deducted FROM tbl_deducted_fee WHERE deducted_date between '$from' and '$to' AND blanch_id = '$blanch_id'");
+ 	return $data->row();
+ }
+
 
  public function get_deducted_account_balance($comp_id){
  	$data = $this->db->query("SELECT * FROM tbl_receive_deducted rd JOIN tbl_blanch b ON b.blanch_id = rd.blanch_id WHERE rd.comp_id = '$comp_id'");
@@ -5708,8 +5748,8 @@ public function get_loan_withdrawal_today_blanch_general($blanch_id){
  }
 
  	public function get_cash_transaction_blanch($blanch_id){
-		$date = date("Y-m-d");
-		$data = $this->db->query("SELECT * FROM tbl_prev_lecod pr LEFT JOIN tbl_customer c ON c.customer_id = pr.customer_id LEFT JOIN tbl_blanch b ON b.blanch_id = pr.blanch_id LEFT JOIN tbl_employee e ON e.empl_id = pr.empl_id WHERE pr.blanch_id = '$blanch_id' AND date(pr.time_rec) = '$date' ORDER BY prev_id DESC");
+		 $date = date("Y-m-d");
+		 $data = $this->db->query("SELECT pr.prev_id,pr.pay_id,pr.empl_id,pr.customer_id,pr.loan_id,pr.depost,pr.withdraw,pr.with_trans,pr.lecod_day,pr.day_id,e.empl_name,c.f_name,c.m_name,c.l_name,c.phone_no,b.blanch_name,pr.time_rec,pr.loan_aprov,dat.account_name AS deposit_account,wat.account_name AS withdrawal_account FROM tbl_prev_lecod pr LEFT JOIN tbl_customer c ON c.customer_id = pr.customer_id LEFT JOIN tbl_blanch b ON b.blanch_id = pr.blanch_id LEFT JOIN tbl_employee e ON e.empl_id = pr.empl_id LEFT JOIN tbl_account_transaction dat ON dat.trans_id = pr.trans_id  LEFT JOIN tbl_account_transaction wat ON wat.trans_id = pr.with_trans WHERE pr.blanch_id = '$blanch_id' AND date(pr.time_rec) = '$date' ORDER BY prev_id DESC");
 		 return $data->result();
 	}
 
@@ -6567,6 +6607,357 @@ public function fetch_today_deposit_monthly_comp($comp_id){
     	$data = $this->db->query("SELECT otp FROM tbl_customer WHERE customer_id = '$customer_id'");
     	return $data->row();
     }
+
+
+    public function get_total_deducted_income_today($comp_id){
+    	$date = date("Y-m-d");
+    	$data = $this->db->query("SELECT SUM(deducted_balance) AS total_deducted FROM tbl_deducted_fee WHERE comp_id = '$comp_id' AND deducted_date = '$date'");
+    	return $data->row();
+    }
+
+    public function get_paid_paenart_today($comp_id){
+    	$date = date("Y-m-d");
+    	$data = $this->db->query("SELECT SUM(penart_paid) AS total_penart FROM tbl_pay_penart WHERE comp_id = '$comp_id' AND penart_date = '$date'");
+    	return $data->row();
+    }
+
+
+  public function get_total_withloan_deducted_prev($loan_id,$from,$to){	
+	$deducted = $this->db->query("SELECT SUM(df.deducted_balance) AS total_deducted FROM tbl_deducted_fee df WHERE deducted_date between '$from' and '$to' AND df.loan_id = '$loan_id'  GROUP BY df.loan_id");
+		if ($deducted->row()) {
+			return $deducted->row()->total_deducted; 
+		}
+		return 0; 	
+	}
+
+
+	public function get_paid_penart_data_prev($loan_id,$from,$to){
+	   // print_r($loan_id);
+	        //exit();
+	$penart = $this->db->query("SELECT SUM(pp.penart_paid) AS total_penartPaid FROM tbl_pay_penart pp WHERE pp.penart_date between '$from' and '$to' AND pp.loan_id = '$loan_id' GROUP BY pp.loan_id");
+		if ($penart->row()) {
+			return $penart->row()->total_penartPaid; 
+		}
+		return 0; 
+	}
+
+
+	public function get_deposit_sunnary_account($comp_id){
+		$date = date("Y-m-d");
+		$data = $this->db->query("SELECT at.account_name,SUM(pr.depost) AS total_deposit_acc FROM tbl_prev_lecod pr LEFT JOIN tbl_account_transaction at ON at.trans_id = pr.trans_id  WHERE pr.comp_id = '$comp_id' AND pr.lecod_day = '$date' AND pr.trans_id IS TRUE GROUP BY pr.trans_id");
+		return $data->result();
+	}
+
+	public function get_deposit_sunnary_account_blanch($blanch_id){
+		$date = date("Y-m-d");
+		$data = $this->db->query("SELECT at.account_name,SUM(pr.depost) AS total_deposit_acc FROM tbl_prev_lecod pr LEFT JOIN tbl_account_transaction at ON at.trans_id = pr.trans_id  WHERE pr.blanch_id = '$blanch_id' AND pr.lecod_day = '$date' AND pr.trans_id IS TRUE GROUP BY pr.trans_id");
+		return $data->result();
+	}
+
+	public function get_deposit_sunnary_account_company($comp_id,$from,$to){
+		$date = date("Y-m-d");
+		$data = $this->db->query("SELECT at.account_name,SUM(pr.depost) AS total_deposit_acc FROM tbl_prev_lecod pr LEFT JOIN tbl_account_transaction at ON at.trans_id = pr.trans_id  WHERE pr.lecod_day between '$from' and '$to' AND pr.comp_id = '$comp_id' AND pr.trans_id IS TRUE GROUP BY pr.trans_id");
+		return $data->result();
+	}
+
+	public function get_deposit_sunnary_account_prev_blanch($blanch_id,$from,$to){
+		$date = date("Y-m-d");
+		$data = $this->db->query("SELECT at.account_name,SUM(pr.depost) AS total_deposit_acc FROM tbl_prev_lecod pr LEFT JOIN tbl_account_transaction at ON at.trans_id = pr.trans_id  WHERE pr.lecod_day between '$from' and '$to' AND pr.blanch_id = '$blanch_id' AND pr.trans_id IS TRUE GROUP BY pr.trans_id");
+		return $data->result();
+	}
+
+
+	public function get_depositing_out($comp_id){
+		$date = date("Y-m-d");
+		$data = $this->db->query("SELECT * FROM tbl_depost d LEFT JOIN tbl_customer c ON c.customer_id = d.customer_id LEFT JOIN tbl_account_transaction at ON at.trans_id = d.depost_method LEFT JOIN tbl_blanch b ON b.blanch_id = d.blanch_id WHERE d.comp_id = '$comp_id' AND d.depost_day = '$date' AND d.dep_status = 'out'");
+		return $data->result();
+	}
+
+	public function get_depositing_out_blanch($blanch_id){
+		$date = date("Y-m-d");
+		$data = $this->db->query("SELECT * FROM tbl_depost d LEFT JOIN tbl_customer c ON c.customer_id = d.customer_id LEFT JOIN tbl_account_transaction at ON at.trans_id = d.depost_method LEFT JOIN tbl_blanch b ON b.blanch_id = d.blanch_id WHERE d.blanch_id = '$blanch_id' AND d.depost_day = '$date' AND d.dep_status = 'out'");
+		return $data->result();
+	}
+
+	public function get_depositing_out_comp($comp_id,$from,$to){
+		$date = date("Y-m-d");
+		$data = $this->db->query("SELECT * FROM tbl_depost d LEFT JOIN tbl_customer c ON c.customer_id = d.customer_id LEFT JOIN tbl_account_transaction at ON at.trans_id = d.depost_method LEFT JOIN tbl_blanch b ON b.blanch_id = d.blanch_id WHERE d.depost_day between '$from' and '$to' AND d.comp_id = '$comp_id' AND d.dep_status = 'out'");
+		return $data->result();
+	}
+
+
+
+	public function get_depositing_out_prev_blanch($blanch_id,$from,$to){
+		$date = date("Y-m-d");
+		$data = $this->db->query("SELECT * FROM tbl_depost d LEFT JOIN tbl_customer c ON c.customer_id = d.customer_id LEFT JOIN tbl_account_transaction at ON at.trans_id = d.depost_method LEFT JOIN tbl_blanch b ON b.blanch_id = d.blanch_id WHERE d.depost_day between '$from' and '$to' AND d.blanch_id = '$blanch_id' AND d.dep_status = 'out'");
+		return $data->result();
+	}
+
+		public function get_depositing_out_total($comp_id){
+		$date = date("Y-m-d");
+		$data = $this->db->query("SELECT SUM(d.depost) AS total_default FROM tbl_depost d LEFT JOIN tbl_customer c ON c.customer_id = d.customer_id LEFT JOIN tbl_account_transaction at ON at.trans_id = d.depost_method LEFT JOIN tbl_blanch b ON b.blanch_id = d.blanch_id WHERE d.comp_id = '$comp_id' AND d.depost_day = '$date' AND d.dep_status = 'out'");
+		return $data->row();
+	}
+
+		public function get_depositing_out_total_blanch($blanch_id){
+		$date = date("Y-m-d");
+		$data = $this->db->query("SELECT SUM(d.depost) AS total_default FROM tbl_depost d LEFT JOIN tbl_customer c ON c.customer_id = d.customer_id LEFT JOIN tbl_account_transaction at ON at.trans_id = d.depost_method LEFT JOIN tbl_blanch b ON b.blanch_id = d.blanch_id WHERE d.blanch_id = '$blanch_id' AND d.depost_day = '$date' AND d.dep_status = 'out'");
+		return $data->row();
+	}
+
+		public function get_depositing_out_total_comp($comp_id,$from,$to){
+		$date = date("Y-m-d");
+		$data = $this->db->query("SELECT SUM(d.depost) AS total_default FROM tbl_depost d LEFT JOIN tbl_customer c ON c.customer_id = d.customer_id LEFT JOIN tbl_account_transaction at ON at.trans_id = d.depost_method LEFT JOIN tbl_blanch b ON b.blanch_id = d.blanch_id WHERE d.depost_day between '$from' and '$to' AND d.comp_id = '$comp_id' AND d.dep_status = 'out'");
+		return $data->row();
+	}
+
+	public function get_depositing_out_total_prev_blanch($blanch_id,$from,$to){
+		$date = date("Y-m-d");
+		$data = $this->db->query("SELECT SUM(d.depost) AS total_default FROM tbl_depost d LEFT JOIN tbl_customer c ON c.customer_id = d.customer_id LEFT JOIN tbl_account_transaction at ON at.trans_id = d.depost_method LEFT JOIN tbl_blanch b ON b.blanch_id = d.blanch_id WHERE d.depost_day between '$from' and '$to' AND d.blanch_id = '$blanch_id' AND d.dep_status = 'out'");
+		return $data->row();
+	}
+
+
+
+		public function get_withdrawal_summary_account($comp_id){
+		$date = date("Y-m-d");
+		$data = $this->db->query("SELECT at.account_name,SUM(pr.loan_aprov) AS total_with_acc FROM tbl_prev_lecod pr LEFT JOIN tbl_account_transaction at ON at.trans_id = pr.with_trans  WHERE pr.comp_id = '$comp_id' AND pr.lecod_day = '$date' AND pr.with_trans IS TRUE GROUP BY pr.with_trans");
+		return $data->result();
+	}
+
+	public function get_withdrawal_summary_account_blanch_data($blanch_id){
+		$date = date("Y-m-d");
+		$data = $this->db->query("SELECT at.account_name,SUM(pr.loan_aprov) AS total_with_acc FROM tbl_prev_lecod pr LEFT JOIN tbl_account_transaction at ON at.trans_id = pr.with_trans  WHERE pr.blanch_id = '$blanch_id' AND pr.lecod_day = '$date' AND pr.with_trans IS TRUE GROUP BY pr.with_trans");
+		return $data->result();
+	}
+
+	public function get_withdrawal_summary_account_company($comp_id,$from,$to){
+		$date = date("Y-m-d");
+		$data = $this->db->query("SELECT at.account_name,SUM(pr.loan_aprov) AS total_with_acc FROM tbl_prev_lecod pr LEFT JOIN tbl_account_transaction at ON at.trans_id = pr.with_trans  WHERE pr.lecod_day between '$from' and '$to' AND pr.comp_id = '$comp_id' AND pr.with_trans IS TRUE GROUP BY pr.with_trans");
+		return $data->result();
+	}
+
+		public function get_withdrawal_summary_account_blanch($blanch_id,$from,$to){
+		$date = date("Y-m-d");
+		$data = $this->db->query("SELECT at.account_name,SUM(pr.loan_aprov) AS total_with_acc FROM tbl_prev_lecod pr LEFT JOIN tbl_account_transaction at ON at.trans_id = pr.with_trans  WHERE pr.lecod_day between '$from' and '$to' AND pr.blanch_id = '$blanch_id' AND pr.with_trans IS TRUE GROUP BY pr.with_trans");
+		return $data->result();
+	}
+
+
+	public function get_total_code_number($comp_id){
+		$date = date("Y-m-d");
+		$data = $this->db->query("SELECT SUM(pr.total_int) AS total_interest FROM tbl_prev_lecod pr WHERE comp_id = '$comp_id' AND pr.lecod_day = '$date'");
+		return $data->row();
+	}
+
+	public function get_total_code_number_blanch_data($blanch_id){
+		$date = date("Y-m-d");
+		$data = $this->db->query("SELECT SUM(pr.total_int) AS total_interest FROM tbl_prev_lecod pr WHERE blanch_id = '$blanch_id' AND pr.lecod_day = '$date'");
+		return $data->row();
+	}
+
+	public function get_total_code_number_comp($comp_id,$from,$to){
+		$date = date("Y-m-d");
+		$data = $this->db->query("SELECT SUM(pr.total_int) AS total_interest,SUM(pr.loan_aprov) AS total_with,SUM(pr.depost) AS total_depost FROM tbl_prev_lecod pr WHERE pr.lecod_day between '$from' and '$to' AND comp_id = '$comp_id'");
+		return $data->row();
+	}
+
+	public function get_total_code_number_blanch($blanch_id,$from,$to){
+		$date = date("Y-m-d");
+		$data = $this->db->query("SELECT SUM(pr.total_int) AS total_interest FROM tbl_prev_lecod pr WHERE pr.lecod_day between '$from' and '$to' AND  blanch_id = '$blanch_id'");
+		return $data->row();
+	}
+
+
+	public function get_total_penart_paid($comp_id){
+		$date = date("Y-m-d");
+		$data_penart = $this->db->query("SELECT SUM(penart_paid) AS total_penart FROM tbl_pay_penart WHERE comp_id = '$comp_id' AND penart_date = '$date'");
+		return $data_penart->row();
+	}
+
+		public function get_total_penart_paid_blanch_data($blanch_id){
+		$date = date("Y-m-d");
+		$data_penart = $this->db->query("SELECT SUM(penart_paid) AS total_penart FROM tbl_pay_penart WHERE blanch_id = '$blanch_id' AND penart_date = '$date'");
+		return $data_penart->row();
+	}
+
+	public function get_total_penart_paid_company($comp_id,$from,$to){
+		$date = date("Y-m-d");
+		$data_penart = $this->db->query("SELECT SUM(penart_paid) AS total_penart FROM tbl_pay_penart WHERE penart_date between '$from' and '$to' AND comp_id = '$comp_id'");
+		return $data_penart->row();
+	}
+
+
+	public function get_total_penart_paid_blanch($blanch_id,$from,$to){
+		$date = date("Y-m-d");
+		$data_penart = $this->db->query("SELECT SUM(penart_paid) AS total_penart FROM tbl_pay_penart WHERE penart_date between '$from' and '$to' AND blanch_id = '$blanch_id'");
+		return $data_penart->row();
+	}
+
+
+	public  function get_miamala_hewa($comp_id){
+		$date = date("Y-m-d");
+		$data = $this->db->query("SELECT * FROM tbl_miamala m LEFT JOIN tbl_account_transaction at ON at.trans_id = m.provider LEFT JOIN tbl_blanch b ON b.blanch_id = m.blanch_id WHERE m.comp_id = '$comp_id' AND m.date = '$date' AND m.status = 'open'");
+		return $data->result();
+	}
+
+	public  function get_miamala_hewa_blanch_data($blanch_id){
+		$date = date("Y-m-d");
+		$data = $this->db->query("SELECT * FROM tbl_miamala m LEFT JOIN tbl_account_transaction at ON at.trans_id = m.provider LEFT JOIN tbl_blanch b ON b.blanch_id = m.blanch_id WHERE m.blanch_id = '$blanch_id' AND m.date = '$date' AND m.status = 'open'");
+		return $data->result();
+	}
+
+	public  function get_miamala_hewa_company($comp_id,$from,$to){
+		$date = date("Y-m-d");
+		$data = $this->db->query("SELECT * FROM tbl_miamala m LEFT JOIN tbl_account_transaction at ON at.trans_id = m.provider LEFT JOIN tbl_blanch b ON b.blanch_id = m.blanch_id WHERE m.date between '$from' and '$to' AND m.comp_id = '$comp_id' AND m.status = 'open'");
+		return $data->result();
+	}
+
+	public  function get_miamala_hewa_blanch($blanch_id,$from,$to){
+		$date = date("Y-m-d");
+		$data = $this->db->query("SELECT * FROM tbl_miamala m LEFT JOIN tbl_account_transaction at ON at.trans_id = m.provider LEFT JOIN tbl_blanch b ON b.blanch_id = m.blanch_id WHERE m.date between '$from' and '$to' AND m.blanch_id = '$blanch_id' AND m.status = 'open'");
+		return $data->result();
+	}
+
+	public  function get_miamala_hewa_total($comp_id){
+		$date = date("Y-m-d");
+		$data = $this->db->query("SELECT SUM(m.amount) AS total_miamala FROM tbl_miamala m LEFT JOIN tbl_account_transaction at ON at.trans_id = m.provider LEFT JOIN tbl_blanch b ON b.blanch_id = m.blanch_id WHERE m.comp_id = '$comp_id' AND m.date = '$date' AND m.status = 'open'");
+		return $data->row();
+	}
+
+	public  function get_miamala_hewa_total_blanch_data($blanch_id){
+		$date = date("Y-m-d");
+		$data = $this->db->query("SELECT SUM(m.amount) AS total_miamala FROM tbl_miamala m LEFT JOIN tbl_account_transaction at ON at.trans_id = m.provider LEFT JOIN tbl_blanch b ON b.blanch_id = m.blanch_id WHERE m.blanch_id = '$blanch_id' AND m.date = '$date' AND m.status = 'open'");
+		return $data->row();
+	}
+
+		public  function get_miamala_hewa_total_company($comp_id,$from,$to){
+		$date = date("Y-m-d");
+		$data = $this->db->query("SELECT SUM(m.amount) AS total_miamala FROM tbl_miamala m LEFT JOIN tbl_account_transaction at ON at.trans_id = m.provider LEFT JOIN tbl_blanch b ON b.blanch_id = m.blanch_id WHERE m.date between '$from' and '$to' AND m.comp_id = '$comp_id' AND m.status = 'open'");
+		return $data->row();
+	}
+
+	public  function get_miamala_hewa_total_blanch($blanch_id,$from,$to){
+		$date = date("Y-m-d");
+		$data = $this->db->query("SELECT SUM(m.amount) AS total_miamala FROM tbl_miamala m LEFT JOIN tbl_account_transaction at ON at.trans_id = m.provider LEFT JOIN tbl_blanch b ON b.blanch_id = m.blanch_id WHERE m.date between '$from' and '$to' AND m.blanch_id = '$blanch_id' AND m.status = 'open'");
+		return $data->row();
+	}
+
+
+	public function get_today_deposit_blanch($blanch_id){
+		$date = date("Y-m-d");
+		$data = $this->db->query("SELECT SUM(pr.loan_aprov) AS total_gawa,SUM(pr.total_int) AS code_no,pr.blanch_id,SUM(pr.depost) AS total_lipisha FROM tbl_prev_lecod pr WHERE pr.blanch_id = '$blanch_id' AND pr.lecod_day = '$date'  GROUP BY pr.blanch_id ");
+		foreach ($data->result() as $r) {
+			$r->total_fomu = $this->get_total_fomu($r->blanch_id,$date);
+			$r->total_faini = $this->get_total_faini($r->blanch_id,$date);
+			$r->total_stoo = $this->get_total_stoo($r->blanch_id,$date);
+			$r->total_miamala = $this->get_total_miamala_hewa($r->blanch_id,$date);
+		}
+		return $data->result();
+	}
+
+
+	public function get_today_deposit_blanch_prev($blanch_id,$from,$to){
+		$date = date("Y-m-d");
+		$data = $this->db->query("SELECT SUM(pr.loan_aprov) AS total_gawa,SUM(pr.total_int) AS code_no,pr.blanch_id,SUM(pr.depost) AS total_lipisha FROM tbl_prev_lecod pr WHERE pr.lecod_day between '$from' and '$to' AND pr.blanch_id = '$blanch_id'  GROUP BY pr.blanch_id ");
+		foreach ($data->result() as $r) {
+			$r->total_fomu = $this->get_total_fomu_prev($r->blanch_id,$from,$to);
+			$r->total_faini = $this->get_total_faini_prev($r->blanch_id,$from,$to);
+			$r->total_stoo = $this->get_total_stoo_prev($r->blanch_id,$from,$to);
+			$r->total_miamala = $this->get_total_miamala_hewa_prev($r->blanch_id,$from,$to);
+		}
+		return $data->result();
+	}
+
+
+
+	public function get_total_fomu_prev($blanch_id,$from,$to){
+  $fomu = $this->db->query("SELECT SUM(df.deducted_balance) AS total_fomu FROM  tbl_deducted_fee df WHERE df.deducted_date between '$from' and '$to' AND  df.blanch_id = '$blanch_id'  GROUP BY df.blanch_id");
+		if ($fomu->row()) {
+			return $fomu->row()->total_fomu; 
+		}
+		return 0; 
+	}
+
+
+	public function get_total_fomu($blanch_id,$date){
+  $fomu = $this->db->query("SELECT SUM(df.deducted_balance) AS total_fomu FROM  tbl_deducted_fee df WHERE df.blanch_id = '$blanch_id' AND df.deducted_date = '$date' GROUP BY df.blanch_id");
+		if ($fomu->row()) {
+			return $fomu->row()->total_fomu; 
+		}
+		return 0; 
+	}
+
+	public function get_total_faini($blanch_id,$date){
+   $faini = $this->db->query("SELECT SUM(pp.penart_paid) AS total_faini FROM  tbl_pay_penart pp WHERE pp.blanch_id = '$blanch_id' AND pp.penart_date = '$date' GROUP BY pp.blanch_id");
+		if ($faini->row()) {
+			return $faini->row()->total_faini; 
+		}
+		return 0; 
+	}
+
+	public function get_total_faini_prev($blanch_id,$from,$to){
+   $faini = $this->db->query("SELECT SUM(pp.penart_paid) AS total_faini FROM  tbl_pay_penart pp WHERE pp.penart_date between '$from' and '$to' AND pp.blanch_id = '$blanch_id' GROUP BY pp.blanch_id");
+		if ($faini->row()) {
+			return $faini->row()->total_faini; 
+		}
+		return 0; 
+	}
+
+
+	public function get_total_stoo($blanch_id,$date){
+  $stoo = $this->db->query("SELECT SUM(s.stoo_amount) AS total_stoo FROM   tbl_stoo s WHERE s.blanch_id = '$blanch_id' AND s.stoo_date = '$date' GROUP BY s.blanch_id");
+		if ($stoo->row()) {
+			return $stoo->row()->total_stoo; 
+		}
+		return 0; 
+	}
+
+	public function get_total_stoo_prev($blanch_id,$from,$to){
+  $stoo = $this->db->query("SELECT SUM(s.stoo_amount) AS total_stoo FROM   tbl_stoo s WHERE s.stoo_date between '$from' and '$to' AND s.blanch_id = '$blanch_id' GROUP BY s.blanch_id");
+		if ($stoo->row()) {
+			return $stoo->row()->total_stoo; 
+		}
+		return 0; 
+	}
+
+
+	public function get_total_miamala_hewa($blanch_id,$date){
+  $miamala = $this->db->query("SELECT SUM(m.amount) AS total_miamala FROM tbl_miamala m WHERE m.blanch_id = '$blanch_id' AND m.date = '$date' GROUP BY m.blanch_id");
+		if ($miamala->row()) {
+			return $miamala->row()->total_miamala; 
+		}
+		return 0; 
+	}
+
+	public function get_total_miamala_hewa_prev($blanch_id,$from,$to){
+  $miamala = $this->db->query("SELECT SUM(m.amount) AS total_miamala FROM tbl_miamala m WHERE m.date between '$from' and '$to' AND m.blanch_id = '$blanch_id' GROUP BY m.blanch_id");
+		if ($miamala->row()) {
+			return $miamala->row()->total_miamala; 
+		}
+		return 0; 
+	}
+
+
+	public function get_total_stoo_company($comp_id){
+		$date = date("Y-m-d");
+		$data = $this->db->query("SELECT SUM(stoo_amount) AS total_stoo_paid FROM  tbl_stoo WHERE comp_id = '$comp_id' AND stoo_date = '$date'");
+		return $data->row();
+	}
+
+	public function get_total_stoo_company_prev($comp_id,$from,$to){
+		$date = date("Y-m-d");
+		$data = $this->db->query("SELECT SUM(stoo_amount) AS total_stoo_paid FROM  tbl_stoo WHERE stoo_date between '$from' and '$to' AND comp_id = '$comp_id'");
+		return $data->row();
+	}
+
+
+
+
+
+
+
+
 
 
 

@@ -1476,8 +1476,8 @@ $this->load->view('admin/search_customer',['customer'=>$customer,'sponser'=>$spo
      //$full_name = $custm_data->f_name . ' ' . $custm_data->m_name . ' ' . $custm_data->l_name ;
      $phone = $custm_data->phone_no; 
      $massage = $loan_verfication .' ' .'Msimbo wa Uthibitisho' .' '. $company_name;
-    //  print_r($massage);
-    //          exit(); 
+     // print_r($massage);
+     //         exit(); 
      $this->sendsms($phone,$massage);
      
       
@@ -3395,7 +3395,7 @@ $this->db->query("INSERT INTO tbl_outstand (`comp_id`,`loan_id`,`blanch_id`,`loa
 	      if ($dep_id > 0) {
 	      	 $this->session->set_flashdata('massage','Deposit has made Sucessfully');
 	      }else{
-	      	$this->session->set_flashdata('massage','Failed');
+	      	$this->session->set_flashdata('massage','Deposit has made Sucessfully');
 	      } // print_r($day_id);
 	      //       exit();
 	      $this->update_outstand_status($loan_id);
@@ -3749,6 +3749,11 @@ $this->db->query("INSERT INTO tbl_outstand (`comp_id`,`loan_id`,`blanch_id`,`loa
      $query = $this->db->query($sqldata);
      return true;	
      }
+
+       public function insert_blanch_amount_outstand_deposit($comp_id,$blanch_id,$new_out_balance,$trans_id){
+        $date = date("Y-m-d");
+        $this->db->query("INSERT INTO  tbl_receve_outstand (`comp_id`,`blanch_id`,`trans_id`,`out_balance`,`date`) VALUES ('$comp_id','$blanch_id','$trans_id','$new_out_balance','$date')"); 
+      }
 
 
                      //update loan status
@@ -4637,11 +4642,27 @@ public function previous_transfor(){
  	$cash = $this->queries->get_cash_transaction($comp_id);
  	$sum_depost = $this->queries->get_sumCashtransDepost($comp_id);
  	$sum_withdrawls = $this->queries->get_cash_transaction_sum($comp_id);
+
+ 	$sum_deducted = $this->queries->get_total_deducted_income_today($comp_id);
+ 	$sum_paid_penart = $this->queries->get_paid_paenart_today($comp_id);
  	$blanch = $this->queries->get_blanch($comp_id);
+
+ 	$account_deposit = $this->queries->get_deposit_sunnary_account($comp_id);
+ 	$default_list = $this->queries->get_depositing_out($comp_id);
+ 	$toyal_default = $this->queries->get_depositing_out_total($comp_id);
+
+ 	$withdrawal_account = $this->queries->get_withdrawal_summary_account($comp_id);
+ 	$total_code_no = $this->queries->get_total_code_number($comp_id);
+ 	$deducted_fee = $this->queries->get_total_deducted_income($comp_id);
+
+ 	$penart_paid = $this->queries->get_total_penart_paid($comp_id);
+
+ 	$miamala = $this->queries->get_miamala_hewa($comp_id);
+ 	$total_miamala = $this->queries->get_miamala_hewa_total($comp_id);
  	   //  echo "<pre>";
- 	   // print_r($cash);
+ 	   // print_r($total_miamala);
  	   //       exit();
- 	$this->load->view('admin/cash_transaction',['cash'=>$cash,'sum_depost'=>$sum_depost,'sum_withdrawls'=>$sum_withdrawls,'blanch'=>$blanch]);
+ 	$this->load->view('admin/cash_transaction',['cash'=>$cash,'sum_depost'=>$sum_depost,'sum_withdrawls'=>$sum_withdrawls,'blanch'=>$blanch,'sum_deducted'=>$sum_deducted,'sum_paid_penart'=>$sum_paid_penart,'account_deposit'=>$account_deposit,'default_list'=>$default_list,'toyal_default'=>$toyal_default,'withdrawal_account'=>$withdrawal_account,'total_code_no'=>$total_code_no,'deducted_fee'=>$deducted_fee,'penart_paid'=>$penart_paid,'miamala'=>$miamala,'total_miamala'=>$total_miamala]);
  }
 
  public function cash_transaction_blanch(){
@@ -4652,21 +4673,102 @@ public function previous_transfor(){
  	$to = $this->input->post('to');
    
    if ($blanch_id == 'all') {
-  $data_blanch = $this->queries->get_blanchTransaction_comp($from,$to,$comp_id);
-  $total_comp_data = $this->queries->get_blanchTransaction_comp_data($from,$to,$comp_id);
+   $cash = $this->queries->get_blanchTransaction_comp($from,$to,$comp_id);
+   $total_comp_data = $this->queries->get_blanchTransaction_comp_data($from,$to,$comp_id);
+
+   $account_deposit = $this->queries->get_deposit_sunnary_account_company($comp_id,$from,$to);
+   $default_list = $this->queries->get_depositing_out_comp($comp_id,$from,$to);
+   $toyal_default = $this->queries->get_depositing_out_total_comp($comp_id,$from,$to);
+
+   $withdrawal_account = $this->queries->get_withdrawal_summary_account_company($comp_id,$from,$to);
+ 	$total_code_no = $this->queries->get_total_code_number_comp($comp_id,$from,$to);
+ 	$deducted_fee = $this->queries->get_total_deducted_income_company($comp_id,$from,$to);
+
+ 	$penart_paid = $this->queries->get_total_penart_paid_company($comp_id,$from,$to);
+
+ 	$miamala = $this->queries->get_miamala_hewa_company($comp_id,$from,$to);
+ 	$total_miamala = $this->queries->get_miamala_hewa_total_company($comp_id,$from,$to);
    }else{
- 	$data_blanch = $this->queries->get_blanchTransaction($from,$to,$blanch_id);
+ 	$cash = $this->queries->get_blanchTransaction($from,$to,$blanch_id);
  	$total_comp_data = $this->queries->get_blanchTransaction_comp_blanch($from,$to,$blanch_id);
+
+ 	$account_deposit = $this->queries->get_deposit_sunnary_account_prev_blanch($blanch_id,$from,$to);
+ 	$default_list = $this->queries->get_depositing_out_prev_blanch($blanch_id,$from,$to);
+ 	$toyal_default = $this->queries->get_depositing_out_total_prev_blanch($blanch_id,$from,$to);
+
+ 	$withdrawal_account = $this->queries->get_withdrawal_summary_account_blanch($blanch_id,$from,$to);
+ 	$total_code_no = $this->queries->get_total_code_number_blanch($blanch_id,$from,$to);
+ 	$deducted_fee = $this->queries->get_total_deducted_income_blanch($blanch_id,$from,$to);
+
+ 	$penart_paid = $this->queries->get_total_penart_paid_blanch($blanch_id,$from,$to);
+
+ 	$miamala = $this->queries->get_miamala_hewa_blanch($blanch_id,$from,$to);
+ 	$total_miamala = $this->queries->get_miamala_hewa_total_blanch($blanch_id,$from,$to);
  	
    }
- $blanch = $this->queries->get_blanchd($comp_id);
- $blanch_data = $this->queries->get_blanch_data($blanch_id);
+  $blanch = $this->queries->get_blanchd($comp_id);
+  $blanch_data = $this->queries->get_blanch_data($blanch_id);
   //   echo "<pre>";
- 	//  print_r($data_blanch);
+ 	//  print_r($cash);
  	// exit();
      
- $this->load->view('admin/cash_transaction_blanch',['blanch'=>$blanch,'data_blanch'=>$data_blanch,'blanch_id'=>$blanch_id,'from'=>$from,'to'=>$to,'blanch_id'=>$blanch_id,'total_comp_data'=>$total_comp_data,'blanch_data'=>$blanch_data]);
+ $this->load->view('admin/cash_transaction_blanch',['blanch'=>$blanch,'cash'=>$cash,'blanch_id'=>$blanch_id,'from'=>$from,'to'=>$to,'blanch_id'=>$blanch_id,'total_comp_data'=>$total_comp_data,'blanch_data'=>$blanch_data,'account_deposit'=>$account_deposit,'default_list'=>$default_list,'toyal_default'=>$toyal_default,'withdrawal_account'=>$withdrawal_account,'total_code_no'=>$total_code_no,'deducted_fee'=>$deducted_fee,'penart_paid'=>$penart_paid,'miamala'=>$miamala,'total_miamala'=>$total_miamala]);
  }
+
+
+
+  public function print_cashBlanch($from,$to,$blanch_id){
+    $this->load->model('queries');
+    $comp_id = $this->session->userdata('comp_id');
+    
+    if ($blanch_id == 'all') {
+   $cash = $this->queries->get_blanchTransaction_comp($from,$to,$comp_id);
+   $total_comp_data = $this->queries->get_blanchTransaction_comp_data($from,$to,$comp_id);
+
+   $account_deposit = $this->queries->get_deposit_sunnary_account_company($comp_id,$from,$to);
+   $default_list = $this->queries->get_depositing_out_comp($comp_id,$from,$to);
+   $toyal_default = $this->queries->get_depositing_out_total_comp($comp_id,$from,$to);
+
+   $withdrawal_account = $this->queries->get_withdrawal_summary_account_company($comp_id,$from,$to);
+ 	$total_code_no = $this->queries->get_total_code_number_comp($comp_id,$from,$to);
+ 	$deducted_fee = $this->queries->get_total_deducted_income_company($comp_id,$from,$to);
+
+ 	$penart_paid = $this->queries->get_total_penart_paid_company($comp_id,$from,$to);
+
+ 	$miamala = $this->queries->get_miamala_hewa_company($comp_id,$from,$to);
+ 	$total_miamala = $this->queries->get_miamala_hewa_total_company($comp_id,$from,$to);
+
+   }else{
+ 	$cash = $this->queries->get_blanchTransaction($from,$to,$blanch_id);
+ 	$total_comp_data = $this->queries->get_blanchTransaction_comp_blanch($from,$to,$blanch_id);
+
+
+ 	$account_deposit = $this->queries->get_deposit_sunnary_account_prev_blanch($blanch_id,$from,$to);
+ 	$default_list = $this->queries->get_depositing_out_prev_blanch($blanch_id,$from,$to);
+ 	$toyal_default = $this->queries->get_depositing_out_total_prev_blanch($blanch_id,$from,$to);
+
+ 	$withdrawal_account = $this->queries->get_withdrawal_summary_account_blanch($blanch_id,$from,$to);
+ 	$total_code_no = $this->queries->get_total_code_number_blanch($blanch_id,$from,$to);
+ 	$deducted_fee = $this->queries->get_total_deducted_income_blanch($blanch_id,$from,$to);
+
+ 	$penart_paid = $this->queries->get_total_penart_paid_blanch($blanch_id,$from,$to);
+ 	$miamala = $this->queries->get_miamala_hewa_blanch($blanch_id,$from,$to);
+ 	$total_miamala = $this->queries->get_miamala_hewa_total_blanch($blanch_id,$from,$to);
+ 	
+   }
+  $blanch = $this->queries->get_blanchd($comp_id);
+  $blanch_data = $this->queries->get_blanch_data($blanch_id);
+  $compdata = $this->queries->get_companyData($comp_id);
+        //        echo "<pre>";
+        // print_r($cash);
+        //        exit();
+    $mpdf = new \Mpdf\Mpdf(['mode' => 'utf-8','format' => 'A4-L','orientation' => 'L']);
+    $html = $this->load->view('admin/print_cashTransaction_blanch',['cash'=>$cash,'blanch_id'=>$blanch_id,'from'=>$from,'to'=>$to,'total_comp_data'=>$total_comp_data,'blanch_data'=>$blanch_data,'compdata'=>$compdata,'account_deposit'=>$account_deposit,'default_list'=>$default_list,'toyal_default'=>$toyal_default,'withdrawal_account'=>$withdrawal_account,'total_code_no'=>$total_code_no,'deducted_fee'=>$deducted_fee,'penart_paid'=>$penart_paid,'miamala'=>$miamala,'total_miamala'=>$total_miamala],true);
+    $mpdf->SetFooter('Generated By Brainsoft Technology');
+        $mpdf->WriteHTML($html);
+        $mpdf->Output();
+         
+    }
 
 
  public function delete_depost_data($pay_id){
@@ -4803,7 +4905,7 @@ public function previous_transfor(){
 
 
  public function update_prev_record_data($pay_id,$remain_depost){
- $sqldata="UPDATE `tbl_prev_lecod` SET `depost`= '$remain_depost' WHERE `pay_id`= '$pay_id'";
+ $sqldata="UPDATE `tbl_prev_lecod` SET `depost`= '$remain_depost',`trans_id`='0' WHERE `pay_id`= '$pay_id'";
     // print_r($sqldata);
     //    exit();
   $query = $this->db->query($sqldata);
@@ -4826,31 +4928,7 @@ public function previous_transfor(){
  	return $this->db->delete('tbl_prepaid',['dep_id'=>$dep_id]);
  }
 
-    public function print_cashBlanch($from,$to,$blanch_id){
-    $this->load->model('queries');
-    $comp_id = $this->session->userdata('comp_id');
-    
-    if ($blanch_id == 'all') {
-  $data_blanch = $this->queries->get_blanchTransaction_comp($from,$to,$comp_id);
-  $total_comp_data = $this->queries->get_blanchTransaction_comp_data($from,$to,$comp_id);
-   }else{
- 	$data_blanch = $this->queries->get_blanchTransaction($from,$to,$blanch_id);
- 	$total_comp_data = $this->queries->get_blanchTransaction_comp_blanch($from,$to,$blanch_id);
- 	
-   }
-  //$blanch = $this->queries->get_blanchd($comp_id);
-  $blanch_data = $this->queries->get_blanch_data($blanch_id);
-  $compdata = $this->queries->get_companyData($comp_id);
-        //        echo "<pre>";
-        // print_r($data_blanch);
-        //        exit();
-    $mpdf = new \Mpdf\Mpdf(['mode' => 'utf-8','format' => 'A4-L','orientation' => 'L']);
-    $html = $this->load->view('admin/print_cashTransaction_blanch',['data_blanch'=>$data_blanch,'blanch_id'=>$blanch_id,'from'=>$from,'to'=>$to,'total_comp_data'=>$total_comp_data,'blanch_data'=>$blanch_data,'compdata'=>$compdata],true);
-    $mpdf->SetFooter('Generated By Brainsoft Technology');
-        $mpdf->WriteHTML($html);
-        $mpdf->Output();
-         
-    }
+   
 
 
     public function print_cash(){
@@ -8610,93 +8688,74 @@ public function create_saving_deposit(){
 	public function daily_report(){
 		$this->load->model('queries');
 		$comp_id = $this->session->userdata('comp_id');
-		$cash_transfor = $this->queries->get_account_transfor_company($comp_id);
-		$income_blanch_blanch = $this->queries->get_income_transaction_datacomp($comp_id);
-		$default_insystem = $this->queries->get_total_transaction_default_insystemCompany($comp_id);
-		$default_outsystem = $this->queries->get_total_transaction_default_outsystem_company($comp_id);
-		$yesterday_balance = $this->queries->get_yesterday_balance_comp($comp_id);
-		$today_deposit = $this->queries->get_total_today_deposit_comp($comp_id);
-		$remain_depost = $this->queries->get_total_today_deposit_loanCompany($comp_id);
-		$loanwith = $this->queries->get_loan_withdrawal_today_company($comp_id);
-		$prepaid = $this->queries->get_today_prepaid_today_company($comp_id);
-		$stoo = $this->queries->get_total_stoo_trans_company($comp_id);
-		$blanch_acount = $this->queries->get_customer_account_verfiedCompany($comp_id);
-		$saving_deposit = $this->queries->get_total_saving_deposit_comp($comp_id);
-		$balance_blanch = $this->queries->get_today_cash_balancecompany($comp_id);
-		$deduct_day_balance = $this->queries->get_prev_deducted_income_company($comp_id);
-		$non_balance_comp = $this->queries->get_prev_nonDeducted_incomeCompany($comp_id);
-		$income_balance = $this->queries->get_yesterday_income_company($comp_id);
-		$today_deducted = $this->queries->get_today_deducted_income_company($comp_id);
-		$non_deducted_comp = $this->queries->get_today_non_deducted_company($comp_id);
-		$expenses_comp = $this->queries->get_more_expenses_todaycompany($comp_id);
-		$today_transaction_income = $this->queries->get_transaction_from_incToblanch_account_company($comp_id);
-		$total_expenses_comp = $this->queries->get_total_expenses_reqcompany($comp_id);
-		$total_lala_income = $this->queries->get_deduction_lala_comp($comp_id);
-		$yester_day_out = $this->queries->get_prev_outstand_date_company($comp_id);
-		$today_out_deposit = $this->queries->get_total_deposit_out_comp($comp_id);
-		$remain_deposit = $this->queries->get_outstand_loan_data_company($comp_id);
-		$kopesha_out = $this->queries->get_total_transaction_default_insystem_company($comp_id);
-		$account_out_balance = $this->queries->get_outstand_account_balance_company($comp_id);
-		$out_lalain = $this->queries->get_today_outstand_stoo_company($comp_id);
-		$outsystem_yesterday = $this->queries->get_deposit_out_system_yesterday_company($comp_id);
-		$total_njeleo = $this->queries->get_today_deposit_out_company($comp_id);
-		$out_system_total = $this->queries->get_total_out_deni_comp($comp_id);
-		$total_deposit_out = $this->queries->get_total_deposit_outSystem_comp($comp_id);
-		$total_kopesha_out = $this->queries->get_total_transaction_default_outsystemCompany($comp_id);
-		$nje_account = $this->queries->get_njeya_mfumo_data_account_company($comp_id);
-		$out_system = $this->queries->get_total_receive_out_systemCompany($comp_id);
-        $total_out_system = $out_system->total_out_system;
-        $blanch = $this->queries->get_blanch($comp_id);
-		// echo "<pre>";
-		// print_r($blanch);
-		//        exit();
-       
-		$this->load->view('admin/daily_report',['cash_transfor'=>$cash_transfor,'income_blanch_blanch'=>$income_blanch_blanch,'default_insystem'=>$default_insystem,'default_outsystem'=>$default_outsystem,'yesterday_balance'=>$yesterday_balance,'today_deposit'=>$today_deposit,'remain_depost'=>$remain_depost,'loanwith'=>$loanwith,'prepaid'=>$prepaid,'stoo'=>$stoo,'blanch_acount'=>$blanch_acount,'saving_deposit'=>$saving_deposit,'balance_blanch'=>$balance_blanch,'deduct_day_balance'=>$deduct_day_balance,'non_balance_comp'=>$non_balance_comp,'income_balance'=>$income_balance,'today_deducted'=>$today_deducted,'non_deducted_comp'=>$non_deducted_comp,'expenses_comp'=>$expenses_comp,'today_transaction_income'=>$today_transaction_income,'total_expenses_comp'=>$total_expenses_comp,'total_lala_income'=>$total_lala_income,'yester_day_out'=>$yester_day_out,'today_out_deposit'=>$today_out_deposit,'remain_deposit'=>$remain_deposit,'kopesha_out'=>$kopesha_out,'account_out_balance'=>$account_out_balance,'out_lalain'=>$out_lalain,'outsystem_yesterday'=>$outsystem_yesterday,'total_njeleo'=>$total_njeleo,'out_system_total'=>$out_system_total,'total_deposit_out'=>$total_deposit_out,'total_kopesha_out'=>$total_kopesha_out,'nje_account'=>$nje_account,'total_out_system'=>$total_out_system,'blanch'=>$blanch]);
+		$blanch_rec = $this->queries->get_blanch($comp_id);
+		$sum_withdrawls = $this->queries->get_cash_transaction_sum($comp_id);
+		$deducted_fee = $this->queries->get_total_deducted_income($comp_id);
+		$total_code_no = $this->queries->get_total_code_number($comp_id);
+		$penart_paid = $this->queries->get_total_penart_paid($comp_id);
+		$total_stoo = $this->queries->get_total_stoo_company($comp_id);
+		$total_miamala = $this->queries->get_miamala_hewa_total($comp_id);
+
+
+		$account_deposit = $this->queries->get_deposit_sunnary_account($comp_id);
+ 	    $toyal_default = $this->queries->get_depositing_out_total($comp_id);
+
+ 	    $withdrawal_account = $this->queries->get_withdrawal_summary_account($comp_id);
+ 	    
+		 //      echo "<pre>";
+		 // print_r($total_stoo);
+		 //        exit();
+		$this->load->view('admin/daily_report',['blanch_rec'=>$blanch_rec,'sum_withdrawls'=>$sum_withdrawls,'deducted_fee'=>$deducted_fee,'total_code_no'=>$total_code_no,'penart_paid'=>$penart_paid,'total_stoo'=>$total_stoo,'total_miamala'=>$total_miamala,'account_deposit'=>$account_deposit,'toyal_default'=>$toyal_default,'withdrawal_account'=>$withdrawal_account]);
 	}
 
-	public function print_daily_report(){
+
+	public function filter_daily_report(){
+		$this->load->model('queries');
+		$comp_id = $this->session->userdata('comp_id');
+        $blanch_rec = $this->queries->get_blanch($comp_id);
+		$from = $this->input->post('from');
+		$to = $this->input->post('to');
+		$comp_id = $this->input->post('comp_id');
+
+
+		$total_code_no = $this->queries->get_total_code_number_comp($comp_id,$from,$to);
+		$deducted_fee = $this->queries->get_total_deducted_income_company($comp_id,$from,$to);
+		$penart_paid = $this->queries->get_total_penart_paid_company($comp_id,$from,$to);
+		$total_stoo = $this->queries->get_total_stoo_company_prev($comp_id,$from,$to);
+		$total_miamala = $this->queries->get_miamala_hewa_total_company($comp_id,$from,$to);
+
+		 $account_deposit = $this->queries->get_deposit_sunnary_account_company($comp_id,$from,$to);
+         $toyal_default = $this->queries->get_depositing_out_total_comp($comp_id,$from,$to);
+         $withdrawal_account = $this->queries->get_withdrawal_summary_account_company($comp_id,$from,$to);
+ 	    $total_code_no = $this->queries->get_total_code_number_comp($comp_id,$from,$to);
+ 	    //$deducted_fee = $this->queries->get_total_deducted_income_company($comp_id,$from,$to);
+
+		// print_r($from);
+		//    exit();
+
+		$this->load->view('admin/daily_report_prev',['blanch_rec'=>$blanch_rec,'from'=>$from,'to'=>$to,'total_code_no'=>$total_code_no,'deducted_fee'=>$deducted_fee,'penart_paid'=>$penart_paid,'total_stoo'=>$total_stoo,'total_miamala'=>$total_miamala,'account_deposit'=>$account_deposit,'toyal_default'=>$toyal_default,'withdrawal_account'=>$withdrawal_account,'total_code_no'=>$total_code_no]);
+	}
+
+	public function print_daily_report($from,$to){
 	$this->load->model('queries');
 	$comp_id = $this->session->userdata('comp_id');
 	$compdata = $this->queries->get_companyData($comp_id);
-	$cash_transfor = $this->queries->get_account_transfor_company($comp_id);
-		$income_blanch_blanch = $this->queries->get_income_transaction_datacomp($comp_id);
-		$default_insystem = $this->queries->get_total_transaction_default_insystemCompany($comp_id);
-		$default_outsystem = $this->queries->get_total_transaction_default_outsystem_company($comp_id);
-		$yesterday_balance = $this->queries->get_yesterday_balance_comp($comp_id);
-		$today_deposit = $this->queries->get_total_today_deposit_comp($comp_id);
-		$remain_depost = $this->queries->get_total_today_deposit_loanCompany($comp_id);
-		$loanwith = $this->queries->get_loan_withdrawal_today_company($comp_id);
-		$prepaid = $this->queries->get_today_prepaid_today_company($comp_id);
-		$stoo = $this->queries->get_total_stoo_trans_company($comp_id);
-		$blanch_acount = $this->queries->get_customer_account_verfiedCompany($comp_id);
-		$saving_deposit = $this->queries->get_total_saving_deposit_comp($comp_id);
-		$balance_blanch = $this->queries->get_today_cash_balancecompany($comp_id);
-		$deduct_day_balance = $this->queries->get_prev_deducted_income_company($comp_id);
-		$non_balance_comp = $this->queries->get_prev_nonDeducted_incomeCompany($comp_id);
-		$income_balance = $this->queries->get_yesterday_income_company($comp_id);
-		$today_deducted = $this->queries->get_today_deducted_income_company($comp_id);
-		$non_deducted_comp = $this->queries->get_today_non_deducted_company($comp_id);
-		$expenses_comp = $this->queries->get_more_expenses_todaycompany($comp_id);
-		$today_transaction_income = $this->queries->get_transaction_from_incToblanch_account_company($comp_id);
-		$total_expenses_comp = $this->queries->get_total_expenses_reqcompany($comp_id);
-		$total_lala_income = $this->queries->get_deduction_lala_comp($comp_id);
-		$yester_day_out = $this->queries->get_prev_outstand_date_company($comp_id);
-		$today_out_deposit = $this->queries->get_total_deposit_out_comp($comp_id);
-		$remain_deposit = $this->queries->get_outstand_loan_data_company($comp_id);
-		$kopesha_out = $this->queries->get_total_transaction_default_insystem_company($comp_id);
-		$account_out_balance = $this->queries->get_outstand_account_balance_company($comp_id);
-		$out_lalain = $this->queries->get_today_outstand_stoo_company($comp_id);
-		$outsystem_yesterday = $this->queries->get_deposit_out_system_yesterday_company($comp_id);
-		$total_njeleo = $this->queries->get_today_deposit_out_company($comp_id);
-		$out_system_total = $this->queries->get_total_out_deni_comp($comp_id);
-		$total_deposit_out = $this->queries->get_total_deposit_outSystem_comp($comp_id);
-		$total_kopesha_out = $this->queries->get_total_transaction_default_outsystemCompany($comp_id);
-		$nje_account = $this->queries->get_njeya_mfumo_data_account_company($comp_id);
-		$out_system = $this->queries->get_total_receive_out_systemCompany($comp_id);
-        $total_out_system = $out_system->total_out_system;
+	$blanch_rec = $this->queries->get_blanch($comp_id);
+
+	$total_code_no = $this->queries->get_total_code_number_comp($comp_id,$from,$to);
+	$deducted_fee = $this->queries->get_total_deducted_income_company($comp_id,$from,$to);
+	$penart_paid = $this->queries->get_total_penart_paid_company($comp_id,$from,$to);
+	$total_stoo = $this->queries->get_total_stoo_company_prev($comp_id,$from,$to);
+	$total_miamala = $this->queries->get_miamala_hewa_total_company($comp_id,$from,$to);
+
+	 $account_deposit = $this->queries->get_deposit_sunnary_account_company($comp_id,$from,$to);
+     $toyal_default = $this->queries->get_depositing_out_total_comp($comp_id,$from,$to);
+     $withdrawal_account = $this->queries->get_withdrawal_summary_account_company($comp_id,$from,$to);
+	 $total_code_no = $this->queries->get_total_code_number_comp($comp_id,$from,$to);
+	
 
 	$mpdf = new \Mpdf\Mpdf(['mode' => 'utf-8','format' => 'A4-L','orientation' => 'L']);
-    $html = $this->load->view('admin/daily_report_data',['compdata'=>$compdata,'cash_transfor'=>$cash_transfor,'income_blanch_blanch'=>$income_blanch_blanch,'default_insystem'=>$default_insystem,'default_outsystem'=>$default_outsystem,'yesterday_balance'=>$yesterday_balance,'today_deposit'=>$today_deposit,'remain_depost'=>$remain_depost,'loanwith'=>$loanwith,'prepaid'=>$prepaid,'stoo'=>$stoo,'blanch_acount'=>$blanch_acount,'saving_deposit'=>$saving_deposit,'balance_blanch'=>$balance_blanch,'deduct_day_balance'=>$deduct_day_balance,'non_balance_comp'=>$non_balance_comp,'income_balance'=>$income_balance,'today_deducted'=>$today_deducted,'non_deducted_comp'=>$non_deducted_comp,'expenses_comp'=>$expenses_comp,'today_transaction_income'=>$today_transaction_income,'total_expenses_comp'=>$total_expenses_comp,'total_lala_income'=>$total_lala_income,'yester_day_out'=>$yester_day_out,'today_out_deposit'=>$today_out_deposit,'remain_deposit'=>$remain_deposit,'kopesha_out'=>$kopesha_out,'account_out_balance'=>$account_out_balance,'out_lalain'=>$out_lalain,'outsystem_yesterday'=>$outsystem_yesterday,'total_njeleo'=>$total_njeleo,'out_system_total'=>$out_system_total,'total_deposit_out'=>$total_deposit_out,'total_kopesha_out'=>$total_kopesha_out,'nje_account'=>$nje_account,'total_out_system'=>$total_out_system],true);
+    $html = $this->load->view('admin/daily_report_data',['compdata'=>$compdata,'blanch_rec'=>$blanch_rec,'from'=>$from,'to'=>$to,'total_code_no'=>$total_code_no,'deducted_fee'=>$deducted_fee,'penart_paid'=>$penart_paid,'total_stoo'=>$total_stoo,'total_miamala'=>$total_miamala,'account_deposit'=>$account_deposit,'toyal_default'=>$toyal_default,'withdrawal_account'=>$withdrawal_account,'total_code_no'=>$total_code_no],true);
     $mpdf->SetFooter('Generated By Brainsoft Technology');
     $mpdf->WriteHTML($html);
     $mpdf->Output();	
@@ -8706,48 +8765,7 @@ public function create_saving_deposit(){
 
 
 
-	// public function create_topup_loans($loan_id){
-	// //Prepare array of user data
- //            $data = array(
- //            'comp_id'=> $this->input->post('comp_id'),
- //            'blanch_id'=> $this->input->post('blanch_id'),
- //            'category_id'=> $this->input->post('category_id'),
- //            'loan_id'=> $this->input->post('loan_id'),
- //            'customer_id'=> $this->input->post('customer_id'),
- //            'empl_id'=> $this->input->post('empl_id'),
- //            'group_id'=> $this->input->post('group_id'),
- //            'topup_amount'=> $this->input->post('topup_amount'),
- //            'day'=> $this->input->post('day'),
- //            'session'=> $this->input->post('session'),
- //            'fee_status'=> $this->input->post('fee_status'),
- //            'rate'=> $this->input->post('rate'),
- //            'top_date'=> $this->input->post('top_date'),
- //            'reason'=> $this->input->post('reason'),
-            
- //            );
- //            //   echo "<pre>";
- //            // print_r($data);
- //            //  echo "</pre>";
- //            //   exit();
-
- //           $this->load->model('queries'); 
- //           $data = $this->queries->insert_loan_topup($data);
- //            //Storing insertion status message.
- //            if($data){
- //            	$this->session->set_flashdata('massage','Successfully');
- //               }else{
- //                $this->session->set_flashdata('error','Data failed!!');
- //            }
- //            return redirect('admin/topup_loan/'.$loan_id);
-	// }
-
-
-        
-	// public function topup_loan($loan_id){
-	// 	$this->load->model('queries');
-		
-	// 	$this->load->view('admin/topup_loan');
-	// }
+	
 
 
 	public function group_loaan_customer(){
@@ -9403,6 +9421,9 @@ public function send_staff_sms($empl_id,$comp_id,$loan_status){
         $blanch = $this->queries->get_blanchd($comp_id);
         $blanch_datas = $this->queries->get_managerBlanch($blanch_id);
         $compdata = $this->queries->get_comp_data($comp_id);
+
+
+ 	    
         // print_r($compdata);
         //    exit();
         

@@ -1,4 +1,4 @@
-    <?php
+<?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 class Oficer extends CI_Controller {
 	public function index()
@@ -3580,11 +3580,25 @@ public function cash_transaction(){
     
     $cash_transaction = $this->queries->get_cash_transaction_blanch($blanch_id);
     $sum_cashTransaction = $this->queries->get_cash_transaction_sum_blanch($blanch_id);
+
+
+    $account_deposit = $this->queries->get_deposit_sunnary_account_blanch($blanch_id);
+    $default_list = $this->queries->get_depositing_out_blanch($blanch_id);
+    $toyal_default = $this->queries->get_depositing_out_total_blanch($blanch_id);
+
+    $withdrawal_account = $this->queries->get_withdrawal_summary_account_blanch_data($blanch_id);
+    $total_code_no = $this->queries->get_total_code_number_blanch_data($blanch_id);
+    $deducted_fee = $this->queries->get_total_deducted_income_blanch_data($blanch_id);
+
+    $penart_paid = $this->queries->get_total_penart_paid_blanch_data($blanch_id);
+
+    $miamala = $this->queries->get_miamala_hewa_blanch_data($blanch_id);
+    $total_miamala = $this->queries->get_miamala_hewa_total_blanch_data($blanch_id);
     //        echo "<pre>";
     // print_r($sum_cashTransaction);
     //            exit();
 
-    $this->load->view('oficer/cash_transaction',['empl_data'=>$empl_data,'cash_transaction'=>$cash_transaction,'sum_cashTransaction'=>$sum_cashTransaction]);
+    $this->load->view('oficer/cash_transaction',['empl_data'=>$empl_data,'cash_transaction'=>$cash_transaction,'sum_cashTransaction'=>$sum_cashTransaction,'account_deposit'=>$account_deposit,'default_list'=>$default_list,'toyal_default'=>$toyal_default,'withdrawal_account'=>$withdrawal_account,'total_code_no'=>$total_code_no,'deducted_fee'=>$deducted_fee,'penart_paid'=>$penart_paid,'miamala'=>$miamala,'total_miamala'=>$total_miamala]);
 }
 
 
@@ -3601,13 +3615,89 @@ public function filter_cashTransaction(){
     $blanch_id = $this->input->post('blanch_id');
     $from = $this->input->post('from');
     $to = $this->input->post('to');
-    $data_cash = $this->queries->get_blanchTransaction_blanch($from,$to,$blanch_id);
-    $total_cash = $this->queries->get_blanchTransaction_comp_blanch($from,$to,$blanch_id);
+  
+
+    $cash = $this->queries->get_blanchTransaction($from,$to,$blanch_id);
+    $total_comp_data = $this->queries->get_blanchTransaction_comp_blanch($from,$to,$blanch_id);
+
+    $account_deposit = $this->queries->get_deposit_sunnary_account_prev_blanch($blanch_id,$from,$to);
+    $default_list = $this->queries->get_depositing_out_prev_blanch($blanch_id,$from,$to);
+    $toyal_default = $this->queries->get_depositing_out_total_prev_blanch($blanch_id,$from,$to);
+
+    $withdrawal_account = $this->queries->get_withdrawal_summary_account_blanch($blanch_id,$from,$to);
+    $total_code_no = $this->queries->get_total_code_number_blanch($blanch_id,$from,$to);
+    $deducted_fee = $this->queries->get_total_deducted_income_blanch($blanch_id,$from,$to);
+
+    $penart_paid = $this->queries->get_total_penart_paid_blanch($blanch_id,$from,$to);
+
+    $miamala = $this->queries->get_miamala_hewa_blanch($blanch_id,$from,$to);
+    $total_miamala = $this->queries->get_miamala_hewa_total_blanch($blanch_id,$from,$to);
+
+    $blanch_data = $this->queries->get_blanchData($blanch_id);
     // echo "<pre>";
     // print_r($total_cash);
     //        exit();
-    $this->load->view('oficer/prev_cash',['empl_data'=>$empl_data,'from'=>$from,'to'=>$to,'data_cash'=>$data_cash,'total_cash'=>$total_cash]);
+    $this->load->view('oficer/prev_cash',['empl_data'=>$empl_data,'from'=>$from,'to'=>$to,'cash'=>$cash,'total_comp_data'=>$total_comp_data,'account_deposit'=>$account_deposit,'default_list'=>$default_list,'toyal_default'=>$toyal_default,'withdrawal_account'=>$withdrawal_account,'total_code_no'=>$total_code_no,'deducted_fee'=>$deducted_fee,'penart_paid'=>$penart_paid,'miamala'=>$miamala,'total_miamala'=>$total_miamala,'blanch_id'=>$blanch_id,'blanch_data'=>$blanch_data]);
 }
+
+ public function print_cashBlanch($from,$to,$blanch_id){
+    $this->load->model('queries');
+    $blanch_id = $this->session->userdata('blanch_id');
+    $empl_id = $this->session->userdata('empl_id');
+    $manager_data = $this->queries->get_manager_data($empl_id);
+    $comp_id = $manager_data->comp_id;
+    $company_data = $this->queries->get_companyData($comp_id);
+    $blanch_data = $this->queries->get_blanchData($blanch_id);
+    $empl_data = $this->queries->get_employee_data($empl_id);
+    
+    if ($blanch_id == 'all') {
+   $cash = $this->queries->get_blanchTransaction_comp($from,$to,$comp_id);
+   $total_comp_data = $this->queries->get_blanchTransaction_comp_data($from,$to,$comp_id);
+
+   $account_deposit = $this->queries->get_deposit_sunnary_account_company($comp_id,$from,$to);
+   $default_list = $this->queries->get_depositing_out_comp($comp_id,$from,$to);
+   $toyal_default = $this->queries->get_depositing_out_total_comp($comp_id,$from,$to);
+
+   $withdrawal_account = $this->queries->get_withdrawal_summary_account_company($comp_id,$from,$to);
+    $total_code_no = $this->queries->get_total_code_number_comp($comp_id,$from,$to);
+    $deducted_fee = $this->queries->get_total_deducted_income_company($comp_id,$from,$to);
+
+    $penart_paid = $this->queries->get_total_penart_paid_company($comp_id,$from,$to);
+
+    $miamala = $this->queries->get_miamala_hewa_company($comp_id,$from,$to);
+    $total_miamala = $this->queries->get_miamala_hewa_total_company($comp_id,$from,$to);
+
+   }else{
+    $cash = $this->queries->get_blanchTransaction($from,$to,$blanch_id);
+    $total_comp_data = $this->queries->get_blanchTransaction_comp_blanch($from,$to,$blanch_id);
+
+
+    $account_deposit = $this->queries->get_deposit_sunnary_account_prev_blanch($blanch_id,$from,$to);
+    $default_list = $this->queries->get_depositing_out_prev_blanch($blanch_id,$from,$to);
+    $toyal_default = $this->queries->get_depositing_out_total_prev_blanch($blanch_id,$from,$to);
+
+    $withdrawal_account = $this->queries->get_withdrawal_summary_account_blanch($blanch_id,$from,$to);
+    $total_code_no = $this->queries->get_total_code_number_blanch($blanch_id,$from,$to);
+    $deducted_fee = $this->queries->get_total_deducted_income_blanch($blanch_id,$from,$to);
+
+    $penart_paid = $this->queries->get_total_penart_paid_blanch($blanch_id,$from,$to);
+    $miamala = $this->queries->get_miamala_hewa_blanch($blanch_id,$from,$to);
+    $total_miamala = $this->queries->get_miamala_hewa_total_blanch($blanch_id,$from,$to);
+    
+   }
+  $blanch = $this->queries->get_blanchd($comp_id);
+  $blanch_data = $this->queries->get_blanch_data($blanch_id);
+  $compdata = $this->queries->get_companyData($comp_id);
+        //        echo "<pre>";
+        // print_r($compdata);
+        //        exit();
+    $mpdf = new \Mpdf\Mpdf(['mode' => 'utf-8','format' => 'A4-L','orientation' => 'L']);
+    $html = $this->load->view('oficer/print_cashTransaction_blanch',['cash'=>$cash,'blanch_id'=>$blanch_id,'from'=>$from,'to'=>$to,'total_comp_data'=>$total_comp_data,'blanch_data'=>$blanch_data,'compdata'=>$compdata,'account_deposit'=>$account_deposit,'default_list'=>$default_list,'toyal_default'=>$toyal_default,'withdrawal_account'=>$withdrawal_account,'total_code_no'=>$total_code_no,'deducted_fee'=>$deducted_fee,'penart_paid'=>$penart_paid,'miamala'=>$miamala,'total_miamala'=>$total_miamala],true);
+    $mpdf->SetFooter('Generated By Brainsoft Technology');
+        $mpdf->WriteHTML($html);
+        $mpdf->Output();
+         
+    }
 
 
 public function loan_rejected(){

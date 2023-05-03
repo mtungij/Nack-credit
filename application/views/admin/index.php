@@ -348,7 +348,7 @@
                     </div></a>
                 </div>
                 <div class="col-lg-2 col-md-4 col-6">
-                    <a href="<?php echo base_url("admin/today_recevable_loan"); ?>">
+                    <a href="<?php echo base_url("admin/today_receved_loan"); ?>">
                         <div class="card google-widget">
                         <div class="icon"><img src="<?php echo base_url() ?>assets/img/received.png" style="width: 44px; height: 44px;"></div>
                         <div class="content">
