@@ -108,7 +108,7 @@
                                                 <th><?php echo  $this->lang->line("income_amount_menu"); ?></th>
                                                 <th><?php echo $this->lang->line("employee_menu"); ?></th>
                                                 <th><?php echo $this->lang->line("date_menu"); ?></th>
-                                                <th><?php echo $this->lang->line("action_menu"); ?></th>
+                                               <!--  <th><?php //echo $this->lang->line("action_menu"); ?></th> -->
                                         </tr>
                                     </thead>
                                    
@@ -129,10 +129,10 @@
                                     <td>
                                        <?php echo $detail_incomes->receve_day; ?>
                                     </td>
-                                <td>
-                                <a href="<?php echo base_url("oficer/delete_receved/{$detail_incomes->receved_id}") ?>" class="btn btn-sm btn-icon btn-pure btn-danger on-default m-r-5 button-edit" data-original-title="Delete" onclick="return confirm('Are You Sure?')"><i class="icon-trash"></i>
+                               <!--  <td>
+                                <a href="<?php //echo base_url("oficer/delete_receved/{$detail_incomes->receved_id}") ?>" class="btn btn-sm btn-icon btn-pure btn-danger on-default m-r-5 button-edit" data-original-title="Delete" onclick="return confirm('Are You Sure?')"><i class="icon-trash"></i>
                                         </a>
-                                </td>                                                                                   
+                                </td> -->                                                                                   
                             </tr>
    
                                          <?php endforeach; ?>
@@ -145,7 +145,7 @@
                                              <td><b><?php echo number_format($total_receved->total_receved); ?></b></td>
                                              <td></td>
                                              <td></td>
-                                             <td></td>
+                                             <!-- <td></td> -->
                                          </tr>
                                 </table>
                             </div>
