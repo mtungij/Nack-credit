@@ -2403,7 +2403,7 @@ $this->db->query("INSERT INTO tbl_outstand (`comp_id`,`loan_id`,`blanch_id`,`loa
             //sms send
           $today = date("Y-m-d");
          $date = date('F,j,Y',strtotime($today));
-          $sms = 'Ndugu, '.$full_name. ' '. 'Umeingiza Tsh.' .number_format($new_balance). ' ' . $comp_name.' Mpokeaji '.$role . ' Kiasi kilicho baki Kulipwa ni Tsh.'.$remain_loan.' Kwa malalamiko piga '.$comp_phone .' '. $date;
+        $sms = 'Ndugu, '.$full_name. ' '. 'Umeingiza Tsh.' .number_format($new_balance). ' ' . $comp_name.' Mpokeaji '.$role . ' Kiasi kilicho baki Kulipwa ni Tsh.'.$remain_loan.' '. $date;
           $massage = $sms;
           $phone = $phones;
 
@@ -2486,7 +2486,7 @@ $this->db->query("INSERT INTO tbl_outstand (`comp_id`,`loan_id`,`blanch_id`,`loa
             //sms send
           $today = date("Y-m-d");
          $date = date('F,j,Y',strtotime($today));
-          $sms = 'Ndugu, '.$full_name. ' '. 'Umeingiza Tsh.' .number_format($new_balance). ' ' . $comp_name.' Mpokeaji '.$role . ' Kiasi kilicho baki Kulipwa ni Tsh.'.$remain_loan.' Kwa malalamiko piga '.$comp_phone .' '. $date;
+          $sms = 'Ndugu, '.$full_name. ' '. 'Umeingiza Tsh.' .number_format($new_balance). ' ' . $comp_name.' Mpokeaji '.$role . ' Kiasi kilicho baki Kulipwa ni Tsh.'.$remain_loan.' '. $date;
 
           $massage = $sms;
           $phone = $phones;
@@ -2607,7 +2607,7 @@ $this->db->query("INSERT INTO tbl_outstand (`comp_id`,`loan_id`,`blanch_id`,`loa
             //sms send
          $today = date("Y-m-d");
          $date = date('F,j,Y',strtotime($today));
-          $sms = 'Ndugu, '.$full_name. ' '. 'Umeingiza Tsh.' .number_format($new_balance). ' ' . $comp_name.' Mpokeaji '.$role . ' Kiasi kilicho baki Kulipwa ni Tsh.'.$remain_loan.' Kwa malalamiko piga '.$comp_phone .' '. $date;
+          $sms = 'Ndugu, '.$full_name. ' '. 'Umeingiza Tsh.' .number_format($new_balance). ' ' . $comp_name.' Mpokeaji '.$role . ' Kiasi kilicho baki Kulipwa ni Tsh.'.$remain_loan.' '. $date;
 
           $massage = $sms;
           $phone = $phones;

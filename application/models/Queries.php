@@ -9,6 +9,11 @@ class Queries extends CI_Model {
 		 return $data->row();
 	}
 
+	public function get_outstand_deposit($blanch_id,$trans_id){
+       	$data = $this->db->query("SELECT * FROM tbl_receve_outstand WHERE blanch_id = '$blanch_id' AND trans_id = '$trans_id'");
+       	return $data->row();
+       }
+
 	public function update_penart($loan_id,$penat_status){
 		return $this->db->where('loan_id',$loan_id)->update('tbl_loans',$penat_status);
 	}
@@ -5791,10 +5796,8 @@ public function get_loan_withdrawal_today_blanch_general($blanch_id){
        }
 
 
-       public function get_outstand_deposit($blanch_id,$trans_id){
-       	$data = $this->db->query("SELECT * FROM tbl_receve_outstand WHERE blanch_id = '$blanch_id' AND trans_id = '$trans_id' LIMIT 1");
-       	return $data->row();
-       }
+       
+       
 
        public function get_total_deposit_out($blanch_id){
        	$date = date("Y-m-d");

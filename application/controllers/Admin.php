@@ -2311,7 +2311,7 @@ public function disburse($loan_id){
             //  echo "</pre>";
             //   exit();
            //send sms function
-         $sms ='Ndugu,'.' '.$full_name .' '.'Tunapenda Kukutaarifu Kuwa Mkopo wako Wa Tsh.'.number_format($loan_aproved) . ' '.'Umepitishwa'. ' '. $comp_name.' '.' Inakujari Mteja' .' '.' Kwa msaada zaidi '.$comp_phone;
+         $sms ='Ndugu,'.' '.$full_name .' '.'Tunapenda Kukutaarifu Kuwa Mkopo wako Wa Tsh.'.number_format($loan_aproved) . ' '.'Umepitishwa'. ' '. $comp_name.' '.' Inakujari Mteja';
            $massage = $sms;
            $phone = $phones;
                // print_r($massage);
@@ -3340,14 +3340,14 @@ $this->db->query("INSERT INTO tbl_outstand (`comp_id`,`loan_id`,`blanch_id`,`loa
 
 	        //exit();
 
-	      $check_deposit = $this->queries->get_today_deposit_record($loan_id,$deposit_date);
-	      $depost_check = $check_deposit->depost;
-	      $dep_id = $check_deposit->dep_id;
+	      @$check_deposit = $this->queries->get_today_deposit_record($loan_id,$deposit_date);
+	      $depost_check = @$check_deposit->depost;
+	      $dep_id = @$check_deposit->dep_id;
           $again_deposit = $depost_check +  $depost;
 
-	      $check_prev = $this->queries->get_prev_record_report($loan_id,$deposit_date);
-	      $prev_deposit = $check_prev->depost;
-	      $dep_id = $check_prev->pay_id;
+	      @$check_prev = $this->queries->get_prev_record_report($loan_id,$deposit_date);
+	      $prev_deposit = @$check_prev->depost;
+	      $dep_id = @$check_prev->pay_id;
 	      $again_prev = $prev_deposit + $depost;
 
 	      @$out_deposit = $this->queries->get_outstand_deposit($blanch_id,$trans_id);
@@ -3433,7 +3433,7 @@ $this->db->query("INSERT INTO tbl_outstand (`comp_id`,`loan_id`,`blanch_id`,`loa
 	        //sms send
 	     $today = date("Y-m-d");
 	     $date = date('F,j,Y',strtotime($today));
-          $sms = 'Ndugu, '.$full_name. ' '. 'Umeingiza Tsh.' .number_format($new_balance). ' ' . $comp_name.' Mpokeaji '.$role . ' Kiasi kilicho baki Kulipwa ni Tsh.'.$remain_loan.' Kwa malalamiko piga '.$comp_phone .' '. $date;
+          $sms = 'Ndugu, '.$full_name. ' '. 'Umeingiza Tsh.' .number_format($new_balance). ' ' . $comp_name.' Mpokeaji '.$role . ' Kiasi kilicho baki Kulipwa ni Tsh.'.$remain_loan.' '. $date;
           $massage = $sms;
           $phone = $phones;
 
@@ -3522,7 +3522,7 @@ $this->db->query("INSERT INTO tbl_outstand (`comp_id`,`loan_id`,`blanch_id`,`loa
 	        //sms send
             $today = date("Y-m-d");
 	       $date = date('F,j,Y',strtotime($today));
-          $sms = 'Ndugu, '.$full_name. ' '. 'Umeingiza Tsh.' .number_format($new_balance). ' ' . $comp_name.' Mpokeaji '.$role . ' Kiasi kilicho baki Kulipwa ni Tsh.'.$remain_loan.' Kwa malalamiko piga '.$comp_phone .' '. $date;
+          $sms = 'Ndugu, '.$full_name. ' '. 'Umeingiza Tsh.' .number_format($new_balance). ' ' . $comp_name.' Mpokeaji '.$role . ' Kiasi kilicho baki Kulipwa ni Tsh.'.$remain_loan.' '. $date;
           $massage = $sms;
           $phone = $phones;
 
@@ -3646,7 +3646,7 @@ $this->db->query("INSERT INTO tbl_outstand (`comp_id`,`loan_id`,`blanch_id`,`loa
 	        //sms send
             $today = date("Y-m-d");
 	     $date = date('F,j,Y',strtotime($today));
-          $sms = 'Ndugu, '.$full_name. ' '. 'Umeingiza Tsh.' .number_format($new_balance). ' ' . $comp_name.' Mpokeaji '.$role . ' Kiasi kilicho baki Kulipwa ni Tsh.'.$remain_loan.' Kwa malalamiko piga '.$comp_phone .' '. $date;
+          $sms = 'Ndugu, '.$full_name. ' '. 'Umeingiza Tsh.' .number_format($new_balance). ' ' . $comp_name.' Mpokeaji '.$role . ' Kiasi kilicho baki Kulipwa ni Tsh.'.$remain_loan.' '. $date;
           $massage = $sms;
           $phone = $phones;
 
