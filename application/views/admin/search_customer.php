@@ -234,7 +234,7 @@
 
     <div class="text-center">
     <button type="submit" class="btn btn-primary"><i class="icon-pencil">Save</i></button>
-    <?php if ($data_loan_desc->loan_status == 'open' || $data_loan_desc->loan_status == 'reject' || $data_loan_desc->loan_status == 'out' || $data_loan_desc->loan_status == 'withdrawal') {
+    <?php if (@$data_loan_desc->loan_status == 'open' || @$data_loan_desc->loan_status == 'reject' || @$data_loan_desc->loan_status == 'out' || @$data_loan_desc->loan_status == 'withdrawal') {
      ?>
 <a href="<?php echo base_url("admin/loan_applicationForm/{$customer->customer_id}"); ?>" class="btn btn-primary">Next</a>
  <?php }else{ ?>
