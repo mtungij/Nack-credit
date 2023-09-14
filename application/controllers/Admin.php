@@ -2956,10 +2956,9 @@ public function create_withdrow_balance($customer_id){
 	       $blanch_deducted = @$check_deducted->blanch_id;
            
            $new_deducted = $deducted + $sum_total_loanFee;
-    //         if($new_code != $code){
-		 	// $this->session->set_flashdata('error','Loan Code is Invalid Please Try Again');	
-		  //     }else
-
+            if($new_code != $code){
+		 	 $this->session->set_flashdata('error','Loan Code is Invalid Please Try Again');	
+		      }else{
             if($blanch_capital < $withdrow_newbalance) {
 		      	$this->session->set_flashdata('error','Branch Account balance Is Not Enough to withdraw');
 		      	}elseif($input_balance <= $balance){
@@ -2989,6 +2988,7 @@ public function create_withdrow_balance($customer_id){
 	           $this->session->set_flashdata('massage','withdrow Has made Sucessfully');
 		      }else{
 		     $this->session->set_flashdata('error','Customer Balance is not Enough to withdraw');
+		      }
 		      }
          return redirect('admin/data_with_depost/'.$customer_id);
 	     }
@@ -6567,6 +6567,18 @@ echo $this->queries->fetch_loancustomer($this->input->post('customer_id'));
 			 $group_id = $loan_income->group_id;
 			 $empl_id = $loan_income->empl_id;
 			 $username = $empl_id;
+
+
+		$company = $this->queries->get_comp_data($comp_id);
+        $comp_name = $company->comp_name;
+        $comp_phone = $company->comp_phone;
+        
+        $data_sms = $this->queries->get_loan_reminder($customer_id);
+        $phone = $data_sms->phone_no;
+        $first_name = $data_sms->f_name;
+        $midle_name = $data_sms->m_name;
+        $last_name = $data_sms->l_name;
+        $massage = 'Ndugu, ' .$first_name . ' ' .$midle_name . ' ' .$last_name . ' ' .'Umelipa faini ya Tsh.'. number_format($penart_paid) . ' '.$comp_name .' kwa msaada 0679420326 / 0629364847';
 			 // print_r($username);
 			 //     exit();
              
@@ -6595,14 +6607,18 @@ echo $this->queries->fetch_loancustomer($this->input->post('customer_id'));
       			$this->update_paidPenart($loan_id,$update_paid);
       			$this->insert_income($comp_id,$inc_id,$blanch_id,$customer_id,$username,$penart_paid,$penart_date,$loan_id,$group_id);
       			$this->session->set_flashdata('massage','Tsh. '.$penart_paid .' Paid successfully');
+      			$this->sendsms($phone,$massage);
 			     	}elseif($penart == FALSE){
 			     $this->insert_income($comp_id,$inc_id,$blanch_id,$customer_id,$username,$penart_paid,$penart_date,$loan_id,$group_id);
                  $this->insert_penartPaid($loan_id,$inc_id,$blanch_id,$comp_id,$penart_paid,$username,$customer_id,$penart_date,$group_id);
+                 $this->sendsms($phone,$massage);
                  $this->session->set_flashdata('massage','Tsh. '.$penart_paid .' Paid successfully');
+
 			     		}
 			     
 			     }else{	
 			  $this->insert_income($comp_id,$inc_id,$blanch_id,$customer_id,$username,$penart_paid,$penart_date,$loan_id,$group_id);
+			  $this->sendsms($phone,$massage);
 			  $this->session->set_flashdata('massage','Tsh. '.$penart_paid .' Paid successfully');
 			     }
 			  // //print_r($alphabet);
@@ -7858,19 +7874,9 @@ $this->load->view('admin/sms_history',['history'=>$history,'sms_jumla'=>$sms_jum
         $sms = 'Namba ya Siri Ya Mkopo Wako ni ' .$code;
         $massage = $sms;
         $phone = '0'.substr($phones, 3,10);
-        //sms count function
-          @$smscount = $this->queries->get_smsCountDate($comp_id);
-          $sms_number = @$smscount->sms_number;
-          $sms_id = @$smscount->sms_id;
-
-            if (@$smscount->sms_number == TRUE) {
-                $new_sms = 1;
-                $total_sms = @$sms_number + $new_sms;
-                $this->update_count_sms($comp_id,$total_sms,$sms_id);
-              }elseif (@$smscount->sms_number == FALSE) {
-             $sms_number = 1;
-             $this->insert_count_sms($comp_id,$sms_number);
-             }
+        // print_r($phone);
+        //      exit();
+       
         $this->sendsms($phone,$massage);
         $this->session->set_flashdata('massage','Loan code sent please Wait');
         return redirect('admin/data_with_depost/'.$customer_id);
@@ -9252,6 +9258,7 @@ public function update_non_balance_deducted($comp_id,$blanch_id){
 
 
 public function samehe_faini($customer_id){
+	$this->load->model('queries');
 	$this->form_validation->set_rules('comp_id','company','required');
 	$this->form_validation->set_rules('blanch_id','blanch','required');
 	$this->form_validation->set_rules('loan_id','Loan','required');
@@ -9260,7 +9267,21 @@ public function samehe_faini($customer_id){
 
 	if ($this->form_validation->run()) {
 		$data = $this->input->post();
-		// print_r($data);
+		$comp_id = $data['comp_id'];
+		$customer_id = $data['customer_id'];
+		$blanch_id = $data['blanch_id'];
+
+		$company = $this->queries->get_comp_data($comp_id);
+        $comp_name = $company->comp_name;
+        $comp_phone = $company->comp_phone;
+        
+        $data_sms = $this->queries->get_loan_reminder($customer_id);
+        $phone = $data_sms->phone_no;
+        $first_name = $data_sms->f_name;
+        $midle_name = $data_sms->m_name;
+        $last_name = $data_sms->l_name;
+        $massage = 'Ndugu, ' .$first_name . ' ' .$midle_name . ' ' .$last_name . ' ' .'Umesamehewa faini ya kulaza rejesho '.$comp_name .' epuka kuchajiwa faini ukilaza rejesho';
+		// print_r($massage);
 		//     exit();
 		$this->load->model('queries');
 		if ($this->queries->insert_msamaha($data)) {
@@ -9268,6 +9289,7 @@ public function samehe_faini($customer_id){
 		}else{
 		 $this->session->set_flashdata("massage",'Umefanikiwa Kusamehe Faini Ahsante');	
 		}
+		$this->sendsms($phone,$massage);
 		return redirect('admin/data_with_depost/'.$customer_id);
 	}
 	$this->data_with_depost();

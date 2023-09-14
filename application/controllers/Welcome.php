@@ -441,7 +441,7 @@ $sqldata="UPDATE `tbl_loans` SET `dis_date`='$now',`return_date`= '$return_data'
                    }elseif ($total_pend == FALSE) {
                    $this->insert_pending_total($comp_id,$customer_id,$blanch_id,$loan_id,$reamain_kulipwa);	
                    }
-                   
+                   $this->witdrow_balanceAutoYote($loan_id,$comp_id,$blanch_id,$customer_id,$old_balance_data,$chukua_chote,$description,$group_id);
                    //insert customer report money value
                    $this->insert_loan_pending_report($comp_id,$blanch_id,$customer_id,$loan_id,$loanreturn,$sua,$money_value,$group_id);
                    //$this->update_shedure_notpaid($loan_id);

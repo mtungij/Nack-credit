@@ -238,7 +238,7 @@
      ?>
 <a href="<?php echo base_url("admin/loan_applicationForm/{$customer->customer_id}"); ?>" class="btn btn-primary">Next</a>
  <?php }else{ ?>
-    <a href="<?php echo base_url("admin/verfication_code/{$customer->customer_id}"); ?>" class="btn btn-primary">Next</a>
+    <a href="<?php echo base_url("admin/loan_applicationForm/{$customer->customer_id}"); ?>" class="btn btn-primary">Next</a>
     <?php } ?>
     </div>
                             

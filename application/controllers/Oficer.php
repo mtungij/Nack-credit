@@ -168,6 +168,19 @@ public function create_income_detail(){
               $deducted_balance = @$non_deducted->non_balance;
               $another_deducted = $deducted_balance + $receve_amount;
 
+        $company = $this->queries->get_comp_data($comp_id);
+        $comp_name = $company->comp_name;
+        $comp_phone = $company->comp_phone;
+        
+        $data_sms = $this->queries->get_loan_reminder($customer_id);
+        $phone = $data_sms->phone_no;
+        $first_name = $data_sms->f_name;
+        $midle_name = $data_sms->m_name;
+        $last_name = $data_sms->l_name;
+        $massage = 'Ndugu, ' .$first_name . ' ' .$midle_name . ' ' .$last_name . ' ' .'Umelipa faini ya Tsh.'. number_format($penart_paid) . ' '.$comp_name .' kwa msaada 0679420326 / 0629364847';
+    //    echo "<pre>";
+    // print_r($massage);
+    //      exit();
 
               
               // print_r($amount);
@@ -194,15 +207,18 @@ public function create_income_detail(){
                 $this->update_paidPenart($loan_id,$update_paid);
                 $this->insert_income($comp_id,$inc_id,$blanch_id,$customer_id,$username,$penart_paid,$penart_date,$loan_id,$group_id);
                 $this->session->set_flashdata('massage','Tsh. '.$penart_paid .' Paid successfully');
+                $this->sendsms($phone,$massage);
                     }elseif($penart == FALSE){
                  $this->insert_income($comp_id,$inc_id,$blanch_id,$customer_id,$username,$penart_paid,$penart_date,$loan_id,$group_id);
                  $this->insert_penartPaid($loan_id,$inc_id,$blanch_id,$comp_id,$penart_paid,$username,$customer_id,$penart_date,$group_id);
                  $this->session->set_flashdata('massage','Tsh. '.$penart_paid .' Paid successfully');
+                 $this->sendsms($phone,$massage);
                         }
                  
                  }else{ 
               $this->insert_income($comp_id,$inc_id,$blanch_id,$customer_id,$username,$penart_paid,$penart_date,$loan_id,$group_id);
               $this->session->set_flashdata('massage','Tsh. '.$penart_paid .' Paid successfully');
+              $this->sendsms($phone,$massage);
                  }
               // //print_r($alphabet);
               //      exit();
@@ -1928,9 +1944,9 @@ public function create_withdrow_balance($customer_id){
            
            $new_deducted = $deducted + $sum_total_loanFee;
               
-            //  if($new_code != $code){
-            // $this->session->set_flashdata('error','Loan Code is Invalid Please Try Again'); 
-            //   }else
+              if($new_code != $code){
+             $this->session->set_flashdata('error','Loan Code is Invalid Please Try Again'); 
+               }else{
 
              if ($blanch_capital < $withdrow_newbalance) {
                 $this->session->set_flashdata('error','Branch Account balance Is Not Enough to withdraw');
@@ -1970,8 +1986,10 @@ public function create_withdrow_balance($customer_id){
               }else{
              $this->session->set_flashdata('error','Customer Balance is not Enough to withdraw');
               }
+              }
          return redirect('oficer/data_with_depost/'.$customer_id);
          }
+
       $this->data_with_depost();
      }
 
@@ -5033,6 +5051,26 @@ public function deposit_loan_saving(){
       //  exit();
       $query = $this->db->query($sqldata);
      return true;
+      }
+
+
+        public function get_loan_code_resend($customer_id){
+        $this->load->model('queries');
+
+        $loan_code = $this->queries->get_loanCustomerCode($customer_id);
+        $code = $loan_code->code;
+        $phones = $loan_code->phone_no;
+        $comp_id = $loan_code->comp_id;
+         
+        $sms = 'Namba ya Siri Ya Mkopo Wako ni ' .$code;
+        $massage = $sms;
+        $phone = '0'.substr($phones, 3,10);
+        // print_r($massage);
+        //      exit();
+       
+        $this->sendsms($phone,$massage);
+        $this->session->set_flashdata('massage','Loan code sent please Wait');
+        return redirect('oficer/data_with_depost/'.$customer_id);
       }
 
      

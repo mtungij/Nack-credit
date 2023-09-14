@@ -4,7 +4,7 @@
                 <img src="<?php echo base_url() ?>assets/img/male.jpeg" class="rounded-circle user-photo" alt="User Profile Picture">
                 <div class="dropdown">
                     <span><?php echo $this->lang->line('karibu_menu'); ?>,</span>
-                    <a href="javascript:void(0);" class="dropdown-toggle user-name" data-toggle="dropdown"><strong><?php echo $_SESSION['comp_name']; ?></strong></a>
+                    <a href="javascript:void(0);" class="dropdown-toggle user-name" data-toggle="dropdown"><strong><?php echo @$_SESSION['comp_name']; ?></strong></a>
                     <ul class="dropdown-menu dropdown-menu-right account">
                         <li><a href="javascript:;"><i class="icon-user"></i>My Profile</a></li>
                         <li><a href="javascript:void(0);"><i class="icon-settings"></i>Settings</a></li>
