@@ -9289,7 +9289,7 @@ public function samehe_faini($customer_id){
 		}else{
 		 $this->session->set_flashdata("massage",'Umefanikiwa Kusamehe Faini Ahsante');	
 		}
-		$this->sendsms($phone,$massage);
+		//$this->sendsms($phone,$massage);
 		return redirect('admin/data_with_depost/'.$customer_id);
 	}
 	$this->data_with_depost();
