@@ -8,7 +8,7 @@
                     <a href="javascript:void(0);" class="dropdown-toggle user-name" data-toggle="dropdown"><strong><?php echo @$_SESSION['comp_name']; ?></strong></a>
                     <ul class="dropdown-menu dropdown-menu-right account">
                         <li><a href="javascript:;"><i class="icon-user"></i>My Profile</a></li>
-                        <li><a href="javascript:void(0);"><i class="icon-settings"></i>Settings</a></li>
+                        <li><a href="<?php echo base_url("admin/setting"); ?>"><i class="icon-settings"></i>Settings</a></li>
                         <li class="divider"></li>
                         <li><a href="javascript:void(0);"><i class="icon-power"></i>Logout</a></li>
                     </ul>

@@ -235,6 +235,7 @@ class Welcome extends CI_Controller {
 					'blanch_id' => $userexit->blanch_id,
 					'username' => $userexit->username,
 					'empl_name' => $userexit->empl_name,
+					'position_id' => $userexit->position_id,
 					];
 
 						   	 // echo "<pre>";

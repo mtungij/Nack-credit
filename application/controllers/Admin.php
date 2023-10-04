@@ -61,6 +61,20 @@ class Admin extends CI_Controller {
 	}
 
 
+
+	public function setting(){
+		$this->load->model('queries');
+		$comp_id = $this->session->userdata('comp_id');
+		$compdata = $this->queries->get_companyDataProfile($comp_id);
+		$region = $this->queries->get_region();
+		//    echo "<pre>";
+		// print_r($compdata);
+		//         exit();
+
+		$this->load->view('admin/setting',['compdata'=>$compdata,'region'=>$region]);
+	}
+
+
 	public function sub_admin(){
 		$this->load->model('queries');
 		$this->load->view('admin/sub_admin');
@@ -143,25 +157,6 @@ class Admin extends CI_Controller {
 
 
 	public function update_company_profile($comp_id){
-		if(!empty($_FILES['comp_logo']['name'])){
-                $config['upload_path'] = 'assets/img/';
-                $config['allowed_types'] = 'jpg|jpeg|png|gif|pdf';
-                $config['file_name'] = $_FILES['comp_logo']['name'];
-                    //die($config);
-                //Load upload library and initialize configuration
-                $this->load->library('upload',$config);
-                $this->upload->initialize($config);
-                
-                if($this->upload->do_upload('comp_logo')){
-                    $uploadData = $this->upload->data();
-                    $comp_logo = $uploadData['file_name'];
-                }else{
-                    $comp_logo = '';
-                }
-            }else{
-                $comp_logo = '';
-            }
-            
             //Prepare array of user data
             $data = array(
             'region_id'=> $this->input->post('region_id'),
@@ -170,7 +165,6 @@ class Admin extends CI_Controller {
             'adress'=> $this->input->post('adress'),
             'comp_number'=> $this->input->post('comp_number'),
             'comp_email'=> $this->input->post('comp_email'),
-            'comp_logo' => $comp_logo,
             );
             //   echo "<pre>";
             // print_r($data);
@@ -181,14 +175,13 @@ class Admin extends CI_Controller {
            $data = $this->queries->update_company_Data($data,$comp_id);
             //Storing insertion status message.
             if($data){
-            	$this->session->set_flashdata('massage','Company_profile Updated successfully');
+            	$this->session->set_flashdata('massage','Company profile Updated successfully');
                }else{
                 $this->session->set_flashdata('error','Data failed!!');
             }
-            return redirect('admin/company_profile/');
+            return redirect('admin/setting');
 
 	}
-
 	//chnage password 
 
 	public function change_password(){
@@ -215,16 +208,16 @@ class Admin extends CI_Controller {
         	       //    exit();
            if($old !== sha1($oldpass)){
            $this->session->set_flashdata('error','Old Password not Match') ; 
-             return redirect('admin/company_profile');
+             return redirect('admin/setting');
          }elseif($old == sha1($oldpass)){
          $this->queries->update_password_data($comp_id, array('password' => sha1($newpass)));
          $this->session->set_flashdata('massage','Password changed successfully'); 
-        $comp_data = $this->queries->get_companyDataProfile($comp_id);
-        $this->load->view("admin/company_profile",['comp_data'=>$comp_data]);
+        $compdata = $this->queries->get_companyDataProfile($comp_id);
+        $this->load->view("admin/setting",['compdata'=>$compdata]);
         
           }else{
-          	$comp_data = $this->queries->get_companyDataProfile($comp_id);
-        $this->load->view("admin/company_profile",['comp_data'=>$comp_data]);
+          	$compdata = $this->queries->get_companyDataProfile($comp_id);
+        $this->load->view("admin/setting",['compdata'=>$compdata]);
           }
         }
         }
@@ -240,8 +233,96 @@ class Admin extends CI_Controller {
             //return false;
         }
 
-        return redirect("admin/company_profile");
+        return redirect("admin/setting");
     }
+
+
+    public function update_comp_logo($comp_id){
+	if(!empty($_FILES['comp_logo']['name'])){
+                $config['upload_path'] = 'assets/img/';
+                $config['allowed_types'] = 'jpg|jpeg|png|gif|pdf';
+                $config['file_name'] = $_FILES['comp_logo']['name'];
+                    //die($config);
+                //Load upload library and initialize configuration
+                $this->load->library('upload',$config);
+                $this->upload->initialize($config);
+                
+                if($this->upload->do_upload('comp_logo')){
+                    $uploadData = $this->upload->data();
+                    $comp_logo = $uploadData['file_name'];
+                }else{
+                    $comp_logo = '';
+                }
+            }else{
+                $comp_logo = '';
+            }
+            
+            //Prepare array of user data
+            $data = array(
+            'comp_logo' => $comp_logo,
+            );
+            //   echo "<pre>";
+            // print_r($data);
+            //  echo "</pre>";
+            //   exit();
+
+           $this->load->model('queries'); 
+           $data = $this->queries->update_company_Data($data,$comp_id);
+            //Storing insertion status message.
+            if($data){
+            	$this->session->set_flashdata('massage','Company Logo Updated successfully');
+               }else{
+                $this->session->set_flashdata('error','Data failed!!');
+            }
+            return redirect('admin/setting/');	
+	}
+
+
+	public function change_password_oficer(){
+        $this->load->model('queries');
+        $blanch_id = $this->session->userdata('blanch_id');
+        $empl_id = $this->session->userdata('empl_id');
+        $manager_data = $this->queries->get_manager_data($empl_id);
+        $comp_id = $manager_data->comp_id;
+        $company_data = $this->queries->get_companyData($comp_id);
+        $blanch_data = $this->queries->get_blanchData($blanch_id);
+        $empl_data = $this->queries->get_employee_data($empl_id);
+        $old = $empl_data->password;
+        $this->form_validation->set_rules('oldpass', 'old password', 'required');
+        $this->form_validation->set_rules('newpass', 'new password', 'required');
+        $this->form_validation->set_rules('passconf', 'confirm password', 'required|matches[newpass]');
+        $this->form_validation->set_error_delimiters('<strong><div class="text-danger">', '</div></strong>');
+
+        if($this->form_validation->run()) {
+          $data = $this->input->post();
+          $oldpass = $data['oldpass'];
+          $newpass = $data['newpass'];
+          $passconf = $data['passconf'];
+             // print_r(sha1($newpass));
+                 // echo "<br>";
+                 // print_r($oldpass);
+                 //  echo "<br>";
+                 // print_r($old);
+                 //    exit();
+           if($old !== sha1($oldpass)){
+           $this->session->set_flashdata('error','Old Password not Match') ; 
+             return redirect('admin/setting');
+         }elseif($old == sha1($oldpass)){
+         $this->queries->update_password_dataEmployee($empl_id, array('password' => sha1($newpass)));
+         $this->session->set_flashdata('massage','Password changed successfully'); 
+        $empl_data = $this->queries->get_employee_data($empl_id);
+        $privillage = $this->queries->get_position_empl($empl_id);
+        $manager = $this->queries->get_position_manager($empl_id);
+        $this->load->view("admin/setting",['empl_data'=>$empl_data,'privillage'=>$privillage,'manager'=>$manager]);
+        
+          }else{
+           $empl_data = $this->queries->get_employee_data($empl_id);
+           $privillage = $this->queries->get_position_empl($empl_id);
+           $manager = $this->queries->get_position_manager($empl_id);
+        $this->load->view("admin/setting",['empl_data'=>$empl_data,'privillage'=>$privillage,'manager'=>$manager]);
+          }
+        }
+        }
 
 
 	public function region(){
