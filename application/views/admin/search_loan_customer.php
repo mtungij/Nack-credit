@@ -407,7 +407,7 @@
                     <?php $date = date("Y-m-d"); ?>
                     <div class="col-md-12 col-12">
                     <span>Deposit Date</span>
-                    <input type="date" class="form-control" value="<?php echo $date; ?>" name="deposit_date" required>       
+                    <input type="date" readonly class="form-control" value="<?php echo $date; ?>" name="deposit_date" required>       
                     </div>
                    
             </div>
@@ -460,7 +460,7 @@
                     <?php $date = date("Y-m-d"); ?>
                     <div class="col-md-6 col-6">
                     <span>withdrawal Date</span>
-                    <input type="date" class="form-control" value="<?php echo $date; ?>" name="with_date" required>       
+                    <input type="date" readonly class="form-control" value="<?php echo $date; ?>" name="with_date" required>       
                     </div>
                     <div class="col-md-6 col-6">
                     <span>code</span>
