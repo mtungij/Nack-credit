@@ -2236,7 +2236,7 @@ $this->db->query("INSERT INTO tbl_outstand (`comp_id`,`loan_id`,`blanch_id`,`loa
             $empl_data = $this->queries->get_employee_data($empl_id);
           $company_data = $this->queries->get_companyData($comp_id);
           $loan_restoration = $this->queries->get_restoration_loan($loan_id);
-          $empl_id = $loan_restoration->empl_id;
+          //$empl_id = $loan_restoration->empl_id;
           $date_show = $loan_restoration->date_show;
           $company = $this->queries->get_comp_data($comp_id);
 
@@ -2348,9 +2348,12 @@ $this->db->query("INSERT INTO tbl_outstand (`comp_id`,`loan_id`,`blanch_id`,`loa
           $out_balance = @$out_deposit->out_balance;
 
           $new_out_balance = $out_balance + $depost;
-          // print_r($new_out_balance);
-          //          exit();
+         
          $pay_id = $dep_id;
+
+           // print_r($empl_id);
+           //         exit();
+
 
            if ($out_data == TRUE){
             if ($depost > $out_data->remain_amount){
