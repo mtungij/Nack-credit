@@ -32,6 +32,8 @@
                             <div class="pull-right">
                                 <a href="<?php echo base_url("oficer/default_balance"); ?>" class="btn btn-primary"><i class="icon-pencil"><?php echo $this->lang->line("default_balance_menu") ?> </i></a>
                                  <a href="<?php echo base_url("oficer/out_ofsyastem"); ?>" class="btn btn-primary"><i class="icon-pencil"><?php echo $this->lang->line("default_outsystem_menu"); ?></i></a>
+
+                                 <a href="<?php echo base_url("oficer/print_default_loan/{$blanch_id}"); ?>" target="_blank" class="btn btn-primary"><i class="icon-printer"></i></a>
                             </div>    
                          </div>
                           <div class="body">

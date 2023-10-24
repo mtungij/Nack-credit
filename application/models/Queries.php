@@ -3029,8 +3029,8 @@ public function get_totalLoanDoneGroup($group_id){
    	 return $data->row();
    }
 
-   public function check_name($f_name,$m_name,$l_name){
-		$data = $this->db->where(['f_name'=>$f_name , 'm_name'=>$m_name,'l_name'=>$l_name])
+   public function check_name($f_name,$m_name,$l_name,$phone){
+		$data = $this->db->where(['f_name'=>$f_name , 'm_name'=>$m_name,'l_name'=>$l_name,'phone_no'=>$phone])
     	        ->get('tbl_customer');
     	  if ($data->num_rows() > 0) {
     	  	return $data->row();
@@ -5732,6 +5732,11 @@ public function get_loan_withdrawal_today_blanch_general($blanch_id){
  	return $data->result();
  }
 
+  public function filter_loan_default_comp($comp_id){
+ 	$data = $this->db->query("SELECT * FROM tbl_outstand_loan ol LEFT JOIN tbl_loans l ON l.loan_id = ol.loan_id LEFT JOIN tbl_customer c ON c.customer_id = ol.customer_id LEFT JOIN tbl_employee e ON e.empl_id = l.empl_id LEFT JOIN tbl_outstand ot ON ot.loan_id = ol.loan_id LEFT JOIN tbl_loan_category lc ON lc.category_id = l.category_id LEFT JOIN tbl_account_transaction at ON at.trans_id = l.method LEFT JOIN tbl_blanch b ON b.blanch_id = ol.blanch_id WHERE ol.comp_id = '$comp_id' AND ol.out_status = 'open'");
+ 	return $data->result();
+ }
+
  public function get_total_outStand($blanch_id){
  	$data = $this->db->query("SELECT SUM(ol.remain_amount) AS total_remain FROM tbl_outstand_loan ol WHERE ol.blanch_id = '$blanch_id' AND ol.out_status = 'open'");
  	return $data->row();
@@ -5744,6 +5749,11 @@ public function get_loan_withdrawal_today_blanch_general($blanch_id){
 
   public function get_total_outStand_blanch($blanch_id){
  	$data = $this->db->query("SELECT SUM(ol.remain_amount) AS total_remain FROM tbl_outstand_loan ol WHERE ol.blanch_id = '$blanch_id' AND ol.out_status = 'open'");
+ 	return $data->row();
+ }
+
+  public function get_total_outStand_company($comp_id){
+ 	$data = $this->db->query("SELECT SUM(ol.remain_amount) AS total_remain FROM tbl_outstand_loan ol WHERE ol.comp_id = '$comp_id' AND ol.out_status = 'open'");
  	return $data->row();
  }
 

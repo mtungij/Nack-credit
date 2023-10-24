@@ -28,10 +28,21 @@
                 <div class="col-lg-12">
                     <div class="card">
                          <div class="header">
-                            <h2>Default Loan / <?php echo $blanch_data->blanch_name; ?></h2>
+                            <h2>Default Loan / <?php if (@$blanch_id == 'all') {
+                                echo "ALL BRANCH";
+                            }else{ ?> <?php echo @$blanch_data->blanch_name; ?>
+                                <?php } ?>
+                            </h2>
                             <div class="pull-right">
                                 <a href="" data-toggle="modal" data-target="#addcontact1" class="btn btn-primary"><i class="icon-calendar">Filter</i></a>
-                                 <a href="<?php echo base_url("admin/default_outsystem"); ?>" class="btn btn-primary"><i class="icon-eye">Default Out System </i></a>
+                                <?php if (count($default_blanch) > 0) {
+                                 ?>
+                            <a href="<?php echo base_url("admin/print_default_loan/{$blanch_id}"); ?>" class="btn btn-primary" target="_blank"><i class="icon-printer"></i></a>
+                             <?php }else{ ?>
+                            
+                                <?php } ?>
+                                 
+                                 <!-- <a href="<?php //echo base_url("admin/default_outsystem"); ?>" class="btn btn-primary"><i class="icon-eye">Default Out System </i></a> -->
                             </div>    
                          </div>
                           <div class="body">
@@ -146,6 +157,7 @@
                 <?php foreach ($blanch as $blanchs): ?>
                 <option value="<?php echo $blanchs->blanch_id; ?>"><?php echo $blanchs->blanch_name; ?></option>
                 <?php endforeach; ?>
+                <option value="all">ALL</option>
                     </select>
                  </div>
                 
@@ -162,85 +174,6 @@
 
 
 
-
-
-<div class="modal fade" id="addcontact4" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h6 class="title" id="defaultModalLabel">Today Loan Pending</h6>
-            </div>
-     
-            <div class="modal-body">
-              <div class="table-responsive">
-                                <table class="table table-hover js-basic-example dataTable table-custom">
-                                    <thead class="thead-primary">
-                                        <tr>
-                                        <th>S/no.</th>
-                                        <th>Branch</th>
-                                        <th>Customer</th>
-                                        <th>Number</th>
-                                        <th>Loan Amount</th>
-                                        <th>Duration Type</th>
-                                        <th>Pending Amount</th>
-                                        <th>Date</th>
-                                        </tr>
-                                    </thead>
-                                   
-                                    <tbody>
-                                       <?php $no = 1 ?>        
-                                <?php //foreach($old_newpend as $loan_pends): ?>
-                                        <tr>
-                                    <td><?php //echo $no++; ?>.</td>
-                                    <td><?php //echo $loan_pends->blanch_name; ?></td>
-                                    <td><?php //echo $loan_pends->f_name; ?> <?php //echo substr($loan_pends->m_name, 0,1); ?> <?php //echo $loan_pends->l_name; ?></td>
-                                   <!--  <td><?php //echo $loan_aproveds->blanch_name; ?></td> -->
-                                    <td><?php //echo $loan_pends->phone_no; ?></td>
-                                    <td><?php //echo number_format($loan_pends->loan_int) ?></td>
-                                    <td>
-                                        <?php //if ($loan_pends->day == 1) {
-                                                 //echo "Daily";
-                                             ?>
-                                            <?php //}elseif($loan_pends->day == 7){
-                                                  //echo "Weekly";
-                                             ?>
-                                            
-                                        <?php //}elseif($loan_pends->day == 30 || $loan_pends->day == 31 || $loan_pends->day == 29 || $loan_pends->day == 28){
-                                                //echo "Monthly"; 
-                                            ?>
-                                            <?php //} ?>
-                                    </td>
-                                    <td><?php //echo number_format($loan_pends->return_total); ?></td>
-                                   
-                                  
-                                    <td>
-                                 <?php //echo $loan_pends->pend_date; ?>
-                                    </td>
-                    
-                                 </tr>
-
-                            <?php //endforeach; ?>
-                                    </tbody>
-                                     <tr>
-                                    <td><b>TOTAL:</b></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td><?php //echo number_format($pend->total_pending); ?></td>
-                                    <td><b><?php //echo number_format($pend->total_pending); ?></b></td>
-                                   
-                                </tr>
-                                </table>
-                            </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">CLOSE</button>
-            </div>
-           
-        </div>
-    </div>
-</div>
 
 
 
