@@ -303,7 +303,7 @@ class Welcome extends CI_Controller {
 
 
 
-     //begin withdrawal function
+       //begin withdrawal function
 	//withdrow auto matic time
 	public function get_autodata(){
       $data = $this->db->query("SELECT * FROM tbl_loans WHERE loan_status = 'withdrawal'");
@@ -318,24 +318,15 @@ class Welcome extends CI_Controller {
 
       }
 
-      //update return date
-public function update_returntime($loan_id,$day,$dis_date){
-$now = date("Y-m-d H:i");
-$someDate = DateTime::createFromFormat("Y-m-d H:i",$now);
-$someDate->add(new DateInterval('P'.$day.'D'));
-     $return_data = $someDate->format("Y-m-d 23:59");
-     $rtn = $someDate->format("Y-m-d 23:59");
-$sqldata="UPDATE `tbl_loans` SET `dis_date`='$now',`return_date`= '$return_data',`date_show`='$rtn',`dep_status`='open' WHERE `loan_id`= '$loan_id'";
-  $query = $this->db->query($sqldata);
-   return true;
-}
-
+      // public 
        public function withdraw_automatic_loan($loan_id){
       	ini_set("max_execution_time", 3600);
       	$this->load->model('queries');
       	$loan_data = $this->queries->get_loan_LoandataAutomatic($loan_id);
          if (!empty($loan_data)) {
       	  $loan_id = $loan_data->loan_id;
+      	  $comp_id = $loan_data->comp_id;
+      	  $category_id = $loan_data->category_id;
       	  $loan_aprove = $loan_data->loan_aprove;
       	  $session = $loan_data->session;
       	  $balance = $loan_data->balance;
@@ -353,6 +344,7 @@ $sqldata="UPDATE `tbl_loans` SET `dis_date`='$now',`return_date`= '$return_data'
       	    // print_r($group_id);
       	    //      exit();
       	  $day = $loan_data->day;
+      	  $renew_loan = $loan_data->renew_loan;
       	  $disburse_day = $loan_data->disburse_day;
       	  $dis_date = $loan_data->dis_date;
       	  //$rtn_date = $loan_data->rtn_date;
@@ -380,9 +372,20 @@ $sqldata="UPDATE `tbl_loans` SET `dis_date`='$now',`return_date`= '$return_data'
       	  $remain = $withdraw_ba;
       	  $chukua_chote = $old_balance_data - $old_balance_data;
 
+      	  //@$penart_category_loan = $this->queries->get_penart_category_comp($comp_id);
+            
+      	  // if (@$penart_category_loan->penart_category == 'LOAN PRODUCT') {
+      	  // @$penart_loan_product = $this->queries->get_penart_byloan_product($comp_id,$category_id);
+      	  // $penart_value_data = @$penart_loan_product->penart_value;
+
+      	  // }elseif(@$penart_category_loan->penart_category == 'GENERAL') {
+      	  //  @$penart_value_general = $this->queries->get_penart_general_loan($comp_id);
+      	  //  $penart_value_data = @$penart_value_general->penart_value;
+      	  //  }
+
       	  $today = date("Y-m-d 23:59");
-      	  //$today = date("2022-09-22 23:59");
-      	  @$loans = $this->queries->get_sum_deposit($loan_id);
+      	  //$today = date("2023-02-16 23:59");
+      	  @$loans = $this->queries->get_sum_depostLoan($loan_id);
       	  $depost_data = @$loans->depos;
       	  $rem = $totalloan - $depost_data;
       	      // print_r($depost_data);
@@ -408,6 +411,12 @@ $sqldata="UPDATE `tbl_loans` SET `dis_date`='$now',`return_date`= '$return_data'
       	   }elseif($loanreturn >= $old_balance_data) {
       	   	$sua = $loanreturn - $old_balance_data;
             }
+             
+             if ($renew_loan == FALSE) {
+            $instalment = $day * 1;
+             }else{
+            $instalment = $day * $renew_loan;
+            }
 
            @$loan_balance_check = $this->queries->get_Desc_balance($loan_id);
            $pay_balance_check = @$loan_balance_check->balance;
@@ -417,7 +426,7 @@ $sqldata="UPDATE `tbl_loans` SET `dis_date`='$now',`return_date`= '$return_data'
             $total_pend = @$deni_ckeck->total_pend;
             $deni_baki = $total_pend + $reamain_kulipwa;
 
-                 if($loan_end_date == $today and $loan_status == 'withdrawal'){
+                 if($loan_end_date <= $today and $loan_status == 'withdrawal'){
                   $this->insert_outStandLoan($comp_id,$blanch_id,$loan_id,$group_id,$customer_id,$rem,$group_id);
                   	$this->update_loastatus_outstand($loan_id);
                   	$this->update_customer_status_out($customer_id);
@@ -430,11 +439,12 @@ $sqldata="UPDATE `tbl_loans` SET `dis_date`='$now',`return_date`= '$return_data'
                        	//echo"tayali";
                        }elseif($return_date == NULL){
                        	//echo "bado sana";
-                    }elseif($return_date == $today){
+                    }elseif($return_date <= $today){
                     if($old_balance_data < $loanreturn and $penart_status == 'YES' and $action == 'MONEY VALUE'){ 
                     	//insert penart money value
                     	//echo "penati ya hela";
                    $this->insert_loanPenart_moneyValue($comp_id,$blanch_id,$customer_id,$loan_id,$money_value,$group_id);
+                   $this->witdrow_balanceAutoYote($loan_id,$comp_id,$blanch_id,$customer_id,$old_balance_data,$chukua_chote,$description,$group_id);
                        // insert pending loan
                    $this->insert_pending_data($comp_id,$blanch_id,$customer_id,$loan_id,$totalloan,$day,$loanreturn,$old_balance_data,$group_id);
                    if ($total_pend == TRUE || $total_pend == '0') {
@@ -442,7 +452,6 @@ $sqldata="UPDATE `tbl_loans` SET `dis_date`='$now',`return_date`= '$return_data'
                    }elseif ($total_pend == FALSE) {
                    $this->insert_pending_total($comp_id,$customer_id,$blanch_id,$loan_id,$reamain_kulipwa);	
                    }
-                   $this->witdrow_balanceAutoYote($loan_id,$comp_id,$blanch_id,$customer_id,$old_balance_data,$chukua_chote,$description,$group_id);
                    //insert customer report money value
                    $this->insert_loan_pending_report($comp_id,$blanch_id,$customer_id,$loan_id,$loanreturn,$sua,$money_value,$group_id);
                    //$this->update_shedure_notpaid($loan_id);
@@ -484,7 +493,7 @@ $sqldata="UPDATE `tbl_loans` SET `dis_date`='$now',`return_date`= '$return_data'
                     //$this->update_shedure_paid($loan_id); 
                     }
                     //ilinitesa sana hii update return time
-                    $this->update_returntime($loan_id,$day,$dis_date);
+                    $this->update_returntime($loan_id,$instalment,$dis_date);
                     }
                   }
                  }
@@ -492,12 +501,34 @@ $sqldata="UPDATE `tbl_loans` SET `dis_date`='$now',`return_date`= '$return_data'
                  // elseif($old_balance_data < $loanreturn){
                  // {
                  //    }
+    
+          //update return date
+public function update_returntime($loan_id,$instalment,$dis_date){
+$now = date("Y-m-d H:i");
+$someDate = DateTime::createFromFormat("Y-m-d H:i",$now);
+$someDate->add(new DateInterval('P'.$instalment.'D'));
+     $return_data = $someDate->format("Y-m-d 23:59");
+     $rtn = $someDate->format("Y-m-d");
+$sqldata="UPDATE `tbl_loans` SET `dis_date`='$now',`return_date`= '$return_data',`date_show`='$rtn',`dep_status`='open' WHERE `loan_id`= '$loan_id'";
+  $query = $this->db->query($sqldata);
+   return true;
+}
+
+
+
+     public function update_customer_status_out($customer_id){
+     $sqldata="UPDATE `tbl_customer` SET `customer_status`= 'out' WHERE `customer_id`= '$customer_id'";
+     $query = $this->db->query($sqldata);
+     return true;
+     }
+
       public function update_recovery($loan_id){
        //$today = date("Y-m-d");
      $sqldata="UPDATE `tbl_pending_total` SET `total_pend`= '0' WHERE `loan_id`= '$loan_id'";
      $query = $this->db->query($sqldata);
      return true;	
-      }           
+      }
+
       public function update_pending_total($loan_id,$deni_baki){
       //$today = date("Y-m-d");
      $sqldata="UPDATE `tbl_pending_total` SET `total_pend`= '$deni_baki' WHERE `loan_id`= '$loan_id'";
@@ -531,16 +562,6 @@ $sqldata="UPDATE `tbl_loans` SET `dis_date`='$now',`return_date`= '$return_data'
      return true;	
      }
 
-
-
-public function update_customer_status_out($customer_id){
-$sqldata="UPDATE `tbl_customer` SET `customer_status`= 'out' WHERE `customer_id`= '$customer_id'";
-$query = $this->db->query($sqldata);
- return true;
-}     
-
-
-
          //update customer status
 public function update_customer_status($customer_id){
 $sqldata="UPDATE `tbl_customer` SET `customer_status`= 'close' WHERE `customer_id`= '$customer_id'";
@@ -549,8 +570,6 @@ $sqldata="UPDATE `tbl_customer` SET `customer_status`= 'close' WHERE `customer_i
   $query = $this->db->query($sqldata);
    return true;
 }
-
-
 
    //insert penart in fixed amount by samwel damian
            public function insert_loanPenart_moneyValue($comp_id,$blanch_id,$customer_id,$loan_id,$money_value,$group_id){
