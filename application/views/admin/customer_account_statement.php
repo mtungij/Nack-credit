@@ -43,7 +43,7 @@
 <?php //$day = date("d-m-Y"); ?>
 </p>
 <p style="font-size:12px;text-align:center;" class="c">CUSTOMER ACCOUNT STATEMENT</p>
-<p style="font-size:12px;text-align:center;" class="c"><?php echo $customer_data->f_name; ?> <?php echo $customer_data->m_name; ?> <?php echo $customer_data->l_name; ?></p>
+<p style="font-size:12px;text-align:center;" class="c"><?php echo $customer_data->f_name; ?> <?php echo $customer_data->m_name; ?> <?php echo $customer_data->l_name; ?>  / <?php echo $customer_data->phone_no; ?></p>
 </div>
 </td>
 <td>
