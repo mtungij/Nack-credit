@@ -140,7 +140,7 @@ tr:nth-child(even) {
                                     }elseif (@$payisnulls->day == 30 || @$payisnulls->day == 31 || @$payisnulls->day == 28 || @$payisnulls->day == 29) {
                                         echo "Monthly";
                                      ?> 
-                                    <?php } ?><?php //echo $payisnulls->session; ?>  / AC/No. <?php echo @$payisnulls->loan_code; ?>
+                                    <?php } ?><?php //echo $payisnulls->session; ?>  / AC/No. <?php echo @$payisnulls->loan_code; ?> / <?php echo $customer_data->phone_no; ?>
     </td>
     <td style="font-size:12px;border: none;" class="c"> <?php if($payisnulls->depost == TRUE){ ?>
                                                 <?php echo round(@$payisnulls->depost,2); ?>
