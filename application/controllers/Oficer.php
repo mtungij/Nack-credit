@@ -558,72 +558,91 @@ return true;
 
 
 
-      public function create_customer(){
-		$this->form_validation->set_rules('comp_id','company','required');
-		$this->form_validation->set_rules('blanch_id','blanch','required');
-		$this->form_validation->set_rules('f_name','First name','required');
-		$this->form_validation->set_rules('m_name','Middle name','required');
-		$this->form_validation->set_rules('l_name','Last name','required');
-		$this->form_validation->set_rules('gender','gender','required');
-		$this->form_validation->set_rules('date_birth','date_birth','required');
-		$this->form_validation->set_rules('phone_no','phone number','required');
-		$this->form_validation->set_rules('region_id','region','required');
-		$this->form_validation->set_rules('district','district','required');
-		$this->form_validation->set_rules('ward','ward','required');
-		$this->form_validation->set_rules('street','street','required');
-		$this->form_validation->set_rules('age','age','required');
-		$this->form_validation->set_rules('reg_date','reg_date','required');
-		$this->form_validation->set_error_delimiters('<div class="text-danger">','</div>');
-		if ($this->form_validation->run()) {
-			 $data = $this->input->post();
-			 $f_name = $data['f_name'];
-			 $m_name = $data['m_name'];
-			 $l_name = $data['l_name'];
-			 $date = date("Y-m-d");
-			 $data['phone_no'] = ('255'.$this->input->post('phone_no'));
+     public function create_customer(){
+        $this->form_validation->set_rules('comp_id','company','required');
+        $this->form_validation->set_rules('blanch_id','blanch','required');
+        $this->form_validation->set_rules('f_name','First name','required');
+        $this->form_validation->set_rules('m_name','Middle name','required');
+        $this->form_validation->set_rules('l_name','Last name','required');
+        $this->form_validation->set_rules('gender','gender','required');
+        $this->form_validation->set_rules('date_birth','date_birth','required');
+        $this->form_validation->set_rules('phone_no','phone number','required');
+        $this->form_validation->set_rules('region_id','region','required');
+        $this->form_validation->set_rules('district','district','required');
+        $this->form_validation->set_rules('ward','ward','required');
+        $this->form_validation->set_rules('street','street','required');
+        $this->form_validation->set_rules('age','age','required');
+        $this->form_validation->set_rules('reg_date','reg_date','required');
+        $this->form_validation->set_rules('empl_id','Employee','required');
+        $this->form_validation->set_error_delimiters('<div class="text-danger">','</div>');
+        if ($this->form_validation->run()) {
+            $data = $this->input->post();
+             $f_name = $data['f_name'];
+             $m_name = $data['m_name'];
+             $l_name = $data['l_name'];
+             $comp_id = $data['comp_id'];
+             $blanch_id = $data['blanch_id'];
+             $gender = $data['gender'];
+             $district = $data['district'];
+             $region_id = $data['region_id'];
+             $date_birth = $data['date_birth'];
+             $ward = $data['ward'];
+             $street = $data['street'];
+             $age = $data['age'];
+             $empl_id = $data['empl_id'];
              $phone = $data['phone_no'];
+             $date_reg = $data['reg_date'];
+             $phone = '255'.$phone;
 
-                // print_r($phone);
-                //     exit();
+              // print_r($phone);
+              //     exit();
 
-			 
-
-			 $this->load->model('queries');
-			 $check = $this->queries->check_name($f_name,$m_name,$l_name,$phone);
-			 if ($check == TRUE) {
-			 $this->session->set_flashdata('error','This customer Aledy Registered');
-		      return redirect('oficer/customer');
-			 }elseif($check == FALSE){
-			 $customer_id = $this->queries->insert_customer($data);
-            
+             $this->load->model('queries');
+             $check = $this->queries->check_name($f_name,$m_name,$l_name,$phone);
+             if ($check == TRUE) {
+             $this->session->set_flashdata('error','This customer Aledy Registered');
+              return redirect('oficer/customer');
+             }elseif($check == FALSE){
+              $date = date("Y-m-d");
+             $customer_id = $customer_id = $this->insert_customer_detail($comp_id,$blanch_id,$empl_id,$f_name,$m_name,$l_name,$gender,$date_birth,$age,$phone,$region_id,$district,$ward,$street,$date_reg);;
              $number = 'C'.substr($date ,0, 4).substr($date ,5, 2).$customer_id;
              $this->update_customer_number($customer_id,$number);
-                // print_r($test);
-                //  exit();
-			 
-			 if ($customer_id > 0){
-			 		$this->session->set_flashdata('massage','');
-			 		
-			 }else{
-			 		$this->session->set_flashdata('error','');
-			 	}
-			return redirect('oficer/customer_details/'.$customer_id);
-			 }
-			      //      echo "<pre>";
-			      // print_r($check);
-			              //exit();
-			 }
-			 $this->customer_details();
-		}
+             $this->insert_sub_customer_data($customer_id);
+                //print_r($customer_id);
+                 //exit();
+             if ($customer_id > 0){
+                    $this->session->set_flashdata('massage','');
+             }else{
+                    $this->session->set_flashdata('error','');
+                }
+            return redirect('oficer/customer_details/'.$customer_id);
+             }
+                  //      echo "<pre>";
+                  // print_r($check);
+                          //exit();
+             }
+             $this->customer_details();
+        }
 
 
-		public function update_customer_number($customer_id,$number){
-		$sqldata="UPDATE `tbl_customer` SET `customer_code`= '$number',`customer_status`='pending' WHERE `customer_id`= '$customer_id'";
+    public function insert_customer_detail($comp_id,$blanch_id,$empl_id,$f_name,$m_name,$l_name,$gender,$date_birth,$age,$phone,$region_id,$district,$ward,$street,$date_reg){
+     $this->db->query("INSERT INTO   tbl_customer (`comp_id`,`blanch_id`,`empl_id`,`f_name`,`m_name`,`l_name`,`gender`,`date_birth`,`age`,`phone_no`,`region_id`,`district`,`ward`,`street`,`reg_date`) 
+      VALUES ('$comp_id','$blanch_id','$empl_id','$f_name','$m_name','$l_name','$gender','$date_birth','$age','$phone','$region_id','$district','$ward','$street','$date_reg')");
+     return $this->db->insert_id();
+     }
+
+
+        public function update_customer_number($customer_id,$number){
+        $sqldata="UPDATE `tbl_customer` SET `customer_code`= '$number',`customer_status`='pending' WHERE `customer_id`= '$customer_id'";
        // print_r($sqldata);
         //    exit();
        $query = $this->db->query($sqldata);
-        return true;	
-		}
+        return true;    
+        }
+
+        public function insert_sub_customer_data($customer_id){
+         $this->db->query("INSERT INTO  tbl_sub_customer (`customer_id`) VALUES ('$customer_id')");
+        }
 
 
 
@@ -638,73 +657,114 @@ return true;
 
 
 
-		public function update_customerID($customer_id){
-        if(!empty($_FILES['passport']['name'])){
-                $config['upload_path'] = 'assets/img/';
-                $config['allowed_types'] = 'jpg|jpeg|png|gif|pdf';
-                $config['file_name'] = $_FILES['passport']['name'];
-                $config['max_size']      = '8192'; 
-                $config['remove_spaces']=TRUE;  //it will remove all spaces
-                $config['encrypt_name']=TRUE;   //it wil encrypte the original file name
-                    //die($config);
-                //Load upload library and initialize configuration
-                $this->load->library('upload',$config);
-                $this->upload->initialize($config);
-                
-                if($this->upload->do_upload('passport')){
-                    $uploadData = $this->upload->data();
-                    $passport = $uploadData['file_name'];
-                }else{
-                    $passport = '';
-                }
-            }else{
-                $passport = '';
-            }
-            if(!empty($_FILES['signature']['name'])){
-                $config['upload_path'] = 'assets/img/';
-                $config['allowed_types'] = 'jpg|jpeg|png|gif|pdf';
-                $config['file_name'] = $_FILES['signature']['name'];
-                $config['max_size']      = '8192'; 
-                $config['remove_spaces']=TRUE;  //it will remove all spaces
-                $config['encrypt_name']=TRUE;   //it wil encrypte the original file name
-                    //die($config);
-                //Load upload library and initialize configuration
-                $this->load->library('upload',$config);
-                $this->upload->initialize($config);
-                
-                if($this->upload->do_upload('signature')){
-                    $uploadData = $this->upload->data();
-                    $signature = $uploadData['file_name'];
-                }else{
-                    $signature = '';
-                }
-            }else{
-                $signature = '';
-            }
-            
-            //Prepare array of user data
-            $data = array(
-            'customer_id' => $this->input->post('customer_id'),
-            'signature' => $signature,
-            'passport' => $passport,
-            );
+          public function update_customerID(){
+     $folder_Path = 'assets/upload/';
 
-            $customer_id = $data['customer_id'];
-            //   echo "<pre>";
+        // print_r($_POST['image']);
+        // die();
+        
+        if(isset($_POST['image']) ){
+           $customer_id = $_POST['id'];
+           $image = $_POST['image'];
+             // $_POST['id'];
             // print_r($customer_id);
-            //  echo "</pre>";
-            //   exit();
-           $this->load->model('queries'); 
-            //Storing insertion status message.
-            if($data){
-                $this->queries->update_customer_profile($data);
-                $this->session->set_flashdata('massage','Customer Registration Successfully');
-               }else{
-                $this->session->set_flashdata('error','Data failed!!');
-            }
-            return redirect('oficer/customer_profile/'.$customer_id);
+            //     die();
+             
+             $image_parts = explode(";base64,",$_POST['image']);
+             $image_type_aux = explode("image/",$image_parts[0]);
 
+             $image_type = $image_type_aux[1];
+             $data = $_POST['image'];// base64_decode($image_parts[1]);
+
+
+            list($type, $data) = explode(';', $data);
+            list(, $data)      = explode(',', $data);
+            $data = base64_decode($data);
+             
+             $file = $folder_Path .uniqid() .'.png';
+            file_put_contents($file, $data);
+    
+            $this->update_customer_profile($file,$customer_id);
+            echo json_encode("Passport uploaded Successfully");
+           
+        }
     }
+
+    public function update_customer_profile($file,$customer_id){
+    $sqldata="UPDATE `tbl_sub_customer` SET `passport`= '$file' WHERE `customer_id`= '$customer_id'";
+   $query = $this->db->query($sqldata);
+   return true;
+   }
+
+
+
+	// 	public function update_customerID($customer_id){
+    //     if(!empty($_FILES['passport']['name'])){
+    //             $config['upload_path'] = 'assets/img/';
+    //             $config['allowed_types'] = 'jpg|jpeg|png|gif|pdf';
+    //             $config['file_name'] = $_FILES['passport']['name'];
+    //             $config['max_size']      = '8192'; 
+    //             $config['remove_spaces']=TRUE;  //it will remove all spaces
+    //             $config['encrypt_name']=TRUE;   //it wil encrypte the original file name
+    //                 //die($config);
+    //             //Load upload library and initialize configuration
+    //             $this->load->library('upload',$config);
+    //             $this->upload->initialize($config);
+                
+    //             if($this->upload->do_upload('passport')){
+    //                 $uploadData = $this->upload->data();
+    //                 $passport = $uploadData['file_name'];
+    //             }else{
+    //                 $passport = '';
+    //             }
+    //         }else{
+    //             $passport = '';
+    //         }
+    //         if(!empty($_FILES['signature']['name'])){
+    //             $config['upload_path'] = 'assets/img/';
+    //             $config['allowed_types'] = 'jpg|jpeg|png|gif|pdf';
+    //             $config['file_name'] = $_FILES['signature']['name'];
+    //             $config['max_size']      = '8192'; 
+    //             $config['remove_spaces']=TRUE;  //it will remove all spaces
+    //             $config['encrypt_name']=TRUE;   //it wil encrypte the original file name
+    //                 //die($config);
+    //             //Load upload library and initialize configuration
+    //             $this->load->library('upload',$config);
+    //             $this->upload->initialize($config);
+                
+    //             if($this->upload->do_upload('signature')){
+    //                 $uploadData = $this->upload->data();
+    //                 $signature = $uploadData['file_name'];
+    //             }else{
+    //                 $signature = '';
+    //             }
+    //         }else{
+    //             $signature = '';
+    //         }
+            
+    //         //Prepare array of user data
+    //         $data = array(
+    //         'customer_id' => $this->input->post('customer_id'),
+    //         'signature' => $signature,
+    //         'passport' => $passport,
+    //         );
+
+    //         $customer_id = $data['customer_id'];
+    //         //   echo "<pre>";
+    //         // print_r($customer_id);
+    //         //  echo "</pre>";
+    //         //   exit();
+    //        $this->load->model('queries'); 
+    //         //Storing insertion status message.
+    //         if($data){
+    //             $this->queries->update_customer_profile($data);
+    //             $this->session->set_flashdata('massage','Customer Registration Successfully');
+    //            }else{
+    //             $this->session->set_flashdata('error','Data failed!!');
+    //         }
+    //         return redirect('oficer/customer_profile/'.$customer_id);
+
+    // }
 
     function fetch_employee_blanch()
 {
@@ -1045,6 +1105,7 @@ public function modify_sponser($sp_id,$customer_id){
                     return redirect('oficer/loan_applicationForm/'.$customer_id);
         	  }else{
         	  $loan_id =  $this->queries->insert_loan($data);
+               $this->insert_loan_attachment($loan_id);
                $this->session->set_flashdata('massage','');	
         	  }
         	  return redirect('oficer/collelateral_session/'.$loan_id);
@@ -1052,6 +1113,10 @@ public function modify_sponser($sp_id,$customer_id){
     		 
           $this->collelateral_session();
     	}
+
+        public function insert_loan_attachment($loan_id){
+         $this->db->query("INSERT INTO tbl_attachment (`loan_id`) VALUES ('$loan_id')");   
+        }
 
 
     	public function collelateral_session($loan_id){
@@ -1300,41 +1365,78 @@ public function modify_sponser($sp_id,$customer_id){
             }
 	}
 
+    public function create_local_govDetails(){
+     $folder_Path = 'assets/upload/';
+        if(isset($_POST['image']) ){
+           $loan_id = $_POST['id'];
+           $image = $_POST['image'];
+           $oficer = $_POST['oficer'];
+           $phone_oficer = $_POST['phone_oficer'];
 
-	public function create_local_govDetails($loan_id){
-    	$this->load->model('queries');
-            //Prepare array of user data
-            $data = array(
-            'loan_id'=> $this->input->post('loan_id'),
-            'oficer'=> $this->input->post('oficer'),
-            'phone_oficer'=> $this->input->post('phone_oficer'),
-            );
-	           //    echo "<pre>";
-	           // print_r($data);
-	           //      exit();
-            //Pass user data to model
-           $this->load->model('queries'); 
-           $data = $this->queries->insert_localgov_details($data);
+            //  $_POST['id'];
+            // print_r($phone_oficer);
+            //     die();
+             
+             $image_parts = explode(";base64,",$_POST['image']);
+             $image_type_aux = explode("image/",$image_parts[0]);
+
+             $image_type = $image_type_aux[1];
+             $data = $_POST['image'];// base64_decode($image_parts[1]);
+
+
+            list($type, $data) = explode(';', $data);
+            list(, $data)      = explode(',', $data);
+            $data = base64_decode($data);
+             
+             $file = $folder_Path .uniqid() .'.png';
+            file_put_contents($file, $data);
+            $this->insert_customer_local($file,$loan_id,$oficer,$phone_oficer);
+            echo json_encode("Successfully");
+           
+        }
+    }
+
+    public function insert_customer_local($file,$loan_id,$oficer,$phone_oficer){
+    $data = "UPDATE tbl_attachment SET `oficer`='$oficer',`phone_oficer`='$phone_oficer',`cont_attachment`='$file' WHERE loan_id = '$loan_id'";
+    $query = $this->db->query($data);
+    return true;
+   }
+
+
+	// public function create_local_govDetails($loan_id){
+    // 	$this->load->model('queries');
+    //         //Prepare array of user data
+    //         $data = array(
+    //         'loan_id'=> $this->input->post('loan_id'),
+    //         'oficer'=> $this->input->post('oficer'),
+    //         'phone_oficer'=> $this->input->post('phone_oficer'),
+    //         );
+	//            //    echo "<pre>";
+	//            // print_r($data);
+	//            //      exit();
+    //         //Pass user data to model
+    //        $this->load->model('queries'); 
+    //        $data = $this->queries->insert_localgov_details($data);
           
-            //Storing insertion status message.
-            if($data){
-            	$this->session->set_flashdata('massage','Loan Application Sent Successfully');
-               }else{
-                $this->session->set_flashdata('error','Data failed!!');
-            }
-            $group = $this->queries->get_groupLoanData($loan_id);
-            $group_id = $group->group_id;
-			$customer_id = $group->customer_id;
-            //   echo "<pre>";
-            //   print_r($customer_id);
-            //        exit();
-              if ($group_id == TRUE) {
-              	 //echo "machemba";
-              return redirect('oficer/group_member/'.$loan_id.'/'.$customer_id);
-                   }else{     
-            return redirect('oficer/loan_pending/');
-            }
-	}
+    //         //Storing insertion status message.
+    //         if($data){
+    //         	$this->session->set_flashdata('massage','Loan Application Sent Successfully');
+    //            }else{
+    //             $this->session->set_flashdata('error','Data failed!!');
+    //         }
+    //         $group = $this->queries->get_groupLoanData($loan_id);
+    //         $group_id = $group->group_id;
+	// 		$customer_id = $group->customer_id;
+    //         //   echo "<pre>";
+    //         //   print_r($customer_id);
+    //         //        exit();
+    //           if ($group_id == TRUE) {
+    //           	 //echo "machemba";
+    //           return redirect('oficer/group_member/'.$loan_id.'/'.$customer_id);
+    //                }else{     
+    //         return redirect('oficer/loan_pending/');
+    //         }
+	// }
 
 
   public function loan_pending(){
@@ -2389,7 +2491,7 @@ $this->db->query("INSERT INTO tbl_outstand (`comp_id`,`loan_id`,`blanch_id`,`loa
           $new_balance = $new_depost;
 
           if ($dep_id > 0) {
-             $this->session->set_flashdata('massage','Deposit has made Sucessfully');
+             $this->session->set_flashdata('massage',number_format($depost).' Deposit has made Sucessfully');
           }else{
             $this->session->set_flashdata('massage','Failed');
           }
@@ -2475,7 +2577,7 @@ $this->db->query("INSERT INTO tbl_outstand (`comp_id`,`loan_id`,`blanch_id`,`loa
            $this->update_loan_dep_status($loan_id);
           $new_balance = $new_depost;
           if ($dep_id > 0) {
-             $this->session->set_flashdata('massage','Deposit has made Sucessfully');
+             $this->session->set_flashdata('massage',number_format($depost).' Deposit has made Sucessfully');
           }else{
             $this->session->set_flashdata('massage','Failed');
           }
@@ -2562,7 +2664,7 @@ $this->db->query("INSERT INTO tbl_outstand (`comp_id`,`loan_id`,`blanch_id`,`loa
           
           $new_balance = $new_depost;
           if ($dep_id > 0) {
-             $this->session->set_flashdata('massage','Deposit has made Sucessfully');
+             $this->session->set_flashdata('massage',number_format($depost).' Deposit has made Sucessfully');
           }else{
             $this->session->set_flashdata('massage','Deposit has made Sucessfully');
           }
@@ -3649,11 +3751,15 @@ public function cash_transaction(){
 
     $miamala = $this->queries->get_miamala_hewa_blanch_data($blanch_id);
     $total_miamala = $this->queries->get_miamala_hewa_total_blanch_data($blanch_id);
+
+
+    $hai_wateja = $this->queries->get_depositing_hai_blanch($blanch_id);
+    $sugu_wateja = $this->queries->get_depositing_sugu_blanch($blanch_id);
     //        echo "<pre>";
     // print_r($sum_cashTransaction);
     //            exit();
 
-    $this->load->view('oficer/cash_transaction',['empl_data'=>$empl_data,'cash_transaction'=>$cash_transaction,'sum_cashTransaction'=>$sum_cashTransaction,'account_deposit'=>$account_deposit,'default_list'=>$default_list,'toyal_default'=>$toyal_default,'withdrawal_account'=>$withdrawal_account,'total_code_no'=>$total_code_no,'deducted_fee'=>$deducted_fee,'penart_paid'=>$penart_paid,'miamala'=>$miamala,'total_miamala'=>$total_miamala]);
+    $this->load->view('oficer/cash_transaction',['empl_data'=>$empl_data,'cash_transaction'=>$cash_transaction,'sum_cashTransaction'=>$sum_cashTransaction,'account_deposit'=>$account_deposit,'default_list'=>$default_list,'toyal_default'=>$toyal_default,'withdrawal_account'=>$withdrawal_account,'total_code_no'=>$total_code_no,'deducted_fee'=>$deducted_fee,'penart_paid'=>$penart_paid,'miamala'=>$miamala,'total_miamala'=>$total_miamala,'hai_wateja'=>$hai_wateja,'sugu_wateja'=>$sugu_wateja]);
 }
 
 
@@ -3688,11 +3794,14 @@ public function filter_cashTransaction(){
     $miamala = $this->queries->get_miamala_hewa_blanch($blanch_id,$from,$to);
     $total_miamala = $this->queries->get_miamala_hewa_total_blanch($blanch_id,$from,$to);
 
+    $hai_wateja = $this->queries->get_depositing_hai_prev_blanch($blanch_id,$from,$to);
+    $sugu_wateja = $this->queries->get_depositing_sugu_prev($comp_id,$from,$to);
+
     $blanch_data = $this->queries->get_blanchData($blanch_id);
     // echo "<pre>";
     // print_r($total_cash);
     //        exit();
-    $this->load->view('oficer/prev_cash',['empl_data'=>$empl_data,'from'=>$from,'to'=>$to,'cash'=>$cash,'total_comp_data'=>$total_comp_data,'account_deposit'=>$account_deposit,'default_list'=>$default_list,'toyal_default'=>$toyal_default,'withdrawal_account'=>$withdrawal_account,'total_code_no'=>$total_code_no,'deducted_fee'=>$deducted_fee,'penart_paid'=>$penart_paid,'miamala'=>$miamala,'total_miamala'=>$total_miamala,'blanch_id'=>$blanch_id,'blanch_data'=>$blanch_data]);
+    $this->load->view('oficer/prev_cash',['empl_data'=>$empl_data,'from'=>$from,'to'=>$to,'cash'=>$cash,'total_comp_data'=>$total_comp_data,'account_deposit'=>$account_deposit,'default_list'=>$default_list,'toyal_default'=>$toyal_default,'withdrawal_account'=>$withdrawal_account,'total_code_no'=>$total_code_no,'deducted_fee'=>$deducted_fee,'penart_paid'=>$penart_paid,'miamala'=>$miamala,'total_miamala'=>$total_miamala,'blanch_id'=>$blanch_id,'blanch_data'=>$blanch_data,'hai_wateja'=>$hai_wateja,'sugu_wateja'=>$sugu_wateja]);
 }
 
  public function print_cashBlanch($from,$to,$blanch_id){
@@ -3738,6 +3847,9 @@ public function filter_cashTransaction(){
     $penart_paid = $this->queries->get_total_penart_paid_blanch($blanch_id,$from,$to);
     $miamala = $this->queries->get_miamala_hewa_blanch($blanch_id,$from,$to);
     $total_miamala = $this->queries->get_miamala_hewa_total_blanch($blanch_id,$from,$to);
+
+    $hai_wateja = $this->queries->get_depositing_hai_prev_blanch($blanch_id,$from,$to);
+    $sugu_wateja = $this->queries->get_depositing_sugu_prev($comp_id,$from,$to);
     
    }
   $blanch = $this->queries->get_blanchd($comp_id);
@@ -3747,7 +3859,7 @@ public function filter_cashTransaction(){
         // print_r($compdata);
         //        exit();
     $mpdf = new \Mpdf\Mpdf(['mode' => 'utf-8','format' => 'A4-L','orientation' => 'L']);
-    $html = $this->load->view('oficer/print_cashTransaction_blanch',['cash'=>$cash,'blanch_id'=>$blanch_id,'from'=>$from,'to'=>$to,'total_comp_data'=>$total_comp_data,'blanch_data'=>$blanch_data,'compdata'=>$compdata,'account_deposit'=>$account_deposit,'default_list'=>$default_list,'toyal_default'=>$toyal_default,'withdrawal_account'=>$withdrawal_account,'total_code_no'=>$total_code_no,'deducted_fee'=>$deducted_fee,'penart_paid'=>$penart_paid,'miamala'=>$miamala,'total_miamala'=>$total_miamala],true);
+    $html = $this->load->view('oficer/print_cashTransaction_blanch',['cash'=>$cash,'blanch_id'=>$blanch_id,'from'=>$from,'to'=>$to,'total_comp_data'=>$total_comp_data,'blanch_data'=>$blanch_data,'compdata'=>$compdata,'account_deposit'=>$account_deposit,'default_list'=>$default_list,'toyal_default'=>$toyal_default,'withdrawal_account'=>$withdrawal_account,'total_code_no'=>$total_code_no,'deducted_fee'=>$deducted_fee,'penart_paid'=>$penart_paid,'miamala'=>$miamala,'total_miamala'=>$total_miamala,'hai_wateja'=>$hai_wateja,'sugu_wateja'=>$sugu_wateja],true);
     $mpdf->SetFooter('Generated By Brainsoft Technology');
         $mpdf->WriteHTML($html);
         $mpdf->Output();

@@ -37,6 +37,7 @@
 <script src="<?php echo base_url(); ?>assets/vendor/parsleyjs/js/parsley.min.js"></script>
 
 <script src="<?php echo base_url('assets/js/select2.min.js'); ?>"></script>
+<script src="<?php echo base_url() ?>assets/js/cropper.min.js"></script>
 <script src="<?php //echo base_url('assets/js/jquery.js'); ?>"></script>
 <script>
     $('.select2').select2();

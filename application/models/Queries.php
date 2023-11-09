@@ -213,7 +213,7 @@ public function get_admin_role($comp_id){
 
 
 public function get_customer_data($customer_id){
-	$customer = $this->db->query("SELECT c.customer_id,c.blanch_id,c.comp_id,c.empl_id,e.empl_name,c.customer_day,c.f_name,c.m_name,c.l_name,c.phone_no FROM tbl_customer c LEFT JOIN tbl_employee e ON e.empl_id = c.empl_id  WHERE c.customer_id = $customer_id");
+	$customer = $this->db->query("SELECT c.customer_id,c.blanch_id,c.comp_id,c.empl_id,e.empl_name,c.customer_day,c.f_name,c.m_name,c.l_name,c.phone_no,sc.passport FROM tbl_customer c LEFT JOIN tbl_employee e ON e.empl_id = c.empl_id LEFT JOIN tbl_sub_customer sc ON sc.customer_id = c.customer_id  WHERE c.customer_id = $customer_id");
 	  return $customer->row();
 }
 
@@ -308,7 +308,7 @@ public function get_allcutomer($comp_id){
 
 
 	  public function search_CustomerID($customer_id,$comp_id){
-        	$data = $this->db->query("SELECT c.customer_id,c.comp_id,c.blanch_id,c.empl_id,c.customer_code,c.f_name,c.m_name,c.l_name,c.gender,c.date_birth,c.phone_no,e.empl_name,b.blanch_name,c.district,c.ward,c.street FROM tbl_customer c LEFT JOIN tbl_sub_customer sc ON sc.customer_id = c.customer_id LEFT JOIN tbl_blanch b ON b.blanch_id = c.blanch_id LEFT JOIN tbl_account_type at ON at.account_id = sc.account_id LEFT JOIN tbl_company ca ON ca.comp_id = c.comp_id LEFT JOIN tbl_employee e ON e.empl_id = c.empl_id WHERE c.customer_id = '$customer_id' AND c.comp_id = '$comp_id'");
+        	$data = $this->db->query("SELECT c.customer_id,c.comp_id,c.blanch_id,c.empl_id,c.customer_code,c.f_name,c.m_name,c.l_name,c.gender,c.date_birth,c.phone_no,e.empl_name,b.blanch_name,c.district,c.ward,c.street,sc.passport FROM tbl_customer c LEFT JOIN tbl_sub_customer sc ON sc.customer_id = c.customer_id LEFT JOIN tbl_blanch b ON b.blanch_id = c.blanch_id LEFT JOIN tbl_account_type at ON at.account_id = sc.account_id LEFT JOIN tbl_company ca ON ca.comp_id = c.comp_id LEFT JOIN tbl_employee e ON e.empl_id = c.empl_id WHERE c.customer_id = '$customer_id' AND c.comp_id = '$comp_id'");
         	return $data->row();
         }
 
@@ -597,7 +597,7 @@ public function get_allcutomer($comp_id){
     //  }
 
      public function search_CustomerLoan($customer_id){
-    	$data = $this->db->query("SELECT c.customer_id,c.comp_id,c.blanch_id,c.customer_code,c.f_name,c.m_name,c.l_name,c.gender,c.date_birth,c.phone_no,c.district,c.ward,c.street,c.customer_code FROM tbl_customer c LEFT JOIN tbl_sub_customer sc ON sc.customer_id = c.customer_id WHERE c.customer_id = '$customer_id'");
+    	$data = $this->db->query("SELECT c.customer_id,c.comp_id,c.blanch_id,c.customer_code,c.f_name,c.m_name,c.l_name,c.gender,c.date_birth,c.phone_no,c.district,c.ward,c.street,c.customer_code,sc.passport FROM tbl_customer c LEFT JOIN tbl_sub_customer sc ON sc.customer_id = c.customer_id WHERE c.customer_id = '$customer_id'");
     	return $data->row();
      }
 
@@ -1395,7 +1395,7 @@ public function update_account($account_id,$data){
  }
 
 public function get_search_dataCustomer($customer_id){
- 	$data = $this->db->query("SELECT c.customer_id,c.f_name,c.m_name,c.l_name,c.phone_no,e.empl_id,e.empl_name,b.blanch_id,b.blanch_name,c.district,c.ward,c.street,c.comp_id FROM tbl_customer c LEFT JOIN tbl_sub_customer sc ON sc.customer_id = c.customer_id LEFT JOIN tbl_account_type at ON at.account_id = sc.account_id  LEFT JOIN tbl_blanch b ON b.blanch_id = c.blanch_id LEFT JOIN tbl_employee e ON e.empl_id = c.empl_id WHERE c.customer_id = '$customer_id'");
+ 	$data = $this->db->query("SELECT c.customer_id,c.f_name,c.m_name,c.l_name,c.phone_no,e.empl_id,e.empl_name,b.blanch_id,b.blanch_name,c.district,c.ward,c.street,c.comp_id,sc.passport FROM tbl_customer c LEFT JOIN tbl_sub_customer sc ON sc.customer_id = c.customer_id LEFT JOIN tbl_account_type at ON at.account_id = sc.account_id  LEFT JOIN tbl_blanch b ON b.blanch_id = c.blanch_id LEFT JOIN tbl_employee e ON e.empl_id = c.empl_id WHERE c.customer_id = '$customer_id'");
  	return $data->row();
  }
 
@@ -6711,6 +6711,56 @@ public function fetch_today_deposit_monthly_comp($comp_id){
 		$data = $this->db->query("SELECT SUM(d.depost) AS total_default FROM tbl_depost d LEFT JOIN tbl_customer c ON c.customer_id = d.customer_id LEFT JOIN tbl_account_transaction at ON at.trans_id = d.depost_method LEFT JOIN tbl_blanch b ON b.blanch_id = d.blanch_id WHERE d.comp_id = '$comp_id' AND d.depost_day = '$date' AND d.dep_status = 'out'");
 		return $data->row();
 	}
+
+	public function get_depositing_hai($comp_id){
+		$date = date("Y-m-d");
+		$data = $this->db->query("SELECT COUNT(d.dep_id) AS total_hai FROM tbl_depost d LEFT JOIN tbl_customer c ON c.customer_id = d.customer_id  LEFT JOIN tbl_blanch b ON b.blanch_id = d.blanch_id WHERE d.comp_id = '$comp_id' AND d.depost_day = '$date' AND d.dep_status = 'withdrawal'");
+		return $data->row();
+	}
+
+	public function get_depositing_hai_blanch($blanch_id){
+		$date = date("Y-m-d");
+		$data = $this->db->query("SELECT COUNT(d.dep_id) AS total_hai FROM tbl_depost d LEFT JOIN tbl_customer c ON c.customer_id = d.customer_id  LEFT JOIN tbl_blanch b ON b.blanch_id = d.blanch_id WHERE d.blanch_id = '$blanch_id' AND d.depost_day = '$date' AND d.dep_status = 'withdrawal'");
+		return $data->row();
+	}
+
+	public function get_depositing_hai_prev($comp_id,$from,$to){
+		$date = date("Y-m-d");
+		$data = $this->db->query("SELECT COUNT(d.dep_id) AS total_hai FROM tbl_depost d LEFT JOIN tbl_customer c ON c.customer_id = d.customer_id  LEFT JOIN tbl_blanch b ON b.blanch_id = d.blanch_id WHERE d.comp_id = '$comp_id' AND d.depost_day between '$from' and '$to' AND d.dep_status = 'withdrawal'");
+		return $data->row();
+	}
+
+	public function get_depositing_hai_prev_blanch($blanch_id,$from,$to){
+		$date = date("Y-m-d");
+		$data = $this->db->query("SELECT COUNT(d.dep_id) AS total_hai FROM tbl_depost d LEFT JOIN tbl_customer c ON c.customer_id = d.customer_id  LEFT JOIN tbl_blanch b ON b.blanch_id = d.blanch_id WHERE d.blanch_id = '$blanch_id' AND d.depost_day between '$from' and '$to' AND d.dep_status = 'withdrawal'");
+		return $data->row();
+	}
+
+	public function get_depositing_sugu($comp_id){
+		$date = date("Y-m-d");
+		$data = $this->db->query("SELECT COUNT(d.dep_id) AS total_sugu FROM tbl_depost d LEFT JOIN tbl_customer c ON c.customer_id = d.customer_id  LEFT JOIN tbl_blanch b ON b.blanch_id = d.blanch_id WHERE d.comp_id = '$comp_id' AND d.depost_day = '$date' AND d.dep_status = 'out'");
+		return $data->row();
+	}
+
+	public function get_depositing_sugu_blanch($blanch_id){
+		$date = date("Y-m-d");
+		$data = $this->db->query("SELECT COUNT(d.dep_id) AS total_sugu FROM tbl_depost d LEFT JOIN tbl_customer c ON c.customer_id = d.customer_id  LEFT JOIN tbl_blanch b ON b.blanch_id = d.blanch_id WHERE d.blanch_id = '$blanch_id' AND d.depost_day = '$date' AND d.dep_status = 'out'");
+		return $data->row();
+	}
+
+	public function get_depositing_sugu_prev($comp_id,$from,$to){
+		$date = date("Y-m-d");
+		$data = $this->db->query("SELECT COUNT(d.dep_id) AS total_sugu FROM tbl_depost d LEFT JOIN tbl_customer c ON c.customer_id = d.customer_id  LEFT JOIN tbl_blanch b ON b.blanch_id = d.blanch_id WHERE d.comp_id = '$comp_id' AND d.depost_day between '$from' and '$to' AND d.dep_status = 'out'");
+		return $data->row();
+	}
+
+	public function get_depositing_sugu_prev_blanch($blanch_id,$from,$to){
+		$date = date("Y-m-d");
+		$data = $this->db->query("SELECT COUNT(d.dep_id) AS total_sugu FROM tbl_depost d LEFT JOIN tbl_customer c ON c.customer_id = d.customer_id  LEFT JOIN tbl_blanch b ON b.blanch_id = d.blanch_id WHERE d.blanch_id = '$blanch_id' AND d.depost_day between '$from' and '$to' AND d.dep_status = 'out'");
+		return $data->row();
+	}
+
+
 
 		public function get_depositing_out_total_blanch($blanch_id){
 		$date = date("Y-m-d");

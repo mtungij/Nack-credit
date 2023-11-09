@@ -376,6 +376,54 @@ background-color: ;
                                          <td style="border:none;font-size: 12px;"></td>
                                      </tr>
 
+                                     <tr>
+                                         <td style="border:none;font-size: 12px;"></td>
+                                         <!-- <td style="border:none;font-size: 12px;"></td> -->
+                                         <td style="border:none;font-size: 12px;"></td>
+                                         <td style="border:none;font-size: 12px;"></td>
+                                         <td style="border:none;font-size: 12px;"><b>JUMLA YA WATEJA WALIO LIPA HAI</b></td>
+                                         <td style="border:none;font-size: 12px;"></td>
+                                         <td style="border:none;font-size: 12px;"><b><?php echo number_format($hai_wateja->total_hai); ?></b></td>
+                                         <td style="border:none;font-size: 12px;"></td>
+                                         <td style="border:none;font-size: 12px;"></td>
+                                         <td style="border:none;font-size: 12px;"></td>
+                                         <td style="border:none;font-size: 12px;"></td>
+                                         <td style="border:none;font-size: 12px;"></td>
+                                     </tr>
+
+                                      <tr>
+                                         <td style="border:none;font-size: 12px;"></td>
+                                         <!-- <td style="border:none;font-size: 12px;"></td> -->
+                                         <td style="border:none;font-size: 12px;"></td>
+                                         <td style="border:none;font-size: 12px;"></td>
+                                         <td style="border:none;font-size: 12px;"><b>JUMLA YA WATEJA WALIO LIPA SUGU</b></td>
+                                         <td style="border:none;font-size: 12px;"></td>
+                                         <td style="border:none;font-size: 12px;"><b><?php echo number_format($sugu_wateja->total_sugu); ?></b></td>
+                                         <td style="border:none;font-size: 12px;"></td>
+                                         <td style="border:none;font-size: 12px;"></td>
+                                         <td style="border:none;font-size: 12px;"></td>
+                                         <td style="border:none;font-size: 12px;"></td>
+                                         <td style="border:none;font-size: 12px;"></td>
+                                     </tr>
+
+                                      <tr>
+                                         <td style="border:none;font-size: 12px;"></td>
+                                         <!-- <td style="border:none;font-size: 12px;"></td> -->
+                                         <td style="border:none;font-size: 12px;"></td>
+                                         <td style="border:none;font-size: 12px;"></td>
+                                         <td style="border:none;font-size: 12px;"><b>JUMLA YA MAUZO</b></td>
+                                         <td style="border:none;font-size: 12px;"></td>
+                                         <td style="border:none;font-size: 12px;"><b><?php echo number_format($total_comp_data->total_depost_com + $total_miamala->total_miamala); ?></b></td>
+                                         <td style="border:none;font-size: 12px;"></td>
+                                         <td style="border:none;font-size: 12px;"></td>
+                                         <td style="border:none;font-size: 12px;"></td>
+                                         <td style="border:none;font-size: 12px;"></td>
+                                         <td style="border:none;font-size: 12px;"></td>
+                                     </tr>
+
+
+
+
                                     
                                       
             

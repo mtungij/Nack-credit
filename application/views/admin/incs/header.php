@@ -58,6 +58,7 @@
                 </style>
 
 <link rel="stylesheet" href="<?php echo base_url() ?>assets/css/select2.min.css">
+<link rel="stylesheet" href="<?php echo base_url() ?>assets/css/croper.min.css">
 
 </head>
 <body class="theme-cyan">

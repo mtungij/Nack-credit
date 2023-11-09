@@ -321,6 +321,52 @@
                                          <td></td>
                                          <td></td>
                                      </tr>
+
+                                       <tr>
+                                         <td></td>
+                                         <td></td>
+                                         <td></td>
+                                         <td></td>
+                                         <td><b>JUMLA YA WATEJA WALIO LIPA HAI</b></td>
+                                         <td></td>
+                                         <td><b><?php echo number_format($hai_wateja->total_hai); ?></b></td>
+                                         <td></td>
+                                         <td></td>
+                                         <td></td>
+                                         <td></td>
+                                         <td></td>
+                                     </tr>
+                                      <tr>
+                                         <td></td>
+                                         <td></td>
+                                         <td></td>
+                                         <td></td>
+                                         <td><b>JUMLA YA WATEJA WALIO LIPA SUGU</b></td>
+                                         <td></td>
+                                         <td><b><?php echo number_format($sugu_wateja->total_sugu); ?></b></td>
+                                         <td></td>
+                                         <td></td>
+                                         <td></td>
+                                         <td></td>
+                                         <td></td>
+                                     </tr>
+
+
+                                      <tr>
+                                         <td></td>
+                                         <td></td>
+                                         <td></td>
+                                         <td></td>
+                                         <td><b>JUMLA YA MAUZO</b></td>
+                                         <td></td>
+                                         <td><b><?php echo number_format($sum_withdrawls->total_deposit + $total_miamala->total_miamala); ?></b></td>
+                                         <td></td>
+                                         <td></td>
+                                         <td></td>
+                                         <td></td>
+                                         <td></td>
+                                     </tr>
+
                                 </table>
                             </div>
                         </div>
