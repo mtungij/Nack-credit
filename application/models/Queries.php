@@ -247,12 +247,12 @@ public function get_allcutomer($comp_id){
 	}
 
 	public function get_allcustomerData($comp_id){
-	$customer = $this->db->query("SELECT c.customer_id,c.f_name,c.m_name,c.l_name,c.comp_id,c.customer_code FROM tbl_customer c LEFT JOIN tbl_region r ON r.region_id = c.region_id LEFT JOIN tbl_sub_customer sc ON sc.customer_id = c.customer_id LEFT JOIN tbl_account_type at ON at.account_id = sc.account_id LEFT JOIN tbl_blanch b ON b.blanch_id = c.blanch_id WHERE c.comp_id = '$comp_id' ORDER BY c.customer_id DESC"); 
+	$customer = $this->db->query("SELECT c.customer_id,c.f_name,c.m_name,c.l_name,c.comp_id,c.customer_code,b.blanch_name FROM tbl_customer c LEFT JOIN tbl_region r ON r.region_id = c.region_id LEFT JOIN tbl_sub_customer sc ON sc.customer_id = c.customer_id LEFT JOIN tbl_account_type at ON at.account_id = sc.account_id LEFT JOIN tbl_blanch b ON b.blanch_id = c.blanch_id WHERE c.comp_id = '$comp_id' ORDER BY c.customer_id DESC"); 
 	return $customer->result(); 
 	}
 
 		public function get_allcustomerDatagroup($comp_id){
-	$customer = $this->db->query("SELECT c.customer_id,c.f_name,c.m_name,c.l_name,c.comp_id,c.customer_code FROM tbl_customer c LEFT JOIN tbl_region r ON r.region_id = c.region_id LEFT JOIN tbl_sub_customer sc ON sc.customer_id = c.customer_id LEFT JOIN tbl_account_type at ON at.account_id = sc.account_id LEFT JOIN tbl_blanch b ON b.blanch_id = c.blanch_id WHERE c.comp_id = '$comp_id' ORDER BY c.customer_id DESC"); 
+	$customer = $this->db->query("SELECT c.customer_id,c.f_name,c.m_name,c.l_name,c.comp_id,c.customer_code,b.blanch_name FROM tbl_customer c LEFT JOIN tbl_region r ON r.region_id = c.region_id LEFT JOIN tbl_sub_customer sc ON sc.customer_id = c.customer_id LEFT JOIN tbl_account_type at ON at.account_id = sc.account_id LEFT JOIN tbl_blanch b ON b.blanch_id = c.blanch_id WHERE c.comp_id = '$comp_id' ORDER BY c.customer_id DESC"); 
 	return $customer->result(); 
 	}
 

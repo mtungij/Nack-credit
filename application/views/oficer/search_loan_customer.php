@@ -109,12 +109,16 @@
                                             <td><?php echo @$customer->phone_no; ?></td>
 
                                             <td>
-                                                <?php if ($customer_loan->loan_status == 'withdrawal' || $customer_loan->loan_status == 'done' || $customer_loan->loan_status == 'out') {
+                                                <<?php if (@$customer_loan == FALSE) {
                                                  ?>
-                                            <?php echo @$customer->customer_code; ?>
+                                                 C-(XXXXXX)
                                              <?php }else{ ?>
-                                                 C-(XXXXXXX)
-                                                <?php } ?>   
+                                            <?php if (@$customer_loan->loan_status == 'withdrawal' || $customer_loan->loan_status == 'done' || $customer_loan->loan_status == 'out') {
+                                                 ?>
+                                        <?php echo @$customer->customer_code; ?>
+                                             <?php }else{ ?>
+                                                  C-(XXXXXX)
+                                                <?php }} ?> 
                                              </td>
                                             <td>
                                             <?php if (@$customer_loan->loan_stat_date == TRUE) {

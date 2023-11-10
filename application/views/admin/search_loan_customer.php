@@ -107,12 +107,16 @@
                                         <tr>
                                             <td><?php echo @$customer->phone_no; ?></td>
                                             <td>
+                                                <?php if (@$customer_loan == FALSE) {
+                                                 ?>
+                                                 C-(XXXXXX)
+                                             <?php }else{ ?>
                                             <?php if (@$customer_loan->loan_status == 'withdrawal' || $customer_loan->loan_status == 'done' || $customer_loan->loan_status == 'out') {
                                                  ?>
                                         <?php echo @$customer->customer_code; ?>
                                              <?php }else{ ?>
                                                   C-(XXXXXX)
-                                                <?php } ?>
+                                                <?php }} ?>
                                                     
                                                 </td>
                                             <td>
@@ -205,7 +209,7 @@
                                 <select type="number" class="form-control select2" name="customer_id" required>
                                     <option>Search Customer</option>
                                     <?php foreach ($customery as $customer_datas): ?>
-                                    <option value="<?php echo $customer_datas->customer_id; ?>"><?php echo $customer_datas->f_name; ?> <?php echo $customer_datas->m_name; ?> <?php echo $customer_datas->l_name; ?> / <?php echo $customer_datas->customer_code; ?> </option>
+                                    <option value="<?php echo $customer_datas->customer_id; ?>"><?php echo $customer_datas->f_name; ?> <?php echo $customer_datas->m_name; ?> <?php echo $customer_datas->l_name; ?> / <?php echo $customer_datas->blanch_name; ?> / <?php echo $customer_datas->customer_code; ?> </option>
                                     <?php endforeach; ?>
                                 </select>
                                 <button type="submit" class="btn btn-primary"><i class="icon-magnifier-add">Search</i></button>

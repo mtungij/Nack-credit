@@ -50,7 +50,7 @@
                                  <select type="number" class="form-control select2" name="customer_id" required>
                                      <option value="">Search Customer</option>
                                      <?php foreach ($customer as $customers): ?>
-                                     <option value="<?php echo $customers->customer_id; ?>"><?php echo $customers->f_name; ?> <?php echo $customers->m_name; ?> <?php echo $customers->l_name; ?> / <?php echo $customers->customer_code; ?></option>
+                                     <option value="<?php echo $customers->customer_id; ?>"><?php echo $customers->f_name; ?> <?php echo $customers->m_name; ?> <?php echo $customers->l_name; ?>/ <?php echo $customers->blanch_name ?> / <?php echo $customers->customer_code; ?></option>
                                  <?php endforeach; ?>
                                  </select>
                                 </div>

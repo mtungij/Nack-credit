@@ -79,14 +79,14 @@
     <?php //echo form_open("admin/create_collateral/{$customer_id}/{$loan_id}"); ?>
     <form  method="POST" enctype="multipart/form-data">
      <div class="row">
-        <div class="col-md-4 col-6">
+       <!--  <div class="col-md-4 col-6">
         <span>Full name</span>
         <input type="text" name="oficer" value="<?php echo $local_gov->oficer; ?>" class="form-control" id="oficer" placeholder="Enter Name" required>
-    </div>
-    <div class="col-md-4 col-6">
+    </div> -->
+   <!--  <div class="col-md-4 col-6">
         <span>Phone Number</span>
         <input type="number" name="phone_oficer" value="<?php echo $local_gov->phone_oficer; ?>" id="phone_oficer" class="form-control" placeholder="Enter phone" required>
-    </div>
+    </div> -->
       <div class="col-md-4 col-12">
     <span>Upload Passport</span>
     <input type="file" class="image form-control" name="image">
@@ -95,12 +95,12 @@
     <input type="hidden" value="<?php echo $local_gov->loan_id; ?>" name="loan_id" id="id">
       </div>
        <div class="text-center">
-           <?php //if ($local_gov->oficer == TRUE) {
+           <?php if ($local_gov->cont_attachment == TRUE) {
             ?>
         <a href="<?php echo base_url("oficer/loan_pending"); ?>" class="btn btn-sm btn-primary">Finish</a>
-        <?php //}else{ ?>
+        <?php }else{ ?>
            
-           <?php //} ?>
+           <?php } ?>
        </div>
     </form> 
                                     
@@ -213,8 +213,8 @@
         reader.onload = function(){
 
         //var test = document.getElementById('test01').value;
-        var oficer = document.getElementById('oficer').value;
-        var phone_oficer = document.getElementById('phone_oficer').value;
+        //var oficer = document.getElementById('oficer').value;
+        //var phone_oficer = document.getElementById('phone_oficer').value;
         //var value_col = document.getElementById('value_col').value;
         //var forced_value = document.getElementById('forced_value').value;
             
@@ -224,7 +224,7 @@
                 type:"POST",
                 //dataType:"json",
                 url:"<?php echo base_url(); ?>oficer/create_local_govDetails",
-                data:{image:base64data,id:id,oficer:oficer,phone_oficer:phone_oficer},
+                data:{image:base64data,id:id},
                 success: function(data){
                     //image.val('')
                  bs_modal.modal('hide');

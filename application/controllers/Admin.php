@@ -4884,7 +4884,7 @@ public function previous_transfor(){
  	$total_miamala = $this->queries->get_miamala_hewa_total_blanch($blanch_id,$from,$to);
 
     $hai_wateja = $this->queries->get_depositing_hai_prev_blanch($blanch_id,$from,$to);
-    $sugu_wateja = $this->queries->get_depositing_sugu_prev($comp_id,$from,$to);
+    $sugu_wateja = $this->queries->get_depositing_sugu_prev_blanch($blanch_id,$from,$to);
  	
    }
   $blanch = $this->queries->get_blanchd($comp_id);
@@ -4940,7 +4940,7 @@ public function previous_transfor(){
  	$total_miamala = $this->queries->get_miamala_hewa_total_blanch($blanch_id,$from,$to);
  	
     $hai_wateja = $this->queries->get_depositing_hai_prev_blanch($blanch_id,$from,$to);
-    $sugu_wateja = $this->queries->get_depositing_sugu_prev($comp_id,$from,$to);
+    $sugu_wateja = $this->queries->get_depositing_sugu_prev_blanch($blanch_id,$from,$to);
    }
   $blanch = $this->queries->get_blanchd($comp_id);
   $blanch_data = $this->queries->get_blanch_data($blanch_id);
@@ -5723,8 +5723,8 @@ echo $this->queries->fetch_loan_list($this->input->post('customer_id'));
         if(isset($_POST['image']) ){
            $loan_id = $_POST['id'];
            $image = $_POST['image'];
-           $oficer = $_POST['oficer'];
-           $phone_oficer = $_POST['phone_oficer'];
+           //$oficer = $_POST['oficer'];
+           //$phone_oficer = $_POST['phone_oficer'];
 
             //  $_POST['id'];
             // print_r($phone_oficer);
@@ -5743,14 +5743,14 @@ echo $this->queries->fetch_loan_list($this->input->post('customer_id'));
              
              $file = $folder_Path .uniqid() .'.png';
             file_put_contents($file, $data);
-            $this->insert_customer_local($file,$loan_id,$oficer,$phone_oficer);
+            $this->insert_customer_local($file,$loan_id);
             echo json_encode("Successfully");
            
         }
     }
 
-    public function insert_customer_local($file,$loan_id,$oficer,$phone_oficer){
-    $data = "UPDATE tbl_attachment SET `oficer`='$oficer',`phone_oficer`='$phone_oficer',`cont_attachment`='$file' WHERE loan_id = '$loan_id'";
+    public function insert_customer_local($file,$loan_id){
+    $data = "UPDATE tbl_attachment SET `cont_attachment`='$file' WHERE loan_id = '$loan_id'";
     $query = $this->db->query($data);
     return true;
    }
