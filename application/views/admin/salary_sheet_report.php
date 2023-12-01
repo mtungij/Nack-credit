@@ -72,8 +72,8 @@ tr:nth-child(even) {
 <table>
   <tr>
     <th style="font-size:12px;border: none;">S/No.</th>
-    <th style="font-size:12px;border: none;">Name</th>
     <th style="font-size:12px;border: none;">Branch</th>
+    <th style="font-size:12px;border: none;">Name</th>
     <th style="font-size:12px;border: none;">Position</th>
     <th style="font-size:12px;border: none;">Phone number</th>
     <th style="font-size:12px;border: none;">Account Name</th>
@@ -81,24 +81,45 @@ tr:nth-child(even) {
     <th style="font-size:12px;border: none;">Amount</th>
   </tr>
    <?php $no = 1; ?>
-  <?php foreach ($sheet as $cashs): ?>
+  <?php foreach ($blanch as $blanchs): 
+  $sheet = $this->queries->get_Allemployee_salary($blanchs->blanch_id);
+
+   // print_r($sheet);
+   //       exit();
+    ?>
+
+
     
  
  <tr>
     <td style="font-size:13px;border: none;" class="c"><?php echo $no++; ?>.</td>
-    <td style="font-size:13px;border: none;" class="c"><?php echo $cashs->empl_name; ?> </td>
+    <td style="font-size:13px;border: none;" class="c"><b><?php echo $blanchs->blanch_name; ?></b> </td>
     <td style="font-size:13px;border: none;" class="c">
-       <?php echo $cashs->blanch_name; ?> 
+       <?php //echo $cashs->blanch_name; ?> 
       </td>
-    <td style="font-size:13px;border: none;" class="c"><?php echo $cashs->position; ?></td>
-    <td style="font-size:13px;border: none;"><?php echo $cashs->empl_no; ?></td>
-    <td style="font-size:13px;border: none;"><?php echo $cashs->bank_account; ?></td>
-    <td style="font-size:13px;border: none;"><?php echo $cashs->account_no; ?></td>
-    <td style="font-size:13px;border: none;"><?php echo number_format($cashs->salary); ?></td>
+    <td style="font-size:13px;border: none;" class="c"><?php //echo $cashs->position; ?></td>
+    <td style="font-size:13px;border: none;"><?php //echo $cashs->empl_no; ?></td>
+    <td style="font-size:13px;border: none;"><?php //echo $cashs->bank_account; ?></td>
+    <td style="font-size:13px;border: none;"><?php //echo $cashs->account_no; ?></td>
+    <td style="font-size:13px;border: none;"><?php //echo number_format($cashs->salary); ?></td>
   </tr>
+     
+  <?php foreach ($sheet as $sheets): ?>    
+  
+  <tr>
+   <td style="font-size:12px;border: none;" class="c"></td>
+   <td style="font-size:12px;border: none;" class="c"></td>
+   <td style="font-size:12px;border: none;" class="c"><?php echo $sheets->empl_name; ?></td>
+   <td style="font-size:12px;border: none;" class="c"><?php echo $sheets->position; ?></td>
+   <td style="font-size:12px;border: none;" class="c"><?php echo $sheets->empl_no; ?></td>
+   <td style="font-size:12px;border: none;" class="c"><?php echo $sheets->bank_account; ?></td>
+   <td style="font-size:12px;border: none;" class="c"><?php echo $sheets->account_no; ?></td>
+   <td style="font-size:12px;border: none;" class="c"><?php echo number_format($sheets->salary); ?></td>
+ </tr>
+ <?php endforeach; ?>
  <?php endforeach; ?>
  <tr>
-   <td style="font-size:12px;border: none;" class="c">TOTAL</td>
+   <td style="font-size:12px;border: none;" class="c"><b>TOTAL</b></td>
    <td style="font-size:12px;border: none;" class="c"><b></b></td>
    <td style="font-size:12px;border: none;" class="c"><b><?php //echo number_format($total_cashDepost->cash_depost); ?></b></td>
    <td style="font-size:12px;border: none;" class="c"><b><?php //echo number_format($total_withdrawal->cash_withdrowal); ?></b></td>

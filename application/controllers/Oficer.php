@@ -3814,7 +3814,7 @@ public function filter_cashTransaction(){
     $blanch_data = $this->queries->get_blanchData($blanch_id);
     $empl_data = $this->queries->get_employee_data($empl_id);
     
-    if ($blanch_id == 'all') {
+   if ($blanch_id == 'all') {
    $cash = $this->queries->get_blanchTransaction_comp($from,$to,$comp_id);
    $total_comp_data = $this->queries->get_blanchTransaction_comp_data($from,$to,$comp_id);
 
@@ -3823,13 +3823,13 @@ public function filter_cashTransaction(){
    $toyal_default = $this->queries->get_depositing_out_total_comp($comp_id,$from,$to);
 
    $withdrawal_account = $this->queries->get_withdrawal_summary_account_company($comp_id,$from,$to);
-    $total_code_no = $this->queries->get_total_code_number_comp($comp_id,$from,$to);
-    $deducted_fee = $this->queries->get_total_deducted_income_company($comp_id,$from,$to);
+   $total_code_no = $this->queries->get_total_code_number_comp($comp_id,$from,$to);
+   $deducted_fee = $this->queries->get_total_deducted_income_company($comp_id,$from,$to);
 
-    $penart_paid = $this->queries->get_total_penart_paid_company($comp_id,$from,$to);
+   $penart_paid = $this->queries->get_total_penart_paid_company($comp_id,$from,$to);
 
-    $miamala = $this->queries->get_miamala_hewa_company($comp_id,$from,$to);
-    $total_miamala = $this->queries->get_miamala_hewa_total_company($comp_id,$from,$to);
+   $miamala = $this->queries->get_miamala_hewa_company($comp_id,$from,$to);
+   $total_miamala = $this->queries->get_miamala_hewa_total_company($comp_id,$from,$to);
 
    }else{
     $cash = $this->queries->get_blanchTransaction($from,$to,$blanch_id);

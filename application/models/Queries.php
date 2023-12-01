@@ -41,6 +41,9 @@ class Queries extends CI_Model {
 	}
 
 
+
+
+
 	public function get_blanchMyBlanch($blanch_id){
 		$blanch = $this->db->query("SELECT * FROM tbl_blanch JOIN tbl_region ON tbl_region.region_id = tbl_blanch.region_id WHERE blanch_id = '$blanch_id'");
 		return $blanch->result();
@@ -1646,13 +1649,13 @@ public function update_collateral($data,$col_id){
         return $result;
     }
 
-    public function get_Allemployee_salary($comp_id){
-	$empl = $this->db->query("SELECT * FROM tbl_employee e JOIN tbl_blanch b  ON b.blanch_id = e.blanch_id JOIN tbl_position p ON p.position_id = e.position_id WHERE e.comp_id = '$comp_id' AND e.empl_status = 'open' ORDER BY e.empl_id DESC ");
+    public function get_Allemployee_salary($blanch_id){
+	$empl = $this->db->query("SELECT * FROM tbl_employee e JOIN tbl_blanch b  ON b.blanch_id = e.blanch_id JOIN tbl_position p ON p.position_id = e.position_id WHERE e.blanch_id = '$blanch_id' AND e.empl_status = 'open' ORDER BY e.empl_id DESC ");
 	  return $empl->result();
 }
 
 public function get_sum_salary($comp_id){
-	$data = $this->db->query("SELECT SUM(salary) AS total_pay FROM tbl_employee WHERE comp_id = '$comp_id'");
+	$data = $this->db->query("SELECT SUM(salary) AS total_pay FROM tbl_employee WHERE comp_id = '$comp_id' AND empl_status = 'open'");
 	  return $data->row();
 }
 
