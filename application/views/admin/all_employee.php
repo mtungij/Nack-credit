@@ -30,7 +30,8 @@
                             <h2>Employee List </h2> 
                             <div class="pull-right">
                                <a href="<?php echo base_url("admin/unblock_allEmployee"); ?>" class="btn btn-success btn-sm">Un-block All</a> 
-                               <a href="<?php echo base_url("admin/block_allEmployee"); ?>" class="btn btn-danger btn-sm">Block All</a> 
+                               <a href="<?php echo base_url("admin/block_allEmployee"); ?>" class="btn btn-danger btn-sm">Block All</a>
+                               <a href="<?php echo base_url("admin/print_salary_sheet"); ?>" target="_blank" class="btn btn-primary"><i class="icon-printer"></i></a> 
                             </div>   
                              </div>
                           <div class="body">
