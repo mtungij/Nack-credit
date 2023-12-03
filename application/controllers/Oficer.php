@@ -2528,9 +2528,9 @@ $this->db->query("INSERT INTO tbl_outstand (`comp_id`,`loan_id`,`blanch_id`,`loa
          $loan_int = $loan_restoration->loan_int;
          $remain_loan = $loan_int - $total_depost->remain_balance_loan;
             //sms send
-          $today = date("Y-m-d");
-         $date = date('F,j,Y',strtotime($today));
-        $sms = 'Ndugu, '.$full_name. ' '. 'Umeingiza Tsh.' .number_format($new_balance). ' ' . $comp_name.' Mpokeaji '.$role . ' Kiasi kilicho baki Kulipwa ni Tsh.'.$remain_loan.' '. $date;
+          $today = date("Y-m-d") ;
+         $date = date("d/m/Y");
+          $sms = 'Ndugu, '.$full_name. ' '. $date. ' Umeingiza TZS.' .number_format($new_balance). ' ' . $comp_name.' Mpokeaji '.$role . ' bado unadaiwa kiasi cha TZS.'.$remain_loan;
           $massage = $sms;
           $phone = $phones;
 
@@ -2611,9 +2611,9 @@ $this->db->query("INSERT INTO tbl_outstand (`comp_id`,`loan_id`,`blanch_id`,`loa
          $loan_int = $loan_restoration->loan_int;
          $remain_loan = $loan_int - $total_depost->remain_balance_loan;
             //sms send
-          $today = date("Y-m-d");
-         $date = date('F,j,Y',strtotime($today));
-          $sms = 'Ndugu, '.$full_name. ' '. 'Umeingiza Tsh.' .number_format($new_balance). ' ' . $comp_name.' Mpokeaji '.$role . ' Kiasi kilicho baki Kulipwa ni Tsh.'.$remain_loan.' '. $date;
+          $today = date("Y-m-d") ;
+         $date = date("d/m/Y");
+          $sms = 'Ndugu, '.$full_name. ' '. $date. ' Umeingiza TZS.' .number_format($new_balance). ' ' . $comp_name.' Mpokeaji '.$role . ' bado unadaiwa kiasi cha TZS.'.$remain_loan;
 
           $massage = $sms;
           $phone = $phones;
@@ -2732,9 +2732,9 @@ $this->db->query("INSERT INTO tbl_outstand (`comp_id`,`loan_id`,`blanch_id`,`loa
          $loan_int = $loan_restoration->loan_int;
          $remain_loan = $loan_int - $total_depost->remain_balance_loan;
             //sms send
-         $today = date("Y-m-d");
-         $date = date('F,j,Y',strtotime($today));
-          $sms = 'Ndugu, '.$full_name. ' '. 'Umeingiza Tsh.' .number_format($new_balance). ' ' . $comp_name.' Mpokeaji '.$role . ' Kiasi kilicho baki Kulipwa ni Tsh.'.$remain_loan.' '. $date;
+         $today = date("Y-m-d") ;
+         $date = date("d/m/Y");
+          $sms = 'Ndugu, '.$full_name. ' '. $date. ' Umeingiza TZS.' .number_format($new_balance). ' ' . $comp_name.' Mpokeaji '.$role . ' bado unadaiwa kiasi cha TZS.'.$remain_loan;
 
           $massage = $sms;
           $phone = $phones;
