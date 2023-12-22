@@ -8,7 +8,7 @@
                 <div class="row">
                     <div class="col-lg-6 col-md-8 col-sm-12">
                         <ul class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="<?php echo base_url("admin/index"); ?>"><i class="icon-home"></i></a></li>                            
+                            <li class="breadcrumb-item"><a href="<?php echo base_url("oficer/index"); ?>"><i class="icon-home"></i></a></li>                            
                             <li class="breadcrumb-item active">Report</li>
                             <li class="breadcrumb-item active">Default Loan</li>
                         </ul>
@@ -38,7 +38,7 @@
                                 <a href="" data-toggle="modal" data-target="#addcontact1" class="btn btn-primary"><i class="icon-calendar">Filter</i></a>
                                 <?php if (count($default_blanch) > 0) {
                                  ?>
-                            <a href="<?php echo base_url("admin/print_default_loan/{$blanch_id}/{$from}/{$to}"); ?>" class="btn btn-primary" target="_blank"><i class="icon-printer"></i></a>
+                            <a href="<?php echo base_url("oficer/print_default_loan/{$blanch_id}/{$from}/{$to}"); ?>" class="btn btn-primary" target="_blank"><i class="icon-printer"></i></a>
                              <?php }else{ ?>
                             
                                 <?php } ?>
@@ -141,27 +141,16 @@
 
 <?php include('incs/footer.php'); ?>
 
-
 <div class="modal fade" id="addcontact1" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h6 class="title" id="defaultModalLabel">Filter Default Loan</h6>
             </div>
-            <?php echo form_open("admin/filter_default_loan"); ?>
+            <?php echo form_open("oficer/filter_default_loan"); ?>
             <div class="modal-body">
                 <div class="row clearfix">
-                <div class="col-lg-12 col-12">
-                <span>Select Branch:</span>
-                <select type="number" class="form-control" name="blanch_id"  required>
-                <option value="">Select Branch </option>
-                <?php foreach ($blanch as $blanchs): ?>
-                <option value="<?php echo $blanchs->blanch_id; ?>"><?php echo $blanchs->blanch_name; ?></option>
-                <?php endforeach; ?>
-                <option value="all">ALL</option>
-                    </select>
-                 </div>
-
+                <input type="hidden" name="blanch_id" value="<?php echo $_SESSION['blanch_id']; ?>">
                  <?php $date = date("Y-m-d"); ?>
                   <div class="col-lg-6 col-6">
                 <span>From:</span>

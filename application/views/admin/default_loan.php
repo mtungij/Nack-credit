@@ -151,6 +151,15 @@
                 <option value="all">ALL</option>
                     </select>
                  </div>
+                <?php $date = date("Y-m-d"); ?>
+                  <div class="col-lg-6 col-6">
+                <span>From:</span>
+                <input type="date" name="from" value="<?php echo $date; ?>" class="form-control" requirede>
+                 </div>
+                 <div class="col-lg-6 col-6">
+                <span>To:</span>
+                <input type="date" name="to" value="<?php echo $date; ?>" class="form-control" requirede>
+                 </div>
                 </div>
             </div>
             <div class="modal-footer">

@@ -43,10 +43,10 @@
    echo "ALL BRANCH";
   }else{ ?>
   <?php echo $blanch_data->blanch_name ?>
-  <?php } ?>
+  <?php } ?> 
     
   </p>
-<p style="font-size:12px;text-align:center;" class="c">Date : <?php echo $day; ?></p>
+<p style="font-size:12px;text-align:center;" class="c"> From: <?php echo $from; ?> -  To: <?php echo $to; ?></p>
 </div>
 </td>
 </tr>
