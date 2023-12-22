@@ -1345,7 +1345,7 @@ public function get_totalLoanout($customer_id){
 
 
 	public function get_manager_data($empl_id){
-		$data = $this->db->query("SELECT * FROM tbl_employee e JOIN tbl_company c ON c.comp_id = e.comp_id JOIN tbl_blanch b ON b.blanch_id = e.blanch_id WHERE empl_id = '$empl_id' LIMIT 1");
+		$data = $this->db->query("SELECT * FROM tbl_employee e JOIN tbl_company c ON c.comp_id = e.comp_id LEFT JOIN tbl_blanch b ON b.blanch_id = e.blanch_id WHERE empl_id = '$empl_id' LIMIT 1");
 		  return $data->row();
 	}
 
