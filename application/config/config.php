@@ -23,7 +23,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = 'https://nackcredit.mikoposoft.com'; 
+$config['base_url'] = 'https://emid-credit.phamasoft.com';
+// $config['base_url'] = 'http://localhost/Nack-credit/';
 
 /*
 |--------------------------------------------------------------------------
