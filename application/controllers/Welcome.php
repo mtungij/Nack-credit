@@ -418,33 +418,26 @@ class Welcome extends CI_Controller {
             $instalment = $day * $renew_loan;
             }
 
-           @$loan_balance_check = $this->queries->get_Desc_balance($loan_id);
-           $pay_balance_check = @$loan_balance_check->balance;
-           $reamain_kulipwa = $lejesho - $pay_balance_check;
-
-            @$deni_ckeck = $this->queries->check_loan_pending($loan_id);
-            $total_pend = @$deni_ckeck->total_pend;
-            $deni_baki = $total_pend + $reamain_kulipwa;
-
- //           marekebisho ya  system kukata marejesho
-			$tod = date('Y-m-d') . ' 23:59:00';
-
-			
-			$loan_end_date_obj = new DateTime($loan_end_date);
-			$today_obj = new DateTime($tod);
-
-
-                 if($loan_end_date_obj <= $today_obj and $loan_status == 'withdrawal'){
-                  $this->insert_outStandLoan($comp_id,$blanch_id,$loan_id,$group_id,$customer_id,$rem,$group_id);
-                  	$this->update_loastatus_outstand($loan_id);
-                  	$this->update_customer_status_out($customer_id);
-                  	$this->update_recovery($loan_id);
-                    }elseif($depost_data >= $totalloan){
-                    $this->update_loastatus($loan_id);
-                    $this->insert_loan_kumaliza($comp_id,$blanch_id,$customer_id,$loan_id,$kumaliza,$group_id);
-                    //$this->update_shedure_paid($loan_id);
-                    $this->update_customer_status($customer_id);
-                       	//echo"tayali";
+			@$loan_balance_check = $this->queries->get_Desc_balance($loan_id);
+			$pay_balance_check = @$loan_balance_check->balance;
+			$reamain_kulipwa = $lejesho - $pay_balance_check;
+ 
+			 @$deni_ckeck = $this->queries->check_loan_pending($loan_id);
+			 $total_pend = @$deni_ckeck->total_pend;
+			 $deni_baki = $total_pend + $reamain_kulipwa;
+ 
+				  if($loan_end_date <= $today and $loan_status == 'withdrawal'){
+				   $this->insert_outStandLoan($comp_id,$blanch_id,$loan_id,$group_id,$customer_id,$rem,$group_id);
+						 $this->update_loastatus_outstand($loan_id);
+						 $this->update_customer_status_out($customer_id);
+						 $this->update_recovery($loan_id);
+					 }elseif($depost_data >= $totalloan){
+					 $this->update_loastatus($loan_id);
+					 $this->insert_loan_kumaliza($comp_id,$blanch_id,$customer_id,$loan_id,$kumaliza,$group_id);
+					 //$this->update_shedure_paid($loan_id);
+					 $this->update_customer_status($customer_id);
+						 //echo"tayali";
+ 
                        }elseif($return_date == NULL){
                        	//echo "bado sana";
                     }elseif($return_date <= $today){
