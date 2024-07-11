@@ -434,7 +434,7 @@ class Welcome extends CI_Controller {
 			$today_obj = new DateTime($tod);
 
 
-                 if($loan_end_date_obj > $today_obj and $loan_status == 'withdrawal'){
+                 if($loan_end_date_obj <= $today_obj and $loan_status == 'withdrawal'){
                   $this->insert_outStandLoan($comp_id,$blanch_id,$loan_id,$group_id,$customer_id,$rem,$group_id);
                   	$this->update_loastatus_outstand($loan_id);
                   	$this->update_customer_status_out($customer_id);
