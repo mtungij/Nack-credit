@@ -177,7 +177,7 @@ public function create_income_detail(){
         $first_name = $data_sms->f_name;
         $midle_name = $data_sms->m_name;
         $last_name = $data_sms->l_name;
-        $massage = 'Ndugu, ' .$first_name . ' ' .$midle_name . ' ' .$last_name . ' ' .'Umelipa faini ya Tsh.'. number_format($penart_paid) . ' '.$comp_name .' kwa msaada 0679420326 / 0629364847';
+        $massage = 'Ndugu, ' .$first_name . ' ' .$midle_name . ' ' .$last_name . ' ' .'Umelipa faini ya Tsh.'. number_format($penart_paid) . ' '.$comp_name .' kwa msaada 0752253398';
     //    echo "<pre>";
     // print_r($massage);
     //      exit();
@@ -5287,7 +5287,7 @@ public function deposit_loan_saving(){
 public function sendsms($phone,$massage){
     //$phone = '0753871034';
     //$sms = 'mapenzi yanauwa';
-    $api_key = 'UYgMu5H8.rT98BjHoCeZvL/VJv';
+    $api_key = 'uiVblUT45ppcolJI';
     //$api_key = 'qFzd89PXu1e/DuwbwxOE5uUBn6';
     //$curl = curl_init();
 $ch = curl_init();
